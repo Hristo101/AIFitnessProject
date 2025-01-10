@@ -1,0 +1,57 @@
+﻿@using AIFitnessProject.Core.Models.Account
+@model RegisterViewModel
+
+<div class="container">
+    <header>
+        <h1>@ViewData["Title"] 🏋️‍♂️</h1>
+        <p>Присъединете се към нашата фитнес общност!</p>
+    </header>
+
+    <form id="registerForm" asp-action="Register" method="post">
+        <h2>Създайте нов акаунт </h2>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+        <!-- Потребителско име -->
+        <div class="form-floating mb-3">
+            <input asp-for="UserName" class="form-control" placeholder="Вашето потребителско име" autocomplete="username" aria-required="true" />
+            <label asp-for="UserName">Потребителско име</label>
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+
+        <!-- Имейл -->
+        <div class="form-floating mb-3">
+            <input asp-for="Email" class="form-control" placeholder="name@example.com" autocomplete="email" aria-required="true" />
+            <label asp-for="Email">Имейл 📧</label>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <!-- Парола -->
+        <div class="form-floating mb-3">
+            <input asp-for="Password" class="form-control" type="password" autocomplete="new-password" placeholder="Парола" aria-required="true" />
+            <label asp-for="Password">Парола 🔑</label>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <!-- Повторете паролата -->
+        <div class="form-floating mb-3">
+            <input asp-for="PasswordRepeat" class="form-control" type="password" autocomplete="new-password" placeholder="Повторете паролата" aria-required="true" />
+            <label asp-for="PasswordRepeat">Повторете паролата 🔒</label>
+            <span asp-validation-for="PasswordRepeat" class="text-danger"></span>
+        </div>
+
+        <!-- Копче за регистрация -->
+        <button id="registerSubmit" type="submit" class="btn btn-primary" style="margin: 0.5em; margin-bottom: 1.5em;">
+            Регистрация
+        </button>
+    </form>
+
+    <!-- Footer -->
+    <footer>
+        <p>💪 Бъдете част от нашето фитнес пътешествие! Тренирайте здраво, живейте здравословно! 🏋️‍♀️</p>
+    </footer>
+</div>
+
+<link rel="stylesheet" href="~/css/FitnessRegisterStyle.css">
+
+<partial name="_ValidationScriptsPartial" />

@@ -1,0 +1,192 @@
+﻿/* Основни стилове */
+body {
+    background-color: #e6f7ff; /* Светъл син фон */
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: linear-gradient(120deg, #e6f7ff, #ffecd2); /* Градиентен фон */
+}
+
+/* Контейнер за основното съдържание */
+.container {
+    max-width: 600px;
+    width: 100%;
+    background-color: #fef6e4; /* Светъл пастелен фон за формата */
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    margin: 50px auto;
+    border: 2px solid #ffa500; /* Оранжева рамка */
+    position: relative;
+    text-align: center;
+}
+
+/* Заглавия */
+header h1 {
+    text-align: center;
+    font-size: 42px;
+    margin-bottom: 15px;
+    color: #ff6f00; /* Ярко оранжев акцент */
+    text-shadow: 2px 2px #ffe4b2;
+}
+
+header p {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 30px;
+    color: #666;
+}
+
+h2 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 25px;
+    color: #ff6f00; /* Ярко оранжев акцент */
+}
+
+h3 {
+    font-size: 22px;
+    text-align: center;
+    color: #ff6f00;
+}
+
+/* Формуляри */
+.form-floating {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+    .form-floating input {
+        width: 100%;
+        border-radius: 15px;
+        padding: 15px;
+        border: 2px solid #ffb347; /* Оранжева граница */
+        background-color: #fff;
+        font-size: 16px;
+        color: #333;
+    }
+
+        .form-floating input:focus {
+            outline: none;
+            border-color: #ff6f00; /* Фокус акцент */
+            box-shadow: 0 0 8px rgba(255, 111, 0, 0.6);
+        }
+
+    .form-floating label {
+        font-size: 16px;
+        color: #555;
+        padding-left: 10px;
+    }
+
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-check-input {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.form-check-label {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Бутон */
+.btn-primary {
+    background-color: #ff6f00; /* Ярко оранжев */
+    border: none;
+    padding: 15px;
+    width: 100%;
+    font-size: 18px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+    .btn-primary:hover {
+        background-color: #e65c00; /* По-тъмен оранжев */
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(230, 92, 0, 0.4);
+    }
+
+/* Декоративни елементи */
+.container::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 10px;
+    background-color: #ff6f00;
+    border-radius: 20px;
+}
+
+.container img {
+    width: 100px;
+    height: auto;
+    margin: 0 auto 20px auto;
+    display: block;
+    border-radius: 50%;
+    border: 3px solid #ffa500;
+}
+
+.container .tagline {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Футър */
+footer {
+    background-color: #ffe4b2; /* Светъл оранжев фон */
+    color: #333;
+    text-align: center;
+    padding: 20px 20px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    font-size: 16px;
+    margin-top: auto;
+    border-top: 2px solid #ffa500; /* Оранжева граница */
+}
+
+    footer p {
+        margin: 0;
+        font-weight: bold;
+    }
+
+    footer::before {
+        content: "";
+        display: block;
+        width: 80%;
+        height: 2px;
+        background: #ffa500;
+        margin: 0 auto 10px auto;
+    }
+
+/* Анимации */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.btn-primary {
+    animation: bounce 2s infinite;
+}
