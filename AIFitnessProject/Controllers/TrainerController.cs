@@ -9,6 +9,5 @@ namespace AIFitnessProject.Controllers
             return View();
         }
 
-        public
     }
 }
