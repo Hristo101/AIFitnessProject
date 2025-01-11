@@ -14,7 +14,11 @@ namespace AIFitnessProject.Infrastructure.Constants
         }
         public static class Diet
         {
+            public const int MaxNameLength = 500;
+            public const int MinNameLength = 3;
 
+            public const int MaxDescriptionLength = 2500;
+            public const int MinDescriptionLength = 3;
         }
     }
 }
