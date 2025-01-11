@@ -41,6 +41,7 @@ namespace AIFitnessProject.Infrastructure.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new TrainerConfiguration());
 
             base.OnModelCreating(builder);
         }
