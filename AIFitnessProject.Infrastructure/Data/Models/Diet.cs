@@ -26,7 +26,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 
         [ForeignKey(nameof(CreatedBy))]
         public string CreatedBy { get; set; } = string.Empty;
-        public Dietitian User { get; set; }
+        public Dietitian User { get; set; } = null!;
 
         public ICollection<DietDetail> DietDetails { get; set; } = new List<DietDetail>();
         public ICollection<PlanAssignment> PlanAssignments { get; set; } = new List<PlanAssignment>();            

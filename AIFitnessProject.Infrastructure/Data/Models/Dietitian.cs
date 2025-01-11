@@ -12,6 +12,8 @@ namespace AIFitnessProject.Infrastructure.Data.Models
     {
         public int Id { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public string Specialization { get; set; }
 
         public int Experience { get; set; }

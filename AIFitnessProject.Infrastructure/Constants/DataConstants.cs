@@ -34,5 +34,56 @@ namespace AIFitnessProject.Infrastructure.Constants
             public const int MaxDescriptionLength = 2500;
             public const int MinDescriptionLength = 3;
         }
+        
+        public static class Exercise
+        {
+
+        }
+
+        public static class Dietitian
+        {
+
+        }
+
+        public static class ApplicationUser
+        {
+
+        }
+
+        public static class Calendar
+        {
+
+        }
+
+        public static class Notification
+        {
+
+        }
+
+        public static class PlanAssignment
+        {
+
+        }
+
+        public static class Trainer
+        {
+
+        }
+
+        public static class TrainingPlan
+        {
+
+        }
+
+        public static class UserComment
+        {
+
+        }
+
+        public static class Workout
+        {
+
+        }
+
     }
 }
