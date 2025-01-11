@@ -1,28 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using static AIFitnessProject.Infrastructure.Constants.DataConstants.Notification;
 namespace AIFitnessProject.Infrastructure.Data.Models
 {
+    [Comment("Notification Table")]
     public class Notification
     {
+        [Key]
+        [Comment("Notification Identifier")]
         public int Id { get; set; }
 
-        public string UserId { get; set; }
+        [Required]
+        [Comment("Notification User Id")]
+        public string UserId { get; set; } = string.Empty;
+
         [ForeignKey(nameof(UserId))]
-        public ApplicationUser User { get; set; }
+        public ApplicationUser User { get; set; } = null!;
 
+        [Required]
+        [Comment("Notification Trainer Id")]
         public int TrainerId { get; set; }
+
         [ForeignKey(nameof(TrainerId))]
-        public Trainer Trainer { get; set; }
+        public Trainer Trainer { get; set; } = null!;
 
-        public string Message { get; set; }
+        [Required]
+        [MaxLength(MaxMessageLength)]
+        [Comment("Notification Message")]
+        public string Message { get; set; } = string.Empty;
 
+        [Required]
+        [Comment("Date And Time Of Notification")]
         public DateTime CreatedAt { get; set; }
-
+        
+        [Required]
         public bool ReadStatus { get; set; }
 
 

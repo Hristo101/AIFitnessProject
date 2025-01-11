@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static AIFitnessProject.Infrastructure.Constants.DataConstants.Meal;
 namespace AIFitnessProject.Infrastructure.Data.Models
 {
@@ -36,7 +31,6 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public string VideoUrl { get; set; } = string.Empty;
 
         [Required]
-        [MaxLength(MaxCaloriesLength)]
         [Comment("Meal Calories")]
         public int Calories { get; set; }
 
