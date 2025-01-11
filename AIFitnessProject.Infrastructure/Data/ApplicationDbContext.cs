@@ -1,4 +1,5 @@
-﻿using AIFitnessProject.Infrastructure.Data.Models;
+﻿using AIFitnessProject.Infrastructure.Data.Configuration;
+using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
@@ -39,6 +40,8 @@ namespace AIFitnessProject.Infrastructure.Data
                 .HasForeignKey(uc => uc.SenderId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.ApplyConfiguration(new UserConfiguration());
+
             base.OnModelCreating(builder);
         }
             public DbSet<Diet> Diets {get; set; }
@@ -52,6 +55,8 @@ namespace AIFitnessProject.Infrastructure.Data
             public DbSet<Dietitian> Dietitians { get; set; }
             public DbSet<UserComment> UserComments { get; set; }
             public DbSet<Notification> Notifications { get; set; }
+
+
 
     }
 }
