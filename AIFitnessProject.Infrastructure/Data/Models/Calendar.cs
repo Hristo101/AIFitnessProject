@@ -16,11 +16,11 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [ForeignKey(nameof(UserId))]
         public ApplicationUser User { get; set; }
         [Required]
-        public string TrainerId { get; set; }
+        public int TrainerId { get; set; }
         [ForeignKey(nameof(TrainerId))]
         public Trainer Trainer { get; set; }
 
-        public string DietitianId { get; set; }
+        public int DietitianId { get; set; }
         [ForeignKey(nameof(DietitianId))]
         public Dietitian Dietitian { get; set; }
 

@@ -9,7 +9,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 {
     public class Trainer
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string Specialization { get; set; }
         public int Experience { get; set; }

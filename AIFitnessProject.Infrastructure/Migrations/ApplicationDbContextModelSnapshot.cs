@@ -33,9 +33,8 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.Property<int>("DietId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DietitianId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("DietitianId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("datetime2");
@@ -43,9 +42,8 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.Property<TimeSpan>("EventTime")
                         .HasColumnType("time");
 
-                    b.Property<string>("TrainerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("TrainerId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -89,9 +87,8 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -133,8 +130,11 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.Dietitian", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Experience")
                         .HasColumnType("int");
@@ -149,9 +149,12 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Dietitians");
                 });
@@ -243,9 +246,8 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.Property<bool>("ReadStatus")
                         .HasColumnType("bit");
 
-                    b.Property<string>("TrainerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("TrainerId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -297,8 +299,11 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.Trainer", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Experience")
                         .HasColumnType("int");
@@ -313,9 +318,12 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Trainers");
                 });
@@ -328,9 +336,8 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -722,7 +729,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                 {
                     b.HasOne("AIFitnessProject.Infrastructure.Data.Models.ApplicationUser", "User")
                         .WithOne("Dietitian")
-                        .HasForeignKey("AIFitnessProject.Infrastructure.Data.Models.Dietitian", "Id")
+                        .HasForeignKey("AIFitnessProject.Infrastructure.Data.Models.Dietitian", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -779,7 +786,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                 {
                     b.HasOne("AIFitnessProject.Infrastructure.Data.Models.ApplicationUser", "User")
                         .WithOne("Trainer")
-                        .HasForeignKey("AIFitnessProject.Infrastructure.Data.Models.Trainer", "Id")
+                        .HasForeignKey("AIFitnessProject.Infrastructure.Data.Models.Trainer", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

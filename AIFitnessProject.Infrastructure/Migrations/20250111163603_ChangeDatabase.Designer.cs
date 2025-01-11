@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AIFitnessProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250108183009_newMig")]
-    partial class newMig
+    [Migration("20250111163603_ChangeDatabase")]
+    partial class ChangeDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,11 +36,17 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.Property<int>("DietId")
                         .HasColumnType("int");
 
+                    b.Property<int>("DietitianId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("datetime2");
 
                     b.Property<TimeSpan>("EventTime")
                         .HasColumnType("time");
+
+                    b.Property<int>("TrainerId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -52,6 +58,10 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DietId");
+
+                    b.HasIndex("DietitianId");
+
+                    b.HasIndex("TrainerId");
 
                     b.HasIndex("UserId");
 
@@ -80,9 +90,8 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -124,8 +133,11 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.Dietitian", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Experience")
                         .HasColumnType("int");
@@ -138,7 +150,14 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Dietitians");
                 });
@@ -212,6 +231,40 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.ToTable("Meals");
                 });
 
+            modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("ReadStatus")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TrainerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TrainerId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.PlanAssignment", b =>
                 {
                     b.Property<int>("Id")
@@ -249,8 +302,11 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.Trainer", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Experience")
                         .HasColumnType("int");
@@ -263,7 +319,14 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Trainers");
                 });
@@ -276,9 +339,8 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -293,6 +355,38 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.ToTable("TrainingPlan");
+                });
+
+            modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.UserComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReceiverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("UserComments");
                 });
 
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.Workout", b =>
@@ -569,6 +663,18 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("AIFitnessProject.Infrastructure.Data.Models.Dietitian", "Dietitian")
+                        .WithMany("Calendars")
+                        .HasForeignKey("DietitianId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AIFitnessProject.Infrastructure.Data.Models.Trainer", "Trainer")
+                        .WithMany("Calendars")
+                        .HasForeignKey("TrainerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AIFitnessProject.Infrastructure.Data.Models.ApplicationUser", "User")
                         .WithMany("Calendars")
                         .HasForeignKey("UserId")
@@ -582,6 +688,10 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Diet");
+
+                    b.Navigation("Dietitian");
+
+                    b.Navigation("Trainer");
 
                     b.Navigation("User");
 
@@ -622,9 +732,28 @@ namespace AIFitnessProject.Infrastructure.Migrations
                 {
                     b.HasOne("AIFitnessProject.Infrastructure.Data.Models.ApplicationUser", "User")
                         .WithOne("Dietitian")
-                        .HasForeignKey("AIFitnessProject.Infrastructure.Data.Models.Dietitian", "Id")
+                        .HasForeignKey("AIFitnessProject.Infrastructure.Data.Models.Dietitian", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.Notification", b =>
+                {
+                    b.HasOne("AIFitnessProject.Infrastructure.Data.Models.Trainer", "Trainer")
+                        .WithMany("Notifications")
+                        .HasForeignKey("TrainerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AIFitnessProject.Infrastructure.Data.Models.ApplicationUser", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Trainer");
 
                     b.Navigation("User");
                 });
@@ -660,7 +789,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                 {
                     b.HasOne("AIFitnessProject.Infrastructure.Data.Models.ApplicationUser", "User")
                         .WithOne("Trainer")
-                        .HasForeignKey("AIFitnessProject.Infrastructure.Data.Models.Trainer", "Id")
+                        .HasForeignKey("AIFitnessProject.Infrastructure.Data.Models.Trainer", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -676,6 +805,25 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.UserComment", b =>
+                {
+                    b.HasOne("AIFitnessProject.Infrastructure.Data.Models.ApplicationUser", "Receiver")
+                        .WithMany("ReceivedComments")
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AIFitnessProject.Infrastructure.Data.Models.ApplicationUser", "Sender")
+                        .WithMany("SentComments")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.Workout", b =>
@@ -755,6 +903,11 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.Navigation("PlanAssignments");
                 });
 
+            modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.Dietitian", b =>
+                {
+                    b.Navigation("Calendars");
+                });
+
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.Exercise", b =>
                 {
                     b.Navigation("Workouts");
@@ -763,6 +916,13 @@ namespace AIFitnessProject.Infrastructure.Migrations
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.Meal", b =>
                 {
                     b.Navigation("DietDetails");
+                });
+
+            modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.Trainer", b =>
+                {
+                    b.Navigation("Calendars");
+
+                    b.Navigation("Notifications");
                 });
 
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.TrainingPlan", b =>
@@ -779,7 +939,13 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.Navigation("Dietitian")
                         .IsRequired();
 
+                    b.Navigation("Notifications");
+
                     b.Navigation("PlanAssignments");
+
+                    b.Navigation("ReceivedComments");
+
+                    b.Navigation("SentComments");
 
                     b.Navigation("Trainer")
                         .IsRequired();

@@ -19,12 +19,12 @@ namespace AIFitnessProject.Infrastructure.Data
             builder.Entity<Trainer>()
                 .HasOne(t => t.User)
                 .WithOne(u => u.Trainer)
-                .HasForeignKey<Trainer>(t => t.Id);
+                .HasForeignKey<Trainer>(t => t.UserId);
 
             builder.Entity<Dietitian>()
                 .HasOne(t => t.User)
                 .WithOne(u => u.Dietitian)
-                .HasForeignKey<Dietitian>(t => t.Id);
+                .HasForeignKey<Dietitian>(t => t.UserId);
 
             builder.Entity<UserComment>()
                 .HasOne(uc => uc.Receiver)
