@@ -1,26 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static AIFitnessProject.Infrastructure.Constants.DataConstants.TrainingPlan;
 
 namespace AIFitnessProject.Infrastructure.Data.Models
 {
+    [Comment("Training Plan Table")]
     public class TrainingPlan
     {
+        [Key]
+        [Comment("Training Plan Identifier")]
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        [Required]
+        [MaxLength(MaxNameLength)]
+        [Comment("Training Plan Name")]
+        public string Name { get; set; } = string.Empty;
 
-        public string Description { get; set; }
+        [Required]
+        [MaxLength(MaxDescriptionLength)]
+        [Comment("Training Plan Description")]
+        public string Description { get; set; } = string.Empty;
 
-        public int CreatedBy { get; set; }
+        [Required]
+        [Comment("Training Plan Creator Id")]
+        public int CreatedById { get; set; }
 
-        [ForeignKey(nameof(CreatedBy))]
-        public Trainer User { get; set; }
+        [ForeignKey(nameof(CreatedById))]
+        public Trainer User { get; set; } = null!;
 
-        public ICollection<Workout> Workouts { get; set; }
-        public ICollection<PlanAssignment> PlanAssignments { get; set; }
+        public ICollection<Workout> Workouts { get; set; } = new List<Workout>();
+        public ICollection<PlanAssignment> PlanAssignments { get; set; } = new List<PlanAssignment>();
     }
 }

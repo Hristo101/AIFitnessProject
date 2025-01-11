@@ -1,27 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static AIFitnessProject.Infrastructure.Constants.DataConstants.Trainer;
 
 namespace AIFitnessProject.Infrastructure.Data.Models
 {
+    [Comment("Trainer Table")]
     public class Trainer
     {
+        [Key]
+        [Comment("Trainer Identifier")]
         public int Id { get; set; }
 
-        public string Specialization { get; set; }
+        [Required]
+        [MaxLength(MaxSpecializationLength)]
+        [Comment("Trainer Specialization")]
+        public string Specialization { get; set; } = string.Empty;
+
+        [Required]
+        [Comment("Trainer Experience")]
         public int Experience { get; set; }
 
-        public string SertificationDetails { get; set; }
-        public string UserId { get; set; }
-        [ForeignKey("UserId")] 
-        public ApplicationUser User { get; set; }
+        [Required]
+        [MaxLength(MaxSertificationDetailsLength)]
+        [Comment("Trainer Sertification Details")]
+        public string SertificationDetails { get; set; } = string.Empty;
 
-        public ICollection<Notification> Notifications { get; set; }
+        [Required]
+        [MaxLength(MaxImageUrlLength)]
+        [Comment("Trainer ImageUrl")]
+        public string ImageUrl { get; set; } = string.Empty;
 
-        public ICollection<Calendar> Calendars { get; set; }
-        
+        [Required]
+        [Comment("Trainer User Id")]
+        public string UserId { get; set; } = string.Empty;
+
+        [ForeignKey("UserId")]
+        public ApplicationUser User { get; set; } = null!;
+
+        public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+
+        public ICollection<Calendar> Calendars { get; set; } = new List<Calendar>();
+
     }
 }
