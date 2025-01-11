@@ -24,8 +24,8 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Comment("Diet Name")]
         public string Description { get; set; } = string.Empty;
 
-        [ForeignKey(nameof(CreatedBy))]
-        public string CreatedBy { get; set; } = string.Empty;
+        [ForeignKey(nameof(CreatedById))]
+        public int CreatedById { get; set; }
         public Dietitian User { get; set; } = null!;
 
         public ICollection<DietDetail> DietDetails { get; set; } = new List<DietDetail>();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,31 +10,34 @@ using System.Threading.Tasks;
 
 namespace AIFitnessProject.Infrastructure.Data.Models
 {
+    [Comment("ApplicationUser Table")]
     public class ApplicationUser : IdentityUser
     {
 
         [Required]
         [MaxLength()]
-       
+        [Comment("ApplicationUser FirstName")]
         public string FirstName { get; set; } = string.Empty;
 
         [Required]
         [MaxLength()]
+        [Comment("ApplicationUser LastName")]
         public string LastName { get; set; } = string.Empty;
 
         public double Height { get; set; }
 
         public double Weight { get; set; }
-
+        [Required]
+        [MaxLength()]
+        [Comment("ApplicationUser ExperienceLevel")]
         public string ExperienceLevel { get; set; } = string.Empty;
 
 
-      
-        public ICollection<PlanAssignment> PlanAssignments { get; set; }
-        public ICollection<Calendar> Calendars { get; set; }
-        public ICollection<Notification> Notifications { get; set; }
-        public ICollection<UserComment> ReceivedComments { get; set; }
-        public ICollection<UserComment> SentComments { get; set; }
+        public ICollection<PlanAssignment> PlanAssignments { get; set; } = new List<PlanAssignment>();
+        public ICollection<Calendar> Calendars { get; set; } = new List<Calendar>();
+        public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+        public ICollection<UserComment> ReceivedComments { get; set; } = new List<UserComment>();
+       public ICollection<UserComment> SentComments { get; set; } = new List<UserComment>();
 
         public Trainer Trainer { get; set; }
         public Dietitian Dietitian { get; set; }
