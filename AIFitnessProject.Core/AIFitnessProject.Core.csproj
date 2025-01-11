@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AIFitnessProject.Infrastructure\AIFitnessProject.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
