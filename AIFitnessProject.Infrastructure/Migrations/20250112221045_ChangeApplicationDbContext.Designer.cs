@@ -4,6 +4,7 @@ using AIFitnessProject.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AIFitnessProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250112221045_ChangeApplicationDbContext")]
+    partial class ChangeApplicationDbContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,7 +128,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STANISLAV@ABV.BG",
                             NormalizedUserName = "STANISLAV@ABV.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAuzXfsBwd2Nyks6kjfO8d+gSZoijTv3B7AvGx3T0qMKH/LnahW9xE+WkajiWr6v9g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFM68RKgimHGjiKRoMSAtUzKefRBYrnao/1gjQLIbivb8Bmf4VBANs4nB7ncPVjvBQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "9e406138-c088-4d10-810a-8cb287aa339b",
                             TwoFactorEnabled = false,
@@ -146,7 +149,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PETQ@ABV.BG",
                             NormalizedUserName = "PETQ@ABV.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEC4XA8NTNhj28te9IqYL1O0nw4PuYpgUZHxYg53DaHZCFvw+IHXuD7GSKz+FcMER5Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDIpd+aKqv+7xBiIAGaP7pJYguYwZZT78GYsibjmEhQyiD2mGQ0eQ+LyJVbQY2Aoaw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ddfff353-d2cc-4d0c-a9cd-c40f2914296b",
                             TwoFactorEnabled = false,
@@ -167,7 +170,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PESHO@ABV.BG",
                             NormalizedUserName = "PESHO@ABV.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIiHlaJSkbxZqXCR/8MNGzjptRtmdLsuKdJHo1rUJxLzsr3fpHC/vsAJWjrHKt3jYA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIFvoI3xVPPF9gxggjgKrVjj8ia+hYGzec6NlCYEjtDYup4HhepiHbOfYedMHaMpaQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "eccde9ba-4a3c-4bc1-9bee-3a8988b80b6f",
                             TwoFactorEnabled = false,
@@ -188,7 +191,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "TEODOR@ABV.BG",
                             NormalizedUserName = "TEODOR@ABV.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOsf6i2Cv/ahAgyAun/iZBS9lsJEQ7qKdTBgjv9Fsj5c1bvZUtXyxu9T143RWiJdQg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECGFxDf/aNHmeD2cqTAp8/M3TftypGGpMtKKtgg1E/QZgIDo8gEnfUfsxfGcZcwSrg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "d258ec24-1129-4a44-84b4-4597aecc18e9",
                             TwoFactorEnabled = false,
@@ -252,8 +255,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CreatedById")
-                        .HasColumnType("int")
-                        .HasComment("Diet Creator Id");
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -267,9 +269,12 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         .HasColumnType("nvarchar(500)")
                         .HasComment("Diet Name");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Diets", t =>
                         {
@@ -903,7 +908,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                 {
                     b.HasOne("AIFitnessProject.Infrastructure.Data.Models.Dietitian", "User")
                         .WithMany()
-                        .HasForeignKey("CreatedById")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
