@@ -1,5 +1,80 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using AIFitnessProject.Core.Models.Trainer
+@model IEnumerable<AllTrainerViewModel>
+
+<div class="hero-section">
+    <h1>Изберете най-добрите треньори за вашия успех! 🏆</h1>
+    <p>С нашите професионалисти постигате повече! Направете крачка към мечтата си още днес.</p>
+    <a href="#trainers" class="btn btn-primary btn-lg">Вижте нашите треньори <span class="arrow">&#x2193;</span></a>
+</div>
+
+<div class="intro-section">
+    <h2>Защо да изберете нашите треньори? 🤔</h2>
+    <p>
+        Нашите треньори съчетават професионален опит с лична ангажираност, за да ви помогнат да постигнете целите си. 
+        Те създават персонализирани програми, които отговарят на вашите нужди и амбиции. С нашите треньори никога няма да сте сами по пътя към успеха!
+    </p>
+</div>
+
+<div class="gallery-section">
+    <h2>Вашето пътуване към по-добрата версия на себе си с нашите професионални треньори! 🏋️‍♂️</h2>
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <img src="https://i.ytimg.com/vi/3hg-L7KmjNI/maxresdefault.jpg" alt="Фитнес Зала" class="img-fluid rounded shadow-sm">
+            </div>
+            <div class="col-md-4">
+                <img src="https://cdn.prod.website-files.com/644906381498836718de2386/644906381498834715de3867_Kolko-struva-da-polzvame-lichen-trenior-i-zaslujava-li-si-1-612x345.jpeg" alt="Тренировъчни Уреди" class="img-fluid rounded shadow-sm">
+            </div>
+            <div class="col-md-4">
+                <img src="https://www.estespa.bg/wp-content/uploads/2019/09/2-1200x800.jpg" alt="Зона за Тренировки" class="img-fluid rounded shadow-sm">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="trainers" class="trainer-section">
+    <div class="container">
+        <h2>Нашите треньори 💼</h2>
+        <p class="text-center text-muted lead">
+            Изберете треньор, който ще ви вдъхнови и подкрепи! Всеки от тях е експерт в своята област и е готов да ви помогне да постигнете нови върхове. 
+        </p>
+        <div class="row mt-4">
+            @foreach (var trainer in Model)
+            {
+                    <div class="col-md-4 d-flex align-items-stretch">
+                        <div class="card">
+                            <img src="@trainer.ImageUrl" alt="@trainer.FirstName @trainer.LastName" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">@trainer.FirstName @trainer.LastName</h5>
+                                <p class="card-text text-truncate">
+                               @trainer.Specialization
+                                 
+                                </p>
+                                <div class="collapse text-muted" id="specializationDetails-@trainer.Id">
+                                    <p>@trainer.Specialization</p>
+                                </div>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <a href="/Trainer/Details/@trainer.Id" class="btn btn-outline-light">Виж повече</a>
+                                    <button class="btn btn-success enroll-now-button">Запиши се сега</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="call-to-action">
+    <h2>Готови ли сте за вашето фитнес приключение? 🚀</h2>
+    <p>
+        Нашите треньори са тук, за да ви помогнат да постигнете целите си и да се почувствате най-добре! Запишете се днес и започнете своята трансформация.
+    </p>
+</div>
+
+<link rel="stylesheet" href="/css/AllPage.css" />
+<!-- Зареждане на Popper.js (необходимо за Bootstrap компоненти като dropdowns, tooltips и popovers) -->
+
+<!-- Зареждане на Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+

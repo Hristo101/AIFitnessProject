@@ -77,12 +77,8 @@ namespace AIFitnessProject.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (await userManager.IsInRoleAsync(user, "Administrator"))
-                    {
-                        return RedirectToAction("AllSales", "AnnouncementAdmin", new { area = "Admin" });
-                    }
 
-                    return RedirectToAction("All", "Announcement");
+                    return RedirectToAction("All", "Trainer");
                 }
                 else
                 {
