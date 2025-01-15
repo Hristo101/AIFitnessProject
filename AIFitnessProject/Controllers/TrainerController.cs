@@ -1,5 +1,4 @@
 ﻿using AIFitnessProject.Core.Contracts;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIFitnessProject.Controllers
