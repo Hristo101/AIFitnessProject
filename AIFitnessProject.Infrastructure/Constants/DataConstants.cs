@@ -71,7 +71,16 @@ namespace AIFitnessProject.Infrastructure.Constants
 
             public const int MaxSertificationDetailsLength = 2500;
             public const int MinSertificationDetailsLength = 2500;
-         
+
+            public const int MaxBioLength = 4500;
+            public const int MinBioLength = 10;
+
+            public const int MaxSertificationImageLength = 2048;
+            public const int MinSertificationImageLength = 10;
+
+            public const int MaxPhoneNumberLength = 10;
+            public const int MinPhoneNumberLength = 10;
+
         }
 
         public static class ApplicationUser

@@ -15,10 +15,10 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Key]
         [Comment("Dietitian Identifier")]
         public int Id { get; set; }
+
         [Required]
         [MaxLength(MaxImageUrlLength)]
         [Comment("Dietitian ImageUrl")]
-
         public string ImageUrl { get; set; } = string.Empty;
 
         [Required]
@@ -26,12 +26,32 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Comment("Dietitian Specialization")]
         public string Specialization { get; set; } = string.Empty;
 
+        [Required]
+        [Comment("Dietitian Experience")]
         public int Experience { get; set; }
+
         [Required]
         [MaxLength(MaxSertificationDetailsLength)]
         [Comment("Dietitian SertificationDetails")]
         public string SertificationDetails { get; set; } = string.Empty;
 
+        [Required]
+        [MaxLength(MaxBioLength)]
+        [Comment("Dietitian Bio")]
+        public string Bio { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(MaxPhoneNumberLength)]
+        [Comment("Dietitian Phone Number")]
+        public string PhoneNumber { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(MaxSertificationImageLength)]
+        [Comment("Dietitian Sertification Image")]
+        public string SertificationImage { get; set; } = string.Empty;
+
+        [Required]
+        [Comment("Dietitian User Id")]
         public string UserId { get; set; } = string.Empty;
 
         [ForeignKey("UserId")]
