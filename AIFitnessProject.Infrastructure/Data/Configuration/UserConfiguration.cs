@@ -45,18 +45,18 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             user = new ApplicationUser()
             {
                 Id = "0e136956-3e82-4e00-8f60-b274cdf40833",
-                UserName = "petq@abv.bg",
-                NormalizedUserName = "PETQ@ABV.BG",
-                Email = "petq@abv.bg",
-                NormalizedEmail = "PETQ@ABV.BG",
-                FirstName = "Petq",
-                LastName = "Ivanova",
+                UserName = "daniela_5",
+                NormalizedUserName = "DANIELA_5",
+                Email = "daniela@abv.bg",
+                NormalizedEmail = "DANIELA@ABV.BG",
+                FirstName = "Даниела",
+                LastName = "Манева",
                 Height = 1.70,
                 Weight = 55,
                 ExperienceLevel = "Активно спортуващ,занимавала съм се с фитнес от 3 години,но сега главно наблягам върху тренировките за издръжливост",
                 SecurityStamp = "ddfff353-d2cc-4d0c-a9cd-c40f2914296b",
                 ConcurrencyStamp = "e105f213-ede3-4a80-842f-3c9dc11968f3",
-                PasswordHash = hasher.HashPassword(null, "petq123"),
+                PasswordHash = hasher.HashPassword(null, "daniela123"),
             };
             users.Add(user);
 
@@ -81,18 +81,18 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             user = new ApplicationUser()
             {
                 Id = "70280028-a1a0-4b5e-89d8-b4e65cbae8d8",
-                UserName = "teodor@abv.bg",
-                NormalizedUserName = "TEODOR@ABV.BG",
-                Email = "teodor@abv.bg",
-                NormalizedEmail = "TEODOR@ABV.BG",
-                FirstName = "Teodor",
-                LastName = "Ivanov",
+                UserName = "svetoslav102",
+                NormalizedUserName = "SVETOSLAV102",
+                Email = "svetoslav@abv.bg",
+                NormalizedEmail = "SVETOSLAV@ABV.BG",
+                FirstName = "Светослав",
+                LastName = "Ковачев",
                 Height = 2.03,
                 Weight = 82,
-                ExperienceLevel = "Активно спортуващ,занимавал съм се с фитнес от 3 години,но не мога да натрупам мускулна маса",
+                ExperienceLevel = "Активно спортуващ,занимавал съм се с фитнес от 10 години,целта ми е да направя всички трениращи в това приложение да харесват своята визия",
                 SecurityStamp = "d258ec24-1129-4a44-84b4-4597aecc18e9",
                 ConcurrencyStamp = "ec2261ab-a653-4698-bbf8-03187c3e1877",
-                PasswordHash = hasher.HashPassword(null, "teodor123"),
+                PasswordHash = hasher.HashPassword(null, "svetoslav123"),
             };
             users.Add(user);
 

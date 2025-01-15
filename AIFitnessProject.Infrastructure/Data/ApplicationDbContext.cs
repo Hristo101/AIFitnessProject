@@ -41,6 +41,7 @@ namespace AIFitnessProject.Infrastructure.Data
 
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new TrainerConfiguration());
+            builder.ApplyConfiguration(new CommentsConfiguration());
 
             base.OnModelCreating(builder);
         }

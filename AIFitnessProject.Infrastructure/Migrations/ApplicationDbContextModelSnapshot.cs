@@ -125,7 +125,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STANISLAV@ABV.BG",
                             NormalizedUserName = "STANISLAV@ABV.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAuzXfsBwd2Nyks6kjfO8d+gSZoijTv3B7AvGx3T0qMKH/LnahW9xE+WkajiWr6v9g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKMozVsviW+CCc2Tz+fr9N7khWE+hDIgalwfpSJNPWS7MjxQREG5/ttgIHeRq9N+TA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "9e406138-c088-4d10-810a-8cb287aa339b",
                             TwoFactorEnabled = false,
@@ -137,20 +137,20 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             Id = "0e136956-3e82-4e00-8f60-b274cdf40833",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "e105f213-ede3-4a80-842f-3c9dc11968f3",
-                            Email = "petq@abv.bg",
+                            Email = "daniela@abv.bg",
                             EmailConfirmed = false,
                             ExperienceLevel = "Активно спортуващ,занимавала съм се с фитнес от 3 години,но сега главно наблягам върху тренировките за издръжливост",
-                            FirstName = "Petq",
+                            FirstName = "Даниела",
                             Height = 1.7,
-                            LastName = "Ivanova",
+                            LastName = "Манева",
                             LockoutEnabled = false,
-                            NormalizedEmail = "PETQ@ABV.BG",
-                            NormalizedUserName = "PETQ@ABV.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEC4XA8NTNhj28te9IqYL1O0nw4PuYpgUZHxYg53DaHZCFvw+IHXuD7GSKz+FcMER5Q==",
+                            NormalizedEmail = "DANIELA@ABV.BG",
+                            NormalizedUserName = "DANIELA_5",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKAunNIJCw49N48zrGwwwatAKCVt/9+ukGtKQSpiB1GpcG+hGjSy81X9NqtRma2vYA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ddfff353-d2cc-4d0c-a9cd-c40f2914296b",
                             TwoFactorEnabled = false,
-                            UserName = "petq@abv.bg",
+                            UserName = "daniela_5",
                             Weight = 55.0
                         },
                         new
@@ -167,7 +167,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PESHO@ABV.BG",
                             NormalizedUserName = "PESHO@ABV.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIiHlaJSkbxZqXCR/8MNGzjptRtmdLsuKdJHo1rUJxLzsr3fpHC/vsAJWjrHKt3jYA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA+v13AndHYx22Tkv0N4i7EST5hzENr8poObunJAvbe68+BIT85fWDXFB6NeW3+usA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "eccde9ba-4a3c-4bc1-9bee-3a8988b80b6f",
                             TwoFactorEnabled = false,
@@ -179,20 +179,20 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             Id = "70280028-a1a0-4b5e-89d8-b4e65cbae8d8",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "ec2261ab-a653-4698-bbf8-03187c3e1877",
-                            Email = "teodor@abv.bg",
+                            Email = "svetoslav@abv.bg",
                             EmailConfirmed = false,
-                            ExperienceLevel = "Активно спортуващ,занимавал съм се с фитнес от 3 години,но не мога да натрупам мускулна маса",
-                            FirstName = "Teodor",
+                            ExperienceLevel = "Активно спортуващ,занимавал съм се с фитнес от 10 години,целта ми е да направя всички трениращи в това приложение да харесват своята визия",
+                            FirstName = "Светослав",
                             Height = 2.0299999999999998,
-                            LastName = "Ivanov",
+                            LastName = "Ковачев",
                             LockoutEnabled = false,
-                            NormalizedEmail = "TEODOR@ABV.BG",
-                            NormalizedUserName = "TEODOR@ABV.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOsf6i2Cv/ahAgyAun/iZBS9lsJEQ7qKdTBgjv9Fsj5c1bvZUtXyxu9T143RWiJdQg==",
+                            NormalizedEmail = "SVETOSLAV@ABV.BG",
+                            NormalizedUserName = "SVETOSLAV102",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGpGWdQycQ1YyrtSM7TavrwHEVtbEjsMGIfjtfboG/n6wz+1kgizV4bQFEuHFV/4Tg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "d258ec24-1129-4a44-84b4-4597aecc18e9",
                             TwoFactorEnabled = false,
-                            UserName = "teodor@abv.bg",
+                            UserName = "svetoslav102",
                             Weight = 82.0
                         });
                 });
@@ -550,6 +550,12 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Bio")
+                        .IsRequired()
+                        .HasMaxLength(4500)
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Trainer Bio");
+
                     b.Property<int>("Experience")
                         .HasColumnType("int")
                         .HasComment("Trainer Experience");
@@ -560,11 +566,21 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         .HasColumnType("nvarchar(2048)")
                         .HasComment("Trainer ImageUrl");
 
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Trainer Phone Number");
+
                     b.Property<string>("SertificationDetails")
                         .IsRequired()
                         .HasMaxLength(2500)
                         .HasColumnType("nvarchar(2500)")
                         .HasComment("Trainer Sertification Details");
+
+                    b.Property<string>("SertificationImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Trainer Sertification Image");
 
                     b.Property<string>("Specialization")
                         .IsRequired()
@@ -591,18 +607,24 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
+                            Bio = "Даниела Манева е фитнес треньор, който активно се занимава със спорт и фитнес от 3 години. Нейната специализация е в тренировките за издръжливост и функционален фитнес. Със силно желание да помогне на своите клиенти да постигнат максимална физическа издръжливост и да повишат спортната си подготовка, тя съчетава индивидуален подход с доказани методи за тренировки.\r\nДаниела вярва, че с упоритост и правилни тренировки, всеки може да постигне отлични резултати в здравето и физическата форма.",
                             Experience = 5,
-                            ImageUrl = "https://momichetata.com/media/1/2024/01/18/117000/original.jpg",
-                            SertificationDetails = "Здравейте, аз съм сертифициран персонален треньор (CPT) с богат опит в изграждането на индивидуални тренировъчни програми. Моето призвание е да ви помогна да постигнете своите цели чрез ефективни и добре обмислени тренировки.",
-                            Specialization = "Тренировки за издръжливост",
+                            ImageUrl = "https://pulsefit.bg/uploads/cache/N/public/uploads/media-manager/app-modules-trainers-models-trainer/305/6874/novo.png",
+                            PhoneNumber = "0895124157",
+                            SertificationDetails = "Здравейте, аз съм сертифициран специалист по издръжливост и функционален фитнес. Специализирам в създаването на тренировъчни програми, които ще повишат вашата издръжливост и функционална сила.",
+                            SertificationImage = "https://dani-sport.eu/wp-content/uploads/2021/06/UDOSTOVERENIE_TRENER_R-688x500.jpg",
+                            Specialization = "Издръжливост и функционален фитнес",
                             UserId = "0e136956-3e82-4e00-8f60-b274cdf40833"
                         },
                         new
                         {
                             Id = 2,
+                            Bio = "Светослав Ковачев е фитнес треньор, който е преминал през истинска трансформация. В началото на своето фитнес пътуване той не е имал перфектно тяло, а напротив – борел се е с наднормено тегло и липса на мотивация. Със силна воля и постоянство, той успява да постигне значителни резултати и сега е не само преобразен физически, но и психически.\r\n\r\nДнес Светослав е сертифициран треньор с опит и страст за това, което прави. Неговата цел е да помага на хората да постигнат не само физическите си цели, но и да изградят здравословни навици, които да продължат през целия живот. Той вярва, че промяната е възможна за всеки, стига да има правилния подход и подкрепа.\r\n\r\n\r\n\r\n\r\n",
                             Experience = 4,
                             ImageUrl = "https://pulsefit.bg/uploads/cache/N/public/uploads/media-manager/app-modules-trainers-models-trainer/305/6874/novo.png",
+                            PhoneNumber = "0895124157",
                             SertificationDetails = "Здравейте, аз съм сертифициран специалист по сила и кондиция (CSCS). Специализирам в създаването на тренировъчни програми, които помагат за изграждане на сила и мускулна маса. Заедно ще постигнем вашите фитнес цели!",
+                            SertificationImage = "https://fitnesstime.eu/wp-content/uploads/2018/11/fitness-licenz-nsa-min.png",
                             Specialization = "Изграждане на мускулна маса",
                             UserId = "70280028-a1a0-4b5e-89d8-b4e65cbae8d8"
                         });
@@ -681,6 +703,24 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.ToTable("UserComments", t =>
                         {
                             t.HasComment("User Comment Table");
+                        });
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "Светослав е прекрасен треньор,който благодарение на него хората постигат своето мечтано тяло.Препоръчвам задължително!",
+                            Rating = 5,
+                            ReceiverId = "70280028-a1a0-4b5e-89d8-b4e65cbae8d8",
+                            SenderId = "0a2830ef-8be3-4ef6-910b-33b680d659d3"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "Невероятен треньор.Изключително прецизен в работата си,с изключително добро държание,с него можете да постигенте всичко",
+                            Rating = 5,
+                            ReceiverId = "70280028-a1a0-4b5e-89d8-b4e65cbae8d8",
+                            SenderId = "cd87d0e2-4047-473e-924a-3e10406c5583"
                         });
                 });
 
@@ -803,10 +843,12 @@ namespace AIFitnessProject.Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -843,10 +885,12 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");

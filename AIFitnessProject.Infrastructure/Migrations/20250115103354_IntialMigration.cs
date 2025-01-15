@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace AIFitnessProject.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class ChangeDatabase : Migration
+    public partial class IntialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,12 +32,11 @@ namespace AIFitnessProject.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Height = table.Column<double>(type: "float", nullable: true),
-                    Weight = table.Column<double>(type: "float", nullable: true),
-                    ExperienceLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "ApplicationUser FirstName"),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "ApplicationUser LastName"),
+                    Height = table.Column<double>(type: "float", nullable: false),
+                    Weight = table.Column<double>(type: "float", nullable: false),
+                    ExperienceLevel = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "ApplicationUser ExperienceLevel"),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -54,20 +55,21 @@ namespace AIFitnessProject.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
+                },
+                comment: "ApplicationUser Table");
 
             migrationBuilder.CreateTable(
                 name: "Exercises",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Comment Identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MuscleGroup = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DifficultyLevel = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false, comment: "Exercise Name"),
+                    Description = table.Column<string>(type: "nvarchar(2500)", maxLength: 2500, nullable: false, comment: "Exercise Description"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false, comment: "Exercise ImageUrl"),
+                    VideoUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false, comment: "Exercise VideoUrl"),
+                    MuscleGroup = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false, comment: "Exercise MuscleGroup"),
+                    DifficultyLevel = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Exercise DifficultyLevel")
                 },
                 constraints: table =>
                 {
@@ -78,18 +80,19 @@ namespace AIFitnessProject.Infrastructure.Migrations
                 name: "Meals",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Meal Identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Recipe = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Calories = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false, comment: "Meal Name"),
+                    Recipe = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false, comment: "Meal Recipe"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false, comment: "Meal ImageUrl"),
+                    VideoUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false, comment: "Meal VideoUrl"),
+                    Calories = table.Column<int>(type: "int", nullable: false, comment: "Meal Calories")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Meals", x => x.Id);
-                });
+                },
+                comment: "Meal Table");
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -201,11 +204,12 @@ namespace AIFitnessProject.Infrastructure.Migrations
                 name: "Dietitians",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Dietitian Identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Specialization = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false, comment: "Dietitian ImageUrl"),
+                    Specialization = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: false, comment: "Dietitian Specialization"),
                     Experience = table.Column<int>(type: "int", nullable: false),
-                    SertificationDetails = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SertificationDetails = table.Column<string>(type: "nvarchar(2500)", maxLength: 2500, nullable: false, comment: "Dietitian SertificationDetails"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -217,18 +221,23 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                },
+                comment: "Dietitian Table");
 
             migrationBuilder.CreateTable(
                 name: "Trainers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Trainer Identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Specialization = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Experience = table.Column<int>(type: "int", nullable: false),
-                    SertificationDetails = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Specialization = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: false, comment: "Trainer Specialization"),
+                    Experience = table.Column<int>(type: "int", nullable: false, comment: "Trainer Experience"),
+                    SertificationDetails = table.Column<string>(type: "nvarchar(2500)", maxLength: 2500, nullable: false, comment: "Trainer Sertification Details"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false, comment: "Trainer ImageUrl"),
+                    Bio = table.Column<string>(type: "nvarchar(max)", maxLength: 4500, nullable: false, comment: "Trainer Bio"),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "Trainer Phone Number"),
+                    SertificationImage = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "Trainer Sertification Image"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Trainer User Id")
                 },
                 constraints: table =>
                 {
@@ -239,18 +248,19 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                },
+                comment: "Trainer Table");
 
             migrationBuilder.CreateTable(
                 name: "UserComments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "User Comment Identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Rating = table.Column<int>(type: "int", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReceiverId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SenderId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Rating = table.Column<int>(type: "int", nullable: false, comment: "User Comment Rating"),
+                    Content = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false, comment: "User Comment Content"),
+                    ReceiverId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "User Comment Receiver Id"),
+                    SenderId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "User Comment Sender Id")
                 },
                 constraints: table =>
                 {
@@ -267,40 +277,41 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
+                },
+                comment: "User Comment Table");
 
             migrationBuilder.CreateTable(
                 name: "Diets",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Diet Identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false, comment: "Diet Name"),
+                    Description = table.Column<string>(type: "nvarchar(2500)", maxLength: 2500, nullable: false, comment: "Diet Name"),
+                    CreatedById = table.Column<int>(type: "int", nullable: false, comment: "Diet Creator Id")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Diets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Diets_Dietitians_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Diets_Dietitians_CreatedById",
+                        column: x => x.CreatedById,
                         principalTable: "Dietitians",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                },
+                comment: "Diet Table");
 
             migrationBuilder.CreateTable(
                 name: "Notifications",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Notification Identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TrainerId = table.Column<int>(type: "int", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Notification User Id"),
+                    TrainerId = table.Column<int>(type: "int", nullable: false, comment: "Notification Trainer Id"),
+                    Message = table.Column<string>(type: "nvarchar(max)", maxLength: 5000, nullable: false, comment: "Notification Message"),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Date And Time Of Notification"),
                     ReadStatus = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -318,39 +329,41 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         principalTable: "Trainers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
-                });
+                },
+                comment: "Notification Table");
 
             migrationBuilder.CreateTable(
                 name: "TrainingPlan",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Training Plan Identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false, comment: "Training Plan Name"),
+                    Description = table.Column<string>(type: "nvarchar(2500)", maxLength: 2500, nullable: false, comment: "Training Plan Description"),
+                    CreatedById = table.Column<int>(type: "int", nullable: false, comment: "Training Plan Creator Id")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TrainingPlan", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TrainingPlan_Trainers_CreatedBy",
-                        column: x => x.CreatedBy,
+                        name: "FK_TrainingPlan_Trainers_CreatedById",
+                        column: x => x.CreatedById,
                         principalTable: "Trainers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                },
+                comment: "Training Plan Table");
 
             migrationBuilder.CreateTable(
                 name: "DietDetails",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "DietDetail Table")
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DietId = table.Column<int>(type: "int", nullable: false),
                     MealId = table.Column<int>(type: "int", nullable: false),
-                    MealTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DayOfWeel = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    MealTime = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "DietDetail MealTime"),
+                    DayOfWeel = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "DietDetail MealTime")
                 },
                 constraints: table =>
                 {
@@ -367,19 +380,20 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         principalTable: "Meals",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                },
+                comment: "DietDetail Table");
 
             migrationBuilder.CreateTable(
                 name: "PlanAssignments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Plan Assignment Identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DietId = table.Column<int>(type: "int", nullable: false),
-                    TrainingPlanId = table.Column<int>(type: "int", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Plan Assignment User Id"),
+                    DietId = table.Column<int>(type: "int", nullable: false, comment: "Plan Assignment Diet Id"),
+                    TrainingPlanId = table.Column<int>(type: "int", nullable: false, comment: "Plan Assignment Training Plan Id"),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Start Date And Time Of Plan Assignment"),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "End Date And Time Of Plan Assignment")
                 },
                 constraints: table =>
                 {
@@ -402,18 +416,19 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         principalTable: "TrainingPlan",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
-                });
+                },
+                comment: "Plan Assignment Table");
 
             migrationBuilder.CreateTable(
                 name: "Workouts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Workout Identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TrainingPlanId = table.Column<int>(type: "int", nullable: false),
-                    ExerciseId = table.Column<int>(type: "int", nullable: false),
-                    DayOfWeek = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderInWorkout = table.Column<int>(type: "int", nullable: false)
+                    TrainingPlanId = table.Column<int>(type: "int", nullable: false, comment: "Workout Training Plan Id"),
+                    ExerciseId = table.Column<int>(type: "int", nullable: false, comment: "Workout Exercise Id"),
+                    DayOfWeek = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Workout Day Of Week"),
+                    OrderInWorkout = table.Column<int>(type: "int", nullable: false, comment: "Workout Order In Workout")
                 },
                 constraints: table =>
                 {
@@ -430,7 +445,8 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         principalTable: "TrainingPlan",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                },
+                comment: "Workout Table");
 
             migrationBuilder.CreateTable(
                 name: "Calendars",
@@ -479,6 +495,35 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         principalTable: "Workouts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "ExperienceLevel", "FirstName", "Height", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "Weight" },
+                values: new object[,]
+                {
+                    { "0a2830ef-8be3-4ef6-910b-33b680d659d3", 0, "c37f9e70-f9ff-4e55-8c95-83ce9708cef7", "stanislav@abv.bg", false, "Начинаещ,почти не съм влизал в зала да спортувам.Изглеждам ужасно и искам да отслабна!", "Stanislav", 1.95, "Ivanov", false, null, "STANISLAV@ABV.BG", "STANISLAV@ABV.BG", "AQAAAAIAAYagAAAAEKMozVsviW+CCc2Tz+fr9N7khWE+hDIgalwfpSJNPWS7MjxQREG5/ttgIHeRq9N+TA==", null, false, "9e406138-c088-4d10-810a-8cb287aa339b", false, "stanislav@abv.bg", 131.5 },
+                    { "0e136956-3e82-4e00-8f60-b274cdf40833", 0, "e105f213-ede3-4a80-842f-3c9dc11968f3", "daniela@abv.bg", false, "Активно спортуващ,занимавала съм се с фитнес от 3 години,но сега главно наблягам върху тренировките за издръжливост", "Даниела", 1.7, "Манева", false, null, "DANIELA@ABV.BG", "DANIELA_5", "AQAAAAIAAYagAAAAEKAunNIJCw49N48zrGwwwatAKCVt/9+ukGtKQSpiB1GpcG+hGjSy81X9NqtRma2vYA==", null, false, "ddfff353-d2cc-4d0c-a9cd-c40f2914296b", false, "daniela_5", 55.0 },
+                    { "70280028-a1a0-4b5e-89d8-b4e65cbae8d8", 0, "ec2261ab-a653-4698-bbf8-03187c3e1877", "svetoslav@abv.bg", false, "Активно спортуващ,занимавал съм се с фитнес от 10 години,целта ми е да направя всички трениращи в това приложение да харесват своята визия", "Светослав", 2.0299999999999998, "Ковачев", false, null, "SVETOSLAV@ABV.BG", "SVETOSLAV102", "AQAAAAIAAYagAAAAEGpGWdQycQ1YyrtSM7TavrwHEVtbEjsMGIfjtfboG/n6wz+1kgizV4bQFEuHFV/4Tg==", null, false, "d258ec24-1129-4a44-84b4-4597aecc18e9", false, "svetoslav102", 82.0 },
+                    { "cd87d0e2-4047-473e-924a-3e10406c5583", 0, "ddd19b43-78e7-4f76-ada7-a863c26dda43", "pesho@abv.bg", false, "Имам някакъв малък опит с фитнес залите целта ми е да стана 100 кила,но килограмите,които кача да бъдат мускулна маса", "Pesho", 2.0299999999999998, "Ivanov", false, null, "PESHO@ABV.BG", "PESHO@ABV.BG", "AQAAAAIAAYagAAAAEA+v13AndHYx22Tkv0N4i7EST5hzENr8poObunJAvbe68+BIT85fWDXFB6NeW3+usA==", null, false, "eccde9ba-4a3c-4bc1-9bee-3a8988b80b6f", false, "pesho@abv.bg", 92.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Trainers",
+                columns: new[] { "Id", "Bio", "Experience", "ImageUrl", "PhoneNumber", "SertificationDetails", "SertificationImage", "Specialization", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "Даниела Манева е фитнес треньор, който активно се занимава със спорт и фитнес от 3 години. Нейната специализация е в тренировките за издръжливост и функционален фитнес. Със силно желание да помогне на своите клиенти да постигнат максимална физическа издръжливост и да повишат спортната си подготовка, тя съчетава индивидуален подход с доказани методи за тренировки.\r\nДаниела вярва, че с упоритост и правилни тренировки, всеки може да постигне отлични резултати в здравето и физическата форма.", 5, "https://pulsefit.bg/uploads/cache/N/public/uploads/media-manager/app-modules-trainers-models-trainer/305/6874/novo.png", "0895124157", "Здравейте, аз съм сертифициран специалист по издръжливост и функционален фитнес. Специализирам в създаването на тренировъчни програми, които ще повишат вашата издръжливост и функционална сила.", "https://dani-sport.eu/wp-content/uploads/2021/06/UDOSTOVERENIE_TRENER_R-688x500.jpg", "Издръжливост и функционален фитнес", "0e136956-3e82-4e00-8f60-b274cdf40833" },
+                    { 2, "Светослав Ковачев е фитнес треньор, който е преминал през истинска трансформация. В началото на своето фитнес пътуване той не е имал перфектно тяло, а напротив – борел се е с наднормено тегло и липса на мотивация. Със силна воля и постоянство, той успява да постигне значителни резултати и сега е не само преобразен физически, но и психически.\r\n\r\nДнес Светослав е сертифициран треньор с опит и страст за това, което прави. Неговата цел е да помага на хората да постигнат не само физическите си цели, но и да изградят здравословни навици, които да продължат през целия живот. Той вярва, че промяната е възможна за всеки, стига да има правилния подход и подкрепа.\r\n\r\n\r\n\r\n\r\n", 4, "https://pulsefit.bg/uploads/cache/N/public/uploads/media-manager/app-modules-trainers-models-trainer/305/6874/novo.png", "0895124157", "Здравейте, аз съм сертифициран специалист по сила и кондиция (CSCS). Специализирам в създаването на тренировъчни програми, които помагат за изграждане на сила и мускулна маса. Заедно ще постигнем вашите фитнес цели!", "https://fitnesstime.eu/wp-content/uploads/2018/11/fitness-licenz-nsa-min.png", "Изграждане на мускулна маса", "70280028-a1a0-4b5e-89d8-b4e65cbae8d8" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserComments",
+                columns: new[] { "Id", "Content", "Rating", "ReceiverId", "SenderId" },
+                values: new object[,]
+                {
+                    { 1, "Светослав е прекрасен треньор,който благодарение на него хората постигат своето мечтано тяло.Препоръчвам задължително!", 5, "70280028-a1a0-4b5e-89d8-b4e65cbae8d8", "0a2830ef-8be3-4ef6-910b-33b680d659d3" },
+                    { 2, "Невероятен треньор.Изключително прецизен в работата си,с изключително добро държание,с него можете да постигенте всичко", 5, "70280028-a1a0-4b5e-89d8-b4e65cbae8d8", "cd87d0e2-4047-473e-924a-3e10406c5583" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -562,9 +607,9 @@ namespace AIFitnessProject.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Diets_UserId",
+                name: "IX_Diets_CreatedById",
                 table: "Diets",
-                column: "UserId");
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Notifications_TrainerId",
@@ -598,9 +643,9 @@ namespace AIFitnessProject.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingPlan_CreatedBy",
+                name: "IX_TrainingPlan_CreatedById",
                 table: "TrainingPlan",
-                column: "CreatedBy");
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserComments_ReceiverId",

@@ -26,5 +26,12 @@ namespace AIFitnessProject.Controllers
 
             return View(models);
         }
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var models = await trainerService.GetViewModelForDetails(id);
+
+            return View(models);
+        }
     }
 }

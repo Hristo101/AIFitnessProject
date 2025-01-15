@@ -31,6 +31,17 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Comment("Trainer ImageUrl")]
         public string ImageUrl { get; set; } = string.Empty;
 
+        [MaxLength(4500)]
+        [Comment("Trainer Bio")]
+        public string Bio { get; set; } = string.Empty;
+
+        [Required]
+        [Comment("Trainer Phone Number")]
+        public string PhoneNumber { get; set; } = string.Empty;
+
+        [Required]
+        [Comment("Trainer Sertification Image")]
+        public string SertificationImage { get;set; } = string.Empty;
         [Required]
         [Comment("Trainer User Id")]
         public string UserId { get; set; } = string.Empty;

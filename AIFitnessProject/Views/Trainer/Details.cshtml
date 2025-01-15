@@ -1,0 +1,73 @@
+﻿@model AIFitnessProject.Core.Models.Trainer.DetailsTrainerViewModel
+
+<div class="trainer-details-container">
+    <!-- Title Section -->
+    <section class="trainer-header">
+        <div class="trainer-photo">
+            <img src="@Model.TrainerImage" alt="Trainer Photo" />
+        </div>
+        <div class="trainer-info">
+            <h1>@Model.FirstName @Model.LastName</h1>
+            <h2 class="trainer-specialization">@Model.Specialization</h2>
+        </div>
+    </section>
+
+    <!-- Bio Section -->
+    <section class="trainer-bio">
+        <h3>Биография</h3>
+        <p>@Model.Bio</p>
+    </section>
+
+    <!-- Before and After Images -->
+    <section class="trainer-transformation">
+        <h3>Моята Трансформация</h3>
+        <div class="transformation-images">
+            <div class="transformation-image">
+                <h4>Преди</h4>
+                <img src="https://images-on-off.com/images/200/znamenitostiprevrativshiesyaiztolstyakov-4f700169.jpeg" alt="Before Transformation" />
+            </div>
+            <div class="transformation-image">
+                <h4>Сега</h4>
+                <img src="https://cdn4.focus.bg/fakti/photos/16x9/44d/koi-sa-nai-seksapilnite-chasti-ot-majkoto-talo-spored-jenite-1.jpg" alt="After Transformation" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Certification Section -->
+    <section class="trainer-certification">
+        <h3>Моят Сертификат</h3>
+        <div class="trainer-certification-content">
+            <img src="@Model.SertificationImage" alt="Trainer Certification" />
+            <p>@Model.SertificationDetails</p>
+        </div>
+    </section>
+
+    <!-- Comments Section -->
+    <section class="trainer-comments">
+        <h3>Коментари</h3>
+        <div class="comments-container">
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="comment-item">
+                    <div class="comment-author">@comment.SenderName</div>
+                    <div class="comment-content">@comment.Content</div>
+                    <div class="comment-grade">
+                        <span class="stars">
+                            @for (var i = 0; i < 5; i++)
+                            {
+                                <span class="star @(i < comment.Rating ? "filled" : "")">&#9733;</span>
+                            }
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <!-- Buttons Section -->
+    <section class="trainer-buttons">
+        <button class="back-btn" onclick="window.history.back()">Назад</button>
+        <button class="signup-btn">Запиши се</button>
+    </section>
+</div>
+ <link rel="stylesheet" href="~/css/DetailsViewPage.css" />
