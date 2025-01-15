@@ -134,9 +134,9 @@ p {
         font-size: 3rem;
         color: white;
         margin-bottom: 50px;
-    }
+    }*/
 
-    .gallery-section img {
+   /* .gallery-section img {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         border-radius: 10px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -496,10 +496,31 @@ p {
         text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     }
 
+/*.gallery-section {
+    padding: 72px 20px;
+    background-color: #5e6f80d6;
+}
+
+    .gallery-section h2 {
+        text-align: center;
+        font-size: 3rem;
+        color: white;
+        margin-bottom: 50px;
+    }*/
+
     .gallery-section img {
         border: 5px solid #c8e6c9; /* Светъл зелен бордюр */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        height: 75%;
     }
+    
 
+        .gallery-section img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
    
 /* Секция dietitian-section */
 /*.dietitian-section {
@@ -659,12 +680,14 @@ p.text-center {
     .btn-primary:hover, .btn-success:hover {
         transform: scale(1.05);
         background: linear-gradient(to right, /*#ff8c42*/ #85e085, /*#ff5733*/ #28a745);
+        color:black;
     }
 
 .btn-outline-light {
-    background-color: royalblue;
-    color: white;  /*Бял цвят на текста */
-border: none;
+    /*background-color: royalblue;*/
+    background: linear-gradient(to right, /*#ff5733*/ #007BFF, /*#ff8c42*/ #ADD8E6);
+    color: white; /*Бял цвят на текста */
+    border: none;
     padding: 15px 30px;
     font-size: 1.2rem;
     font-weight: bold;
@@ -672,16 +695,21 @@ border: none;
     transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-/* Стил при ховър */
 .btn-outline-light:hover {
-        background-color: #ff8c42;  /*Сменя се на по-светъл червен оттенък */
-transform: scale(1.05);  /*Малко увеличаване при ховър */
+    transform: scale(1.05);
+    background: linear-gradient(to right, /*#ff8c42*/ #ADD8E6, /*#ff5733*/ #007BFF)
 }
 
+/* Стил при ховър */
+/*.btn-outline-light:hover {
+        background-color: #ff8c42;*/  /*Сменя се на по-светъл червен оттенък */
+/*transform: scale(1.05);*/  /*Малко увеличаване при ховър */
+/*}*/
+
 /* При активен бутон */
-.btn-outline-light:active {
-        background-color: #ff3e30;  /*Тъмно червен фон при натискане */
-}
+/*.btn-outline-light:active {
+        background-color: #ff3e30;*/  /*Тъмно червен фон при натискане */
+/*}*/
 
 
 /* Анимация на бутоните */
