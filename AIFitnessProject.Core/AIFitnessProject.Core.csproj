@@ -11,8 +11,4 @@
     <ProjectReference Include="..\AIFitnessProject.Infrastructure\AIFitnessProject.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Dietitian\" />
-  </ItemGroup>
-
 </Project>
