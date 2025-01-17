@@ -47,6 +47,28 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
 
             userComments.Add(comment);
 
+            comment = new UserComment()
+            {
+                Id = 3,
+                Content = "Страхотна диетоложка - хранителният ми режим никога не е бил по-вкусен и ефективен.",
+                Rating = 5,
+                ReceiverId = "0c4c8519-6a0a-45a5-acc2-64c0de9af4a8",
+                SenderId = "0a2830ef-8be3-4ef6-910b-33b680d659d3"
+            };
+
+            userComments.Add(comment);
+
+            comment = new UserComment()
+            {
+                Id = 4,
+                Content = "Експерт в покачването на мускулна маса!Диетата,която изготви,е ефективна и лесна за спазване.",
+                Rating = 5,
+                ReceiverId = "0e0e4964-6fa8-43ef-b6ba-a8722a1d5708",
+                SenderId = "cd87d0e2-4047-473e-924a-3e10406c5583"
+            };
+            
+            userComments.Add(comment);
+
             return userComments;
         }
 
