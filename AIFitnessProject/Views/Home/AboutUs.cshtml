@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>За нас | Фитнес приложение</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-image: url('/img/logoAboutUs.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            font-family: 'Poppins', Arial, sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            margin: 30px auto;
+            max-width: 1200px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+            header h1 {
+                font-size: 3em;
+                color: #FFD700;
+                text-shadow: 2px 2px 5px black;
+                margin-bottom: 10px;
+            }
+
+            header p {
+                font-size: 1.3em;
+                color: #dcdcdc;
+            }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+            section h2 {
+                font-size: 2em;
+                color: #FFD700;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            section p {
+                font-size: 1.2em;
+                line-height: 1.8;
+                color: #f1f1f1;
+                text-align: center;
+            }
+
+        .about-img, .vision-img {
+            display: block;
+            margin: 20px auto; /* Центриране */
+            width: 60%; /* Ограничение на ширината */
+            max-width: 500px; /* Максимална ширина */
+            height: auto; /* Автоматична пропорция */
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+            .about-img:hover, .vision-img:hover {
+                transform: scale(1.05);
+            }
+
+        .vision-item {
+            margin-bottom: 30px;
+            text-align: center; /* Центриране на текста */
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+        }
+
+            footer h2 {
+                font-size: 2.2em;
+                color: #FFD700;
+                margin-bottom: 10px;
+            }
+
+            footer p {
+                font-size: 1.2em;
+                color: #dcdcdc;
+            }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin-top: 20px;
+            background-color: #FFD700;
+            color: black;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+            .cta-button:hover {
+                background-color: #ffcc00;
+                transform: translateY(-3px);
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>За нас | Фитнес приложение 🏋️‍♂️</h1>
+            <p>Започнете своето фитнес пътуване с нас и научете как да живеете здравословно!</p>
+        </header>
+
+        <section class="about-section">
+            <h2>Кои сме ние? 💪</h2>
+            <p>Ние сме екип от фитнес ентусиасти и професионални треньори, които са създали това приложение, за да ви помогнем да постигнете вашите фитнес цели.</p>
+            <img src="https://www.sportvision.bg/files/files/sport_vision_blog_vezbajte_kod_ku%C4%87e_HIIT_trening.jpg" alt="Тренировка в зала" class="about-img">
+        </section>
+
+        <section class="vision-section">
+            <h2>Нашата визия и мисия 🏅</h2>
+            <div class="vision">
+                <div class="vision-item">
+                    <h3>Здраве на първо място 🍎</h3>
+                    <p>Ние вярваме, че здравето е най-важното нещо, затова целта ни е да помогнем на всички потребители да водят по-здравословен начин на живот.</p>
+                    <img src="https://cdn4.focus.bg/fakti/photos/16x9/a70/vsichko-koeto-trabva-da-znaem-za-zdravoslovnoto-hranene-3.jpg" alt="Здравословно хранене" class="vision-img">
+                </div>
+                <div class="vision-item">
+                    <h3>Постигане на цели 🏆</h3>
+                    <p>Независимо дали искате да отслабнете, да качите мускулна маса или просто да се поддържате във форма, ние ви предлагаме персонализирани тренировъчни планове.</p>
+                    <img src="https://static.framar.bg/filestore/izgrajdane-na-muskulna-masa.jpg" alt="Изграждане на мускулна маса" class="vision-img">
+                </div>
+                <div class="vision-item">
+                    <h3>Мотивация и подкрепа 🙌</h3>
+                    <p>Нашата мисия е да бъдем с вас във всяка стъпка. От съвети до мотивация, ние ще ви помогнем да останете ангажирани.</p>
+                    <img src="https://cdn3.careeraddict.com/uploads/article/60117/medium-break-room-why-motivation-important.jpg" alt="Мотивация" class="vision-img">
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <h2>Започнете своето фитнес пътуване сега! 💥</h2>
+            <p>Не чакайте повече! Присъединете се към нашето приложение днес и започнете да правите стъпки към по-здравословен живот!</p>
+            <a asp-controller="Account" asp-action="Login" class="cta-button">Присъединете се сега</a>
+        </footer>
+
+    </div>
+
+</body>
+</html>
