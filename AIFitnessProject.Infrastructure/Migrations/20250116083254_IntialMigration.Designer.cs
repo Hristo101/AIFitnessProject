@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AIFitnessProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250115152134_SeedDietitian")]
-    partial class SeedDietitian
+    [Migration("20250116083254_IntialMigration")]
+    partial class IntialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -128,7 +128,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STANISLAV@ABV.BG",
                             NormalizedUserName = "STANISLAV@ABV.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAECIj0ecDx0LqtI+T6dO0FhtzhyYKmuliD2w7kOZ504e/knShqHU92mxkuH0ptjPPbg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJDx6iGLNfLzGFoup5znS9M+pcvwx5bcQVwtpdxMsMwR25DHtrwd2OndY5BENHQclg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "9e406138-c088-4d10-810a-8cb287aa339b",
                             TwoFactorEnabled = false,
@@ -149,7 +149,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DANIELA@ABV.BG",
                             NormalizedUserName = "DANIELA_5",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBkr+Xp5tt31dKoygVzQ2KIZRUb0rtV4i5nUcDfwla0006q3msRiD2d/+t+TftGRVw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEO4+y3cEPuXsPX18O+jqHMfTL7x/EQORsUcmZqQjfpOvnWH53emGd7mADYWOt4tXqA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ddfff353-d2cc-4d0c-a9cd-c40f2914296b",
                             TwoFactorEnabled = false,
@@ -170,7 +170,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PESHO@ABV.BG",
                             NormalizedUserName = "PESHO@ABV.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEIFXC7XXf7CIGRgWWz6A26qdRyjA3bWoqiKPNTBQjjTQBCbeXc/e6fq3TLYFiHQAA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKbt32yAV/NPrZQKAU+2fpXbZEtTozBRonYGUK+osdnNfjDLHCcbJ7tlgtpyuTvs8g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "eccde9ba-4a3c-4bc1-9bee-3a8988b80b6f",
                             TwoFactorEnabled = false,
@@ -191,12 +191,54 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SVETOSLAV@ABV.BG",
                             NormalizedUserName = "SVETOSLAV102",
-                            PasswordHash = "AQAAAAIAAYagAAAAECq8B/NcUEsoTFh3cAIOEH+BlF2vMcTD27Lu+FNZeklsIxoMLhofzIJeEGObL8W8UQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEH7pdWym6xm8z7F/Uglxd2xZQTvCAuBb0WD31mNvoNd2/XQ+SiXg6NmeBaHu87NyAQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "d258ec24-1129-4a44-84b4-4597aecc18e9",
                             TwoFactorEnabled = false,
                             UserName = "svetoslav102",
                             Weight = 82.0
+                        },
+                        new
+                        {
+                            Id = "0e0e4964-6fa8-43ef-b6ba-a8722a1d5708",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "dafec03f-a147-46ec-b317-e9dfa2e4bbf4",
+                            Email = "rosalina@abv.bg",
+                            EmailConfirmed = false,
+                            ExperienceLevel = "Росалина Узунова е диетолог с дългогодишен опит, чиято цел е да помогне на хората да постигнат здравословен начин на живот и да обикнат своята визия. Тя създава персонализирани диетични планове, които водят до дълготрайни резултати и увереност в тялото.",
+                            FirstName = "Росалина",
+                            Height = 1.7,
+                            LastName = "Узунова",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ROSALINA@ABV.BG",
+                            NormalizedUserName = "ROSALINA102",
+                            PasswordHash = "AQAAAAIAAYagAAAAEALHNLEkGjBD7kLaXCPgoOlpVwusefmnkQ+fDA6Teayevybd2umgdNKAX+nSngbsmA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "854dee6b-a37b-4051-8310-5f1012b7feab",
+                            TwoFactorEnabled = false,
+                            UserName = "rosalina102",
+                            Weight = 57.0
+                        },
+                        new
+                        {
+                            Id = "0c4c8519-6a0a-45a5-acc2-64c0de9af4a8",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "27956fea-0ef6-4a90-866d-c3d1020d9526",
+                            Email = "zhenya@abv.bg",
+                            EmailConfirmed = false,
+                            ExperienceLevel = "Женя Желязкова е диетолог с дългогодишен опит, която се стреми да помогне на хората да водят здравословен начин на живот и да се чувстват уверени в своята визия. Тя създава индивидуални диетични програми, които водят до трайни резултати и по-добро самочувствие.",
+                            FirstName = "Женя",
+                            Height = 1.6799999999999999,
+                            LastName = "Желязкова",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ZHENYA@ABV.BG",
+                            NormalizedUserName = "ZHENYA123",
+                            PasswordHash = "AQAAAAIAAYagAAAAENOk2V8wLIxuS+ETbw0ps6sHCmA3TSTmS1vWblKqtQchzFN74HWFUmOtnpml8MnCeQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "c76fbd83-aa75-4d3a-b63d-c607ce974605",
+                            TwoFactorEnabled = false,
+                            UserName = "zhenya123",
+                            Weight = 60.0
                         });
                 });
 

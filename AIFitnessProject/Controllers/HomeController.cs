@@ -1,3 +1,4 @@
+using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -7,15 +8,19 @@ namespace AIFitnessProject.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IHomeService homeService;
+        public HomeController(ILogger<HomeController> logger, IHomeService _homeService)
         {
             _logger = logger;
+            this.homeService = _homeService;
         }
 
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var model = await homeService.GetModelsForHomePageAsync();
+
+            return View(model);
         }
 
         public IActionResult Privacy()

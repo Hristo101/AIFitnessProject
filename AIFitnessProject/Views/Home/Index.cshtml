@@ -1,8 +1,280 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using AIFitnessProject.Core.Models.Home
+@model HomeViewModel
+
+@{
+    var backgroundColor = "#f8f9fa";
+    var accentColor = "#007bff";
+    var secondaryColor = "#6c757d";
+    var lightAccentColor = "#eaf1ff";
+    var highlightColor = "#ffffff";
+    var textPrimaryColor = "#212529";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <!-- Хедър -->
+    <div class="header">
+        <h1 class="header-title">Добре дошли в нашето фитнес приложение!</h1>
+        <p class="header-subtitle">Тук ще откриете най-добрите треньори и диетолози, които да ви помогнат да постигнете целите си.</p>
+    </div>
+
+    <div class="professional-pair">
+        <div class="professional-item">
+            <img id="professional-image" src="@Url.Content(Model.Trainers.First().ImageUrl)" alt="Professional" class="img-fluid professional-image">
+            <p id="professional-text" class="professional-name">@Model.Trainers.First().FirstName</p>
+        </div>
+    </div>
+
+
+        <!-- Навигационни бутони -->
+        <div class="gallery-controls">
+            <button onclick="prevProfessional()">&#8249; Назад</button>
+            <button onclick="nextProfessional()">Напред &#8250;</button>
+        </div>
+    </div>
+
+    <!-- Информационна секция -->
+    <div class="info-section">
+        <div class="info-box">
+            <h4>Професионални треньори</h4>
+            <p>Нашите треньори са сертифицирани и опитни професионалисти, готови да ви помогнат да постигнете вашата фитнес цел.</p>
+            <img src="https://previews.123rf.com/images/nadine3000/nadine30001704/nadine3000170400033/75567288-entra%C3%AEneur-personnel-de-fitness-ou-bodybuilder-tenant-le-dessin-anim%C3%A9-de-l-halt%C3%A8re.jpg" alt="Треньор" class="img-fluid">
+        </div>
+        <div class="info-box">
+            <h4>Персонализирани диетични планове</h4>
+            <p>Нашите диетолози ще създадат индивидуални планове, съобразени с вашите нужди и цели, за да ви помогнат да постигнете оптимални резултати.</p>
+            <img src="https://cdn-eidel.nitrocdn.com/GjcDmQkusmEYJLTuJgLtJCuLrczkfuRQ/assets/images/optimized/rev-07d8012/www.forlife.bg/wp-content/uploads/2019/06/silen-imunitet-otslabvane-ketonni-kapsuli-svalqne-kilogrami-taliq-dieta-300x200.jpg" alt="Диетолог" class="img-fluid">
+        </div>
+        <div class="info-box">
+            <h4>Резултати и мотивация</h4>
+            <p>Ние не само ще ви предоставим тренировъчен режим и диета, но и ще ви подкрепяме през целия процес, за да постигнете резултати.</p>
+            <img src="https://c8.alamy.com/comp/M9E3J6/boss-working-character-vector-working-male-modern-office-workplace-animation-work-cartoon-business-illustration-M9E3J6.jpg" alt="Резултати" class="img-fluid">
+        </div>
+        <div class="info-box">
+            <h4>Обслужване на високо ниво</h4>
+            <p>Нашият екип от специалисти ще се погрижи за всяко ваше желание и ще бъде на разположение за консултации и съвети.</p>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSA1IFnZfTT52etK4r_ivhpcYkkK0HUW4SbaY7Sc7HF0Snv7Vv0rdAAQ533VavMV5iWY4k&usqp=CAU" alt="Обслужване" class="img-fluid">
+        </div>
+    </div>
+
+    <div class="highlight-section">
+        <h3>Започнете сега и постигнете резултатите, които желаете!</h3>
+        <p>Свържете се с нас и започнете пътуването към по-здравословен начин на живот с нашите професионални треньори и диетолози.</p>
+        <a asp-controller="Home" asp-action="Contact" class="contact-btn">Свържете се с нас</a>
+    </div>
 </div>
+<script>
+    // Данни за галерията
+    const professionals = [
+    @foreach (var trainer in Model.Trainers)
+    {
+        @:{ image: "@Url.Content(trainer.ImageUrl)", text: "@trainer.FirstName" },
+    },
+    @foreach (var dietitian in Model.Dietitians)
+    {
+        @:{ image: "@Url.Content(dietitian.ImageUrl)", text: "@dietitian.FirstName" },
+    }
+        ];
+
+    let currentIndex = 0;
+
+    function updateGallery() {
+        const professionalImage = document.getElementById("professional-image");
+        const professionalText = document.getElementById("professional-text");
+
+        professionalImage.src = professionals[currentIndex].image;
+        professionalText.innerText = professionals[currentIndex].text;
+    }
+
+    function prevProfessional() {
+        currentIndex = (currentIndex - 1 + professionals.length) % professionals.length;
+        updateGallery();
+    }
+
+    function nextProfessional() {
+        currentIndex = (currentIndex + 1) % professionals.length;
+        updateGallery();
+    }
+</script>
+
+<style>
+    /* Общи стилове за контейнера */
+    .container {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Хедър */
+    .header {
+        background-color: #f8f9fa;
+        padding: 30px 0;
+        text-align: center;
+    }
+
+    .header-title {
+        font-size: 3.5rem;
+        font-weight: bold;
+        color: #212529;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .header-subtitle {
+        font-size: 1.5rem;
+        color: #6c757d;
+        margin-top: 10px;
+        letter-spacing: 1px;
+    }
+
+    /* Галерия */
+    .gallery {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        align-items: center;
+        margin-top: 30px;
+    }
+
+    .professional-pair {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .professional-item {
+        text-align: center;
+        width: auto;
+    }
+
+    .professional-image {
+        width: 89%;
+        height: 636px;
+        object-fit: cover;
+        border-radius: 15px;
+    }
+
+    .gallery img {
+        width: 90%;
+        height: 467px;
+        object-fit: cover;
+        border-radius: 15px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .professional-name {
+        font-size: 1.5rem;
+        color: #212529;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .gallery-controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+        .gallery-controls button {
+            background: linear-gradient(135deg, #6cc1ff, #0073e6);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .gallery-controls button:hover {
+                background: linear-gradient(135deg, #0073e6, #005bb5);
+                transform: scale(1.1);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            }
+
+    /* Информационна секция */
+    .info-section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-top: 40px;
+    }
+
+    .info-box {
+        width: 48%;
+        margin-bottom: 30px;
+        text-align: center;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+        .info-box h4 {
+            font-size: 1.8rem;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .info-box p {
+            font-size: 1.2rem;
+            color: #6c757d;
+            line-height: 1.6;
+        }
+
+        .info-box img {
+            margin-top: 15px;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+        }
+
+    /* Акцент секция */
+    .highlight-section {
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 40px 20px;
+        text-align: center;
+        margin-top: 50px;
+        border-radius: 10px;
+    }
+
+        .highlight-section h3 {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .highlight-section p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            line-height: 1.8;
+        }
+
+    /* Бутон "Свържете се с нас" */
+    .contact-btn {
+        color: white;
+        text-decoration: none;
+        background-color: #28a745;
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        display: inline-block;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+        .contact-btn:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        .contact-btn:active {
+            background-color: #1e7e34;
+            transform: scale(1);
+        }
+</style>
+
+<link rel="stylesheet" href="~/css/Home/IndexStyle.css" />

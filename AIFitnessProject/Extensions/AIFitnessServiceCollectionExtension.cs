@@ -13,6 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddScoped<ITrainerService, TrainerService>();
             services.AddScoped<IDietitianService, DietitianService>();
+            services.AddScoped<IHomeService, HomeService>();
           
 
             return services;

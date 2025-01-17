@@ -96,6 +96,38 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             };
             users.Add(user);
 
+            user = new ApplicationUser()
+            {
+                Id = "0e0e4964-6fa8-43ef-b6ba-a8722a1d5708",
+                UserName = "rosalina102",
+                NormalizedUserName = "ROSALINA102",
+                Email = "rosalina@abv.bg",
+                NormalizedEmail = "ROSALINA@ABV.BG",
+                FirstName = "Росалина",
+                LastName = "Узунова",
+                Height = 1.70,
+                Weight = 57,
+                ExperienceLevel = "Росалина Узунова е диетолог с дългогодишен опит, чиято цел е да помогне на хората да постигнат здравословен начин на живот и да обикнат своята визия. Тя създава персонализирани диетични планове, които водят до дълготрайни резултати и увереност в тялото.",
+                PasswordHash = hasher.HashPassword(null, "rosalina123"),
+            };
+            users.Add(user);
+
+            user = new ApplicationUser()
+            {
+                Id = "0c4c8519-6a0a-45a5-acc2-64c0de9af4a8",
+              UserName = "zhenya123",
+                NormalizedUserName = "ZHENYA123",
+                Email = "zhenya@abv.bg",
+                NormalizedEmail = "ZHENYA@ABV.BG",
+                FirstName = "Женя",
+                LastName = "Желязкова",
+                Height = 1.68,
+                Weight = 60,
+                ExperienceLevel = "Женя Желязкова е диетолог с дългогодишен опит, която се стреми да помогне на хората да водят здравословен начин на живот и да се чувстват уверени в своята визия. Тя създава индивидуални диетични програми, които водят до трайни резултати и по-добро самочувствие.",
+                PasswordHash = hasher.HashPassword(null, "zhenya123"),
+            };
+            users.Add(user);
+
             return users;
         }
     }

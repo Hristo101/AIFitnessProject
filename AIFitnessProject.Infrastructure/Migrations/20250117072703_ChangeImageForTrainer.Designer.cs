@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AIFitnessProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250115122538_ExpandDietitianTable")]
-    partial class ExpandDietitianTable
+    [Migration("20250117072703_ChangeImageForTrainer")]
+    partial class ChangeImageForTrainer
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -128,7 +128,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STANISLAV@ABV.BG",
                             NormalizedUserName = "STANISLAV@ABV.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIAzEZqfxSoiaA/Uw1AAa6Havd69HMItkqcBK+24OI1O1e6HRNH1SYTzvVnJlpfpBw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIaX0o1CC4uryFeywER5KTvS7kvVMJLfLeGmGIyvoR/PsjVzp9+pRxYG+XfihxV5Ww==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "9e406138-c088-4d10-810a-8cb287aa339b",
                             TwoFactorEnabled = false,
@@ -149,7 +149,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DANIELA@ABV.BG",
                             NormalizedUserName = "DANIELA_5",
-                            PasswordHash = "AQAAAAIAAYagAAAAECv71U7xMQmHJHzmulgfC0854V585juUAFz1frKhogqgAcwNuQttEkXx/0Utxa633w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGQ2uWty0TRf8os/xjGzvRXEcMjQ86o8FHtcsW5FK0Fj5I7gHkhFLrM+Mt+xSAf2Fw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ddfff353-d2cc-4d0c-a9cd-c40f2914296b",
                             TwoFactorEnabled = false,
@@ -170,7 +170,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PESHO@ABV.BG",
                             NormalizedUserName = "PESHO@ABV.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFrwW/0tEOlMZq0min7LFAqfIlZQRNf+feQR0UNROQdgb48ljTAhEENUkC1e1xrYcw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKRefWgAl/fHzG8vFev1KUILHwsi7swocjipr0U/P0KAZu2fcvbfYnADTnjExmYYCw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "eccde9ba-4a3c-4bc1-9bee-3a8988b80b6f",
                             TwoFactorEnabled = false,
@@ -191,12 +191,54 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SVETOSLAV@ABV.BG",
                             NormalizedUserName = "SVETOSLAV102",
-                            PasswordHash = "AQAAAAIAAYagAAAAEO9D4PukCuI8MtUnvejRv0blnRyo7KE6dOSjz4PfiMFfOnzByfhJLqHGuLkvln2rdQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPdGEtaj1CvE3XnziGoAFHEzPBl+gOsx8S85Sub8I7pgd5RNU5Bmzk1GywrcdQT3lw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "d258ec24-1129-4a44-84b4-4597aecc18e9",
                             TwoFactorEnabled = false,
                             UserName = "svetoslav102",
                             Weight = 82.0
+                        },
+                        new
+                        {
+                            Id = "0e0e4964-6fa8-43ef-b6ba-a8722a1d5708",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d0307a75-e3ab-48d5-8f16-e1db31aef8e8",
+                            Email = "rosalina@abv.bg",
+                            EmailConfirmed = false,
+                            ExperienceLevel = "Росалина Узунова е диетолог с дългогодишен опит, чиято цел е да помогне на хората да постигнат здравословен начин на живот и да обикнат своята визия. Тя създава персонализирани диетични планове, които водят до дълготрайни резултати и увереност в тялото.",
+                            FirstName = "Росалина",
+                            Height = 1.7,
+                            LastName = "Узунова",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ROSALINA@ABV.BG",
+                            NormalizedUserName = "ROSALINA102",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFI1AdlddTITFkSAx8hmDpNtYPg1VhDkUztsOKfl3pWTbsMuAmENc5IlmtCzpVAX3Q==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7e1c395c-e4e4-4492-8f81-639a68fc5e9e",
+                            TwoFactorEnabled = false,
+                            UserName = "rosalina102",
+                            Weight = 57.0
+                        },
+                        new
+                        {
+                            Id = "0c4c8519-6a0a-45a5-acc2-64c0de9af4a8",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "791bda0d-3588-4cc3-8355-cd593930cca9",
+                            Email = "zhenya@abv.bg",
+                            EmailConfirmed = false,
+                            ExperienceLevel = "Женя Желязкова е диетолог с дългогодишен опит, която се стреми да помогне на хората да водят здравословен начин на живот и да се чувстват уверени в своята визия. Тя създава индивидуални диетични програми, които водят до трайни резултати и по-добро самочувствие.",
+                            FirstName = "Женя",
+                            Height = 1.6799999999999999,
+                            LastName = "Желязкова",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ZHENYA@ABV.BG",
+                            NormalizedUserName = "ZHENYA123",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIF7g3fbJiXz8hC7bCxVxaSJjNPcSr2qfqhxCIwg75/p6q27+P+Qj99R6UHQTIc8Ew==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "693672ed-505a-4cfc-91e8-38764a00a152",
+                            TwoFactorEnabled = false,
+                            UserName = "zhenya123",
+                            Weight = 60.0
                         });
                 });
 
@@ -379,6 +421,32 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.ToTable("Dietitians", t =>
                         {
                             t.HasComment("Dietitian Table");
+                        });
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Bio = "Росалина Узунова е опитен диетолог, специализирала в покачването на мускулна маса и оптимизация на физическата форма. Завършила е специалност \"Хранене и диетология\" и е работила с различни клиенти – от аматьори до професионални атлети. Тя вярва, че правилната диета е не по-малко важна от тренировките за постигането на желаните резултати и предлага персонализирани хранителни планове, които са насочени към оптимално усвояване на хранителни вещества и растеж на мускулите.",
+                            Experience = 8,
+                            ImageUrl = "https://medintu.in/wp-content/uploads/2021/02/kisspng-clinical-nutrition-dietitian-nutritionist-health-parkside-orange-suites-5d090014f1eb93.3607288515608709329909-1.png",
+                            PhoneNumber = "0886352233",
+                            SertificationDetails = "Здравейте, аз съм сертифициран специалист по покачване на мускулна маса. Специализирам в създаването на хранителни режими, които ще повишат вашата сила и мускулна маса. С правилното хранене и постоянство в тренировките, всяка капка усилие ще се превърне в здрава мускулна маса и нови постижения!",
+                            SertificationImage = "https://cardinalbites.com/wp-content/uploads/2023/04/r1-600x782.jpg",
+                            Specialization = "Покачване на мускулна маса",
+                            UserId = "0e0e4964-6fa8-43ef-b6ba-a8722a1d5708"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Bio = "Женя Желязкова е сертифициран диетолог със специализация в отслабването и изгарянето на мазнини, с над 4 години опит в трансформирането на тела и навици. Вярва, че всяко тяло е уникално и предлага персонализирани хранителни режими, съчетани с научно обосновани методи за дълготрайни резултати. Работи активно със спортисти и фитнес ентусиасти, помагайки им да постигнат оптимална форма и здраве. Постоянно се усъвършенства, следвайки последните тенденции в спортното хранене и метаболитната оптимизация. За нея здравословното хранене не е диета, а начин на живот.",
+                            Experience = 4,
+                            ImageUrl = "https://dietyc.com/wp-content/uploads/2023/03/nutritionist-dietolog.jpeg",
+                            PhoneNumber = "0874856290",
+                            SertificationDetails = "Здравейте, аз съм сертифициран специалист по отслабване и изгаряне на мазнини. Специализирам в създаването на хранителни режими, които помагат за отслабване и изгаряне на мазнини. Заедно ще постигнем вашата мечтана визия и ще постигнем всички цели!",
+                            SertificationImage = "https://healthy-lifestyle.bg/wp-content/uploads/2023/10/%D0%94%D0%B8%D0%B5%D1%82%D0%BE%D0%BB%D0%BE%D0%B3.png",
+                            Specialization = "Отслабване и изгаряне на мазнини",
+                            UserId = "0c4c8519-6a0a-45a5-acc2-64c0de9af4a8"
                         });
                 });
 
@@ -632,7 +700,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             Id = 1,
                             Bio = "Даниела Манева е фитнес треньор, който активно се занимава със спорт и фитнес от 3 години. Нейната специализация е в тренировките за издръжливост и функционален фитнес. Със силно желание да помогне на своите клиенти да постигнат максимална физическа издръжливост и да повишат спортната си подготовка, тя съчетава индивидуален подход с доказани методи за тренировки.\r\nДаниела вярва, че с упоритост и правилни тренировки, всеки може да постигне отлични резултати в здравето и физическата форма.",
                             Experience = 5,
-                            ImageUrl = "https://pulsefit.bg/uploads/cache/N/public/uploads/media-manager/app-modules-trainers-models-trainer/305/6874/novo.png",
+                            ImageUrl = "https://momichetata.com/media/1/2024/01/18/117000/original.jpg",
                             PhoneNumber = "0895124157",
                             SertificationDetails = "Здравейте, аз съм сертифициран специалист по издръжливост и функционален фитнес. Специализирам в създаването на тренировъчни програми, които ще повишат вашата издръжливост и функционална сила.",
                             SertificationImage = "https://dani-sport.eu/wp-content/uploads/2021/06/UDOSTOVERENIE_TRENER_R-688x500.jpg",
