@@ -44,8 +44,8 @@ namespace AIFitnessProject.Core.Services
         {
             
             var dietitian = await repository.All<Dietitian>()
-                                          .Where(t => t.Id == id)
-                                          .Include(t => t.User)
+                                          .Where(d => d.Id == id)
+                                          .Include(d => d.User)
                                           .FirstAsync();
 
             var comments = await repository.All<UserComment>()
