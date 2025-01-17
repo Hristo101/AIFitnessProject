@@ -1,4 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIFitnessProject.Controllers
@@ -23,6 +24,21 @@ namespace AIFitnessProject.Controllers
             var models = await dietitianService.AllDietitianAsync();
 
             return View(models);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+
+            if (await dietitianService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            var model = await dietitianService.DetailsDietitianAsync(id);
+
+            return View(model);
+           
         }
     }
 }
