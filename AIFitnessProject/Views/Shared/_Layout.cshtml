@@ -96,15 +96,45 @@
                 <!-- Меню -->
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i> Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="AboutUs"><i class="fa fa-user-shield"></i> About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact"><i class="fa fa-envelope"></i> Contact</a>
-                        </li>
+                            @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i> Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="AboutUs"><i class="fa fa-user-shield"></i> About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact"><i class="fa fa-envelope"></i> Contact</a>
+                            </li>
+                        }
+                           @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="buyCarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-sync-alt"></i> Треньори
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="buyCarDropdown">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="HowWeWork"><i class="fas fa-cogs"></i> Как работим</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Trainer" asp-action="All"><i class="fas fa-cogs"></i> Нашите Треньори</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Car" asp-action="AddCar"><i class="fas fa-dollar-sign"></i> Подаване на CV</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="userMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user"></i> Диетолози
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="userMenuDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("All", "Favorites")"><i class="fas fa-heart"></i> Любими обяви</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("All", "Query")"><i class="fas fa-question-circle"></i> Запитвания</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
                     </ul>
                     <!-- Login Partial -->
                     <partial name="_LoginPartial" />
