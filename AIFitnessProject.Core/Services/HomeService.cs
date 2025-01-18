@@ -1,8 +1,8 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.Dietitian;
 using AIFitnessProject.Core.Models.Home;
+using AIFitnessProject.Core.Models.Opinion;
 using AIFitnessProject.Core.Models.Trainer;
-using AIFitnessProject.Core.Opinion;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +21,27 @@ namespace AIFitnessProject.Core.Services
         public HomeService(IRepository repository)
         {
             _repository = repository;
+        }
+
+        public async Task<IEnumerable<AllDietitianOpinionViewModel>> AllDietitianOpinionAsync()
+        {
+            var model = await _repository.AllAsReadOnly<Opinion>()
+                .Include(x => x.Sender)
+                .ThenInclude(x => x.Dietitian)
+                .Where(x => x.SenderId == x.Sender.Dietitian.UserId)
+                .Select(x => new AllDietitianOpinionViewModel()
+                {
+                    FirstName = x.Sender.FirstName,
+                    LastName = x.Sender.LastName,
+                    Rating = x.Rating,
+                    Content = x.Content,
+                    DietitianImageUrl = x.Sender.Dietitian.ImageUrl
+                })
+                .ToListAsync();
+
+            return model;
+
+
         }
 
         public async Task<HomeViewModel> GetModelsForHomePageAsync()

@@ -1,5 +1,5 @@
 ﻿using AIFitnessProject.Core.Models.Home;
-using AIFitnessProject.Core.Opinion;
+using AIFitnessProject.Core.Models.Opinion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +12,6 @@ namespace AIFitnessProject.Core.Contracts
     {
         Task<HomeViewModel> GetModelsForHomePageAsync();
         Task<IEnumerable<AllOpinionViewModel>> GetModelsForHowWeWorkPageAsync();
+        Task<IEnumerable<AllDietitianOpinionViewModel>> AllDietitianOpinionAsync();
     }
 }

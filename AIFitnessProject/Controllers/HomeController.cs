@@ -43,6 +43,13 @@ namespace AIFitnessProject.Controllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> HowWeWorkDietitian()
+        {
+            var model = await homeService.AllDietitianOpinionAsync();
+
+            return View(model);
+        }
         public IActionResult Contact()
         {
             return View();

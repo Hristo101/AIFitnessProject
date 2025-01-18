@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIFitnessProject.Core.Opinion
+namespace AIFitnessProject.Core.Models.Opinion
 {
     public class AllOpinionViewModel
     {
