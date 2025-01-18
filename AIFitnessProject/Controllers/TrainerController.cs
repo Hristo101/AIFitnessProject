@@ -1,4 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Models.Trainer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIFitnessProject.Controllers
@@ -31,6 +32,13 @@ namespace AIFitnessProject.Controllers
             var models = await trainerService.GetViewModelForDetails(id);
 
             return View(models);
+        }
+        [HttpGet]
+        public async Task<IActionResult> SendDocuments()
+        {
+            var model = new TrainerViewModelForWork();
+
+            return View(model);
         }
     }
 }

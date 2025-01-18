@@ -128,6 +128,9 @@ namespace AIFitnessProject.Infrastructure.Constants
 
             public const int MaxImageUrlLength = 2048;
             public const int MinImageUrlLength = 10;
+
+            public const int MinBioLength = 3;
+            public const int MaxBioLength = 3500;
         }
 
         public static class TrainingPlan

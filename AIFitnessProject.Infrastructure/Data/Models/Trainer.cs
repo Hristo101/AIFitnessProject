@@ -31,7 +31,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Comment("Trainer ImageUrl")]
         public string ImageUrl { get; set; } = string.Empty;
 
-        [MaxLength(4500)]
+        [MaxLength(MaxBioLength)]
         [Comment("Trainer Bio")]
         public string Bio { get; set; } = string.Empty;
 
