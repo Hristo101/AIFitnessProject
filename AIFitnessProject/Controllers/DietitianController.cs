@@ -1,4 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Models.Dietitian;
 using AIFitnessProject.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,6 +40,15 @@ namespace AIFitnessProject.Controllers
 
             return View(model);
            
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SendDocuments()
+        {
+            var model = new DietitianSendDocumentsViewModel();
+
+            return View(model);
+
         }
     }
 }

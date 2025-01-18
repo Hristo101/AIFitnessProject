@@ -1,0 +1,70 @@
+﻿@using AIFitnessProject.Core.Models.Dietitian
+@model DietitianSendDocumentsViewModel
+
+@{
+    ViewData["Title"] = "Кандидатстване за работа като диетолог";
+}
+<link rel="stylesheet" href="~/css/Dietitian/SendDocuments.css" />
+<div class="container mt-5">
+    <h2>@ViewData["Title"]</h2>
+
+    <form asp-action="SubmitDietitianApplication" method="post" enctype="multipart/form-data">
+
+        <!-- UserId Hidden Field -->
+        <input type="hidden" asp-for="UserId" />
+
+        <!-- First Name -->
+        <div class="form-group">
+            <label for="FirstName">Първо име</label>
+            <input type="text" class="form-control" id="FirstName" asp-for="FirstName" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <!-- Last Name -->
+        <div class="form-group">
+            <label for="LastName">Фамилия</label>
+            <input type="text" class="form-control" id="LastName" asp-for="LastName" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+
+        <!-- Experience Years -->
+        <div class="form-group">
+            <label for="ExperienceYears">Години стаж</label>
+            <input type="number" class="form-control" id="ExperienceYears" asp-for="ExperienceYears" />
+            <span asp-validation-for="ExperienceYears" class="text-danger"></span>
+        </div>
+
+        <!-- Certificate -->
+        <div class="form-group">
+            <label for="Certificate">Сертификат (кандидатствайте с файл)</label>
+            <input type="file" class="form-control" id="Certificate" asp-for="Certificate" accept=".pdf, .doc, .docx" />
+            <span asp-validation-for="Certificate" class="text-danger"></span>
+        </div>
+
+        <!-- Biography -->
+        <div class="form-group">
+            <label for="Biography">Биография</label>
+            <textarea class="form-control" id="Biography" asp-for="Biography" rows="4"></textarea>
+            <span asp-validation-for="Biography" class="text-danger"></span>
+        </div>
+
+        <!-- Specialization -->
+        <div class="form-group">
+            <label for="Specialization">Специализация</label>
+            <input type="text" class="form-control" id="Specialization" asp-for="Specialization" />
+            <span asp-validation-for="Specialization" class="text-danger"></span>
+        </div>
+
+        <!-- Certification Details -->
+        <div class="form-group">
+            <label for="CertificationDetails">Детайли за сертификат</label>
+            <textarea class="form-control" id="CertificationDetails" asp-for="CertificationDetails" rows="4"></textarea>
+            <span asp-validation-for="CertificationDetails" class="text-danger"></span>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn" asp-action="SubmitDietitianApplication" asp-controller="Dietitian">
+            Изпрати кандидатура
+        </button>
+    </form>
+</div>

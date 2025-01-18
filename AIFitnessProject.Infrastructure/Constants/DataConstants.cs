@@ -70,7 +70,7 @@ namespace AIFitnessProject.Infrastructure.Constants
             public const int MinExperience = 2;
 
             public const int MaxSertificationDetailsLength = 2500;
-            public const int MinSertificationDetailsLength = 2500;
+            public const int MinSertificationDetailsLength = 3;
 
             public const int MaxBioLength = 4500;
             public const int MinBioLength = 10;
