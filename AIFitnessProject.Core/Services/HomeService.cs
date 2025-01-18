@@ -68,14 +68,18 @@ namespace AIFitnessProject.Core.Services
         }
         public async Task<IEnumerable<AllOpinionViewModel>> GetModelsForHowWeWorkPageAsync()
         {
-            var model = await _repository.AllAsReadOnly<AIFitnessProject.Infrastructure.Data.Models.Opinion>().Include(t =>t.Sender).ThenInclude(a => a.Trainer).Select(x => new AllOpinionViewModel()
-            {
-                Content = x.Content,
-                FirstName = x.Sender.FirstName,
-                LastName = x.Sender.LastName,
-                Rating = x.Rating,
-                TrainerImageUrl = x.Sender.Trainer.ImageUrl,
-            })
+            var model = await _repository.AllAsReadOnly<Opinion>()
+                .Include(t =>t.Sender)
+                .ThenInclude(a => a.Trainer)
+                .Where(x => x.SenderId == x.Sender.Trainer.UserId)
+                .Select(x => new AllOpinionViewModel()
+                {
+                    Content = x.Content,
+                    FirstName = x.Sender.FirstName,
+                    LastName = x.Sender.LastName,
+                    Rating = x.Rating,
+                    TrainerImageUrl = x.Sender.Trainer.ImageUrl,
+                })
                 .ToListAsync();
 
             return model;
