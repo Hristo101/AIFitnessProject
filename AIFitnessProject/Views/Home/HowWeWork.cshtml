@@ -1,4 +1,6 @@
-﻿<html lang="bg">
+﻿@using AIFitnessProject.Core.Opinion
+@model IEnumerable<AllOpinionViewModel>
+<html lang="bg">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,6 +60,7 @@
     <section class="benefits">
         <h2>Защо да изберете нас за вашата кариера?</h2>
         <div class="benefits-container">
+            <img src="https://bg.dhbaler.com/Content/uploads/20231003720/2023103117322548f68c62e1074ccab3ccfef453d2c9a1.jpg" alt="Професионално развитие" class="benefit-image">
             <div class="benefit-item">
                 <button class="benefit-question">
                     ▾ Професионално развитие
@@ -93,27 +96,41 @@
         </div>
     </section>
 
+    <div class="container">
+        <div class="comments-header">
+            <h2>Какво казват нашите треньори</h2>
+        </div>
+
+        <div class="comments-container">
+            @foreach (var opinion in Model)
+            {
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <div class="comment-author-container">
+                            <img src="@opinion.TrainerImageUrl" alt="Trainer Image" class="trainer-image" />
+                            <div class="author-info">
+                                <span class="comment-author">@opinion.FirstName @opinion.LastName</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        <p>@opinion.Content</p>
+                    </div>
+                    <div class="comment-grade">
+                        <div class="stars">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <span class="star @(i <= opinion.Rating ? "filled" : "")">★</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
     <section class="apply">
-        <h2>Подайте документи</h2>
-        <form action="/apply" method="post" class="apply-form">
-            <div class="form-group">
-                <label for="name">Име:</label>
-                <input type="text" id="name" name="name" placeholder="Вашето име" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Имейл:</label>
-                <input type="email" id="email" name="email" placeholder="Вашият имейл" required>
-            </div>
-            <div class="form-group">
-                <label for="specialization">Специализация:</label>
-                <input type="text" id="specialization" name="specialization" placeholder="Вашата специализация" required>
-            </div>
-            <div class="form-group">
-                <label for="cv">Качете CV:</label>
-                <input type="file" id="cv" name="cv" accept=".pdf, .doc, .docx" required>
-            </div>
-            <button type="submit" class="btn-submit">Изпрати</button>
-        </form>
+        <a class="apply-btn" asp-action="Apply" asp-controller="Home">Подайте вашите документи</a>
     </section>
 </body>
 </html>

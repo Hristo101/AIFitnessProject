@@ -2,6 +2,7 @@
 using AIFitnessProject.Core.Models.Dietitian;
 using AIFitnessProject.Core.Models.Home;
 using AIFitnessProject.Core.Models.Trainer;
+using AIFitnessProject.Core.Opinion;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,20 @@ namespace AIFitnessProject.Core.Services
                 Dietitians = dietitians,
                 Trainers = trainers
             };
+
+            return model;
+        }
+        public async Task<IEnumerable<AllOpinionViewModel>> GetModelsForHowWeWorkPageAsync()
+        {
+            var model = await _repository.AllAsReadOnly<AIFitnessProject.Infrastructure.Data.Models.Opinion>().Include(t =>t.Sender).ThenInclude(a => a.Trainer).Select(x => new AllOpinionViewModel()
+            {
+                Content = x.Content,
+                FirstName = x.Sender.FirstName,
+                LastName = x.Sender.LastName,
+                Rating = x.Rating,
+                TrainerImageUrl = x.Sender.Trainer.ImageUrl,
+            })
+                .ToListAsync();
 
             return model;
         }

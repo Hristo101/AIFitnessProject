@@ -37,9 +37,11 @@ namespace AIFitnessProject.Controllers
         {
             return View();
         }
-        public IActionResult HowWeWork()
+        public async Task<IActionResult> HowWeWork()
         {
-            return View();
+            var model = await homeService.GetModelsForHowWeWorkPageAsync();
+
+            return View(model);
         }
         public IActionResult Contact()
         {
