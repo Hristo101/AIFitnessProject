@@ -37,6 +37,10 @@ namespace AIFitnessProject.Controllers
         {
             return View();
         }
+        public IActionResult HowWeWork()
+        {
+            return View();
+        }
         public IActionResult Contact()
         {
             return View();

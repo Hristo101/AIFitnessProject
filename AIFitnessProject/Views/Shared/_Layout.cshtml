@@ -88,16 +88,17 @@
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AIFitnessProject</a>
 
                 <!-- Бутон за мобилни устройства -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <!-- Меню -->
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav flex-grow-1">
-                            @if (!User.Identity.IsAuthenticated)
+                        @if (!User.Identity.IsAuthenticated)
                         {
+                            <!-- Опции за гости -->
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i> Home</a>
                             </li>
@@ -108,30 +109,27 @@
                                 <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact"><i class="fa fa-envelope"></i> Contact</a>
                             </li>
                         }
-                           @if (User.Identity.IsAuthenticated)
+                        @if (User.Identity.IsAuthenticated)
                         {
+                            <!-- Опции за автентикирани потребители -->
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="buyCarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-sync-alt"></i> Треньори
+                                <a class="nav-link dropdown-toggle" href="#" id="coachesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Треньори
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="buyCarDropdown">
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="HowWeWork"><i class="fas fa-cogs"></i> Как работим</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Trainer" asp-action="All"><i class="fas fa-cogs"></i> Нашите Треньори</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Car" asp-action="AddCar"><i class="fas fa-dollar-sign"></i> Подаване на CV</a></li>
+                                <ul class="dropdown-menu" aria-labelledby="coachesDropdown">
+                                    <li><a class="dropdown-item" href="#">Нашите треньори</a></li>
+                                    <li><a class="dropdown-item" href="#">Как работим</a></li>
+                                    <li><a class="dropdown-item" href="#">Подаване на документи</a></li>
                                 </ul>
                             </li>
-
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="userMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-user"></i> Диетолози
+                                <a class="nav-link dropdown-toggle" href="#" id="dieticiansDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Диетолози
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="userMenuDropdown">
-                                    <li>
-                                        <a class="dropdown-item" href="@Url.Action("All", "Favorites")"><i class="fas fa-heart"></i> Любими обяви</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="@Url.Action("All", "Query")"><i class="fas fa-question-circle"></i> Запитвания</a>
-                                    </li>
+                                <ul class="dropdown-menu" aria-labelledby="dieticiansDropdown">
+                                    <li><a class="dropdown-item" href="#">Нашите диетолози</a></li>
+                                    <li><a class="dropdown-item" href="#">Как работим</a></li>
+                                    <li><a class="dropdown-item" href="#">Опция 2</a></li>
                                 </ul>
                             </li>
                         }

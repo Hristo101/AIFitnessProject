@@ -1,0 +1,119 @@
+﻿<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фитнес Треньори</title>
+    <link rel="stylesheet" href="~/css/Home/HowWeWork.css" />
+    <script src="~/js/benefits.js" defer></script>
+</head>
+<body>
+    <header class="title">
+        <h1>Стани част от нашия фитнес екип!</h1>
+    </header>
+
+    <section class="intro">
+        <div class="intro-content">
+            <img src="https://www.shutterstock.com/image-vector/team-sports-happy-men-women-600nw-1779018197.jpg" alt="Фитнес Екип" class="intro-img">
+            <div class="intro-text">
+                <h2>Какви треньори търсим?</h2>
+                <ul class="checklist">
+                    <li>Минимум 3 години професионален стаж</li>
+                    <li>Задължителен сертифициран курс</li>
+                    <li>Ясно изписана специализация (функционални тренировки, бодибилдинг, йога и др.)</li>
+                    <li>Позитивна нагласа и мотивация за работа с хора</li>
+                    <li>Добри комуникационни умения</li>
+                </ul>
+                <h3>Нашата мисия</h3>
+                <p>Да създадем среда, в която професионализмът, мотивацията и подкрепата са на първо място, за да помогнем на клиентите си да постигнат своите фитнес цели.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="process">
+        <h2>Как да станеш част от нашия екип?</h2>
+        <div class="steps">
+            <div class="step">
+                <img src="https://img.freepik.com/free-photo/cropped-view-person-completing-application-form_1262-2272.jpg" alt="Попълване на формуляр" class="step-img">
+                <h3>1. Попълване на формуляр</h3>
+                <p>Изпратете вашето CV и сертификати чрез нашата онлайн форма или на посочените контакти.</p>
+            </div>
+            <div class="step">
+                <img src="https://media.licdn.com/dms/image/v2/D4D12AQEXqqV-4a4bmg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1696746474153?e=2147483647&v=beta&t=eD-F47hUJZcxDai65kt3QSIfEWa6DqM0tNfadDT_bzo" alt="Интервю" class="step-img">
+                <h3>2. Интервю</h3>
+                <p>След разглеждане на документите ще бъдете поканени на интервю с нашия екип.</p>
+            </div>
+            <div class="step">
+                <img src="https://cache2.24chasa.bg/Images/Cache/228/IMAGE_17563228_990_0.jpg" alt="Обсъждане на професионалните цели" class="step-img">
+                <h3>3. Обсъждане на професионалните цели</h3>
+                <p>Ще говорим за вашите амбиции и как можем да работим заедно, за да ги постигнем в нашата фитнес среда.</p>
+            </div>
+            <div class="step">
+                <img src="https://images.rapidload-cdn.io/spai/ret_img,q_lossless,to_avif/https://i.ytimg.com/vi/BSTJ0EHvMuI/maxresdefault.jpg" alt="Назначение" class="step-img">
+                <h3>4. Назначение</h3>
+                <p>След успешно преминаване на всички етапи ще получите предложение за работа.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits">
+        <h2>Защо да изберете нас за вашата кариера?</h2>
+        <div class="benefits-container">
+            <div class="benefit-item">
+                <button class="benefit-question">
+                    ▾ Професионално развитие
+                </button>
+                <div class="benefit-answer">
+                    Получавате възможност да се развивате и да посещавате допълнителни обучения.
+                </div>
+            </div>
+            <div class="benefit-item">
+                <button class="benefit-question">
+                    ▾ Гъвкаво работно време
+                </button>
+                <div class="benefit-answer">
+                    Работете по удобен за вас график, който отговаря на вашите нужди.
+                </div>
+            </div>
+            <div class="benefit-item">
+                <button class="benefit-question">
+                    ▾ Мотивираща среда
+                </button>
+                <div class="benefit-answer">
+                    Станете част от екип, който подкрепя и насърчава професионализма.
+                </div>
+            </div>
+            <div class="benefit-item">
+                <button class="benefit-question">
+                    ▾ Сигурно възнаграждение
+                </button>
+                <div class="benefit-answer">
+                    Получавате конкурентно заплащане с възможности за бонуси.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="apply">
+        <h2>Подайте документи</h2>
+        <form action="/apply" method="post" class="apply-form">
+            <div class="form-group">
+                <label for="name">Име:</label>
+                <input type="text" id="name" name="name" placeholder="Вашето име" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Имейл:</label>
+                <input type="email" id="email" name="email" placeholder="Вашият имейл" required>
+            </div>
+            <div class="form-group">
+                <label for="specialization">Специализация:</label>
+                <input type="text" id="specialization" name="specialization" placeholder="Вашата специализация" required>
+            </div>
+            <div class="form-group">
+                <label for="cv">Качете CV:</label>
+                <input type="file" id="cv" name="cv" accept=".pdf, .doc, .docx" required>
+            </div>
+            <button type="submit" class="btn-submit">Изпрати</button>
+        </form>
+    </section>
+</body>
+</html>

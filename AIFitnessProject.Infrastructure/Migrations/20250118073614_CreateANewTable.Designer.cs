@@ -4,6 +4,7 @@ using AIFitnessProject.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AIFitnessProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250118073614_CreateANewTable")]
+    partial class CreateANewTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,7 +128,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STANISLAV@ABV.BG",
                             NormalizedUserName = "STANISLAV@ABV.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEP7twYbD73L1tvMYvBNEZtu/Irwgx2BfqaK06ZPUe6NGhDIeyjBiTrCLM1XdqRylBA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECyF1mmDyUfQmc3isKmPlQ9fOXo10+2wp9RxnX8WsTG0yb2OwA/njTuQHpzJZVboEw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "9e406138-c088-4d10-810a-8cb287aa339b",
                             TwoFactorEnabled = false,
@@ -146,7 +149,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DANIELA@ABV.BG",
                             NormalizedUserName = "DANIELA_5",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIpexVp+g5ChxXkCUr86ISikpOgz4e20bdaJ7A+fW53fZ7fzblWYp87wI0Ws3KUCkQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFnmYbhSFu4TPWebf82WQPKvJpxonn9yYPX3xh0QCBt7cAnN8O5PBDsoGDAjGJMOfg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ddfff353-d2cc-4d0c-a9cd-c40f2914296b",
                             TwoFactorEnabled = false,
@@ -167,7 +170,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PESHO@ABV.BG",
                             NormalizedUserName = "PESHO@ABV.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAECcA6ozTYEU1yLlVrSBuwB3TO1uicImnG5ypE4J58e2xFQqL+GDtE42RFgyzftzfOQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEH3BJ7BkxC6T0okuNT78ai9Kc+/n0Mr+pB0lwr3qs2U3urg27OzbisZ1rmMH9ofzHw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "eccde9ba-4a3c-4bc1-9bee-3a8988b80b6f",
                             TwoFactorEnabled = false,
@@ -188,7 +191,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SVETOSLAV@ABV.BG",
                             NormalizedUserName = "SVETOSLAV102",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBPNWOeLUtn/B282arHwdNWfjI7EKjGOIceb5MOW3HY5unwF6IaKpdmI3JUinGTvsA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECaXPhcT98iN2NpS+gEmwIgErvx837Tjg++CXz+9Z2EQ7I0O7hhYO6jeCmeMZ6Ze3w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "d258ec24-1129-4a44-84b4-4597aecc18e9",
                             TwoFactorEnabled = false,
@@ -199,7 +202,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         {
                             Id = "0e0e4964-6fa8-43ef-b6ba-a8722a1d5708",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "158f6189-4683-4b56-a35f-27652f1a82f0",
+                            ConcurrencyStamp = "3633cdb7-4ec3-42e7-b0f0-be3f123b1e6c",
                             Email = "rosalina@abv.bg",
                             EmailConfirmed = false,
                             ExperienceLevel = "Росалина Узунова е диетолог с дългогодишен опит, чиято цел е да помогне на хората да постигнат здравословен начин на живот и да обикнат своята визия. Тя създава персонализирани диетични планове, които водят до дълготрайни резултати и увереност в тялото.",
@@ -209,9 +212,9 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ROSALINA@ABV.BG",
                             NormalizedUserName = "ROSALINA102",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJHEu6pnH8nXNjZgueHlq50koP7jHiOSwHMbFHjbCZp4eSZNuDg4MxeDrv8hpn+YnA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMfqQ+vULoDc1RASQBugb8WUiVbVJRmRe5QqDmI9YmL4iozE9ev9UztZE7G5PP59hg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cd0cd8b6-1c0f-4ec8-80a2-cf080506db53",
+                            SecurityStamp = "0a671033-959a-4110-ae75-b54dd8baa2ca",
                             TwoFactorEnabled = false,
                             UserName = "rosalina102",
                             Weight = 57.0
@@ -220,7 +223,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         {
                             Id = "0c4c8519-6a0a-45a5-acc2-64c0de9af4a8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d24ac6c6-b750-4280-a556-f8911fc905d9",
+                            ConcurrencyStamp = "c5646ba3-b598-46be-af2f-14a982f416ca",
                             Email = "zhenya@abv.bg",
                             EmailConfirmed = false,
                             ExperienceLevel = "Женя Желязкова е диетолог с дългогодишен опит, която се стреми да помогне на хората да водят здравословен начин на живот и да се чувстват уверени в своята визия. Тя създава индивидуални диетични програми, които водят до трайни резултати и по-добро самочувствие.",
@@ -230,9 +233,9 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ZHENYA@ABV.BG",
                             NormalizedUserName = "ZHENYA123",
-                            PasswordHash = "AQAAAAIAAYagAAAAECa5kfpC399ybPM9Zg/r+bq+YYSSIF1/ki/Ynnecw1wCdIMsCRtI79CdmY/QBTG7Sg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF2N+uCRPH0K/JQUWkgb1gLVmKh4ewVsCCgvENhHn+rL2Bw0R9JoqHWNzxx/ShY7IA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "71a67f19-fe3f-4b4c-b6d2-3cb01afd5ec0",
+                            SecurityStamp = "4a93d8fc-489e-4675-8c84-87b1f4918b4f",
                             TwoFactorEnabled = false,
                             UserName = "zhenya123",
                             Weight = 60.0
@@ -612,22 +615,6 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.HasIndex("SenderId");
 
                     b.ToTable("Opinions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "Работя с тази компания от няколко месеца и съм изключително доволен от подкрепата и ресурсите, които ми предоставят. Приложението е мощно и интуитивно, което ми позволява да предоставям персонализирани тренировъчни планове на моите клиенти и да следя техния напредък в реално време. Също така, екипът осигурява отлични условия за професионално развитие и редовно ни мотивират да постигаме още по-добри резултати. Заплащането е конкурентно и редовно, като винаги се чувствам оценен за усилията, които влагам в работата си. Гордея се, че съм част от този екип и се надявам да продължим да растем заедно.",
-                            Rating = 5,
-                            SenderId = "70280028-a1a0-4b5e-89d8-b4e65cbae8d8"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Content = "Работя с тази компания от около половин година и съм изключително благодарна за възможността да бъда част от екипа. Приложението е изключително удобно и лесно за използване, като ми дава възможност да създавам и персонализирам тренировъчни планове за моите клиенти. Отношението на компанията към нас, като треньори, е безупречно – получавам постоянно обучение и подкрепа, което ми помага да бъда още по-добра в това, което правя. Заплащането е справедливо и винаги се чувствам оценена за труда си. Най-хубавото е, че работя с екип, който има ясна визия и ценности, които съвпадат с моите. Препоръчвам горещо тази компания за всички, които искат да се развиват в професията си и да се чувстват част от нещо голямо.",
-                            Rating = 5,
-                            SenderId = "0e136956-3e82-4e00-8f60-b274cdf40833"
-                        });
                 });
 
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.PlanAssignment", b =>
