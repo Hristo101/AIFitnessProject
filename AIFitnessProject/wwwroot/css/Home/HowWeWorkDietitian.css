@@ -1,0 +1,358 @@
+﻿/* Базови стилове */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3 {
+    margin: 0;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Заглавна секция */
+.title {
+    background-color: #3498db; /* Син фон за заглавието */
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+    .title h1 {
+        font-size: 2.5em;
+        line-height: 1.2;
+    }
+
+/* Интро секция */
+.intro {
+    background-color: #ffffff;
+    padding: 40px 20px;
+}
+
+.intro-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 84px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.intro-img {
+    flex: 1;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.intro-text {
+    flex: 2;
+}
+
+    .intro-text h2 {
+        font-size: 2em;
+        color: #3498db;
+        margin-bottom: 20px;
+    }
+
+.checklist {
+    list-style: none;
+    padding: 0;
+}
+
+    .checklist li {
+        font-size: 1.1em;
+        color: #27ae60;
+        margin-bottom: 10px;
+        position: relative;
+        padding-left: 30px;
+    }
+
+        .checklist li::before {
+            content: "✔";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+/* Процес секция */
+.process {
+    background-color: #f9f9f9;
+    padding: 40px 20px;
+}
+
+    .process h2 {
+        text-align: center;
+        font-size: 2em;
+        color: #3498db;
+        margin-bottom: 30px;
+    }
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.step {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+.step-img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    object-fit: cover;
+}
+
+.step h3 {
+    font-size: 1.2em;
+    color: #3498db;
+    margin-bottom: 10px;
+}
+
+.step p {
+    font-size: 1em;
+    color: #555;
+}
+
+/* Ползи секция */
+.benefits {
+    background-color: #ffffff;
+    padding: 40px 20px;
+}
+
+    .benefits h2 {
+        text-align: center;
+        font-size: 2em;
+        color: #3498db;
+        margin-bottom: 30px;
+    }
+
+.benefits-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: grid;
+    gap: 20px;
+}
+
+.benefit-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-question {
+    background: none;
+    border: none;
+    font-size: 1.1em;
+    color: #3498db;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+    .benefit-question:hover {
+        color: #2980b9;
+    }
+
+.benefit-answer {
+    display: none;
+    font-size: 1em;
+    color: #555;
+    margin-top: 10px;
+}
+
+.benefit-item.active .benefit-answer {
+    display: block;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 2em auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #f5f7fa, #e4e6f0);
+}
+
+/* Header for the comments section */
+.comments-header {
+    text-align: center;
+    font-size: 30px;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+/* Container for each comment */
+.comments-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Individual comment */
+.comment-item {
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+    .comment-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+/* Comment header with the trainer's image and name */
+.comment-header {
+    display: flex;
+    align-items: center;
+}
+
+/* Container for trainer's image and name */
+.comment-author-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Trainer image style */
+.dietitian-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+/* Author's name styling */
+.author-info .comment-author {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Comment content text */
+.comment-content {
+    font-size: 16px;
+    color: #555;
+    margin-top: 10px;
+}
+
+/* Rating stars section */
+.comment-grade {
+    font-size: 14px;
+    color: #777;
+    margin-top: 10px;
+}
+
+.stars {
+    margin-top: 10px;
+}
+
+.star {
+    font-size: 20px;
+    color: #ddd;
+    margin-right: 5px;
+}
+
+    .star.filled {
+        color: #ff9800;
+    }
+
+.apply {
+    text-align: center; /* Центрира съдържанието на секцията */
+    margin-top: 40px; /* Добавя разстояние отгоре */
+}
+
+.apply-btn {
+    display: inline-block;
+    background-color: #27ae60; /* Зелен фон */
+    color: white;
+    font-size: 1.2em;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    animation: bounce 1s infinite; /* Анимация за подскачане */
+    margin-top: 20px; /* Добавя разстояние от предходния елемент */
+}
+
+/* Анимация за подскачане */
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+
+    30% {
+        transform: translateY(-10px);
+    }
+
+    50% {
+        transform: translateY(0);
+    }
+
+    70% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.apply-btn:hover {
+    background-color: #219150; /* По-тъмен зелен при hover */
+}
+
+/* Възможен ефект при клик */
+.apply-btn:active {
+    transform: translateY(0); /* Връща се в първоначално положение при клик */
+}
+
+/* Мобилна адаптация */
+@media (max-width: 768px) {
+    .intro-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .steps {
+        grid-template-columns: 1fr;
+    }
+
+    .benefits-container {
+        grid-template-columns: 1fr;
+    }
+
+    .title h1 {
+        font-size: 2em;
+    }
+
+    .apply-form {
+        width: 100%;
+        padding: 20px;
+    }
+}
