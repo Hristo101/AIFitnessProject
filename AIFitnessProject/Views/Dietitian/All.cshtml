@@ -1,78 +1,79 @@
 ﻿@using AIFitnessProject.Core.Models.Dietitian
 @model IEnumerable<AllDietitianViewModel>
 
-<div class="hero-section">
-    <h1>Изберете най-добрите диетолози за вашият път към здраво и силно тяло! 🏆</h1>
-    <p>С нашите професионалисти постигате повече! Направете крачка към мечтата си още днес.</p>
-    <a href="#dietitians" class="btn btn-primary btn-lg">Вижте нашите диетолози <span class="arrow">&#x2193;</span></a>
-</div>
 
-<div class="intro-section">
-    <h2>Защо да изберете нашите диетолози? 🤔</h2>
-    <p>
-        Нашите диетолози са експерти с доказан опит в създаването на персонализирани хранителни режими, които отговарят на вашите нужди.
-        С тях ще получите професионално ръководство, което ще ви помогне да постигнете дълготрайни резултати и здравословен начин на живот.
-    </p>
-</div>
+    <div class="hero-section">
+        <h1>Изберете най-добрите диетолози за вашият път към здраво и силно тяло! 🏆</h1>
+        <p>С нашите професионалисти постигате повече! Направете крачка към мечтата си още днес.</p>
+        <a href="#dietitians" class="btn btn-primary btn-lg">Вижте нашите диетолози <span class="arrow">&#x2193;</span></a>
+    </div>
 
-<div class="gallery-section">
-    <h2>Вашето пътуване към по-добрата версия на себе си с нашите професионални диетолози! 🏋️‍♂️</h2>
-    <div class="container">
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <img src="https://jaimedicalsystems.com/wp-content/uploads/2024/03/shutterstock_590825882-scaled.jpg" alt="здравословно хранене" class="img-fluid rounded shadow-sm">
-            </div>
-            <div class="col-md-4">
-                <img src="https://imgcdn.stablediffusionweb.com/2024/10/7/c2e67140-883b-4ec1-9854-d27fe0641868.jpg" alt="здраво тяло и дух" class="img-fluid rounded shadow-sm">
-            </div>
-            <div class="col-md-4">
-                <img src="https://cdn.prod.website-files.com/657dd992a7b4c74f19e34043/6617d839697e223befd39075_registered%20clinical%20dietitians%20(1).webp" alt="диетолози" class="img-fluid rounded shadow-sm">
+    <div class="intro-section">
+        <h2>Защо да изберете нашите диетолози? 🤔</h2>
+        <p>
+            Нашите диетолози са експерти с доказан опит в създаването на персонализирани хранителни режими, които отговарят на вашите нужди.
+            С тях ще получите професионално ръководство, което ще ви помогне да постигнете дълготрайни резултати и здравословен начин на живот.
+        </p>
+    </div>
+
+    <div class="gallery-section">
+        <h2>Вашето пътуване към по-добрата версия на себе си с нашите професионални диетолози! 🏋️‍♂️</h2>
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <img src="https://jaimedicalsystems.com/wp-content/uploads/2024/03/shutterstock_590825882-scaled.jpg" alt="здравословно хранене" class="img-fluid rounded shadow-sm">
+                </div>
+                <div class="col-md-4">
+                    <img src="https://imgcdn.stablediffusionweb.com/2024/10/7/c2e67140-883b-4ec1-9854-d27fe0641868.jpg" alt="здраво тяло и дух" class="img-fluid rounded shadow-sm">
+                </div>
+                <div class="col-md-4">
+                    <img src="https://cdn.prod.website-files.com/657dd992a7b4c74f19e34043/6617d839697e223befd39075_registered%20clinical%20dietitians%20(1).webp" alt="диетолози" class="img-fluid rounded shadow-sm">
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div id="dietitians" class="dietitian-section">
+    <div id="dietitians" class="dietitian-section">
 
-    <h2>Нашите диетолози 💼</h2>
-    <div class="container">
+        <h2>Нашите диетолози 💼</h2>
+        <div class="container">
         
-        <p class="text-center text-muted lead">
-            Изберете диетолог, който ще ви вдъхнови и подкрепи! Всеки от тях е експерт в своята област и е готов да ви помогне да постигнете нови върхове.
-        </p>
-        <div class="row mt-4">
-            @foreach (var dietitian in Model)
-            {
-                <div class="col-md-4 d-flex align-items-stretch">
-                    <div class="card">
-                        <img src="@dietitian.ImageUrl" alt="@dietitian.FirstName @dietitian.LastName" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-title">@dietitian.FirstName @dietitian.LastName</h5>
-                            <p class="card-text text-truncate">
-                                @dietitian.Specialization
+            <p class="text-center text-muted lead">
+                Изберете диетолог, който ще ви вдъхнови и подкрепи! Всеки от тях е експерт в своята област и е готов да ви помогне да постигнете нови върхове.
+            </p>
+            <div class="row mt-4">
+                @foreach (var dietitian in Model)
+                {
+                    <div class="col-md-4 d-flex align-items-stretch">
+                        <div class="card">
+                            <img src="@dietitian.ImageUrl" alt="@dietitian.FirstName @dietitian.LastName" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">@dietitian.FirstName @dietitian.LastName</h5>
+                                <p class="card-text text-truncate">
+                                    @dietitian.Specialization
 
-                            </p>
-                            <div class="collapse text-muted" id="specializationDetails-@dietitian.Id">
-                                <p>@dietitian.Specialization</p>
-                            </div>
-                            <div class="d-flex justify-content-between mt-3">
-                                <a href="/Dietitian/Details/@dietitian.Id" class="btn btn-outline-light">Виж повече</a>
-                                <button class="btn btn-success enroll-now-button">Запиши се сега</button>
+                                </p>
+                                <div class="collapse text-muted" id="specializationDetails-@dietitian.Id">
+                                    <p>@dietitian.Specialization</p>
+                                </div>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <a href="/Dietitian/Details/@dietitian.Id" class="btn btn-outline-light">Виж повече</a>
+                                    <button class="btn btn-success enroll-now-button">Запиши се сега</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
     </div>
-</div>
 
-<div class="call-to-action">
-    <h2>Готови ли сте да трансформирате тялото си днес? 🚀</h2>
-    <p>
-        Нашите диетолози са тук, за да ви помогнат да постигнете целите си и да се почувствате най-добре! Запишете се днес и започнете своята трансформация.
-    </p>
-</div>
+    <div class="call-to-action">
+        <h2>Готови ли сте да трансформирате тялото си днес? 🚀</h2>
+        <p>
+            Нашите диетолози са тук, за да ви помогнат да постигнете целите си и да се почувствате най-добре! Запишете се днес и започнете своята трансформация.
+        </p>
+    </div>
 
 <link rel="stylesheet" href="/css/AllDietitianPage.css" />
 <!-- Зареждане на Popper.js (необходимо за Bootstrap компоненти като dropdowns, tooltips и popovers) -->
