@@ -3,6 +3,7 @@ using AIFitnessProject.Core.Services;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data;
 using AIFitnessProject.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -45,6 +46,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     options.Password.RequireLowercase = false;
                     options.Password.RequireUppercase = false;
                 })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             return services;

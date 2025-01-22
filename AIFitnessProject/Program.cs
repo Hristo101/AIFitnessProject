@@ -35,4 +35,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+await app.CreateRolesAsync();
+
 await app.RunAsync();
