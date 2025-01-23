@@ -36,9 +36,17 @@
 
         <!-- Buttons as links -->
         <div class="buttons">
-            <a asp-controller="Profile" asp-action="Edit" class="button">Редактиране на информацията ✏️</a>
-            <a asp-controller="TrainingPlans" asp-action="Index" class="button">Тренировъчни планове 🏋️</a>
-            <a asp-controller="DietPlans" asp-action="Index" class="button">Диетични планове 🥗</a>
+            @if (User.IsInRole("Trainer") == false && User.IsInRole("Dietitian") == false)
+            {
+                <a asp-controller="Account" asp-action="Edit" asp-route-Id="@Model.Id" class="button">Редактиране на информацията ✏️</a>
+                <a asp-controller="TrainingPlans" asp-action="Index" class="button">Тренировъчни планове 🏋️</a>
+                <a asp-controller="DietPlans" asp-action="Index" class="button">Диетични планове 🥗</a>
+            }
+            else if (User.IsInRole("Trainer") == true || User.IsInRole("Dietitian") == true)
+            {
+                <a asp-controller="Account" asp-action="Edit" asp-route-Id="@Model.Id" class="button">Редактиране на информацията ✏️</a>
+                <a asp-controller="Clients" asp-action="Index" class="button">Моите клиенти 🧑‍🤝‍🧑</a>
+            }
         </div>
     </div>
 </body>
