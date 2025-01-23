@@ -50,6 +50,11 @@ namespace AIFitnessProject.Controllers
             return View(model);
 
         }
+
+        //public async Task<IActionResult> SignUp()
+        //{
+
+        //}
     }
 }
 

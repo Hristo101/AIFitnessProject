@@ -1,0 +1,75 @@
+﻿@using AIFitnessProject.Core.Models.Account
+@model MoreInformationViewModel
+
+@{
+    ViewData["Title"] = "Попълнете допълнителната информация за вашия профил";
+}
+<link rel="stylesheet" href="~/css/Trainer/SendDocuments.css" />
+<div class="container mt-5">
+    <h2>@ViewData["Title"]</h2>
+
+    <form asp-action="SubmitTrainerApplication" method="post" enctype="multipart/form-data">
+
+        <!-- UserId Hidden Field -->
+        <input type="hidden" asp-for="UserId" />
+
+        <!-- First Name -->
+        <div class="form-group">
+            <label for="FirstName">Първо име</label>
+            <input type="text" class="form-control" id="FirstName" asp-for="FirstName" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <!-- Last Name -->
+        <div class="form-group">
+            <label for="LastName">Фамилия</label>
+            <input type="text" class="form-control" id="LastName" asp-for="LastName" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+
+        <!-- Height -->
+        <div class="form-group">
+            <label for="Height">Височина</label>
+            <input type="number" class="form-control" id="Height" asp-for="Height" />
+            <span asp-validation-for="Height" class="text-danger"></span>
+        </div>
+
+        <!-- Weight -->
+        <div class="form-group">
+            <label for="Weight">Тегло</label>
+            <input type="number" class="form-control" id="Weight" asp-for="Weight" />
+            <span asp-validation-for="Weight" class="text-danger"></span>
+        </div>
+
+        <!-- Image -->
+        <div class="form-group">
+            <label for="ImageUrl">Ваша снимка</label>
+            <input type="file" class="form-control" id="ImageUrl" asp-for="ImageUrl" accept=".pdf, .doc, .docx" />
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+
+        <!-- ExperienceLevel -->
+        <div class="form-group">
+            <label for="ExperienceLevel">Опит</label>
+            <textarea class="form-control" id="ExperienceLevel" asp-for="ExperienceLevel" rows="4"></textarea>
+            <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
+        </div>
+
+    
+
+        <!--Aim -->
+        <div class="form-group">
+            <label for="Aim">Цел</label>
+            <textarea class="form-control" id="Aim" asp-for="Aim" rows="4"></textarea>
+            <span asp-validation-for="Aim" class="text-danger"></span>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn" asp-action="SubmitTrainerApplication" asp-controller="Trainer">
+            Запази информацията
+        </button>
+    </form>
+</div>
+
+<link rel="stylesheet" href="~/css/TrainerApplication.css" />
+

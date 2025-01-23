@@ -7,30 +7,42 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static AIFitnessProject.Infrastructure.Constants.DataConstants.ApplicationUser;
 
 namespace AIFitnessProject.Infrastructure.Data.Models
 {
     [Comment("ApplicationUser Table")]
     public class ApplicationUser : IdentityUser
     {
+        [Required]
         [Comment("ApplicationUser ImageUrl")]
-        public string? ImageUrl { get; set; } = string.Empty;
+        public string ImageUrl { get; set; } = string.Empty;
 
         [Required]
-        [MaxLength()]
+        [MaxLength(MaxFirstNameLength)]
         [Comment("ApplicationUser FirstName")]
         public string FirstName { get; set; } = string.Empty;
 
         [Required]
-        [MaxLength()]
+        [MaxLength(MaxLastNameLength)]
         [Comment("ApplicationUser LastName")]
         public string LastName { get; set; } = string.Empty;
 
+        [Required]
+        [Comment("ApplicationUser Height")]
         public double Height { get; set; }
 
-        public double Weight { get; set; }
         [Required]
-        [MaxLength()]
+        [Comment("ApplicationUser Weight")]
+        public double Weight { get; set; }
+
+        [Required]
+        [MaxLength(MaxAimLength)]
+        [Comment("ApplicationUser Aim")]
+        public string Aim { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(MaxExperienceLevelLength)]
         [Comment("ApplicationUser ExperienceLevel")]
         public string ExperienceLevel { get; set; } = string.Empty;
 

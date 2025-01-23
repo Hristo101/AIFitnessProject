@@ -100,6 +100,9 @@ namespace AIFitnessProject.Infrastructure.Constants
 
             public const int MaxExperienceLevelLength = 1500;
             public const int MinExperienceLevelLength = 3;
+
+            public const int MaxAimLength = 5000;
+            public const int MinAimLength = 3;
         }
 
         public static class Calendar
