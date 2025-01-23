@@ -4,6 +4,7 @@ using AIFitnessProject.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AIFitnessProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250123174342_AddImageUrlToUser")]
+    partial class AddImageUrlToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -637,6 +640,20 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             Content = "Работя с тази компания от около половин година и съм изключително благодарна за възможността да бъда част от екипа. Приложението е изключително удобно и лесно за използване, като ми дава възможност да създавам и персонализирам тренировъчни планове за моите клиенти. Отношението на компанията към нас, като треньори, е безупречно – получавам постоянно обучение и подкрепа, което ми помага да бъда още по-добра в това, което правя. Заплащането е справедливо и винаги се чувствам оценена за труда си. Най-хубавото е, че работя с екип, който има ясна визия и ценности, които съвпадат с моите. Препоръчвам горещо тази компания за всички, които искат да се развиват в професията си и да се чувстват част от нещо голямо.",
                             Rating = 5,
                             SenderId = "0e136956-3e82-4e00-8f60-b274cdf40833"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Content = "Работя в тази компания от близо година и съм изключително доволна от професионалните условия, които предлага. Заплащането е конкурентно и се актуализира редовно според резултатите и усилията ми. Работната атмосфера е подкрепяща, а екипът винаги е готов да помогне, когато срещна предизвикателства. Най-голямото предимство за мен е достъпът до постоянни обучения, които ми помагат да бъда в крак с новостите в диетологията.",
+                            Rating = 5,
+                            SenderId = "0c4c8519-6a0a-45a5-acc2-64c0de9af4a8"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Content = "Условията тук са едни от най-добрите в индустрията – модерна платформа, която улеснява работата ми, и отличен баланс между натоварване и заплащане. Заплащането е не само мотивиращо, но също така включва бонуси за постигане на цели. Допълнително, екипът е невероятно сплотен и винаги готов да сподели опит и съвети.\r\n",
+                            Rating = 5,
+                            SenderId = "0e0e4964-6fa8-43ef-b6ba-a8722a1d5708"
                         });
                 });
 
@@ -695,8 +712,8 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.Property<string>("Bio")
                         .IsRequired()
-                        .HasMaxLength(4500)
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(3500)
+                        .HasColumnType("nvarchar(3500)")
                         .HasComment("Trainer Bio");
 
                     b.Property<int>("Experience")

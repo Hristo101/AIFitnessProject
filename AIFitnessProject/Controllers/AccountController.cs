@@ -1,9 +1,11 @@
-﻿using AIFitnessProject.Core.Models.Account;
+﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Models.Account;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace AIFitnessProject.Controllers
 {
@@ -12,11 +14,13 @@ namespace AIFitnessProject.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IRepository repository;
-        public AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager, IRepository _repository)
+        private readonly IAccountService accountService;
+        public AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager, IRepository _repository, IAccountService _accountService)
         {
             this.userManager = _userManager;
             this.signInManager = _signInManager;
             this.repository = _repository;
+            this.accountService = _accountService;
         }
         public IActionResult Index()
         {
@@ -92,13 +96,24 @@ namespace AIFitnessProject.Controllers
 
             return View(model);
         }
+        [HttpGet]
+        public async Task<IActionResult> MyProfile()
+        {
+            var model = await accountService.GetMoldelForMyProfile(GetUserId());
 
+            return View(model);
+        }
 
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        private string GetUserId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

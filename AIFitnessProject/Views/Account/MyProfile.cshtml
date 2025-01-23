@@ -1,0 +1,45 @@
+﻿@using AIFitnessProject.Core.Models.Account
+@model MyProfileViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="~/css/Account/MyProfile.css" />
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Header with profile picture -->
+        <div class="profile-header">
+            <img src="@Model.ImageUrl" alt="Profile Picture">
+            <h2>@Model.FirstName @Model.LastName</h2>
+            <p>@Model.ExperienceLevel</p>
+        </div>
+
+        <!-- Details -->
+        <div class="profile-details">
+            <div class="detail">
+                <span>Потребителско име:</span> @Model.UserName <span class="emoji">👤</span>
+            </div>
+            <div class="detail">
+                <span>Email:</span> @Model.Email <span class="emoji">📧</span>
+            </div>
+            <div class="detail">
+                <span>Височина:</span> @Model.Height м <span class="emoji">📏</span>
+            </div>
+            <div class="detail">
+                <span>Тегло:</span> @Model.Weight кг <span class="emoji">⚖️</span>
+            </div>
+        </div>
+
+        <!-- Buttons as links -->
+        <div class="buttons">
+            <a asp-controller="Profile" asp-action="Edit" class="button">Редактиране на информацията ✏️</a>
+            <a asp-controller="TrainingPlans" asp-action="Index" class="button">Тренировъчни планове 🏋️</a>
+            <a asp-controller="DietPlans" asp-action="Index" class="button">Диетични планове 🥗</a>
+        </div>
+    </div>
+</body>
+</html>

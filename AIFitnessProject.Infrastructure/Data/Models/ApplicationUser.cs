@@ -13,6 +13,8 @@ namespace AIFitnessProject.Infrastructure.Data.Models
     [Comment("ApplicationUser Table")]
     public class ApplicationUser : IdentityUser
     {
+        [Comment("ApplicationUser ImageUrl")]
+        public string? ImageUrl { get; set; } = string.Empty;
 
         [Required]
         [MaxLength()]
