@@ -99,11 +99,33 @@ namespace AIFitnessProject.Controllers
         [HttpGet]
         public async Task<IActionResult> MyProfile()
         {
-            var model = await accountService.GetMoldelForMyProfile(GetUserId());
+            bool isInRole = false;
+            if (User.IsInRole("Trainer") == true || User.IsInRole("Dietitian") == true)
+            {
+                isInRole = true;
+            }
+            var model = await accountService.GetMoldelForMyProfile(GetUserId(),isInRole);
 
             return View(model);
         }
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var model =await accountService.Edit(id);
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, EditProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
+            var user = await accountService.ChangeInformation(id, model);
+
+            return RedirectToAction("MyProfile", "Account");
+        }
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
