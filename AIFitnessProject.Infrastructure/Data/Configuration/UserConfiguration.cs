@@ -27,6 +27,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             user = new ApplicationUser()
             {
                 Id = "0a2830ef-8be3-4ef6-910b-33b680d659d3",
+                ImageUrl = "https://bglobal.bg/pictures/pic_big/gallery/media/k2/items/cache/b7fa828ba6765743b6675d6510c9ee83_XL.jpg",
                 UserName = "stanislav@abv.bg",
                 NormalizedUserName = "STANISLAV@ABV.BG",
                 Email = "stanislav@abv.bg",
@@ -63,6 +64,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             user = new ApplicationUser()
             {
                 Id = "cd87d0e2-4047-473e-924a-3e10406c5583",
+                ImageUrl= "https://p0.piqsels.com/preview/757/82/522/man-showing-poker-face-while-taking-him-a-picture.jpg",
                 UserName = "pesho@abv.bg",
                 NormalizedUserName = "PESHO@ABV.BG",
                 Email = "pesho@abv.bg",
