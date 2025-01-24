@@ -112,7 +112,7 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <!-- Опции за автентикирани потребители -->
-                            <li class="nav-item dropdown">
+                          @*   <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="coachesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Треньори
                                 </a>
@@ -120,9 +120,25 @@
                                     <li><a class="dropdown-item" href="#">Нашите треньори</a></li>
                                     <li><a class="dropdown-item" href="#">Как работим</a></li>
                                     <li><a class="dropdown-item" href="#">Подаване на документи</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Trainer" asp-action="All">Нашите треньори</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="HowWeWork">Как работим</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Trainer" asp-action="SendDocuments">Подаване на документи</a></li>
+                                </ul>
+                            </li> *@
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Треньори
+                                </a>
+                                <ul class="dropdown-menu">
+
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Trainer" asp-action="All">Нашите треньори</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="HowWeWork">Как работим</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Trainer" asp-action="SendDocuments">Подаване на документи</a></li>
+
                                 </ul>
                             </li>
-                            <li class="nav-item dropdown">
+                           @*  <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="dieticiansDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Диетолози
                                 </a>
@@ -130,6 +146,19 @@
                                     <li><a class="dropdown-item" href="#">Нашите диетолози</a></li>
                                     <li><a class="dropdown-item" href="#">Как работим</a></li>
                                     <li><a class="dropdown-item" href="#">Опция 2</a></li>
+                                </ul>
+                            </li> *@
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Диетолози
+                                </a>
+                                <ul class="dropdown-menu">
+
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Dietitian" asp-action="All">Нашите диетолози</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="HowWeWorkDietitian">Как работим</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Dietitian" asp-action="SendDocuments">Подаване на документи</a></li>
+
                                 </ul>
                             </li>
                             <li class="nav-item">
