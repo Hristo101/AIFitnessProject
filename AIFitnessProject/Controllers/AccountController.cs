@@ -53,7 +53,7 @@ namespace AIFitnessProject.Controllers
             {
                 await signInManager.SignInAsync(user, isPersistent: false);
 
-                return RedirectToAction("All", "Announcement");
+                return RedirectToAction(nameof(MoreInformation));
             }
 
             return View(model);
@@ -109,6 +109,15 @@ namespace AIFitnessProject.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult MoreInformation()
+        {
+            var model = new MoreInformationViewModel();
+
+            return View(model);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {

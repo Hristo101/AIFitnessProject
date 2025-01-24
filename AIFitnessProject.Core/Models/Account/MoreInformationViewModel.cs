@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,11 +22,11 @@ namespace AIFitnessProject.Core.Models.Account
         public string LastName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Височината е задължителена.")]
-        [Range(0, 3, ErrorMessage = "Височината трябва да бъде между 0 и 3 метра")]
+        [Range(MinHeight, MaxHeight, ErrorMessage = "Височината не може да бъде по - малка 1.20m и не може да бъде по - голяма от 2.8m")]
         public double Height { get; set; }
 
         [Required(ErrorMessage = "Теглото е задължително")]
-        [Range(0, 400, ErrorMessage = "Теглото трябва да бъде между 0 и 400 килограма")]
+        [Range(MinWeight, MaxWeight, ErrorMessage = "Теглото не може да бъде по-малко от 3 килограма и по го-голямо от 450 килограма")]
         public double Weight { get; set; }
 
         [Required(ErrorMessage = "Опитът е задължителен.")]
@@ -33,7 +34,7 @@ namespace AIFitnessProject.Core.Models.Account
         public string ExperienceLevel { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Снимката е задължителна.")]
-        public string ImageUrl { get; set; } = string.Empty;
+        public IFormFile ProfilePicture { get; set; } 
 
         [Required(ErrorMessage = "Детайлите за сертификата са задължителни.")]
         [StringLength(MaxAimLength, MinimumLength = MinAimLength, ErrorMessage = "Целта трябва да бъдат по-голяма от 3 символа и по-малка от 5000")]

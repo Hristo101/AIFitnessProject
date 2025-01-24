@@ -1,75 +1,83 @@
 ﻿@using AIFitnessProject.Core.Models.Account
 @model MoreInformationViewModel
 
-@{
-    ViewData["Title"] = "Попълнете допълнителната информация за вашия профил";
-}
-<link rel="stylesheet" href="~/css/Trainer/SendDocuments.css" />
-<div class="container mt-5">
-    <h2>@ViewData["Title"]</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="~/css/Account/MoreInformation.css" />
+</head>
+<body>
+    <div class="edit-profile-container">
+        <h1>Попълнете допълнителната информация за вашия профил</h1>
 
-    <form asp-action="SubmitTrainerApplication" method="post" enctype="multipart/form-data">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <!-- Profile Picture -->
+            <div class="form-group">
+                <label asp-for="ProfilePicture">Снимка на профила</label>
+                <input type="file" asp-for="ProfilePicture" />
+                <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+            </div>
 
-        <!-- UserId Hidden Field -->
-        <input type="hidden" asp-for="UserId" />
+            <!-- First Name -->
+            <div class="form-group">
+                <label asp-for="FirstName">Първо име</label>
+                <input type="text" asp-for="FirstName" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
 
-        <!-- First Name -->
-        <div class="form-group">
-            <label for="FirstName">Първо име</label>
-            <input type="text" class="form-control" id="FirstName" asp-for="FirstName" />
-            <span asp-validation-for="FirstName" class="text-danger"></span>
-        </div>
+            <!-- Last Name -->
+            <div class="form-group">
+                <label asp-for="LastName">Фамилия</label>
+                <input type="text" asp-for="LastName" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
 
-        <!-- Last Name -->
-        <div class="form-group">
-            <label for="LastName">Фамилия</label>
-            <input type="text" class="form-control" id="LastName" asp-for="LastName" />
-            <span asp-validation-for="LastName" class="text-danger"></span>
-        </div>
+            <!-- Height -->
+            <div class="form-group">
+                <label asp-for="Height">Височина (м)</label>
+                <input type="number" asp-for="Height" step="0.01" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
 
-        <!-- Height -->
-        <div class="form-group">
-            <label for="Height">Височина</label>
-            <input type="number" class="form-control" id="Height" asp-for="Height" />
-            <span asp-validation-for="Height" class="text-danger"></span>
-        </div>
+            <!-- Weight -->
+            <div class="form-group">
+                <label asp-for="Weight">Тегло (кг)</label>
+                <input type="number" asp-for="Weight" step="0.1" />
+                <span asp-validation-for="Weight" class="text-danger"></span>
+            </div>
 
-        <!-- Weight -->
-        <div class="form-group">
-            <label for="Weight">Тегло</label>
-            <input type="number" class="form-control" id="Weight" asp-for="Weight" />
-            <span asp-validation-for="Weight" class="text-danger"></span>
-        </div>
+            <!-- Experience Level -->
+            <div class="form-group">
+                <label asp-for="ExperienceLevel">Ниво на опит</label>
+                <select asp-for="ExperienceLevel">
+                    <option value="Beginner">Начинаещ</option>
+                    <option value="Intermediate">Средно напреднал</option>
+                    <option value="Advanced">Напреднал</option>
+                </select>
+                <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
+            </div>
 
-        <!-- Image -->
-        <div class="form-group">
-            <label for="ImageUrl">Ваша снимка</label>
-            <input type="file" class="form-control" id="ImageUrl" asp-for="ImageUrl" accept=".pdf, .doc, .docx" />
-            <span asp-validation-for="ImageUrl" class="text-danger"></span>
-        </div>
+            <!-- Aim -->
+            <div class="form-group">
+                <label asp-for="Aim">Цел</label>
+                <textarea asp-for="Aim" rows="4"></textarea>
+                <span asp-validation-for="Aim" class="text-danger"></span>
+            </div>
 
-        <!-- ExperienceLevel -->
-        <div class="form-group">
-            <label for="ExperienceLevel">Опит</label>
-            <textarea class="form-control" id="ExperienceLevel" asp-for="ExperienceLevel" rows="4"></textarea>
-            <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
-        </div>
 
-    
+            <!-- Submit Button -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Запази</button>
+            @*     <a asp-action="MyProfile" asp-controller="Account" class="btn btn-secondary">Отказ</a> *@
+            </div>
+        </form>
+    </div>
 
-        <!--Aim -->
-        <div class="form-group">
-            <label for="Aim">Цел</label>
-            <textarea class="form-control" id="Aim" asp-for="Aim" rows="4"></textarea>
-            <span asp-validation-for="Aim" class="text-danger"></span>
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit" class="submit-btn" asp-action="SubmitTrainerApplication" asp-controller="Trainer">
-            Запази информацията
-        </button>
-    </form>
-</div>
-
-<link rel="stylesheet" href="~/css/TrainerApplication.css" />
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
