@@ -17,11 +17,6 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(MaxImageUrlLength)]
-        [Comment("Dietitian ImageUrl")]
-        public string ImageUrl { get; set; } = string.Empty;
-
-        [Required]
         [MaxLength(MaxSpecializationLength)]
         [Comment("Dietitian Specialization")]
         public string Specialization { get; set; } = string.Empty;

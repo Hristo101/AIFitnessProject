@@ -35,7 +35,7 @@ namespace AIFitnessProject.Core.Services
                     LastName = x.Sender.LastName,
                     Rating = x.Rating,
                     Content = x.Content,
-                    DietitianImageUrl = x.Sender.Dietitian.ImageUrl
+                    //DietitianImageUrl = x.Sender.Dietitian.ImageUrl
                 })
                 .ToListAsync();
 
@@ -55,7 +55,7 @@ namespace AIFitnessProject.Core.Services
             var dietitians = await _repository.AllAsReadOnly<Dietitian>().Include(t => t.User).Select(x => new IndexDiatitianViewModel()
             {
                 FirstName = x.User.FirstName,
-                ImageUrl = x.ImageUrl,
+                //ImageUrl = x.ImageUrl,
             }).ToListAsync();
 
             var model = new HomeViewModel()

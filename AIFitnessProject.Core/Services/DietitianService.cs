@@ -27,7 +27,7 @@ namespace AIFitnessProject.Core.Services
                 .Select(x => new AllDietitianViewModel
                 {
                     Id = x.Id,
-                    ImageUrl = x.ImageUrl,
+                    //ImageUrl = x.ImageUrl,
                     Experience = x.Experience,
                     FirstName = x.User.FirstName,
                     LastName = x.User.LastName,
@@ -60,7 +60,7 @@ namespace AIFitnessProject.Core.Services
                 LastName = dietitian.User.LastName,
                 Bio = dietitian.Bio,
                 SertificationImage = dietitian.SertificationImage,
-                DietitianImage = dietitian.ImageUrl,
+                //DietitianImage = dietitian.ImageUrl,
                 SertificationDetails = dietitian.SertificationDetails,
                 PhoneNumber = dietitian.PhoneNumber,
                 Specialization = dietitian.Specialization,
