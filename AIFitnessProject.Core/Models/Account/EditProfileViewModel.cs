@@ -11,7 +11,9 @@ namespace AIFitnessProject.Core.Models.Account
 {
     public class EditProfileViewModel
     {
-        public string ImageUrl { get; set; }
+        public byte[]? ImageUrl { get; set; } 
+        public IFormFile? NewImageUrl { get; set; } 
+
         [StringLength(MaxFirstNameLength, MinimumLength = MinFirstNameLength, ErrorMessage = "Първото име трябва да бъде по-голямо от 3 символа и по-малко от 1900")]
         public string FirstName { get; set; }
         [StringLength(MaxLastNameLength, MinimumLength = MinLastNameLength, ErrorMessage = "Фамилията трябва да бъде по-голяма от 3 символа и по-малка от 1900")]

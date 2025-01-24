@@ -20,24 +20,36 @@ namespace AIFitnessProject.Core.Services
         {
             this.repository = _repository;
         }
-
+        //[Post]
         public async Task<ApplicationUser> ChangeInformation(string id, EditProfileViewModel model)
         {
+
             var user = await repository.AllAsReadOnly<ApplicationUser>().Where(x =>x.Id == id).FirstOrDefaultAsync();
+            if (user != null)
+            {
+                user.Weight = model.Weight;
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Email = model.Email;
+                user.ExperienceLevel = model.ExperienceLevel;
+                user.Height = model.Height;
+                user.UserName = model.UserName;
 
-            user.Weight = model.Weight;
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.Email = model.Email;
-            user.ExperienceLevel = model.ExperienceLevel;
-            user.ImageUrl = model.ImageUrl;
-            user.Height = model.Height;
-            user.UserName = model.UserName;
+                if (model.NewImageUrl != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await model.NewImageUrl.CopyToAsync(memoryStream);
+                        user.ProfilePicture = memoryStream.ToArray(); 
+                    }
+                }
 
-            await repository.SaveChangesAsync();
+                await repository.SaveChangesAsync();
+            }
+
             return user;
         }
-
+        //[Get]
         public async Task<EditProfileViewModel> Edit(string id)
         {
            var model = await repository.AllAsReadOnly<ApplicationUser>().Where(x => x.Id == id).Select(x => new EditProfileViewModel()
@@ -48,7 +60,7 @@ namespace AIFitnessProject.Core.Services
                LastName = x.LastName,
                Height = x.Height,
                Weight = x.Weight,
-               ImageUrl = x.ImageUrl,
+               ImageUrl = x.ProfilePicture,
                UserName = x.UserName
            })
            .FirstOrDefaultAsync();
@@ -70,8 +82,8 @@ namespace AIFitnessProject.Core.Services
                 LastName = x.LastName,
                 Height = x.Height,
                 Weight = x.Weight,
-                ImageUrl = x.ImageUrl,
-                UserName = x.UserName
+                     ImageUrl = x.ProfilePicture,
+                     UserName = x.UserName
             })
                 .FirstOrDefaultAsync();
 
@@ -86,7 +98,7 @@ namespace AIFitnessProject.Core.Services
                     LastName = x.LastName,
                     Height = x.Height,
                     Weight = x.Weight,
-                    ImageUrl = x.Trainer.ImageUrl,
+                    ImageUrl = x.ProfilePicture,
                     UserName = x.UserName
                 }
                 ).FirstOrDefaultAsync();

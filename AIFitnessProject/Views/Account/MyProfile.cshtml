@@ -13,7 +13,7 @@
     <div class="profile-container">
         <!-- Header with profile picture -->
         <div class="profile-header">
-            <img src="@Model.ImageUrl" alt="Profile Picture">
+            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ImageUrl)" alt="Profile Picture">
             <h2>@Model.FirstName @Model.LastName</h2>
             <p>@Model.ExperienceLevel</p>
         </div>

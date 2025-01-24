@@ -51,7 +51,7 @@ namespace AIFitnessProject.Core.Services
                 LastName = trainer.User.LastName,
                 Bio = trainer.Bio,
                 SertificationImage = trainer.SertificationImage,
-                TrainerImage = trainer.ImageUrl,
+                //TrainerImage = trainer.ImageUrl,
                 SertificationDetails = trainer.SertificationDetails,
                 PhoneNumber = trainer.PhoneNumber,
                 Specialization = trainer.Specialization,
@@ -72,7 +72,7 @@ namespace AIFitnessProject.Core.Services
             var models = await repository.AllAsReadOnly<Trainer>()
                  .Select(x => new AllTrainerViewModel
                  {
-                     ImageUrl = x.ImageUrl,
+                     //ImageUrl = x.ImageUrl,
                      Experience = x.Experience,
                      FirstName = x.User.FirstName,
                      LastName = x.User.LastName,

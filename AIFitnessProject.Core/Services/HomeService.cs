@@ -49,7 +49,7 @@ namespace AIFitnessProject.Core.Services
             var trainers = await _repository.AllAsReadOnly<Trainer>().Include(t => t.User).Select(x => new IndexTrainerViewModel()
             {
                 FirstName = x.User.FirstName,
-                ImageUrl = x.ImageUrl,
+                //ImageUrl = x.User.ProfilePicture,
             }).ToListAsync();
 
             var dietitians = await _repository.AllAsReadOnly<Dietitian>().Include(t => t.User).Select(x => new IndexDiatitianViewModel()
@@ -78,7 +78,7 @@ namespace AIFitnessProject.Core.Services
                     FirstName = x.Sender.FirstName,
                     LastName = x.Sender.LastName,
                     Rating = x.Rating,
-                    TrainerImageUrl = x.Sender.Trainer.ImageUrl,
+                    //TrainerImageUrl = x.Sender.Trainer.ImageUrl,
                 })
                 .ToListAsync();
 

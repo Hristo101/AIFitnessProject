@@ -24,10 +24,12 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
 
             var hasher = new PasswordHasher<ApplicationUser>();
 
+            byte[] defaultImage = GetDefaultProfilePicture();
+
             user = new ApplicationUser()
             {
                 Id = "0a2830ef-8be3-4ef6-910b-33b680d659d3",
-                ImageUrl = "https://bglobal.bg/pictures/pic_big/gallery/media/k2/items/cache/b7fa828ba6765743b6675d6510c9ee83_XL.jpg",
+                ProfilePicture = defaultImage,
                 UserName = "stanislav@abv.bg",
                 NormalizedUserName = "STANISLAV@ABV.BG",
                 Email = "stanislav@abv.bg",
@@ -46,6 +48,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             user = new ApplicationUser()
             {
                 Id = "0e136956-3e82-4e00-8f60-b274cdf40833",
+                ProfilePicture = defaultImage,
                 UserName = "daniela_5",
                 NormalizedUserName = "DANIELA_5",
                 Email = "daniela@abv.bg",
@@ -64,7 +67,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             user = new ApplicationUser()
             {
                 Id = "cd87d0e2-4047-473e-924a-3e10406c5583",
-                ImageUrl= "https://p0.piqsels.com/preview/757/82/522/man-showing-poker-face-while-taking-him-a-picture.jpg",
+                ProfilePicture = defaultImage,
                 UserName = "pesho@abv.bg",
                 NormalizedUserName = "PESHO@ABV.BG",
                 Email = "pesho@abv.bg",
@@ -84,6 +87,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             {
                 Id = "70280028-a1a0-4b5e-89d8-b4e65cbae8d8",
                 UserName = "svetoslav102",
+                ProfilePicture = defaultImage,
                 NormalizedUserName = "SVETOSLAV102",
                 Email = "svetoslav@abv.bg",
                 NormalizedEmail = "SVETOSLAV@ABV.BG",
@@ -101,6 +105,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             user = new ApplicationUser()
             {
                 Id = "0e0e4964-6fa8-43ef-b6ba-a8722a1d5708",
+                ProfilePicture = defaultImage,
                 UserName = "rosalina102",
                 NormalizedUserName = "ROSALINA102",
                 Email = "rosalina@abv.bg",
@@ -117,7 +122,8 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             user = new ApplicationUser()
             {
                 Id = "0c4c8519-6a0a-45a5-acc2-64c0de9af4a8",
-              UserName = "zhenya123",
+                ProfilePicture = defaultImage,
+                UserName = "zhenya123",
                 NormalizedUserName = "ZHENYA123",
                 Email = "zhenya@abv.bg",
                 NormalizedEmail = "ZHENYA@ABV.BG",
@@ -131,6 +137,12 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             users.Add(user);
 
             return users;
+        }
+        private byte[] GetDefaultProfilePicture()
+        {
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "Default Image", "default-profile.png");
+
+            return File.ReadAllBytes(filePath);
         }
     }
 }

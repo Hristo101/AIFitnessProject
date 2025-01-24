@@ -14,9 +14,8 @@ namespace AIFitnessProject.Infrastructure.Data.Models
     [Comment("ApplicationUser Table")]
     public class ApplicationUser : IdentityUser
     {
-        [Required]
-        [Comment("ApplicationUser ImageUrl")]
-        public string ImageUrl { get; set; } = string.Empty;
+        [Comment("Profile Picture stored as byte array")]
+        public byte[]? ProfilePicture { get; set; }
 
         [Required]
         [MaxLength(MaxFirstNameLength)]
@@ -37,7 +36,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public double Weight { get; set; }
 
         [Required]
-        [MaxLength(MaxAimLength)]
+        [MaxLength(200)]
         [Comment("ApplicationUser Aim")]
         public string Aim { get; set; } = string.Empty;
 
