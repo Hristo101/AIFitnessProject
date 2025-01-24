@@ -24,7 +24,7 @@ namespace AIFitnessProject.Core.Services
         public async Task<ApplicationUser> ChangeInformation(string id, EditProfileViewModel model)
         {
 
-            var user = await repository.AllAsReadOnly<ApplicationUser>().Where(x =>x.Id == id).FirstOrDefaultAsync();
+            var user = await repository.All<ApplicationUser>().Where(x =>x.Id == id).FirstOrDefaultAsync();
             if (user != null)
             {
                 user.Weight = model.Weight;
