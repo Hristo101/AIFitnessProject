@@ -4,7 +4,7 @@
     <!-- Title Section -->
     <section class="trainer-header">
         <div class="trainer-photo">
-            <img src="@Model.TrainerImage" alt="Trainer Photo" />
+            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.TrainerImage)" alt="Trainer Photo" />
         </div>
         <div class="trainer-info">
             <h1>@Model.FirstName @Model.LastName</h1>

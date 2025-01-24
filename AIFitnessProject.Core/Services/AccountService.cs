@@ -92,6 +92,7 @@ namespace AIFitnessProject.Core.Services
             {
                 model = await repository.AllAsReadOnly<ApplicationUser>().Include(x =>x.Trainer).Where(x => x.Id == id).Select(x => new MyProfileViewModel()
                 {
+                    Id = x.Id,
                     Email = x.Email,
                     ExperienceLevel = x.ExperienceLevel,
                     FirstName = x.FirstName,

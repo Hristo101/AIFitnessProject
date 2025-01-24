@@ -4,7 +4,7 @@
     <!-- Title Section -->
     <section class="dietitian-header">
         <div class="dietitian-photo">
-            <img src="@Model.DietitianImage" alt="Dietitian Photo" />
+            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.DietitianImage)" alt="Dietitian Photo" />
         </div>
         <div class="dietitian-info">
             <h1>@Model.FirstName @Model.LastName</h1>

@@ -47,11 +47,12 @@ namespace AIFitnessProject.Core.Services
 
             var viewModel = new DetailsTrainerViewModel
             {
+                Id = trainer.Id,
                 FirstName = trainer.User.FirstName,
                 LastName = trainer.User.LastName,
                 Bio = trainer.Bio,
                 SertificationImage = trainer.SertificationImage,
-                //TrainerImage = trainer.ImageUrl,
+                TrainerImage = trainer.User.ProfilePicture,
                 SertificationDetails = trainer.SertificationDetails,
                 PhoneNumber = trainer.PhoneNumber,
                 Specialization = trainer.Specialization,
@@ -70,9 +71,10 @@ namespace AIFitnessProject.Core.Services
         public async Task<IEnumerable<AllTrainerViewModel>> ShowAllTrainersAsync()
         {
             var models = await repository.AllAsReadOnly<Trainer>()
+                .Include(x =>x.User)
                  .Select(x => new AllTrainerViewModel
                  {
-                     //ImageUrl = x.ImageUrl,
+                     ImageUrl = x.User.ProfilePicture,
                      Experience = x.Experience,
                      FirstName = x.User.FirstName,
                      LastName = x.User.LastName,

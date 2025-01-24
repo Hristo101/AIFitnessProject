@@ -8,7 +8,7 @@
 
         public string LastName { get; set; } = string.Empty;
 
-        public string ImageUrl { get; set; } = string.Empty;
+        public byte[]? ImageUrl { get; set; }
 
         public string Specialization { get; set; } =string.Empty;
 

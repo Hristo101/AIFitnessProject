@@ -19,7 +19,7 @@ namespace AIFitnessProject.Core.Models.Dietitian
 
         public string Specialization { get; set; } = string.Empty;
 
-        public string DietitianImage { get; set; } = string.Empty;
+        public byte[]? DietitianImage { get; set; }
 
         public List<UserCommentViewModel> Comments { get; set; } = new List<UserCommentViewModel>();
 

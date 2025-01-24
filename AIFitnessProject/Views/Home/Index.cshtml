@@ -11,7 +11,6 @@
 }
 
 <div class="container">
-    <!-- Хедър -->
     <div class="header">
         <h1 class="header-title">Добре дошли в нашето фитнес приложение!</h1>
         <p class="header-subtitle">Тук ще откриете най-добрите треньори и диетолози, които да ви помогнат да постигнете целите си.</p>
@@ -19,20 +18,20 @@
 
     <div class="professional-pair">
         <div class="professional-item">
-            <img id="professional-image" src="@Url.Content(Model.Trainers.First().ImageUrl)" alt="Professional" class="img-fluid professional-image">
+            <img id="professional-image"
+                 src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Trainers.First().ImageUrl))"
+                 alt="Professional"
+                 class="img-fluid professional-image">
             <p id="professional-text" class="professional-name">@Model.Trainers.First().FirstName</p>
         </div>
     </div>
 
-
-        <!-- Навигационни бутони -->
-        <div class="gallery-controls">
-            <button onclick="prevProfessional()">&#8249; Назад</button>
-            <button onclick="nextProfessional()">Напред &#8250;</button>
-        </div>
+    <div class="gallery-controls">
+        <button onclick="prevProfessional()">&#8249; Назад</button>
+        <button onclick="nextProfessional()">Напред &#8250;</button>
     </div>
+</div>
 
-    <!-- Информационна секция -->
     <div class="info-section">
         <div class="info-box">
             <h4>Професионални треньори</h4>
@@ -63,17 +62,22 @@
     </div>
 </div>
 <script>
-    // Данни за галерията
-    const professionals = [
-    @foreach (var trainer in Model.Trainers)
-    {
-        @:{ image: "@Url.Content(trainer.ImageUrl)", text: "@trainer.FirstName" },
-    },
-    @foreach (var dietitian in Model.Dietitians)
-    {
-        @:{ image: "@Url.Content(dietitian.ImageUrl)", text: "@dietitian.FirstName" },
-    }
-        ];
+    // Генериране на данни за галерията
+    const professionals = @Html.Raw(Json.Serialize(
+        Model.Trainers.Select(trainer => new
+        {
+            image = $"data:image/jpeg;base64,{Convert.ToBase64String(trainer.ImageUrl)}",
+            text = trainer.FirstName,
+            type = "Trainer"
+        }).Concat(
+        Model.Dietitians.Select(dietitian => new
+        {
+            image = $"data:image/jpeg;base64,{Convert.ToBase64String(dietitian.ImageUrl)}",
+            text = dietitian.FirstName,
+            type = "Dietitian"
+        })
+        )
+        ));
 
     let currentIndex = 0;
 
@@ -82,7 +86,7 @@
         const professionalText = document.getElementById("professional-text");
 
         professionalImage.src = professionals[currentIndex].image;
-        professionalText.innerText = professionals[currentIndex].text;
+        professionalText.innerText = `${professionals[currentIndex].text} (${professionals[currentIndex].type})`;
     }
 
     function prevProfessional() {
@@ -94,10 +98,10 @@
         currentIndex = (currentIndex + 1) % professionals.length;
         updateGallery();
     }
-</script>
 
+    document.addEventListener("DOMContentLoaded", updateGallery);
+</script>
 <style>
-    /* Общи стилове за контейнера */
     .container {
         background-color: #f8f9fa;
         padding: 20px;
