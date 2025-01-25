@@ -30,7 +30,6 @@ namespace AIFitnessProject.Core.Models.Account
         public double Weight { get; set; }
 
         [Required(ErrorMessage = "Опитът е задължителен.")]
-        [StringLength(MaxExperienceLevelLength, MinimumLength = MinExperienceLevelLength, ErrorMessage = "Опитът трябва да бъде по-голям от 3 символ и по-малък от 1500")]
         public string ExperienceLevel { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Снимката е задължителна.")]

@@ -13,5 +13,6 @@ namespace AIFitnessProject.Core.Contracts
         Task<MyProfileViewModel> GetMoldelForMyProfile(string id, bool isInRole);
         Task<EditProfileViewModel> Edit(string id);
         Task<ApplicationUser> ChangeInformation(string id, EditProfileViewModel model);
+        Task AddMoreInformationAsync(string id,MoreInformationViewModel model);
     }
 }

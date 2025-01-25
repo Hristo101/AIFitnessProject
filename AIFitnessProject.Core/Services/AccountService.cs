@@ -20,6 +20,34 @@ namespace AIFitnessProject.Core.Services
         {
             this.repository = _repository;
         }
+
+        public async Task AddMoreInformationAsync(string id, MoreInformationViewModel model)
+        {
+            var user = await repository.All<ApplicationUser>()
+                .Where(x=>x.Id == id)
+                .FirstOrDefaultAsync();
+
+            if(user != null)
+            {
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.ExperienceLevel = model.ExperienceLevel;
+                user.Height = model.Height;
+                user.Weight = model.Weight;
+                user.Aim = model.Aim;
+                if(model.ProfilePicture != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await model.ProfilePicture.CopyToAsync(memoryStream);
+                        user.ProfilePicture = memoryStream.ToArray();
+                    }
+                }
+
+                await repository.SaveChangesAsync();
+            }
+        }
+
         //[Post]
         public async Task<ApplicationUser> ChangeInformation(string id, EditProfileViewModel model)
         {

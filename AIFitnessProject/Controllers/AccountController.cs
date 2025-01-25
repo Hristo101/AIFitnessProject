@@ -112,10 +112,24 @@ namespace AIFitnessProject.Controllers
 
         [HttpGet]
         public IActionResult MoreInformation()
+        
         {
             var model = new MoreInformationViewModel();
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MoreInformation(MoreInformationViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            string userId = GetUserId();
+            await accountService.AddMoreInformationAsync(userId,model);
+
+            return RedirectToAction("All", "Trainer");
         }
 
         [HttpGet]
