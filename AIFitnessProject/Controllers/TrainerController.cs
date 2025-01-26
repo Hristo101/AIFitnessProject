@@ -33,12 +33,6 @@ namespace AIFitnessProject.Controllers
 
             return View(models);
         }
-        [HttpGet]
-        public async Task<IActionResult> SendDocuments()
-        {
-            var model = new TrainerViewModelForWork();
-
-            return View(model);
-        }
+      
     }
 }

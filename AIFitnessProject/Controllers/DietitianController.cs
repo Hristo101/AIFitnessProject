@@ -42,15 +42,6 @@ namespace AIFitnessProject.Controllers
            
         }
 
-        [HttpGet]
-        public async Task<IActionResult> SendDocuments()
-        {
-            var model = new DietitianSendDocumentsViewModel();
-
-            return View(model);
-
-        }
-
         //public async Task<IActionResult> SignUp()
         //{
 

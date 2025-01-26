@@ -60,6 +60,10 @@ namespace AIFitnessProject.Infrastructure.Constants
 
         public static class Dietitian
         {
+
+            public const int MaxPositionLength = 100;
+            public const int MinPositionLength = 3;
+
             public const int MaxImageUrlLength = 2048;
             public const int MinImageUrlLength = 10;
 
@@ -67,13 +71,13 @@ namespace AIFitnessProject.Infrastructure.Constants
             public const int MinSpecializationLength = 3;
 
             public const int MaxExperience = 100;
-            public const int MinExperience = 2;
+            public const int MinExperience = 3;
 
             public const int MaxSertificationDetailsLength = 2500;
             public const int MinSertificationDetailsLength = 3;
 
             public const int MaxBioLength = 4500;
-            public const int MinBioLength = 10;
+            public const int MinBioLength = 3;
 
             public const int MaxSertificationImageLength = 2048;
             public const int MinSertificationImageLength = 10;
@@ -123,6 +127,12 @@ namespace AIFitnessProject.Infrastructure.Constants
 
         public static class Trainer
         {
+            public const int MaxPositionLength = 100;
+            public const int MinPositionLength = 3;
+
+            public const int MaxExperience = 100;
+            public const int MinExperience = 3;
+
             public const int MaxSpecializationLength = 1500;
             public const int MinSpecializationLength = 3;
 
@@ -133,7 +143,7 @@ namespace AIFitnessProject.Infrastructure.Constants
             public const int MinImageUrlLength = 10;
 
             public const int MinBioLength = 3;
-            public const int MaxBioLength = 3500;
+            public const int MaxBioLength = 4500;
         }
 
         public static class TrainingPlan
@@ -155,6 +165,24 @@ namespace AIFitnessProject.Infrastructure.Constants
         {
             public const int MaxDayOfWeekLength = 100;
             public const int MinDayOfWeekLength = 3;
+        }
+
+        public static class Documents
+        {
+            public const int MaxPositionLength = 100;
+            public const int MinPositionLength = 3;
+
+            public const int MaxExperience = 100;
+            public const int MinExperience = 3;
+
+            public const int MaxSpecializationLength = 1500;
+            public const int MinSpecializationLength = 3;
+
+            public const int MaxSertificationDetailsLength = 2500;
+            public const int MinSertificationDetailsLength = 3;
+
+            public const int MinBioLength = 3;
+            public const int MaxBioLength = 4500;
         }
        
     }
