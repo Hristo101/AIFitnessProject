@@ -52,6 +52,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public IEnumerable<UserComment> ReceivedComments { get; set; } = new List<UserComment>();
        public ICollection<UserComment> SentComments { get; set; } = new List<UserComment>();
        public ICollection<Opinion> SentOpinion { get; set; } = new List<Opinion>();
+       public ICollection<Document> Documents { get; set; } = new List<Document>();
 
         public Trainer Trainer { get; set; }
         public Dietitian Dietitian { get; set; }

@@ -59,6 +59,7 @@ namespace AIFitnessProject.Infrastructure.Data
             public DbSet<Dietitian> Dietitians { get; set; }
             public DbSet<UserComment> UserComments { get; set; }
             public DbSet<Notification> Notifications { get; set; }
+            public DbSet<Document> Documents { get; set; }
 
 
 

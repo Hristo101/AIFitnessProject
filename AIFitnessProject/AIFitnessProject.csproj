@@ -20,4 +20,9 @@
     <ProjectReference Include="..\AIFitnessProject.Infrastructure\AIFitnessProject.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\css\Dietitian\" />
+    <Folder Include="wwwroot\css\Trainer\" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,30 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using static AIFitnessProject.Infrastructure.Constants.DataConstants.Documents;
+namespace AIFitnessProject.Infrastructure.Data.Models
+{
+    [Comment("Document Table")]
+    public class Document
+    {
+        [Key]
+        [Comment("Document Identifier")]
+        public int Id { get; set; }
+
+        [Required]
+        [Comment("Document User identifier")]
+        public string UserId { get; set; } = string.Empty;
+
+        [ForeignKey(nameof(UserId))]
+        public ApplicationUser User { get; set; } = null!;
+
+        [Required]
+        [MaxLength(MaxPositionLength)]
+        [Comment("Document User Position")]
+        public string Position { get; set; } = string.Empty;
+
+        [Required]
+        [Comment("Document Is Accept")]
+        public bool IsAccept { get; set; }
+    }
+}
