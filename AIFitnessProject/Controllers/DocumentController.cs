@@ -27,22 +27,11 @@ namespace AIFitnessProject.Controllers
         [HttpPost]
         public async Task<IActionResult> SendDocuments(SendDocumentsViewModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(model);
-            //}
-
             if (!ModelState.IsValid)
             {
-                foreach (var state in ModelState)
-                {
-                    Console.WriteLine($"Key: {state.Key}");
-                    foreach (var error in state.Value.Errors)
-                    {
-                        Console.WriteLine($"Error: {error.ErrorMessage}");
-                    }
-                }
+                return View(model);
             }
+
             string userId = GetUserId();
             await documentService.SendDocumentsAsync(userId, model);
 
