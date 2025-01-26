@@ -30,6 +30,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Comment("Trainer Sertification Details")]
         public string SertificationDetails { get; set; } = string.Empty;
 
+        [Required]
         [MaxLength(MaxBioLength)]
         [Comment("Trainer Bio")]
         public string Bio { get; set; } = string.Empty;

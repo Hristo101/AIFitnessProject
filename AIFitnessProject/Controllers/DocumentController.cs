@@ -1,10 +1,20 @@
-﻿using AIFitnessProject.Core.Models.Document;
+﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Models.Document;
+using AIFitnessProject.Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AIFitnessProject.Controllers
 {
     public class DocumentController : Controller
     {
+
+        private readonly IDocumentService documentService;
+
+        public DocumentController(IDocumentService _documentService)
+        {
+            documentService = _documentService;
+        }
         [HttpGet]
         public async Task<IActionResult> SendDocuments()
         {
@@ -12,6 +22,42 @@ namespace AIFitnessProject.Controllers
 
             return View(model);
 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendDocuments(SendDocumentsViewModel model)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(model);
+            //}
+
+            if (!ModelState.IsValid)
+            {
+                foreach (var state in ModelState)
+                {
+                    Console.WriteLine($"Key: {state.Key}");
+                    foreach (var error in state.Value.Errors)
+                    {
+                        Console.WriteLine($"Error: {error.ErrorMessage}");
+                    }
+                }
+            }
+            string userId = GetUserId();
+            await documentService.SendDocumentsAsync(userId, model);
+
+            if(model.Position == "Тренъор")
+            {
+                return RedirectToAction("All", "Trainer");
+            }
+
+
+            return RedirectToAction("All", "Dietitian");
+        }
+
+        private string GetUserId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

@@ -26,5 +26,30 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Required]
         [Comment("Document Is Accept")]
         public bool IsAccept { get; set; }
+
+        [Required]
+        [Comment("Documents User Experience In Years")]
+        public int ExperienceYears { get; set; }
+
+        [Required]
+        [Comment("Document User Sertification Image")]
+        public byte[] SertificateImage { get; set; } = null!;
+
+        [Required]
+        [MaxLength(MaxBioLength)]
+        [Comment("Document User Bio")]
+        public string Bio { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(MaxSpecializationLength)]
+        [Comment("Document User Specialization")]
+        public string Specialization { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(MaxSertificationDetailsLength)]
+        [Comment("Document User Sertification Details")]
+        public string SertificationDetails { get; set; } = string.Empty;
+
+
     }
 }

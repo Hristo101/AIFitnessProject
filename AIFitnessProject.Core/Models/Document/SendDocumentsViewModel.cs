@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static AIFitnessProject.Infrastructure.Constants.DataConstants.Documents;
 using static AIFitnessProject.Infrastructure.Constants.DataConstants.ApplicationUser;
+using static AIFitnessProject.Infrastructure.Constants.DataConstants.Documents;
 
 namespace AIFitnessProject.Core.Models.Document
 {
@@ -14,7 +10,6 @@ namespace AIFitnessProject.Core.Models.Document
         public string UserId { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Позицията е задължителна.")]
-        [StringLength(MaxPositionLength, MinimumLength = MinPositionLength, ErrorMessage = "Позицията трябва да бъде по-голяма от 3 символа и по-малка от 100")]
         public string Position { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Първото име е задължително.")]
@@ -26,15 +21,15 @@ namespace AIFitnessProject.Core.Models.Document
         public string LastName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Стажът е задължителен.")]
-        [StringLength(MaxExperience, MinimumLength = MinExperience, ErrorMessage = "Опитът трябва да бъде по-голям от 3 години и по-малка от 100")]
+        [Range(MinExperience,MaxExperience, ErrorMessage = "Опитът трябва да бъде по-голям от 3 години и по-малка от 100")]
         public int ExperienceYears { get; set; }
 
         [Required(ErrorMessage = "Сертификата е задължителен")]
-        public string Certificate { get; set; } = string.Empty;
+        public IFormFile CertificateImage { get; set; } 
 
         [Required(ErrorMessage = "Биографията е задължителна.")]
         [StringLength(MaxBioLength, MinimumLength = MinBioLength, ErrorMessage = "Биографията трябва да бъде по-голяма от 3 и по малка от 4500")]
-        public string Biography { get; set; } = string.Empty;
+        public string Bio { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Специализацията е задължителна.")]
         [StringLength(MaxSpecializationLength, MinimumLength = MinSpecializationLength, ErrorMessage = "Специализацията трябва да бъде по-голяма от 3 символа и по малка от 1500")]

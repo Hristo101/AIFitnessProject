@@ -8,10 +8,10 @@
 <div class="container mt-5">
     <h2>@ViewData["Title"]</h2>
 
-    <form asp-action="SubmitTrainerApplication" method="post" enctype="multipart/form-data">
+    <form asp-action="SendDocuments" method="post" enctype="multipart/form-data">
 
-        <!-- UserId Hidden Field -->
-        <input type="hidden" asp-for="UserId" />
+@*         <!-- UserId Hidden Field -->
+        <input type="hidden" asp-for="UserId" /> *@
 
         <!-- First Name -->
         <div class="form-group">
@@ -45,16 +45,16 @@
 
         <!-- Certificate -->
         <div class="form-group">
-            <label for="Certificate">Сертификат (кандидатствайте с файл)</label>
-            <input type="file" class="form-control" id="Certificate" asp-for="Certificate" accept=".pdf, .doc, .docx" />
-            <span asp-validation-for="Certificate" class="text-danger"></span>
+            <label for="CertificateImage">Сертификат (кандидатствайте с файл)</label>
+            <input type="file" class="form-control" id="CertificateImage" asp-for="CertificateImage" accept=".pdf, .doc, .docx, .jpg, .png" />
+            <span asp-validation-for="CertificateImage" class="text-danger"></span>
         </div>
 
         <!-- Biography -->
         <div class="form-group">
-            <label for="Biography">Биография</label>
-            <textarea class="form-control" id="Biography" asp-for="Biography" rows="4"></textarea>
-            <span asp-validation-for="Biography" class="text-danger"></span>
+            <label for="Bio">Биография</label>
+            <textarea class="form-control" id="Bio" asp-for="Bio" rows="4"></textarea>
+            <span asp-validation-for="Bio" class="text-danger"></span>
         </div>
 
         <!-- Specialization -->
@@ -72,10 +72,10 @@
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="submit-btn" asp-action="SubmitTrainerApplication" asp-controller="Trainer">
+        <button type="submit" class="submit-btn" asp-action="SendDocuments" asp-controller="Document">
             Изпрати кандидатура
         </button>
     </form>
 </div>
 
-<link rel="stylesheet" href="~/css/TrainerApplication.css" />
+@* <link rel="stylesheet" href="~/css/TrainerApplication.css" /> *@

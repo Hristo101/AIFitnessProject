@@ -16,6 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IDietitianService, DietitianService>();
             services.AddScoped<IHomeService, HomeService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IDocumentService, DocumentService>();    
           
 
             return services;
