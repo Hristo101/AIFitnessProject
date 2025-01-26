@@ -14,7 +14,7 @@ namespace AIFitnessProject.Core.Models.Trainer
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Bio { get; set; }
-        public string SertificationImage { get; set; }
+        public byte[] SertificationImage { get; set; }
         public string Specialization { get; set; }
         public byte[] TrainerImage { get; set; }
         public List<UserCommentViewModel> Comments { get; set; } = new List<UserCommentViewModel>();

@@ -51,7 +51,7 @@ namespace AIFitnessProject.Core.Services
                 FirstName = trainer.User.FirstName,
                 LastName = trainer.User.LastName,
                 Bio = trainer.Bio,
-                SertificationImage = trainer.SertificationImage,
+                SertificationImage = trainer.SertificateImage,
                 TrainerImage = trainer.User.ProfilePicture,
                 SertificationDetails = trainer.SertificationDetails,
                 PhoneNumber = trainer.PhoneNumber,

@@ -37,7 +37,7 @@
     <section class="dietitian-certification">
         <h3>Моят Сертификат</h3>
         <div class="dietitian-certification-content">
-            <img src="@Model.SertificationImage" alt="Dietitian Certification" />
+            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.SertificationImage)" alt="Dietitian Certification" />
             <p>@Model.SertificationDetails</p>
         </div>
     </section>

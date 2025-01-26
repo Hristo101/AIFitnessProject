@@ -20,12 +20,15 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             Trainer trainer;
             List<Trainer> trainers = new List<Trainer>();
 
+            byte[] firstTrainerSertificationImage = GetFirstTrainerSertificationImage();
+            byte[] secondTrainerSertificationImage = GetSecondTrainerSertificationImage();
+
             trainer = new Trainer()
             {
                 Id = 1,
                 Specialization = "Издръжливост и функционален фитнес",
                 Experience = 5,
-                SertificationImage = "https://dani-sport.eu/wp-content/uploads/2021/06/UDOSTOVERENIE_TRENER_R-688x500.jpg", // Сертификат за фитнес треньор
+                SertificateImage = firstTrainerSertificationImage,
                 Bio = "Даниела Манева е фитнес треньор, който активно се занимава със спорт и фитнес от 3 години. Нейната специализация е в тренировките за издръжливост и функционален фитнес. Със силно желание да помогне на своите клиенти да постигнат максимална физическа издръжливост и да повишат спортната си подготовка, тя съчетава индивидуален подход с доказани методи за тренировки.\r\nДаниела вярва, че с упоритост и правилни тренировки, всеки може да постигне отлични резултати в здравето и физическата форма.",
                 PhoneNumber = "0895124157",
                 SertificationDetails = "Здравейте, аз съм сертифициран специалист по издръжливост и функционален фитнес. Специализирам в създаването на тренировъчни програми, които ще повишат вашата издръжливост и функционална сила.",
@@ -38,7 +41,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                 Id = 2,
                 Specialization = "Изграждане на мускулна маса",
                 Experience = 4,
-                SertificationImage = "https://fitnesstime.eu/wp-content/uploads/2018/11/fitness-licenz-nsa-min.png",
+                SertificateImage = secondTrainerSertificationImage,
                 Bio = "Светослав Ковачев е фитнес треньор, който е преминал през истинска трансформация. В началото на своето фитнес пътуване той не е имал перфектно тяло, а напротив – борел се е с наднормено тегло и липса на мотивация. Със силна воля и постоянство, той успява да постигне значителни резултати и сега е не само преобразен физически, но и психически.\r\n\r\nДнес Светослав е сертифициран треньор с опит и страст за това, което прави. Неговата цел е да помага на хората да постигнат не само физическите си цели, но и да изградят здравословни навици, които да продължат през целия живот. Той вярва, че промяната е възможна за всеки, стига да има правилния подход и подкрепа.\r\n\r\n\r\n\r\n\r\n",
                 PhoneNumber = "0895124157",
                 SertificationDetails = "Здравейте, аз съм сертифициран специалист по сила и кондиция (CSCS). Специализирам в създаването на тренировъчни програми, които помагат за изграждане на сила и мускулна маса. Заедно ще постигнем вашите фитнес цели!",
@@ -49,5 +52,18 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             return trainers;
         }
 
+        private byte[] GetFirstTrainerSertificationImage()
+        {
+            string filePath = @"C:\Users\stani\Documents\Olimpiada\AIFitnessProject\AIFitnessProject\wwwroot\img\Trainer Sertificate Image\SertificateImageDaniela.jpg";
+
+            return File.ReadAllBytes(filePath);
+        }
+
+        private byte[] GetSecondTrainerSertificationImage()
+        {
+            string filePath = @"C:\Users\stani\Documents\Olimpiada\AIFitnessProject\AIFitnessProject\wwwroot\img\Trainer Sertificate Image\SertificateImageSvetoslav.png";
+
+            return File.ReadAllBytes(filePath);
+        }
     }
 }

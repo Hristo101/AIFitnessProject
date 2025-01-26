@@ -26,6 +26,10 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public int Experience { get; set; }
 
         [Required]
+        [Comment("Dietitian Sertification Image")]
+        public byte[] SertificateImage { get; set; } = null!;
+
+        [Required]
         [MaxLength(MaxSertificationDetailsLength)]
         [Comment("Dietitian SertificationDetails")]
         public string SertificationDetails { get; set; } = string.Empty;
@@ -39,11 +43,6 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [MaxLength(MaxPhoneNumberLength)]
         [Comment("Dietitian Phone Number")]
         public string PhoneNumber { get; set; } = string.Empty;
-
-        [Required]
-        [MaxLength(MaxSertificationImageLength)]
-        [Comment("Dietitian Sertification Image")]
-        public string SertificationImage { get; set; } = string.Empty;
 
         [Required]
         [Comment("Dietitian User Id")]

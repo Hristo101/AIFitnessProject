@@ -15,7 +15,7 @@ namespace AIFitnessProject.Core.Models.Dietitian
 
         public string Bio { get; set; } = string.Empty;
 
-        public string SertificationImage { get; set; } = string.Empty;
+        public byte[] SertificationImage { get; set; } 
 
         public string Specialization { get; set; } = string.Empty;
 

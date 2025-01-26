@@ -60,7 +60,7 @@ namespace AIFitnessProject.Core.Services
                 FirstName = dietitian.User.FirstName,
                 LastName = dietitian.User.LastName,
                 Bio = dietitian.Bio,
-                SertificationImage = dietitian.SertificationImage,
+                SertificationImage = dietitian.SertificateImage,
                 DietitianImage = dietitian.User.ProfilePicture,
                 SertificationDetails = dietitian.SertificationDetails,
                 PhoneNumber = dietitian.PhoneNumber,

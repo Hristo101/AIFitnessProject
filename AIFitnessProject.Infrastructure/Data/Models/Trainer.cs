@@ -22,6 +22,10 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public int Experience { get; set; }
 
         [Required]
+        [Comment("Trainer Sertification Image")]
+        public byte[] SertificateImage { get; set; } = null!;
+
+        [Required]
         [MaxLength(MaxSertificationDetailsLength)]
         [Comment("Trainer Sertification Details")]
         public string SertificationDetails { get; set; } = string.Empty;
@@ -34,9 +38,6 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Comment("Trainer Phone Number")]
         public string PhoneNumber { get; set; } = string.Empty;
 
-        [Required]
-        [Comment("Trainer Sertification Image")]
-        public string SertificationImage { get;set; } = string.Empty;
         [Required]
         [Comment("Trainer User Id")]
         public string UserId { get; set; } = string.Empty;
