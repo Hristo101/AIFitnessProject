@@ -4,5 +4,6 @@
     {
         public const string TrainerRole = "Trainer";
         public const string DietitianRole = "Dietitian";
+        public const string AdminRole = "Admin";
     }
 }

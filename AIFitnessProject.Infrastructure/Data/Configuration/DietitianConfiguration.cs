@@ -48,14 +48,14 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
 
         private byte[] GetFirstDietitianSertificationImage()
         {
-            string filePath = @"C:\Users\stani\Documents\Olimpiada\AIFitnessProject\AIFitnessProject\wwwroot\img\Dietitian Sertificate Image\SertificateImageRosalina.jpg";
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "Dietitian Sertificate Image", "SertificateImageRosalina.jpg");
 
             return File.ReadAllBytes(filePath);
         }
 
         private byte[] GetSecondDietitianSertificationImage()
         {
-            string filePath = @"C:\Users\stani\Documents\Olimpiada\AIFitnessProject\AIFitnessProject\wwwroot\img\Dietitian Sertificate Image\sertificateImageZhenya.png";
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "Dietitian Sertificate Image", "sertificateImageZhenya.png");
 
             return File.ReadAllBytes(filePath);
         }

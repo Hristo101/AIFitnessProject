@@ -136,6 +136,24 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             };
             users.Add(user);
 
+            user = new ApplicationUser()
+            {
+                Id = Guid.NewGuid().ToString(),
+                ProfilePicture = defaultImage,
+                UserName = "Terry26",
+                NormalizedUserName = "TERRY26",
+                Email = "hserev789@gmail.com",
+                NormalizedEmail = "HSEREV789@GMAIL.COM",
+                FirstName = "Христо",
+                LastName = "Щереш",
+                Height = 1.87,
+                Weight = 80,
+                ExperienceLevel = "Напреднал",
+                SecurityStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = Guid.NewGuid().ToString(),
+                PasswordHash = hasher.HashPassword(null, "Chelsea2012"),
+            };
+            users.Add(user);
             return users;
         }
         private byte[] GetDefaultProfilePicture()

@@ -21,17 +21,18 @@ namespace Microsoft.AspNetCore.Builder
                 role.ConcurrencyStamp = Guid.NewGuid().ToString();
                 var role2 = new IdentityRole(DietitianRole);
                 role2.ConcurrencyStamp = Guid.NewGuid().ToString();
-            
+                var role3 = new IdentityRole(AdminRole);
+                role3.ConcurrencyStamp = Guid.NewGuid().ToString();
 
                 await roleManager.CreateAsync(role);
                 await roleManager.CreateAsync(role2);
-            
+                await roleManager.CreateAsync(role3);
 
                 var trainer = await userManager.FindByEmailAsync("svetoslav@abv.bg");
                 var trainer2 = await userManager.FindByEmailAsync("daniela@abv.bg");
                 var dietitian = await userManager.FindByEmailAsync("rosalina@abv.bg");
                 var dietitian2 = await userManager.FindByEmailAsync("zhenya@abv.bg");
-
+                var admin = await userManager.FindByEmailAsync("hserev789@gmail.com");
                 if (trainer != null)
                 {
                     await userManager.AddToRoleAsync(trainer, role.Name);
@@ -50,6 +51,11 @@ namespace Microsoft.AspNetCore.Builder
                 if (dietitian2 != null)
                 {
                     await userManager.AddToRoleAsync(dietitian2, role2.Name);
+                }
+
+                if (admin != null)
+                {
+                    await userManager.AddToRoleAsync(admin, role3.Name);
                 }
             }
         }
