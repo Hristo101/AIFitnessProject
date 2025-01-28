@@ -14,7 +14,8 @@ namespace Microsoft.AspNetCore.Builder
 
             if (roleManager != null && userManager != null
                 && await roleManager.RoleExistsAsync(TrainerRole) == false
-                && await roleManager.RoleExistsAsync(DietitianRole) == false)
+                && await roleManager.RoleExistsAsync(DietitianRole) == false
+                && await roleManager.RoleExistsAsync(AdminRole) == false)
                 
             {
                 var role = new IdentityRole(TrainerRole);

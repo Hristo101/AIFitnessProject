@@ -1,0 +1,145 @@
+﻿/* Основен стил за контейнера */
+.container {
+    max-width: 1244px;
+    margin: 4em auto;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+.pb-3 {
+    padding-bottom: 1rem !important;
+    height: 35em;
+}
+
+.alert-primary {
+    font-size: 1.5rem;
+    margin-top: 3em;
+    font-weight: bold;
+    color: #4a90e2;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+/* Стил за кандидатурите */
+.applications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.application-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .application-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    }
+
+/* Профилна снимка */
+.profile-picture {
+    flex-shrink: 0;
+    margin-right: 20px;
+}
+
+    .profile-picture img {
+        width: 265px;
+        height: 270px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+/* Информация за кандидата */
+.application-info {
+    flex: 1;
+    margin: 0 3em;
+    text-align: left;
+}
+
+    .application-info .name {
+        font-size: 1.2rem;
+        color: indianred;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .application-info .position,
+    .application-info .specialization {
+        font-size: 0.95rem;
+        color: #555;
+        margin: 2px 0;
+    }
+
+    .application-info span {
+        font-weight: bold;
+        color: #333;
+    }
+
+/* Бутоните */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+    .btn.accept {
+        background-color: #28a745;
+    }
+
+        .btn.accept:hover {
+            background-color: #218838;
+        }
+
+    .btn.decline {
+        background-color: #dc3545;
+    }
+
+        .btn.decline:hover {
+            background-color: #c82333;
+        }
+
+    .btn.details {
+        background-color: #007bff;
+    }
+
+        .btn.details:hover {
+            background-color: #0056b3;
+        }
+
+/* Анимация за плавен вход */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-card {
+    animation: fadeIn 0.5s ease-in-out;
+}

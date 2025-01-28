@@ -52,5 +52,21 @@ namespace AIFitnessProject.Core.Services
                 
             
         }
+        public async Task<IEnumerable<AllDocumentsViewModel>> AllDocumentsInAdmin()
+        {
+            var models = await repository.AllAsReadOnly<Document>().Include(x => x.User)
+                 .Select(x => new AllDocumentsViewModel() 
+                 { 
+                     Id = x.Id,
+                   FirstName = x.User.FirstName,
+                   LastName = x.User.LastName,
+                   Position = x.Position,
+                   Specialization = x.Specialization,
+                   ProfilePictureUrl = x.User.ProfilePicture,
+                 })
+                 .ToListAsync();
+
+            return models;
+        }
     }
 }

@@ -1,0 +1,51 @@
+﻿@using AIFitnessProject.Core.Models.Document
+@model IEnumerable<AllDocumentsViewModel>
+
+<div class="container mt-4">
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            Все още нямате кандидатури.
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-primary text-center">
+            Тук ще видите вашите кандидатури.
+        </div>
+        <div class="applications-list">
+            @foreach (var application in Model)
+            {
+                <div class="application-card animate-card">
+                    <!-- Профилна снимка -->
+                    <div class="profile-picture">
+                        <img src="data:image/png;base64,@Convert.ToBase64String(application.ProfilePictureUrl)"
+                             alt="Снимка на кандидата">
+                    </div>
+
+                    <!-- Информация за кандидата -->
+                    <div class="application-info">
+                        <h5 class="name">@($"{application.FirstName} {application.LastName}")</h5>
+                        <p class="position">Позиция: <span>@application.Position</span></p>
+                        <p class="specialization">Специализация: <span>@application.Specialization</span></p>
+                    </div>
+
+                    <!-- Бутоните за действия -->
+                    <div class="action-buttons">
+                        <button class="btn accept">
+                            ✔ Приеми
+                        </button>
+                        <button class="btn decline">
+                            ✖ Откажи
+                        </button>
+                        <button class="btn details">
+                            🔍 Детайли
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<link rel="stylesheet" href="~/css/Document/AllDocument.css" />
