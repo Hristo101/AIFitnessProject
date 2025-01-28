@@ -19,7 +19,8 @@
 
     <div class="confirmation-actions">
         <a asp-action="Delete" asp-controller="AdminDocument" asp-route-id="@Model.Id" class="btn decline">Премахни</a>
-        <button class="btn back">Назад</button>
+        <a asp-action="All" asp-area="Admin" asp-controller="AdminDocument" class="btn back">Назад</a>
+       @*  <button class="btn back">Назад</button> *@
     </div>
 </div>
 <link rel="stylesheet" href="~/css/Document/ConfirmDelete.css"/>

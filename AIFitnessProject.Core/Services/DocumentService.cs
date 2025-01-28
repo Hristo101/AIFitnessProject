@@ -2,17 +2,22 @@
 using AIFitnessProject.Core.Models.Document;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace AIFitnessProject.Core.Services
 {
     public class DocumentService : IDocumentService
     {
         private readonly IRepository repository;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public DocumentService(IRepository _repository)
+        public DocumentService(IRepository _repository,UserManager<ApplicationUser> _userManager)
         {
             this.repository = _repository;
+            this.userManager = _userManager;
         }
 
         public async Task SendDocumentsAsync(string id, SendDocumentsViewModel model)
@@ -77,6 +82,7 @@ namespace AIFitnessProject.Core.Services
                 .Include(x => x.User)
                 .Select(x => new DetailsDocumentsViewModel()
                 {
+                    Id = x.Id,
                     Specialization = x.Specialization,
                     Bio = x.Bio,
                     CertificationDetails = x.SertificationDetails,
@@ -128,11 +134,12 @@ namespace AIFitnessProject.Core.Services
         }
 
         public async Task<bool> Accept(int id)
-        {
+        { 
+
             var model = await repository.All<Document>()
            .Where(x => x.Id == id)
            .Include(x => x.User)
-          .FirstAsync();
+           .FirstAsync();
 
             model.IsAccept = true;
 
@@ -140,20 +147,47 @@ namespace AIFitnessProject.Core.Services
             {
                 return false;
             }
+            var user = await userManager.FindByIdAsync(model.UserId);
 
-            Trainer trainer = new Trainer()
+            if (model.Position == "Trainer")
             {
-                SertificationDetails = model.SertificationDetails,
-                Bio = model.Bio,
-                Experience = model.ExperienceYears,
-                SertificateImage = model.SertificateImage,
-                Specialization = model.Specialization,
-                UserId = model.UserId,
-                User = model.User,
-            };
+                Trainer trainer = new Trainer()
+                {
+                    SertificationDetails = model.SertificationDetails,
+                    Bio = model.Bio,
+                    Experience = model.ExperienceYears,
+                    SertificateImage = model.SertificateImage,
+                    Specialization = model.Specialization,
+                    UserId = model.UserId,
+                    User = model.User,
 
-            await repository.AddAsync(trainer);
-            await repository.SaveChangesAsync();
+                };
+               
+                await repository.AddAsync(trainer);
+                await userManager.AddToRoleAsync(user, "Trainer");
+                await repository.SaveChangesAsync();
+            }
+            else
+            {
+                Dietitian dietitian = new Dietitian()
+                {
+                    SertificationDetails = model.SertificationDetails,
+                    Bio = model.Bio,
+                    Experience = model.ExperienceYears,
+                    SertificateImage = model.SertificateImage,
+                    Specialization = model.Specialization,
+                    UserId = model.UserId,
+                    User = model.User,
+                };
+
+                await repository.AddAsync(dietitian);
+                await userManager.AddToRoleAsync(user, "Dietitian");
+                await repository.SaveChangesAsync();
+            }
+
+           
+
+           
             return true;
         }
     }

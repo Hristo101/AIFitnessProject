@@ -10,6 +10,8 @@ namespace AIFitnessProject.Core.Models.Document
 {
     public class DetailsDocumentsViewModel
     {
+        public int Id { get; set; }
+
         public string Position { get; set; } = string.Empty;
 
         public byte[] ProfilePicture { get; set; }

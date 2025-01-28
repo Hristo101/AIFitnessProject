@@ -35,8 +35,14 @@
     </div>
 
     <div class="action-buttons">
-        <a  class="btn accept">Приеми</a>
-        <a  class="btn accept">Откажи</a>
+    @*     <a  class="btn accept">Приеми</a>
+        <a  class="btn accept">Откажи</a> *@
+        <a asp-action="ConfirmAccept" asp-controller="AdminDocument" asp-route-Id="@Model.Id" class="btn accept">
+            ✔ Приеми
+        </a>
+        <a asp-action="ConfirmDelete" asp-controller="AdminDocument" asp-route-Id="@Model.Id" class="btn accept">
+            ✖ Откажи
+        </a>
         <a asp-action="All" asp-controller="AdminDocument" class="btn decline">Go Back</a>
     </div>
 </div>
