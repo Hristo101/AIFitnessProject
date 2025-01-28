@@ -1,0 +1,226 @@
+﻿/* Основен стил за контейнера */
+.container {
+    max-width: 1200px;
+    margin: 4em auto;
+    padding: 40px;
+    background-color: #f8f9fa;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .container:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+/* Анимация за плавен вход */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-card {
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Стил за хедъра на профила */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 3em;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #007bff;
+}
+
+/* Профилна снимка */
+.profile-picture {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+    .profile-picture:hover {
+        transform: scale(1.05);
+    }
+
+    .profile-picture img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+/* Информация за кандидата */
+.profile-info {
+    flex: 1;
+    text-align: left;
+}
+
+.name {
+    font-size: 2.4rem;
+    color: #4e73df; /* Използваме наситено синьо за името */
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Ефект за подчертаване */
+}
+
+.position {
+    font-size: 1.2rem;
+    color: #6c757d;
+    font-weight: 600;
+    margin: 5px 0;
+}
+
+.specialization {
+    font-size: 1.1rem;
+    color: #007bff; /* Придържаме се към синьото за акцентиране */
+    margin: 5px 0;
+}
+
+.experience {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-top: 10px;
+}
+
+/* Снимка на сертификата */
+.certificate-image {
+    margin-top: 2.5em;
+    text-align: center;
+}
+
+    .certificate-image img {
+        max-width: 80%;
+        height: auto;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+        .certificate-image img:hover {
+            transform: scale(1.05);
+        }
+
+/* Секциите за биография и сертификационни детайли */
+.bio, .certification-details, .contact-info, .projects, .achievements {
+    margin-top: 2.5em;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+    .bio h2, .certification-details h2, .contact-info h2, .projects h2, .achievements h2 {
+        font-size: 1.6rem;
+        color: #007bff;
+        margin-bottom: 12px;
+        border-bottom: 3px solid #007bff;
+        padding-bottom: 10px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .bio p, .certification-details p, .contact-info p, .projects li, .achievements p {
+        font-size: 1.1rem;
+        color: #495057;
+        line-height: 1.8;
+    }
+
+    /* За списъците в проектите */
+    .projects ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .projects li {
+        margin-bottom: 12px;
+        color: #333;
+        font-size: 1.1rem;
+        transition: color 0.3s ease;
+    }
+
+        .projects li:hover {
+            color: #007bff;
+            cursor: pointer;
+        }
+
+/* Бутоните */
+.action-buttons {
+    display: flex;
+    gap: 30px;
+    margin-top: 3em;
+    justify-content: center;
+}
+
+.btn {
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.4s ease;
+    color: white;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+    .btn.accept {
+        background-color: #28a745;
+        box-shadow: 0 8px 18px rgba(40, 167, 69, 0.2);
+    }
+
+        .btn.accept:hover {
+            background-color: #218838;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(40, 167, 69, 0.3);
+        }
+
+    .btn.decline {
+        background-color: #dc3545;
+        box-shadow: 0 8px 18px rgba(220, 53, 69, 0.2);
+    }
+
+        .btn.decline:hover {
+            background-color: #c82333;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(220, 53, 69, 0.3);
+        }
+
+/* Респонсив дизайн */
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profile-info {
+        text-align: center;
+    }
+
+    .bio, .certification-details, .contact-info, .projects, .achievements {
+        margin-top: 1.5em;
+        padding: 20px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .certificate-image img {
+        max-width: 90%;
+    }
+}

@@ -6,5 +6,6 @@ namespace AIFitnessProject.Core.Contracts
     {
         Task SendDocumentsAsync(string id, SendDocumentsViewModel model);
         Task<IEnumerable<AllDocumentsViewModel>> AllDocumentsInAdmin();
+        Task<DetailsDocumentsViewModel> DetailsDocumentsInAdmin(int id);
     }
 }

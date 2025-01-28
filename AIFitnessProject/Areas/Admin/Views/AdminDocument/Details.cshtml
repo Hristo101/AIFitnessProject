@@ -1,0 +1,43 @@
+﻿@model AIFitnessProject.Core.Models.Document.DetailsDocumentsViewModel
+
+<div class="container animate-card">
+    <div class="profile-header">
+        <div class="profile-picture">
+            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ProfilePicture)" alt="Profile Picture">
+        </div>
+        <div class="profile-info">
+            <h1 class="name">@Model.FirstName @Model.LastName</h1>
+            <p class="position">@Model.Position</p>
+            <p class="specialization">@Model.Specialization</p>
+            <p class="experience">Години опит: @Model.ExperienceYears years</p>
+        </div>
+    </div>
+
+    <div class="bio">
+        <h2>Bio</h2>
+        <p>@Model.Bio</p>
+    </div>
+
+    <div class="certificate-image">
+        <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.CertificateImage)" alt="Certificate Image">
+    </div>
+
+ 
+    <div class="certification-details">
+        <h2>Детайли по сертификата:</h2>
+        <p>@Model.CertificationDetails</p>
+    </div>
+
+    <div class="achievements">
+        <h2>Постижения:</h2>
+        <p>Awarded "Employee of the Year" in 2023 for outstanding performance.</p>
+        <p>Successfully led multiple projects and managed teams of over 15 people.</p>
+    </div>
+
+    <div class="action-buttons">
+        <a  class="btn accept">Приеми</a>
+        <a  class="btn accept">Откажи</a>
+        <a asp-action="All" asp-controller="AdminDocument" class="btn decline">Go Back</a>
+    </div>
+</div>
+<link rel="stylesheet" href="~/css/Document/DetailsDocument.css" />

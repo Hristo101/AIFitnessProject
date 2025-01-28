@@ -55,6 +55,7 @@ namespace AIFitnessProject.Core.Services
         public async Task<IEnumerable<AllDocumentsViewModel>> AllDocumentsInAdmin()
         {
             var models = await repository.AllAsReadOnly<Document>().Include(x => x.User)
+                .Where(x =>x.IsAccept == false)
                  .Select(x => new AllDocumentsViewModel() 
                  { 
                      Id = x.Id,
@@ -67,6 +68,28 @@ namespace AIFitnessProject.Core.Services
                  .ToListAsync();
 
             return models;
+        }
+
+        public async Task<DetailsDocumentsViewModel> DetailsDocumentsInAdmin(int id)
+        {
+          var model = await repository.AllAsReadOnly<Document>()
+                .Where(x => x.Id == id)
+                .Include(x => x.User)
+                .Select(x => new DetailsDocumentsViewModel()
+                {
+                    Specialization = x.Specialization,
+                    Bio = x.Bio,
+                    CertificationDetails = x.SertificationDetails,
+                    CertificateImage = x.SertificateImage,
+                    ExperienceYears = x.ExperienceYears,
+                    FirstName = x.User.FirstName,
+                    LastName = x.User.LastName,
+                    Position= x.Position,
+                    ProfilePicture = x.User.ProfilePicture,
+                })
+                .FirstOrDefaultAsync();
+
+            return model;
         }
     }
 }

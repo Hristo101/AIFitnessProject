@@ -23,5 +23,13 @@ namespace AIFitnessProject.Areas.Admin.Controllers
 
             return View(models);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var model = await documentService.DetailsDocumentsInAdmin(id);
+
+            return View(model);
+        }
     }
 }
