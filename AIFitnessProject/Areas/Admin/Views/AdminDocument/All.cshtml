@@ -32,7 +32,7 @@
                         <a class="btn accept">
                             ✔ Приеми
                         </a>
-                        <a class="btn decline">
+                        <a asp-action="ConfirmDelete" asp-controller="AdminDocument" asp-route-Id="@application.Id"  class="btn decline">
                             ✖ Откажи
                         </a>
                         <a asp-action="Details" asp-controller="AdminDocument" asp-route-Id="@application.Id" class="btn details">

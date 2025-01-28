@@ -17,6 +17,30 @@ namespace AIFitnessProject.Areas.Admin.Controllers
             return View();
         }
         [HttpGet]
+        public async Task<IActionResult> ConfirmAccept(int id)
+        {
+            var model = await documentService.ConfirmModel(id);
+
+            return View(model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ConfirmDelete(int id)
+        {
+            var model = await documentService.ConfirmModel(id);
+
+            return View(model);
+        }
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await documentService.Delete(id);
+
+            if (result)
+            {
+                return RedirectToAction("All");
+            }
+            return BadRequest();
+        }
+        [HttpGet]
         public async Task<IActionResult> All()
         {
             var models = await documentService.AllDocumentsInAdmin();

@@ -91,5 +91,40 @@ namespace AIFitnessProject.Core.Services
 
             return model;
         }
+
+        public async Task<AllDocumentsViewModel> ConfirmModel(int id)
+        {
+            var model = await repository.AllAsReadOnly<Document>()
+                     .Where(x =>x.Id == id)
+                    .Include(x => x.User)
+                     .Select(x => new AllDocumentsViewModel()
+                     {
+                         Id = x.Id,
+                         FirstName = x.User.FirstName,
+                         LastName = x.User.LastName,
+                         Position = x.Position,
+                         Specialization = x.Specialization,
+                         ProfilePictureUrl = x.User.ProfilePicture,
+                     })
+                     .FirstOrDefaultAsync();
+
+            return model;
+        }
+
+        public async Task<bool> Delete(int id)
+        {
+            var model = await repository.All<Document>()
+           .Where(x => x.Id == id)
+          .FirstAsync();
+
+            if (model == null)
+            {
+                return false;
+            }
+
+            repository.Delete(model);
+            await repository.SaveChangesAsync();
+            return true;
+        }
     }
 }
