@@ -126,5 +126,35 @@ namespace AIFitnessProject.Core.Services
             await repository.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> Accept(int id)
+        {
+            var model = await repository.All<Document>()
+           .Where(x => x.Id == id)
+           .Include(x => x.User)
+          .FirstAsync();
+
+            model.IsAccept = true;
+
+            if (model == null)
+            {
+                return false;
+            }
+
+            Trainer trainer = new Trainer()
+            {
+                SertificationDetails = model.SertificationDetails,
+                Bio = model.Bio,
+                Experience = model.ExperienceYears,
+                SertificateImage = model.SertificateImage,
+                Specialization = model.Specialization,
+                UserId = model.UserId,
+                User = model.User,
+            };
+
+            await repository.AddAsync(trainer);
+            await repository.SaveChangesAsync();
+            return true;
+        }
     }
 }

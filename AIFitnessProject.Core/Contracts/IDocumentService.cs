@@ -9,5 +9,6 @@ namespace AIFitnessProject.Core.Contracts
         Task<DetailsDocumentsViewModel> DetailsDocumentsInAdmin(int id);
         Task<AllDocumentsViewModel> ConfirmModel(int id);
         Task<bool> Delete(int id);
+        Task<bool> Accept(int id);
     }
 }

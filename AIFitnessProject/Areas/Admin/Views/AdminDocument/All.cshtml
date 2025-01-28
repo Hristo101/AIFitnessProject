@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="action-buttons">
-                        <a class="btn accept">
+                        <a asp-action="ConfirmAccept" asp-controller="AdminDocument" asp-route-Id="@application.Id" class="btn accept">
                             ✔ Приеми
                         </a>
                         <a asp-action="ConfirmDelete" asp-controller="AdminDocument" asp-route-Id="@application.Id"  class="btn decline">

@@ -23,6 +23,16 @@ namespace AIFitnessProject.Areas.Admin.Controllers
 
             return View(model);
         }
+        public async Task<IActionResult> Accept(int id)
+        {
+            var result = await documentService.Accept(id);
+
+            if (result)
+            {
+                return RedirectToAction("All");
+            }
+            return BadRequest();
+        }
         [HttpGet]
         public async Task<IActionResult> ConfirmDelete(int id)
         {
