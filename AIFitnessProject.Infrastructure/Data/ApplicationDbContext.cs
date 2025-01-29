@@ -15,6 +15,20 @@ namespace AIFitnessProject.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<RequestsToCoach>
+                ().HasKey(x => new { x.TrainerId, x.UserId });
+
+            builder.Entity<RequestsToCoach>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.ReceivedRequests)
+                .HasForeignKey(x =>x.UserId);
+
+
+            builder.Entity<RequestsToCoach>()
+                .HasOne(x => x.Trainer)
+                .WithMany(x => x.ReceivedRequests)
+                .HasForeignKey(x => x.TrainerId);
+
 
             builder.Entity<Trainer>()
                 .HasOne(t => t.User)
@@ -30,9 +44,8 @@ namespace AIFitnessProject.Infrastructure.Data
                 .HasOne(uc => uc.Receiver)
                 .WithMany(u => u.ReceivedComments)
                 .HasForeignKey(uc => uc.ReceiverId)
-                .OnDelete(DeleteBehavior.Restrict); // Забранява каскадно изтриване
+                .OnDelete(DeleteBehavior.Restrict); 
 
-            // Връзка към подателя
             builder.Entity<UserComment>()
                 .HasOne(uc => uc.Sender)
                 .WithMany(u => u.SentComments)
@@ -50,6 +63,7 @@ namespace AIFitnessProject.Infrastructure.Data
             public DbSet<Diet> Diets {get; set; }
             public DbSet<Calendar> Calendars { get; set; }
             public DbSet<DietDetail> DietDetails { get; set; }
+            public DbSet<RequestsToCoach> RequestsToCoaches { get; set; }
             public DbSet<Exercise> Exercises { get; set; }
             public DbSet<Meal> Meals { get; set; }
             public DbSet<Opinion> Opinions { get; set; }

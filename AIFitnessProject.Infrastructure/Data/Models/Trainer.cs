@@ -49,6 +49,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 
         public ICollection<Calendar> Calendars { get; set; } = new List<Calendar>();
+        public ICollection<RequestsToCoach> ReceivedRequests { get; set; } = new List<RequestsToCoach>();
 
     }
 }
