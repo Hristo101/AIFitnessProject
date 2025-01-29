@@ -34,7 +34,7 @@ namespace AIFitnessProject.Controllers
                 return View(model);
             }
 
-            var isTrue = requestsToCoachService.Add(GetUserId(),id,model);
+            var isTrue = await requestsToCoachService.Add(GetUserId(),id,model);
 
             return RedirectToAction("All", "Trainer");
         }

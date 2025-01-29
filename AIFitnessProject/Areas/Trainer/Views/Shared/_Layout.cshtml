@@ -93,8 +93,15 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav flex-grow-1">
-                        
-                            @if (!User.Identity.IsAuthenticated)
+                        @if (User.IsInRole("Trainer"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Trainer" asp-controller="MyRequests" asp-action="All"><i class="fa fa-home"></i> MyRequests</a>
+                            </li>
+                        }
+                        else
+                        {
+                        @if (!User.Identity.IsAuthenticated)
                             {
                                 <!-- Опции за гости -->
                                 <li class="nav-item">
@@ -136,6 +143,8 @@
                                     <a class="nav-link" asp-area="" asp-controller="Account" asp-action="MyProfile"><i class="fa fa-envelope"></i>My Profile</a>
                                 </li>
                             }
+                            
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

@@ -38,7 +38,6 @@ namespace AIFitnessProject.Core.Services
                     }
                 }
             }
-
             RequestsToCoach requestsToCoach = new RequestsToCoach()
             {
                 TrainerId = trainerId,
@@ -52,6 +51,13 @@ namespace AIFitnessProject.Core.Services
                 IsAnswered = false,
             };
 
+            var user = await repository.AllAsReadOnly<ApplicationUser>()
+                .Where(x => x.Id == id)
+                .FirstAsync();
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+
             await repository.AddAsync(requestsToCoach);
             await repository.SaveChangesAsync();
 
@@ -61,6 +67,52 @@ namespace AIFitnessProject.Core.Services
         {
             return await repository.AllAsReadOnly<RequestsToCoach>()
                .AnyAsync(x => x.TrainerId == id);
+        }
+
+        public async Task<IEnumerable<AllSurveyViewModel>> GetAllAsync(string Id)
+        {
+            var trainer = await repository.AllAsReadOnly<Trainer>()
+                .Where(x =>x.UserId == Id)
+                .FirstAsync();
+
+            var models = await repository.AllAsReadOnly<RequestsToCoach>()
+                .Where(x => x.TrainerId == trainer.Id)
+                .Where(x => x.IsAnswered == false)
+                .Include(x =>x.User)
+                .Select(x => new AllSurveyViewModel() 
+                {
+                    ExperienceLevel = x.TrainingBackground,
+                    FirstName = x.User.FirstName,
+                    LastName = x.User.LastName,
+                    ProfilePicture = x.User.ProfilePicture,
+                    TargetOfTraining = x.Target,
+                })
+                .ToListAsync();
+
+            return models;
+        }
+
+        public async Task<DetailsSurveyModel> GetViewModelForDetailsAsync(int id)
+        {
+           var model = await repository.AllAsReadOnly<RequestsToCoach>()
+                .Where(x => x.Id == id)
+                .Include(x => x.User)
+                .Select(x => new DetailsSurveyModel()
+                {
+                    Email = x.User.Email,
+                    ProfilePicture = x.User.ProfilePicture,
+                    FirstName= x.User.FirstName,
+                    LastName= x.User.LastName,
+                    HealthStatus = x.HealthStatus,
+                    Target = x.Target,
+                    TrainingBackground = x.TrainingBackground,
+                    TrainingCommitment = x.TrainingCommitment,
+                    TrainingPreferences = x.TrainingPreferences,
+                    PictureOfPersons = x.PicturesOfPersons
+                })
+                .FirstAsync();
+
+            return model;
         }
     }
 }

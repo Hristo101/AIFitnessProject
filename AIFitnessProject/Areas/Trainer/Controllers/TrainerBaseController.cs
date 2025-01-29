@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using static AIFitnessProject.Core.Constants.RoleConstants;
 namespace AIFitnessProject.Areas.Trainer.Controllers
 {
-    [Area("Admin")]
+    [Area("Trainer")]
     [Authorize(Roles = TrainerRole)]
     public class TrainerBaseController : Controller
     {
