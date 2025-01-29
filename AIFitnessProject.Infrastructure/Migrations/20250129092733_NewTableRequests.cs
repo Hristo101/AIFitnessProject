@@ -456,7 +456,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         column: x => x.DietId,
                         principalTable: "Diets",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_DietDetails_Meals_MealId",
                         column: x => x.MealId,
@@ -492,13 +492,13 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         column: x => x.DietId,
                         principalTable: "Diets",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_PlanAssignments_TrainingPlan_TrainingPlanId",
                         column: x => x.TrainingPlanId,
                         principalTable: "TrainingPlan",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 },
                 comment: "Plan Assignment Table");
 
@@ -559,25 +559,25 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         column: x => x.DietitianId,
                         principalTable: "Dietitians",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Calendars_Trainers_TrainerId",
                         column: x => x.TrainerId,
                         principalTable: "Trainers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Calendars_TrainingPlan_DietId",
                         column: x => x.DietId,
                         principalTable: "TrainingPlan",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Calendars_Workouts_WorkoutId",
                         column: x => x.WorkoutId,
                         principalTable: "Workouts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.InsertData(
