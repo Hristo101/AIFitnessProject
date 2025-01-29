@@ -15,8 +15,8 @@ namespace AIFitnessProject.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<RequestsToCoach>
-                ().HasKey(x => new { x.TrainerId, x.UserId });
+            //builder.Entity<RequestsToCoach>
+            //    ().HasKey(x => new { x.TrainerId, x.UserId });
 
             builder.Entity<RequestsToCoach>()
                 .HasOne(x => x.User)
