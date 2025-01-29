@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="d-flex justify-content-between mt-3">
                                     <a href="/Trainer/Details/@trainer.Id" class="btn btn-outline-light">Виж повече</a>
-                                    <button class="btn btn-success enroll-now-button">Запиши се сега</button>
+                                <a asp-controller="RequestsToCoach" asp-route-Id="@trainer.Id" asp-action="Survey" class="btn btn-success enroll-now-button">Запиши се сега</a>
                                 </div>
                             </div>
                         </div>
