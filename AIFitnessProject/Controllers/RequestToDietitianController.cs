@@ -34,6 +34,7 @@ namespace AIFitnessProject.Controllers
           
             if (!ModelState.IsValid)
             {
+                model.DietitianId = id;
                 return View(model);
             }
 
