@@ -116,36 +116,13 @@
                     </div>
 
                     <!-- Актуализирана секция за предпочитания за готвене -->
-              @*       <div class="mb-4">
-                        <label class="form-label fw-bold">Предпочитания за готвене</label>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <div class="form-check-card">
-                                    <input class="form-check-input" type="checkbox" value="Готов съм да си готвя сам" id="weights" asp-for="MealPreparationPreference">
-                                    <label class="form-check-label" for="weights">
-                                        <i class="fas fa-dumbbell me-2"></i>Готов съм да си готвя сам 
-                                    </label>
-                                    <span asp-validation-for="MealPreparationPreference" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-check-card">
-                                    <input class="form-check-input" type="checkbox" value="Предпочитам бързи и лесни решения" id="cardio" asp-for="MealPreparationPreference">
-                                    <label class="form-check-label" for="cardio">
-                                        <i class="fas fa-heartbeat me-2"></i>Предпочитам бързи и лесни решения
-                                    </label>
-                                    <span asp-validation-for="MealPreparationPreference" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div> *@
-
+     
                     <div class="mb-4">
                         <label class="form-label fw-bold">Предпочитания за готвене</label>
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-check-card">
-                                    <input class="form-check-input" type="checkbox" value="Готов съм да си готвя сам" id="weights" asp-for="MealPreparationPreference">
+                                    <input class="form-check-input" type="radio" value="Готов съм да си готвя сам" id="weights" asp-for="MealPreparationPreference">
                                     <label class="form-check-label" for="weights">
                                         <i class="fas fa-dumbbell me-2"></i>Готов съм да си готвя сам
                                     </label>
@@ -154,7 +131,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-check-card">
-                                    <input class="form-check-input" type="checkbox" value="Предпочитам бързи и лесни решения" id="cardio" asp-for="MealPreparationPreference">
+                                    <input class="form-check-input" type="radio" value="Предпочитам бързи и лесни решения" id="cardio" asp-for="MealPreparationPreference">
                                     <label class="form-check-label" for="cardio">
                                         <i class="fas fa-heartbeat me-2"></i>Предпочитам бързи и лесни решения
                                     </label>

@@ -31,11 +31,7 @@ namespace AIFitnessProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Survey(int id, SurveyViewModel model)
         {
-            if(model.MealPreparationPreference == "false")
-            {
-                ModelState.AddModelError("MealPreparationPreference", "Моля изберете избор за готвене");
-                return View(model);
-            }
+          
             if (!ModelState.IsValid)
             {
                 return View(model);
