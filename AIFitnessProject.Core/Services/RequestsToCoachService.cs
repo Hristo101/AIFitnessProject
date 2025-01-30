@@ -60,6 +60,7 @@ namespace AIFitnessProject.Core.Services
             user.LastName = model.LastName;
             user.Weight = model.Weight;
             user.Height = model.Height;
+            user.ExperienceLevel = model.ExpirienceLevel;
 
             await repository.AddAsync(requestsToCoach);
             await repository.SaveChangesAsync();

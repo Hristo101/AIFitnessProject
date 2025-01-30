@@ -58,7 +58,7 @@
                                 </div>
                                 <div class="d-flex justify-content-between mt-3">
                                     <a href="/Dietitian/Details/@dietitian.Id" class="btn btn-outline-light">Виж повече</a>
-                                    <button class="btn btn-success enroll-now-button">Запиши се сега</button>
+                                    <a asp-controller="RequestToDietitian" asp-route-Id="@dietitian.Id" asp-action="Survey" class="btn btn-success enroll-now-button">Запиши се сега</a>
                                 </div>
                             </div>
                         </div>

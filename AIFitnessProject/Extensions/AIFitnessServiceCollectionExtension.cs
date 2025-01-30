@@ -17,8 +17,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IHomeService, HomeService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IDocumentService, DocumentService>();    
-            services.AddScoped<IRequestsToCoach, RequestsToCoachService>();    
-          
+            services.AddScoped<IRequestsToCoach, RequestsToCoachService>();
+            services.AddScoped<IRequestToDietitianSurvice, RequestToDietitianSurvice>();
 
             return services;
         }
