@@ -15,11 +15,11 @@ namespace AIFitnessProject.Core.Models.Dietitian
 
         public string Bio { get; set; } = string.Empty;
 
-        public byte[] SertificationImage { get; set; } 
+        public string SertificationImage { get; set; } 
 
         public string Specialization { get; set; } = string.Empty;
 
-        public byte[]? DietitianImage { get; set; }
+        public string DietitianImage { get; set; }
 
         public List<UserCommentViewModel> Comments { get; set; } = new List<UserCommentViewModel>();
 

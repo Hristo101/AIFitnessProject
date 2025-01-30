@@ -24,7 +24,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
 
             var hasher = new PasswordHasher<ApplicationUser>();
 
-            byte[] defaultImage = GetDefaultProfilePicture();
+            string defaultImage = GetDefaultProfilePictureBase64();
 
             user = new ApplicationUser()
             {
@@ -156,11 +156,12 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             users.Add(user);
             return users;
         }
-        private byte[] GetDefaultProfilePicture()
+        private string GetDefaultProfilePictureBase64()
         {
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "Default Image", "default-profile.png");
 
-            return File.ReadAllBytes(filePath);
+            byte[] fileBytes = File.ReadAllBytes(filePath);
+            return Convert.ToBase64String(fileBytes); 
         }
     }
 }

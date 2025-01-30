@@ -45,7 +45,8 @@ namespace AIFitnessProject.Core.Services
                     using (var memoryStream = new MemoryStream())
                     {
                         await model.CertificateImage.CopyToAsync(memoryStream);
-                        document.SertificateImage = memoryStream.ToArray();
+                        string base64Image = Convert.ToBase64String(memoryStream.ToArray());
+                        document.SertificateImage = base64Image;
                     }
                 }
 

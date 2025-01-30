@@ -35,12 +35,12 @@ namespace AIFitnessProject.Core.Services
                 user.Height = model.Height;
                 user.Weight = model.Weight;
                 user.Aim = model.Aim;
-                if(model.ProfilePicture != null)
+                if (model.ProfilePicture != null)
                 {
                     using (var memoryStream = new MemoryStream())
                     {
                         await model.ProfilePicture.CopyToAsync(memoryStream);
-                        user.ProfilePicture = memoryStream.ToArray();
+                        user.ProfilePicture = Convert.ToBase64String(memoryStream.ToArray()); // Запазваме като string
                     }
                 }
 
@@ -68,7 +68,8 @@ namespace AIFitnessProject.Core.Services
                     using (var memoryStream = new MemoryStream())
                     {
                         await model.NewImageUrl.CopyToAsync(memoryStream);
-                        user.ProfilePicture = memoryStream.ToArray(); 
+                        string base64Image = Convert.ToBase64String(memoryStream.ToArray());
+                        user.ProfilePicture = base64Image;
                     }
                 }
 

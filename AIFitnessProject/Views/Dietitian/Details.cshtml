@@ -4,7 +4,7 @@
     <!-- Title Section -->
     <section class="dietitian-header">
         <div class="dietitian-photo">
-            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.DietitianImage)" alt="Dietitian Photo" />
+            <img src="data:image/jpeg;base64,@Model.DietitianImage" alt="Dietitian Photo" />
         </div>
         <div class="dietitian-info">
             <h1>@Model.FirstName @Model.LastName</h1>
@@ -37,7 +37,7 @@
     <section class="dietitian-certification">
         <h3>Моят Сертификат</h3>
         <div class="dietitian-certification-content">
-            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.SertificationImage)" alt="Dietitian Certification" />
+            <img src="data:image/jpeg;base64,@Model.SertificationImage" alt="Dietitian Certification" />
             <p>@Model.SertificationDetails</p>
         </div>
     </section>

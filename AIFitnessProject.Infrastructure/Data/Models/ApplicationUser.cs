@@ -15,7 +15,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
     public class ApplicationUser : IdentityUser
     {
         [Comment("Profile Picture stored as byte array")]
-        public byte[]? ProfilePicture { get; set; }
+        public string? ProfilePicture { get; set; }
 
         [Required]
         [MaxLength(MaxFirstNameLength)]

@@ -13,8 +13,8 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Key]
         public int Id { get; set; }
 
-        public string Target { get; set; } 
-        public List<byte[]> PicturesOfPersons { get; set; }
+        public string Target { get; set; }
+        public List<string> PicturesOfPersons { get; set; } = new List<string>();
         public string TrainingBackground { get; set; }
         public string HealthStatus { get; set; }
         public string TrainingPreferences { get; set; } 

@@ -11,7 +11,7 @@ namespace AIFitnessProject.Core.Models.RequestsToCoach
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public byte[] ProfilePicture { get; set; }
+        public string ProfilePicture { get; set; }
         public string TargetOfTraining { get; set; }
         public string ExperienceLevel { get; set; }
     }

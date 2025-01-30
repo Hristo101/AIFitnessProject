@@ -151,6 +151,13 @@ namespace AIFitnessProject.Controllers
         {
             if (!ModelState.IsValid)
             {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await model.NewImageUrl.CopyToAsync(memoryStream);
+                    string base64Image = Convert.ToBase64String(memoryStream.ToArray());
+                    model.ImageUrl = base64Image;
+                }
+
                 return View(model);
             }
 

@@ -15,8 +15,8 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             Dietitian dietitian;
             List<Dietitian> dietitians = new List<Dietitian>();
 
-            byte[] firstDietitianSertificationImage = GetFirstDietitianSertificationImage();
-            byte[] secondDietitianSertificationImage = GetSecondDietitianSertificationImage();
+            string firstDietitianSertificationImage = GetFirstDietitianSertificationImage();
+            string secondDietitianSertificationImage = GetSecondDietitianSertificationImage();
             dietitian = new Dietitian()
             {
                 Id = 1,
@@ -46,18 +46,21 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             return dietitians;
         }
 
-        private byte[] GetFirstDietitianSertificationImage()
-        {
+        private string GetFirstDietitianSertificationImage()
+        {         
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "Dietitian Sertificate Image", "SertificateImageRosalina.jpg");
+            byte[] fileBytes = File.ReadAllBytes(filePath);
 
-            return File.ReadAllBytes(filePath);
+            return Convert.ToBase64String(fileBytes);
         }
 
-        private byte[] GetSecondDietitianSertificationImage()
+        private string GetSecondDietitianSertificationImage()
         {
+            
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "Dietitian Sertificate Image", "sertificateImageZhenya.png");
+            byte[] fileBytes = File.ReadAllBytes(filePath);
 
-            return File.ReadAllBytes(filePath);
+            return Convert.ToBase64String(fileBytes);
         }
     }
 }

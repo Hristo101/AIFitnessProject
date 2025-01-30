@@ -8,9 +8,9 @@ namespace AIFitnessProject.Core.Models.RequestsToCoach
 {
     public class DetailsSurveyModel
     {
-        public byte[] ProfilePicture { get; set; }
+        public string ProfilePicture { get; set; }
         public string Target { get; set; }
-        public List<byte[]> PictureOfPersons {  get; set; }
+        public List<string> PictureOfPersons {  get; set; }
         public string TrainingBackground { get; set; }
         public string HealthStatus { get; set; }
         public string TrainingPreferences { get; set; }

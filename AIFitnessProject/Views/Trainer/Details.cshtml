@@ -4,7 +4,7 @@
     <!-- Title Section -->
     <section class="trainer-header">
         <div class="trainer-photo">
-            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.TrainerImage)" alt="Trainer Photo" />
+            <img src="data:image/jpeg;base64,@Model.TrainerImage" alt="Trainer Photo" />
         </div>
         <div class="trainer-info">
             <h1>@Model.FirstName @Model.LastName</h1>
@@ -37,7 +37,7 @@
     <section class="trainer-certification">
         <h3>Моят Сертификат</h3>
         <div class="trainer-certification-content">
-            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.SertificationImage)" alt="Trainer Certification" />
+            <img src="data:image/jpeg;base64,@Model.SertificationImage" alt="Trainer Certification" />
             <p>@Model.SertificationDetails</p>
         </div>
     </section>

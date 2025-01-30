@@ -10,6 +10,6 @@
 
         public int Rating { get; set; }
 
-        public byte[]? DietitianImageUrl { get; set; } 
+        public string DietitianImageUrl { get; set; } 
     }
 }

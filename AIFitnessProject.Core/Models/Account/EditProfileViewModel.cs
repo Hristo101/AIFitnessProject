@@ -11,7 +11,7 @@ namespace AIFitnessProject.Core.Models.Account
 {
     public class EditProfileViewModel
     {
-        public byte[]? ImageUrl { get; set; } 
+        public string? ImageUrl { get; set; } 
         public IFormFile? NewImageUrl { get; set; } 
 
         [StringLength(MaxFirstNameLength, MinimumLength = MinFirstNameLength, ErrorMessage = "Първото име трябва да бъде по-голямо от 3 символа и по-малко от 1900")]
@@ -27,6 +27,6 @@ namespace AIFitnessProject.Core.Models.Account
         [Range(MinWeight,MaxWeight,ErrorMessage ="Теглото не може да бъде по-малко от 3 килограма и по го-голямо от 450 килограма")]
         public double Weight { get; set; }
 
-        public string ExperienceLevel { get; set; }
+        public string? ExperienceLevel { get; set; }
     }
 }

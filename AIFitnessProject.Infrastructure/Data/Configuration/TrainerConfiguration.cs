@@ -20,8 +20,8 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             Trainer trainer;
             List<Trainer> trainers = new List<Trainer>();
 
-            byte[] firstTrainerSertificationImage = GetFirstTrainerSertificationImage();
-            byte[] secondTrainerSertificationImage = GetSecondTrainerSertificationImage();
+            string firstTrainerSertificationImage = GetFirstTrainerSertificationImage();
+            string secondTrainerSertificationImage = GetSecondTrainerSertificationImage();
 
             trainer = new Trainer()
             {
@@ -52,18 +52,21 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             return trainers;
         }
 
-        private byte[] GetFirstTrainerSertificationImage()
+        private string GetFirstTrainerSertificationImage()
         {
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "Trainer Sertificate Image", "SertificateImageDaniela.jpg");
+           
+           string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "Trainer Sertificate Image", "SertificateImageDaniela.jpg");
+            byte[] fileBytes = File.ReadAllBytes(filePath);
 
-            return File.ReadAllBytes(filePath);
+            return Convert.ToBase64String(fileBytes);
         }
 
-        private byte[] GetSecondTrainerSertificationImage()
+        private string GetSecondTrainerSertificationImage()
         {
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "Trainer Sertificate Image", "SertificateImageSvetoslav.png");
+            byte[] fileBytes = File.ReadAllBytes(filePath);
 
-            return File.ReadAllBytes(filePath);
+            return Convert.ToBase64String(fileBytes);
         }
     }
 }

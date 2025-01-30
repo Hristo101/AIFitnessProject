@@ -3,7 +3,7 @@
 <div class="container animate-card">
     <div class="profile-header">
         <div class="profile-picture">
-            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ProfilePicture)" alt="Profile Picture">
+            <img src="data:image/jpeg;base64,@Model.ProfilePicture" alt="Profile Picture">
         </div>
         <div class="profile-info">
             <h1 class="name">@Model.FirstName @Model.LastName</h1>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="certificate-image">
-        <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.CertificateImage)" alt="Certificate Image">
+        <img src="data:image/jpeg;base64,@Model.CertificateImage" alt="Certificate Image">
     </div>
 
  

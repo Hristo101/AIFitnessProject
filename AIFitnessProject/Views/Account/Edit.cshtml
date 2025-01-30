@@ -17,7 +17,7 @@
             <!-- Profile Picture -->
             <div class="form-group">
                 <label asp-for="ImageUrl">Снимка на профила</label>
-                <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ImageUrl)" alt="Profile Picture" class="current-profile-pic">
+                <img src="data:image/jpeg;base64,@Model.ImageUrl" alt="Profile Picture" class="current-profile-pic">
                 <input type="file" asp-for="NewImageUrl" />
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
@@ -68,9 +68,9 @@
             <div class="form-group">
                 <label asp-for="ExperienceLevel">Ниво на опит</label>
                 <select asp-for="ExperienceLevel">
-                    <option value="Beginner">Начинаещ</option>
-                    <option value="Intermediate">Средно напреднал</option>
-                    <option value="Advanced">Напреднал</option>
+                    <option value="Начинаещ">Начинаещ</option>
+                    <option value="Средно напреднал">Средно напреднал</option>
+                    <option value="Напреднал">Напреднал</option>
                 </select>
                 <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
             </div>

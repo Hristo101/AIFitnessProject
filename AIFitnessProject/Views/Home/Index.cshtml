@@ -19,7 +19,7 @@
     <div class="professional-pair">
         <div class="professional-item">
             <img id="professional-image"
-                 src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Trainers.First().ImageUrl))"
+                 src="data:image/jpeg;base64,@Model.Trainers.First().ImageUrl"
                  alt="Professional"
                  class="img-fluid professional-image">
             <p id="professional-text" class="professional-name">@Model.Trainers.First().FirstName</p>
@@ -62,44 +62,45 @@
     </div>
 </div>
 <script>
-    // Генериране на данни за галерията
     const professionals = @Html.Raw(Json.Serialize(
         Model.Trainers.Select(trainer => new
         {
-            image = $"data:image/jpeg;base64,{Convert.ToBase64String(trainer.ImageUrl)}",
-            text = trainer.FirstName,
-            type = "Trainer"
+        image = $"data:image/jpeg;base64,{trainer.ImageUrl}",
+        text = trainer.FirstName,
+        type = "Trainer"
         }).Concat(
         Model.Dietitians.Select(dietitian => new
         {
-            image = $"data:image/jpeg;base64,{Convert.ToBase64String(dietitian.ImageUrl)}",
-            text = dietitian.FirstName,
-            type = "Dietitian"
+        image = $"data:image/jpeg;base64,{dietitian.ImageUrl}",
+        text = dietitian.FirstName,
+        type = "Dietitian"
         })
-        )
-        ));
+        )));
 
-    let currentIndex = 0;
+        let currentIndex = 0;
 
-    function updateGallery() {
-        const professionalImage = document.getElementById("professional-image");
-        const professionalText = document.getElementById("professional-text");
+        function updateGallery()
+        {
+            const professionalImage = document.getElementById("professional-image");
+            const professionalText = document.getElementById("professional-text");
 
-        professionalImage.src = professionals[currentIndex].image;
-        professionalText.innerText = `${professionals[currentIndex].text} (${professionals[currentIndex].type})`;
-    }
+            professionalImage.src = professionals[currentIndex].image;
+            professionalText.innerText = `${ professionals[currentIndex].text} (${ professionals[currentIndex].type})`;
+        }
 
-    function prevProfessional() {
-        currentIndex = (currentIndex - 1 + professionals.length) % professionals.length;
-        updateGallery();
-    }
+        function prevProfessional()
+        {
+            currentIndex = (currentIndex - 1 + professionals.length) % professionals.length;
+            updateGallery();
+        }
 
-    function nextProfessional() {
-        currentIndex = (currentIndex + 1) % professionals.length;
-        updateGallery();
-    }
+        function nextProfessional()
+        {
+            currentIndex = (currentIndex + 1) % professionals.length;
+            updateGallery();
+        }
 
-    document.addEventListener("DOMContentLoaded", updateGallery);
+        document.addEventListener("DOMContentLoaded", updateGallery);
 </script>
 <style>
     .container {

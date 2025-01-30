@@ -14,7 +14,7 @@ namespace AIFitnessProject.Core.Models.Document
 
         public string Position { get; set; } = string.Empty;
 
-        public byte[] ProfilePicture { get; set; }
+        public string ProfilePicture { get; set; }
 
         public string FirstName { get; set; } = string.Empty;
 
@@ -22,7 +22,7 @@ namespace AIFitnessProject.Core.Models.Document
 
         public int ExperienceYears { get; set; }
 
-        public byte[] CertificateImage { get; set; }
+        public string CertificateImage { get; set; }
 
         public string Bio { get; set; } = string.Empty;
 

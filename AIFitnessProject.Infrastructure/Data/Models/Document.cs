@@ -33,7 +33,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 
         [Required]
         [Comment("Document User Sertification Image")]
-        public byte[] SertificateImage { get; set; } = null!;
+        public string SertificateImage { get; set; } = null!;
 
         [Required]
         [MaxLength(MaxBioLength)]

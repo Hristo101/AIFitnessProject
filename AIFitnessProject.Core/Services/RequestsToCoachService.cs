@@ -22,7 +22,7 @@ namespace AIFitnessProject.Core.Services
 
         public async Task<bool> Add(string id, int trainerId, SurveyViewModel model)
         {
-            var picturesList = new List<byte[]>();
+            var picturesList = new List<string>(); 
 
             if (model.ProfilePictures != null && model.ProfilePictures.Length > 0)
             {
@@ -33,7 +33,8 @@ namespace AIFitnessProject.Core.Services
                         using (var memoryStream = new MemoryStream())
                         {
                             await file.CopyToAsync(memoryStream);
-                            picturesList.Add(memoryStream.ToArray());
+                            string base64Image = Convert.ToBase64String(memoryStream.ToArray()); 
+                            picturesList.Add(base64Image); 
                         }
                     }
                 }

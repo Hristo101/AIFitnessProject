@@ -27,7 +27,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 
         [Required]
         [Comment("Dietitian Sertification Image")]
-        public byte[] SertificateImage { get; set; } = null!;
+        public string SertificateImage { get; set; } = null!;
 
         [Required]
         [MaxLength(MaxSertificationDetailsLength)]
