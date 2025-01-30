@@ -52,12 +52,14 @@ namespace AIFitnessProject.Core.Services
                 IsAnswered = false,
             };
 
-            var user = await repository.AllAsReadOnly<ApplicationUser>()
+            var user = await repository.All<ApplicationUser>()
                 .Where(x => x.Id == id)
                 .FirstAsync();
 
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
+            user.Weight = model.Weight;
+            user.Height = model.Height;
 
             await repository.AddAsync(requestsToCoach);
             await repository.SaveChangesAsync();

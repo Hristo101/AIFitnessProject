@@ -64,6 +64,7 @@ namespace AIFitnessProject.Infrastructure.Data
             public DbSet<Calendar> Calendars { get; set; }
             public DbSet<DietDetail> DietDetails { get; set; }
             public DbSet<RequestsToCoach> RequestsToCoaches { get; set; }
+            public DbSet<RequestToDietitian> RequestToDietitians { get; set; }
             public DbSet<Exercise> Exercises { get; set; }
             public DbSet<Meal> Meals { get; set; }
             public DbSet<Opinion> Opinions { get; set; }

@@ -138,7 +138,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
 
             user = new ApplicationUser()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "5df58ef6-da85-4d1d-a429-001e0856de72",
                 ProfilePicture = defaultImage,
                 UserName = "Terry26",
                 NormalizedUserName = "TERRY_26",
