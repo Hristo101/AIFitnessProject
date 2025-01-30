@@ -17,7 +17,7 @@ namespace AIFitnessProject.Core.Models.Account
         public string LastName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Височината е задължителена.")]
-        [Range(MinHeight, MaxHeight, ErrorMessage = "Височината не може да бъде по - малка 1.20m и не може да бъде по - голяма от 2.8m")]
+        [Range(MinHeight, MaxHeight, ErrorMessage = "Височината не може да бъде по - малка 120сm и не може да бъде по - голяма от 280сm")]
         public double Height { get; set; }
 
         [Required(ErrorMessage = "Теглото е задължително")]

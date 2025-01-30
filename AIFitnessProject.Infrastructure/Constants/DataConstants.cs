@@ -96,8 +96,8 @@ namespace AIFitnessProject.Infrastructure.Constants
             public const int MaxLastNameLength = 1900;
             public const int MinLastNameLength = 3;
 
-            public const double MaxHeight = 2.8;
-            public const double MinHeight = 1.20;
+            public const double MaxHeight = 280;
+            public const double MinHeight = 120;
 
             public const int MaxWeight = 450;
             public const int MinWeight = 3;

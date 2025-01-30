@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <form method="post" enctype="multipart/form-data" asp-route-Id="@Model.DietitianId" asp-action="SubmitSurvey" asp-controller="RequestToDietitian" class="needs-validation" novalidate>
+        <form method="post" enctype="multipart/form-data" asp-route-Id="@Model.DietitianId" asp-action="Survey" asp-controller="RequestToDietitian" class="needs-validation" novalidate>
             <div class="card-body p-5">
                 <!-- Лична информация -->
                 <section class="mb-5">
@@ -34,6 +34,7 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 <input asp-for="FirstName" class="form-control" placeholder="Иван" required>
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
                                 <div class="invalid-feedback">Моля въведете вашето име</div>
                             </div>
                         </div>
@@ -42,6 +43,7 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 <input asp-for="LastName" class="form-control" placeholder="Иванов" required>
+                                <span asp-validation-for="LastName" class="text-danger"></span>
                                 <div class="invalid-feedback">Моля въведете вашата фамилия</div>
                             </div>
                         </div>
@@ -59,6 +61,7 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-weight"></i></span>
                                 <input asp-for="Weight" type="number" step="0.1" class="form-control" placeholder="75.5" required>
+                                <span asp-validation-for="Weight" class="text-danger"></span>
                                 <div class="invalid-feedback">Моля въведете валидно тегло</div>
                             </div>
                         </div>
@@ -67,6 +70,7 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-ruler-vertical"></i></span>
                                 <input asp-for="Height" type="number" step="0.1" class="form-control" placeholder="180" required>
+                                <span asp-validation-for="Height" class="text-danger"></span>
                                 <div class="invalid-feedback">Моля въведете валиден ръст</div>
                             </div>
                         </div>
@@ -87,6 +91,7 @@
                             <option>Покачване на мускулна маса</option>
                             <option>Поддържане на форма</option>
                         </select>
+                        <span asp-validation-for="Target" class="text-danger"></span>
                         <div class="invalid-feedback">Моля изберете вашата цел</div>
                     </div>
 
@@ -98,6 +103,7 @@
                             <option value="средно-напреднал">Средно-напреднал</option>
                             <option value="напреднал">Напреднал</option>
                         </select>
+                        <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
                         <div class="invalid-feedback">Моля изберете вашето ниво на опит</div>
                     </div>
 
@@ -105,29 +111,58 @@
                         <label class="form-label fw-bold">Диетичен опит</label>
                         <textarea asp-for="DietBackground" class="form-control" rows="3"
                                   placeholder="Опишете вашия предишен диетичен опит..." required></textarea>
+                        <span asp-validation-for="DietBackground" class="text-danger"></span>
                         <div class="invalid-feedback">Моля опишете вашия опит</div>
                     </div>
 
                     <!-- Актуализирана секция за предпочитания за готвене -->
+              @*       <div class="mb-4">
+                        <label class="form-label fw-bold">Предпочитания за готвене</label>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-check-card">
+                                    <input class="form-check-input" type="checkbox" value="Готов съм да си готвя сам" id="weights" asp-for="MealPreparationPreference">
+                                    <label class="form-check-label" for="weights">
+                                        <i class="fas fa-dumbbell me-2"></i>Готов съм да си готвя сам 
+                                    </label>
+                                    <span asp-validation-for="MealPreparationPreference" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check-card">
+                                    <input class="form-check-input" type="checkbox" value="Предпочитам бързи и лесни решения" id="cardio" asp-for="MealPreparationPreference">
+                                    <label class="form-check-label" for="cardio">
+                                        <i class="fas fa-heartbeat me-2"></i>Предпочитам бързи и лесни решения
+                                    </label>
+                                    <span asp-validation-for="MealPreparationPreference" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div> *@
+
                     <div class="mb-4">
                         <label class="form-label fw-bold">Предпочитания за готвене</label>
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-check-card">
-                                    <input class="form-check-input" type="checkbox" value="Тежести" id="weights" asp-for="MealPreparationPreference">
+                                    <input class="form-check-input" type="checkbox" value="Готов съм да си готвя сам" id="weights" asp-for="MealPreparationPreference">
                                     <label class="form-check-label" for="weights">
-                                        <i class="fas fa-dumbbell me-2"></i>Готов съм да си готвя сам 
+                                        <i class="fas fa-dumbbell me-2"></i>Готов съм да си готвя сам
                                     </label>
+                               
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-check-card">
-                                    <input class="form-check-input" type="checkbox" value="Кардио" id="cardio" asp-for="MealPreparationPreference">
+                                    <input class="form-check-input" type="checkbox" value="Предпочитам бързи и лесни решения" id="cardio" asp-for="MealPreparationPreference">
                                     <label class="form-check-label" for="cardio">
                                         <i class="fas fa-heartbeat me-2"></i>Предпочитам бързи и лесни решения
                                     </label>
+                          
+                                   
                                 </div>
                             </div>
+                            <span asp-validation-for="MealPreparationPreference" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -141,6 +176,7 @@
                             <option>4 хранения</option>
                             <option>5+ хранения</option>
                         </select>
+                        <span asp-validation-for="PreferredMealsPerDay" class="text-danger"></span>
                         <div class="invalid-feedback">Моля изберете брой хранения</div>
                     </div>
 
@@ -148,6 +184,7 @@
                         <label class="form-label fw-bold">Алергии от храни</label>
                         <textarea asp-for="FoodAllergies" class="form-control" rows="3"
                                   placeholder="Въведете вашите алергии от храни..." required></textarea>
+                        <span asp-validation-for="FoodAllergies" class="text-danger"></span>
                         <div class="invalid-feedback">Моля въведете вашите алергии от храни</div>
                     </div>
 
@@ -155,6 +192,7 @@
                         <label class="form-label fw-bold">Любими храни</label>
                         <textarea asp-for="FavouriteFoods" class="form-control" rows="3"
                                   placeholder="Въведете вашите любими храни..." required></textarea>
+                        <span asp-validation-for="FavouriteFoods" class="text-danger"></span>
                         <div class="invalid-feedback">Моля Въведете вашите любими храни</div>
                     </div>
 
@@ -162,6 +200,7 @@
                         <label class="form-label fw-bold">Непредпочитани храни</label>
                         <textarea asp-for="DislikedFoods" class="form-control" rows="3"
                                   placeholder="Въведете вашите непредпочитани храни..." required></textarea>
+                        <span asp-validation-for="DislikedFoods" class="text-danger"></span>
                         <div class="invalid-feedback">Моля Въведете вашите непредпочитани храни</div>
                     </div>
 
@@ -169,6 +208,7 @@
                         <label class="form-label fw-bold">Използвани добавки</label>
                         <textarea asp-for="SupplementsUsed" class="form-control" rows="3"
                                   placeholder="Въведете вашите използвани добавки..." required></textarea>
+                        <span asp-validation-for="SupplementsUsed" class="text-danger"></span>
                         <div class="invalid-feedback">Моля въведете вашите използвани добавки</div>
                     </div>
                 </section>
@@ -184,6 +224,7 @@
                     </div>
                     <textarea asp-for="HealthIssues" class="form-control" rows="3"
                               placeholder="Здравословни проблеми..." required></textarea>
+                    <span asp-validation-for="HealthIssues" class="text-danger"></span>
                     <div class="invalid-feedback">Моля попълнете здравословното си състояние</div>
                 </section>
 
@@ -203,6 +244,7 @@
                                 <p class="text-muted">Поддържани формати: .jpg, .png</p>
                             </div>
                         </label>
+                        <span asp-validation-for="ProfilePictures" class="text-danger"></span>
                         <div id="imagePreview" class="row g-3 mt-3"></div>
                     </div>
                 </section>
