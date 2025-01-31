@@ -11,7 +11,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Key]
         [Comment("Training Plan Identifier")]
         public int Id { get; set; }
-
+        public string ImageUrl { get; set; }
         [Required]
         [MaxLength(MaxNameLength)]
         [Comment("Training Plan Name")]

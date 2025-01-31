@@ -34,6 +34,7 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 <input asp-for="FirstName" class="form-control" placeholder="Иван" required>
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
                                 <div class="invalid-feedback">Моля въведете вашето име</div>
                             </div>
                         </div>
@@ -42,6 +43,7 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 <input asp-for="LastName" class="form-control" placeholder="Иванов" required>
+                                <span asp-validation-for="LastName" class="text-danger"></span>
                                 <div class="invalid-feedback">Моля въведете вашата фамилия</div>
                             </div>
                         </div>
@@ -59,6 +61,7 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-weight"></i></span>
                                 <input asp-for="Weight" type="number" step="0.1" class="form-control" placeholder="75.5" required>
+                                <span asp-validation-for="Weight" class="text-danger"></span>
                                 <div class="invalid-feedback">Моля въведете валидно тегло</div>
                             </div>
                         </div>
@@ -67,6 +70,7 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-ruler-vertical"></i></span>
                                 <input asp-for="Height" type="number" step="0.1" class="form-control" placeholder="180" required>
+                                <span asp-validation-for="Height" class="text-danger"></span>
                                 <div class="invalid-feedback">Моля въведете валиден ръст</div>
                             </div>
                         </div>
@@ -88,6 +92,7 @@
                             <option>Поддържане на форма</option>
                             <option>Подобряване на издръжливост</option>
                         </select>
+                        <span asp-validation-for="Target" class="text-danger"></span>
                         <div class="invalid-feedback">Моля изберете вашата цел</div>
                     </div>
 
@@ -99,6 +104,7 @@
                             <option value="средно-напреднал">Средно-напреднал</option>
                             <option value="напреднал">Напреднал</option>
                         </select>
+                        <span asp-validation-for="ExpirienceLevel" class="text-danger"></span>
                         <div class="invalid-feedback">Моля изберете вашето ниво на опит</div>
                     </div>
 
@@ -106,10 +112,11 @@
                         <label class="form-label fw-bold">Тренировъчен опит</label>
                         <textarea asp-for="TrainingBackground" class="form-control" rows="3"
                                   placeholder="Опишете вашия предишен опит във фитнеса..." required></textarea>
+                        <span asp-validation-for="TrainingBackground" class="text-danger"></span>
                         <div class="invalid-feedback">Моля опишете вашия опит</div>
                     </div>
 
-                    <!-- Актуализирана секция за предпочитани тренировки -->
+                    <!-- Предпочитани тренировки -->
                     <div class="mb-4">
                         <label class="form-label fw-bold">Предпочитани тренировки</label>
                         <div class="row g-3">
@@ -130,9 +137,10 @@
                                 </div>
                             </div>
                         </div>
+                        <span asp-validation-for="TrainingPreferences" class="text-danger"></span>
                     </div>
 
-                    <!-- Добавена секция за ангажираност -->
+                    <!-- Ангажираност -->
                     <div class="mb-4">
                         <label class="form-label fw-bold">Дни за тренировка седмично</label>
                         <select asp-for="TrainingCommitment" class="form-select" required>
@@ -142,6 +150,7 @@
                             <option>4 дни</option>
                             <option>5+ дни</option>
                         </select>
+                        <span asp-validation-for="TrainingCommitment" class="text-danger"></span>
                         <div class="invalid-feedback">Моля изберете брой дни</div>
                     </div>
                 </section>
@@ -157,6 +166,7 @@
                     </div>
                     <textarea asp-for="HealthStatus" class="form-control" rows="3"
                               placeholder="Контузии, хронични заболявания, алергии..." required></textarea>
+                    <span asp-validation-for="HealthStatus" class="text-danger"></span>
                     <div class="invalid-feedback">Моля попълнете здравословното си състояние</div>
                 </section>
 
@@ -176,6 +186,7 @@
                                 <p class="text-muted">Поддържани формати: .jpg, .png</p>
                             </div>
                         </label>
+                        <span asp-validation-for="ProfilePictures" class="text-danger"></span>
                         <div id="imagePreview" class="row g-3 mt-3"></div>
                     </div>
                 </section>
@@ -198,7 +209,6 @@
     </div>
 </div>
 
-<!-- Останалата част от CSS и JavaScript остава същата -->
 <link rel="stylesheet" href="~/css/Requests/Survey.css" />
 <script>
     const fileInput = document.getElementById('profilePictures');

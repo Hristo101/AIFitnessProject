@@ -1,0 +1,146 @@
+﻿@using AIFitnessProject.Core.Models.TrainingPlan
+@model CreateTraingPlanViewModel
+
+<div class="container py-5">
+    <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-primary text-white py-4">
+            <h2 class="h4 mb-0">
+                <i class="fas fa-dumbbell me-2"></i>Създай тренировъчен план
+            </h2>
+        </div>
+
+        <div class="card-body p-4" style="background-color: #f8f9fa;">
+            <form asp-action="Create" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+                <div class="mb-5">
+                    <h3 class="h5 mb-4 text-primary">
+                        <i class="fas fa-camera me-2"></i>Основна снимка
+                    </h3>
+                    <div class="file-upload-wrapper">
+                        <input type="file"
+                               id="trainingPlanImage"
+                               name="ImageFile"
+                               class="form-control visually-hidden"
+                               accept="image/*">
+                        <label for="trainingPlanImage" class="file-upload-label">
+                            <div class="d-flex flex-column align-items-center p-5 border-2 border-dashed">
+                                <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                                <h5 class="mb-2">Провлачете снимка или кликнете за избор</h5>
+                                <p class="text-muted mb-0">Максимален размер на файл: 5MB</p>
+                                <p class="text-muted">Поддържани формати: .jpg, .png</p>
+                            </div>
+                        </label>
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        <div id="imagePreview" class="row g-3 mt-3"></div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="TrainingPlanName" class="form-label text-primary h5">
+                        <i class="fas fa-heading me-2"></i>Име на плана
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-primary text-white">
+                            <i class="fas fa-pencil-alt"></i>
+                        </span>
+                        <input asp-for="TrainingPlanName"
+                               class="form-control form-control-lg"
+                               placeholder="Въведете име за плана"
+                               required>
+                        <div class="invalid-feedback">
+                            <span asp-validation-for="TrainingPlanName"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="TrainingPlanDescription" class="form-label text-primary h5">
+                        <i class="fas fa-align-left me-2"></i>Описание
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-primary text-white">
+                            <i class="fas fa-file-alt"></i>
+                        </span>
+                        <textarea asp-for="TrainingPlanDescription"
+                                  class="form-control form-control-lg"
+                                  rows="4"
+                                  placeholder="Добавете подробно описание..."
+                                  required></textarea>
+                        <div class="invalid-feedback">
+                            <span asp-validation-for="TrainingPlanDescription"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 mt-5">
+                    <button type="submit" class="btn btn-primary btn-lg py-3">
+                        <i class="fas fa-save me-2"></i>Запази плана
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="~/css/TrainingPlan/CreateTrainingPlan.css" />
+@section Scripts {
+    <script>
+        const fileInput = document.getElementById('trainingPlanImage');
+        const previewContainer = document.getElementById('imagePreview');
+
+        fileInput.addEventListener('change', function (e) {
+            previewContainer.innerHTML = '';
+            const file = e.target.files[0];
+
+            if (!file.type.startsWith('image/')) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const col = document.createElement('div');
+                col.className = 'col-12';
+                col.innerHTML = `
+                            <div class="card shadow-sm">
+                                <img src="${event.target.result}" class="card-img-top" alt="Preview">
+                                <div class="card-footer py-2">
+                                    <small class="text-muted">${file.name}</small>
+                                    <button type="button" class="btn btn-danger btn-sm float-end" onclick="this.parentElement.parentElement.parentElement.remove(); fileInput.value = '';">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                previewContainer.appendChild(col);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        const dropZone = document.querySelector('.file-upload-label');
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            fileInput.files = e.dataTransfer.files;
+            fileInput.dispatchEvent(new Event('change'));
+        });
+        (() => {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+}
