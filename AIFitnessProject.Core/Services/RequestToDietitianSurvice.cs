@@ -68,9 +68,10 @@ namespace AIFitnessProject.Core.Services
 
         }
 
-        public Task<bool> ExistAsync(int id)
+        public async Task<bool> ExistAsync(int id)
         {
-            throw new NotImplementedException();
+            return await repository.AllAsReadOnly<RequestToDietitian>()
+               .AnyAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<AllSurveyViewModel>> GetAllAsync(string Id)
@@ -99,9 +100,32 @@ namespace AIFitnessProject.Core.Services
             return models;
         }
 
-        public Task<DetailsSurveyModel> GetViewModelForDetailsAsync(int id)
+        public async Task<DetailsSurveyModel> GetViewModelForDetailsAsync(int id)
         {
-            throw new NotImplementedException();
+            var model = await repository.AllAsReadOnly<RequestToDietitian>()
+                .Where(x => x.Id == id)
+                .Include(x => x.User)
+                .Select(x => new DetailsSurveyModel()
+                {
+                    Email = x.User.Email,
+                    ProfilePicture = x.User.ProfilePicture,
+                    FirstName = x.User.FirstName,
+                    LastName = x.User.LastName,
+                    HealthIssues = x.HealthIssues,
+                    Target = x.Target,
+                    DietBackground = x.DietBackground,
+                    MealPreparationPreference = x.MealPreparationPreference,
+                    PreferredMealsPerDay = x.PreferredMealsPerDay,
+                    UserPictures = x.UserPictures,
+                    SupplementsUsed = x.SupplementsUsed,
+                    DislikedFoods = x.DislikedFoods,
+                    FavouriteFoods = x.FavouriteFoods,
+                    FoodAllergies = x.FoodAllergies,
+                    ExperienceLevel = x.User.ExperienceLevel
+                })
+                .FirstAsync();
+
+            return model;
         }
     }
 }

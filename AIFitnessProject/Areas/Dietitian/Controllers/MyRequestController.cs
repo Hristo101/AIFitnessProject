@@ -24,6 +24,12 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
+
+            if(await requestsToDietitianService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
             var model = await requestsToDietitianService.GetViewModelForDetailsAsync(id);
 
             return View(model);

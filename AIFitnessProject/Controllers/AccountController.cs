@@ -89,6 +89,10 @@ namespace AIFitnessProject.Controllers
                     {
                         return RedirectToAction("All", "MyRequests", new { area = "Trainer" });
                     }
+                    else if(await userManager.IsInRoleAsync(user, "Dietitian"))
+                    {
+                        return RedirectToAction("All", "MyRequest", new { area = "Dietitian" });
+                    }
 
                     return RedirectToAction("All", "Trainer");
                 }
