@@ -232,7 +232,7 @@ body {
 
 .card-header {
     border-radius: 1rem 1rem 0 0 !important;
-    background: linear-gradient(135deg, #2c6e49, #4caf50); /* Променен на зелен */
+    background: linear-gradient(135deg, #2c6e49,#3CB371 /*#4caf50*/ ); /* Променен на зелен */
     color: #ffffff; /* За да е по-видимо заглавието */
 }
     /* Форма и входни полета */
@@ -248,6 +248,12 @@ body {
         border-color: #28a745; /* Променен на зелен */
         box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25); /* Променен на зелен */
     }
+
+.text-primary {
+    --bs-text-opacity: 1;
+    color: #3CB371 !important;
+}
+
 
 .input-group-text {
     background-color: #f8f9fa;
@@ -306,7 +312,7 @@ body {
 
 /* Бутони */
 .btn-primary {
-    background-color: #28a745; /* Променен на зелен */
+    background-color: #3CB371 /*#28a745*/; /* Променен на зелен */
     border: none;
     padding: 0.75rem 2rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

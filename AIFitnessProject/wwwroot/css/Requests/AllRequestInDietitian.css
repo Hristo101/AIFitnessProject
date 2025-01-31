@@ -35,7 +35,8 @@ body {
 }
 
 .text-primary {
-    background: #3CB371
+    --bs-text-opacity: 1;
+    color: #3CB371 !important;
 }
 .survey-card {
     background: var(--glass-bg);
