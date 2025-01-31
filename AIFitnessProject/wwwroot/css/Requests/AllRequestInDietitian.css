@@ -34,6 +34,9 @@ body {
     color:/* #4a94ff #00A550*/ #3CB371 !important;
 }
 
+.text-primary {
+    background: #3CB371
+}
 .survey-card {
     background: var(--glass-bg);
     border-radius: 20px;
