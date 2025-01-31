@@ -4,7 +4,6 @@ using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace AIFitnessProject.Core.Services
 {
     public class RequestToDietitianSurvice : IRequestToDietitianSurvice
@@ -67,6 +66,42 @@ namespace AIFitnessProject.Core.Services
             await repository.AddAsync(requestsToDietitian);
             await repository.SaveChangesAsync();
 
+        }
+
+        public Task<bool> ExistAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<AllSurveyViewModel>> GetAllAsync(string Id)
+        {
+            var dietitian = await repository.AllAsReadOnly<Dietitian>()
+                .Where(x=>x.UserId == Id)
+                .FirstAsync();
+
+
+            var models = await repository.AllAsReadOnly<RequestToDietitian>()
+              .Where(x => x.DietitianId == dietitian.Id && x.IsAnswered == false)
+              .Include(x => x.User)
+              .Select(x => new AllSurveyViewModel()
+              {
+                  Id = x.Id,
+                  ExperienceLevel = x.User.ExperienceLevel,
+                  FirstName = x.User.FirstName,
+                  LastName = x.User.LastName,
+                  ProfilePicture = x.User.ProfilePicture,
+                  Target = x.Target,
+                  DietBackground = x.DietBackground,
+              })
+              .ToListAsync();
+
+
+            return models;
+        }
+
+        public Task<DetailsSurveyModel> GetViewModelForDetailsAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,0 +1,166 @@
+﻿:root {
+    --primary-color: #2A2D72;
+    --secondary-color: #FF6B6B;
+    --accent-color: #4ECDC4;
+    --glass-bg: rgba(255, 255, 255, 0.95);
+    --gradient-bg: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.mb-0 {
+    margin-bottom: 0 !important;
+    color: black;
+}
+
+body {
+    background: var(--gradient-bg);
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    margin: 3em auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.survey-grid {
+    perspective: 1500px;
+}
+
+.text-white {
+    --bs-text-opacity: 1;
+    color:/* #4a94ff #00A550*/ #3CB371 !important;
+}
+
+.survey-card {
+    background: var(--glass-bg);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transform-style: preserve-3d;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    position: relative;
+    min-height: 280px;
+    padding: 20px;
+}
+
+    .survey-card:hover {
+        transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border: 3px solid #fff;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+}
+
+    .profile-img:hover {
+        transform: scale(1.1) rotate(8deg);
+        box-shadow: 0 0 35px rgba(78, 205, 196, 0.3);
+    }
+
+.experience-text {
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.5;
+    max-height: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    transition: max-height 0.5s ease-in-out;
+}
+
+    .experience-text.expanded {
+        max-height: none;
+        -webkit-line-clamp: unset;
+    }
+
+.show-more {
+    cursor: pointer;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    display: block;
+    margin-top: 5px;
+}
+
+    .show-more:hover {
+        color: var(--secondary-color);
+    }
+
+
+.btn-details {
+    background: rgba(42, 45, 114, 0.1);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+    .btn-details:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-3px);
+    }
+
+.btn-create-plan {
+    background: linear-gradient(45deg, var(--accent-color), #3db5ad);
+    color: white;
+    border: none;
+    transition: all 0.4s;
+}
+
+    .btn-create-plan:hover {
+        box-shadow: 0 10px 25px rgba(78, 205, 196, 0.4);
+        transform: translateY(-3px);
+    }
+
+/* Анимация за картите */
+@keyframes cardRise {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.survey-card {
+    animation: cardRise 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+/* Мобилна оптимизация */
+@media (max-width: 768px) {
+    .survey-card {
+        margin: 0 10px;
+        animation-delay: 0s !important;
+    }
+
+    .profile-img {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .row-cols-xl-3 > * {
+        flex: 0 0 auto;
+        width: 43.333333%;
+    }
+}
+

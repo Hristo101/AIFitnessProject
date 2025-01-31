@@ -1,0 +1,79 @@
+﻿@using AIFitnessProject.Core.Models.RequestToDietitian
+@model IEnumerable<AllSurveyViewModel>
+
+@{
+    ViewData["Title"] = "Диетични Анкети";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="~/css/Requests/AllRequestInDietitian.css">
+
+<div class="container py-5">
+    <h1 class="text-center text-white mb-5 display-4 fw-bold animate__animated animate__fadeInDown">
+        <i class="fas fa-clipboard-list me-3"></i>@ViewData["Title"]
+    </h1>
+
+    <div class="survey-grid row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+        @{
+            int delay = 0;
+        }
+        @foreach (var survey in Model)
+        {
+            <div class="col">
+                <div class="survey-card h-100" style="animation-delay: @(delay + 100)ms">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="data:image/jpeg;base64,@survey.ProfilePicture"
+                                 class="profile-img rounded-circle shadow-lg"
+                                 alt="Профилна снимка">
+                            <div class="ms-4">
+                                <h2 class="h4 mb-1 fw-bold text-primary">@survey.FirstName @survey.LastName</h2>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-bullseye me-2 text-primary"></i>
+                                <span class="h6 mb-0">@survey.Target</span>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-bullseye me-2 text-primary"></i>
+                                <span class="h6 mb-0">@survey.ExperienceLevel</span>
+                            </div>
+                            <p class="experience-text">@survey.DietBackground</p>
+                            <span class="show-more" onclick="toggleText(this)">Покажи още</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Details" asp-route-id="@survey.Id" asp-controller="MyRequests" class="btn btn-details rounded-pill px-4">
+                                <i class="fas fa-search-plus me-2"></i>Детайли
+                            </a>
+                            <button class="btn btn-create-plan rounded-pill px-4">
+                                <i class="fas fa-magic me-2"></i>Създай Хранителен Режим
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            delay += 700;
+        }
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".show-more").forEach(button => {
+            button.addEventListener("click", function () {
+                const textBlock = this.previousElementSibling;
+                if (textBlock.classList.contains("expanded")) {
+                    textBlock.classList.remove("expanded");
+                    this.innerText = "Покажи още";
+                } else {
+                    textBlock.classList.add("expanded");
+                    this.innerText = "Скрий";
+                }
+            });
+        });
+    });
+</script>

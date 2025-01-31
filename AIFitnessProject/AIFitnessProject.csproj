@@ -25,6 +25,8 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Home\" />
+    <Folder Include="Areas\Dietitian\Data\" />
+    <Folder Include="Areas\Dietitian\Models\" />
     <Folder Include="Areas\Trainer\Data\" />
     <Folder Include="Areas\Trainer\Models\" />
     <Folder Include="wwwroot\css\Dietitian\" />
