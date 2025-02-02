@@ -1,0 +1,215 @@
+﻿html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    background-color: #eef1f5; /* Светъл фон, който е приятен за очите */
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+/* Добавяме малка анимация при hover */
+a:hover,
+button:hover {
+    opacity: 0.9;
+    transition: 0.3s ease-in-out;
+}
+
+/* 
+-------------------------------
+  Card / Form Styles 
+-------------------------------
+*/
+.card {
+    border: none; /* Премахваме стандартната рамка */
+    border-radius: 10px; /* Заоблени ъгли */
+    overflow: hidden;
+}
+
+.card-header {
+    background-image: linear-gradient(to right, #007bff, #0068d9);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px 10px 0 0;
+   
+}
+
+    .card-header h2 {
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        font-weight: 600;
+    }
+
+
+
+/* Подчертани линии под заглавията за акцент */
+h3.h5,
+label.h5 {
+    border-bottom: 2px solid #007bff;
+    display: inline-block;
+    padding-bottom: 6px;
+}
+
+/* Текстови полета, бутони, групи */
+.form-label {
+    margin-bottom: 6px;
+}
+
+.form-control,
+.input-group-text {
+    border-radius: 5px !important;
+}
+
+    .input-group-text.bg-primary {
+        background-color: #007bff !important;
+        border: none !important;
+    }
+
+.form-control-lg {
+    box-shadow: none !important;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+}
+
+    .form-control-lg:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 4px rgba(0, 123, 255, 0.2);
+    }
+
+/* 
+-------------------------------
+  File Upload / Preview Styles 
+-------------------------------
+*/
+.file-upload-wrapper {
+    position: relative;
+}
+
+.file-upload-label {
+    display: block;
+    text-align: center;
+    cursor: pointer;
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    padding: 2rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    background-color: #fff;
+}
+
+    .file-upload-label:hover {
+        background-color: #f8f9fa;
+    }
+
+    .file-upload-label.dragover {
+        background-color: #e9f5ff;
+        border-color: #007bff;
+    }
+
+#trainingPlanImage {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+    width: 0;
+    height: 0;
+}
+
+/* Превю на качената снимка */
+#imagePreview .card {
+    transition: transform 0.3s ease;
+}
+
+    #imagePreview .card:hover {
+        transform: scale(1.02);
+    }
+
+#imagePreview .card-img-top {
+    max-height: 789px;
+    object-fit: cover;
+}
+
+#imagePreview .card-footer {
+    background-color: #fff;
+    border-top: none;
+}
+
+/* 
+-------------------------------
+  Buttons 
+-------------------------------
+*/
+.btn-primary {
+    background-image: linear-gradient(to right, #007bff, #0068d9);
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+    .btn-primary:focus,
+    .btn-primary:active {
+        box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+        outline: none;
+    }
+
+.btn-danger.btn-sm {
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-danger.btn-sm:hover {
+        background-color: #dc3545;
+        opacity: 0.85;
+    }
+
+.bg-primary {
+    --bs-bg-opacity: 1;
+    background-color: /*rgba(var(--bs-primary-rgb), var(--bs-bg-opacity))*/ #3CB371 !important;
+}
+/* 
+-------------------------------
+  Responsive Design 
+-------------------------------
+*/
+@media (max-width: 992px) {
+    /* Настройки за таблети и средни екрани */
+    .card-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .file-upload-label {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Настройки за смартфони и малки екрани */
+    .card-header {
+        text-align: center;
+    }
+
+        .card-header h2 {
+            font-size: 1.1rem;
+        }
+
+    .input-group-text.bg-primary {
+        display: none; /* Скриваме иконите за по-компактен изглед на много малки екрани */
+    }
+
+    .form-control.form-control-lg {
+        font-size: 0.9rem;
+        padding: 0.6rem;
+    }
+
+    .btn.btn-primary.btn-lg {
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+
+    h3.h5,
+    label.h5 {
+        font-size: 1rem;
+        border-bottom: 2px solid #007bff;
+    }
+}

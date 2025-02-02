@@ -20,6 +20,10 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public string Description { get; set; } = string.Empty;
 
         [Required]
+        [Comment("Diet Image Url")]
+        public string ImageUrl { get; set; } = string.Empty;
+
+        [Required]
         [Comment("Diet Creator Id")]
         public int CreatedById { get; set; }
 
