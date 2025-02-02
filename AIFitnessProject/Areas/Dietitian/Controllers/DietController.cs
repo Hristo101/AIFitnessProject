@@ -6,7 +6,7 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
     public class DietController : DietitianBaseController
     {
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             CreateDietViewModel model = new CreateDietViewModel();
 
