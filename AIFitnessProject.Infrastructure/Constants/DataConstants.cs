@@ -102,7 +102,7 @@ namespace AIFitnessProject.Infrastructure.Constants
             public const int MaxWeight = 450;
             public const int MinWeight = 3;
 
-            public const int MaxExperienceLevelLength = 1500;
+            public const int MaxExperienceLevelLength = 2100;
             public const int MinExperienceLevelLength = 3;
 
             public const int MaxAimLength = 5000;

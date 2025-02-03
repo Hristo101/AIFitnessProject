@@ -11,6 +11,10 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Key]
         [Comment("Workout Identifier")]
         public int Id { get; set; }
+        [Comment("Workout Image")]
+        public string ImageUrl { get; set; }
+        [Comment("Workout Title")]
+        public string Title { get; set; }
 
         [Required]
         [Comment("Workout Training Plan Id")]

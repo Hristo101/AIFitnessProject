@@ -34,7 +34,7 @@ namespace AIFitnessProject.Core.Models.RequestsToCoach
         public string TrainingBackground { get; set; }
 
         [Required(ErrorMessage = "Здравословните проблеми са задължителни.")]
-        [StringLength(200, MinimumLength = 3, ErrorMessage = "Здравословните проблеми трябва да бъдат по-голели от 3 символа и по-малки от 200")]
+        [StringLength(400, MinimumLength = 3, ErrorMessage = "Здравословните проблеми трябва да бъдат по-голели от 3 символа и по-малки от 200")]
         public string HealthStatus { get; set; }
         [Required(ErrorMessage = "Любимите тренировки са задължителни.")]
         [StringLength(200, MinimumLength = 3, ErrorMessage = "Любимите тренировки трябва да бъдат по-голели от 3 символа и по-малки от 200")]

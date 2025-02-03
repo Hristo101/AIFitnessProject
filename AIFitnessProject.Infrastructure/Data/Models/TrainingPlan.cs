@@ -24,7 +24,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 
         [Required]
         [Comment("Training Plan Creator Id")]
-        public int CreatedById { get; set; }
+        public string CreatedById { get; set; }
 
         [ForeignKey(nameof(CreatedById))]
         public Trainer User { get; set; } = null!;
