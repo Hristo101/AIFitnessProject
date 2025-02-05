@@ -11,5 +11,6 @@ namespace AIFitnessProject.Core.Contracts
     {
         Task CreateTrainigPlan(string id, string trainerId, CreateTraingPlanViewModel model);
         Task<ICollection<AllTrainingPlanViewModel>> GetAllTrainingPlanAsync(string userId);
+        Task<TrainingPlanDetailsViewModel> GetTrainingPlanModelsForDetails(int id);
     }
 }

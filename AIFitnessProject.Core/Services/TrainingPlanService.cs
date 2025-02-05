@@ -1,5 +1,7 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.TrainingPlan;
+using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -53,6 +55,7 @@ namespace AIFitnessProject.Core.Services
                 .Where(x =>x.IsActive == false)
                 .Select(x => new AllTrainingPlanViewModel()
                 {
+                    Id = x.Id,
                     DescriptionOfTriningPlan = x.Description,
                     ImageUrl = x.ImageUrl,
                     TitleOfTriningPlan = x.Name,
@@ -61,5 +64,41 @@ namespace AIFitnessProject.Core.Services
 
             return models;
         }
+
+        public async Task<TrainingPlanDetailsViewModel> GetTrainingPlanModelsForDetails(int id)
+        {
+            var trainingPlan = await repository.AllAsReadOnly<TrainingPlan>()
+            .Include(tp => tp.Workouts)
+                .ThenInclude(w => w.WorkoutsExercises)
+                    .ThenInclude(we => we.Exercise)
+            .FirstOrDefaultAsync(tp => tp.Id == id);
+
+            var viewModel = new TrainingPlanDetailsViewModel
+            {
+                Id = trainingPlan.Id,
+                Name = trainingPlan.Name,
+                Description = trainingPlan.Description,
+                ImageUrl = trainingPlan.ImageUrl,
+                Workouts = trainingPlan.Workouts.Select(workout => new WorkoutViewModel
+                {
+                    Title = workout.Title,
+                    DayOfWeek = workout.DayOfWeek,
+                    ImageUrl = workout.ImageUrl,
+                    Exercises = workout.WorkoutsExercises.Select(we => new ExerciseViewModel
+                    {
+                        Name = we.Exercise.Name,
+                        Description = we.Exercise.Description,
+                        ImageUrl = we.Exercise.ImageUrl,
+                        VideoUrl = we.Exercise.VideoUrl,
+                        MuscleGroup = we.Exercise.MuscleGroup,
+                        DifficultyLevel = we.Exercise.DifficultyLevel
+                    }).ToList()
+                }).ToList()
+            };
+
+            return viewModel;
+        }
     }
+
 }
+

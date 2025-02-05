@@ -16,7 +16,7 @@
             {
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="training-card">
-                        <img src="@training.ImageUrl" class="card-image w-100" alt="Training">
+                        <img src="data:image/jpeg;base64,@training.ImageUrl" class="card-image w-100" alt="Training">
                         <div class="card-body">
                             <h3 class="mb-4 fw-bold text-primary">@training.TitleOfTriningPlan</h3>
                             <div class="description-wrapper">
@@ -26,12 +26,12 @@
                                 </button>
                             </div>
                             <div class="button-group d-flex justify-content-end gap-2">
-                                <button class="btn btn-custom btn-details">
+                                <a asp-action="Details" asp-controller="TrainingPlan" asp-route-id="@training.Id" asp-area="Trainer" class="btn btn-custom btn-details">
                                     <i class="fas fa-info-circle me-2"></i>Details
-                                </button>
-                                <button class="btn btn-custom btn-edit">
+                                </a>
+                                <a asp-action="Details" asp-controller="TrainingPlan" asp-route-id="@training.Id" asp-area="Trainer" class="btn btn-custom btn-edit">
                                     <i class="fas fa-edit me-2"></i>Edit
-                                </button>
+                                </a>
                             </div>
                             <div class="animated-border"></div>
                         </div>

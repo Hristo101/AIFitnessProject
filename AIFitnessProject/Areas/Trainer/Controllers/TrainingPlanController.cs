@@ -43,6 +43,13 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
         [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var model = await trainingPlanService.GetTrainingPlanModelsForDetails(id);
+
+            return View(model);
+        }
+        [HttpGet]
         public async Task<IActionResult> All()
         {
             var model = await trainingPlanService.GetAllTrainingPlanAsync(GetUserId());
