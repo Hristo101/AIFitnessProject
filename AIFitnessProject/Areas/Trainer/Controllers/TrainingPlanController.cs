@@ -20,23 +20,23 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             return View();
         }
         [HttpGet]
-        public async Task<IActionResult> Create(string userId)
+        public async Task<IActionResult> Create(string id)
         {
             CreateTraingPlanViewModel model = new CreateTraingPlanViewModel();
-            model.UserId = userId;  
+            model.UserId = id;  
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Create(CreateTraingPlanViewModel model,string userId)
+        public async Task<IActionResult> Create(CreateTraingPlanViewModel model,string id)
         {
             if (!ModelState.IsValid)
             {
-                model.UserId = userId;
+                model.UserId = id;
                 return View(model);
             }
-            await trainingPlanService.CreateTrainigPlan(userId,GetUserId(), model);
+            await trainingPlanService.CreateTrainigPlan(id, GetUserId(), model);
 
-            return RedirectToAction("All", "TrainingPlanController");
+            return RedirectToAction("All");
         }
         private string GetUserId()
         {
