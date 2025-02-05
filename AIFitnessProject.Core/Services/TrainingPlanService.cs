@@ -1,0 +1,65 @@
+﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Models.TrainingPlan;
+using AIFitnessProject.Infrastructure.Common;
+using AIFitnessProject.Infrastructure.Data.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AIFitnessProject.Core.Services
+{
+    public class TrainingPlanService : ITrainingPlanService
+    {
+        private readonly IRepository repository;
+
+        public TrainingPlanService(IRepository _repository)
+        {
+            this.repository = _repository;
+        }
+
+        public async Task  CreateTrainigPlan(string id, string trainerId, CreateTraingPlanViewModel model)
+        {
+           var trainer = await repository.All<Trainer>().Where(x =>x.UserId == trainerId).FirstAsync();
+            TrainingPlan  trainingPlan = new TrainingPlan()
+            {
+                Description = model.TrainingPlanDescription,
+                Name = model.TrainingPlanName,
+                CreatedById = trainer.Id,
+                UserId = id,
+                IsActive = false,
+            };
+            if (model.ImageUrl!= null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await model.ImageUrl.CopyToAsync(memoryStream);
+                    string base64Image = Convert.ToBase64String(memoryStream.ToArray());
+                   trainingPlan.ImageUrl = base64Image;
+                }
+            }
+
+            await repository.AddAsync(trainingPlan);
+            await repository.SaveChangesAsync();
+        }
+
+        public async Task<ICollection<AllTrainingPlanViewModel>> GetAllTrainingPlanAsync(string userId)
+        {
+            var trainer = await repository.All<Trainer>().Where(x => x.UserId == userId).FirstAsync();
+            var models = await repository.AllAsReadOnly<TrainingPlan>().Include(x =>x.User)
+                .Where(x =>x.Trainer.Id == trainer.Id)
+                .Where(x =>x.IsActive == false)
+                .Select(x => new AllTrainingPlanViewModel()
+                {
+                    DescriptionOfTriningPlan = x.Description,
+                    ImageUrl = x.ImageUrl,
+                    TitleOfTriningPlan = x.Name,
+                })
+                .ToListAsync();
+
+            return models;
+        }
+    }
+}

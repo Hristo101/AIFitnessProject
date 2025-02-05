@@ -34,6 +34,6 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Comment("Meal Calories")]
         public int Calories { get; set; }
 
-        public ICollection<DietDetail> DietDetails { get; set; } = new List<DietDetail>();
+        public ICollection<MealsDietDietail> MealsDietDietails { get; set; } = new List<MealsDietDietail>();
     }
 }

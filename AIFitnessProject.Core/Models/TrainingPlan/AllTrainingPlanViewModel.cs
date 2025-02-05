@@ -12,6 +12,5 @@ namespace AIFitnessProject.Core.Models.TrainingPlan
         public string ImageUrl {  get; set; }
         public string TitleOfTriningPlan { get; set; }
         public string DescriptionOfTriningPlan { get;set; }
-        public List<WorkoutViewModelForTrainingPlan> Workouts { get; set; }
     }
 }

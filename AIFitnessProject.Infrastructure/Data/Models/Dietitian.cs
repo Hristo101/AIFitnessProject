@@ -52,6 +52,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public ApplicationUser User { get; set; } = null!;
 
         public ICollection<Calendar> Calendars { get; set; } = new List<Calendar>();
+        public ICollection<RequestToDietitian> RequestToDietitians { get; set; } = new List<RequestToDietitian>();
 
     }
 }

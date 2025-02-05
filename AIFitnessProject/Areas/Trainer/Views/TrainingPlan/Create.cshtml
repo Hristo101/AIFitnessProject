@@ -10,7 +10,7 @@
         </div>
 
         <div class="card-body p-4" style="background-color: #f8f9fa;">
-            <form asp-action="Create" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+            <form asp-action="Create" method="post" asp-route-id="" class="needs-validation" enctype="multipart/form-data" novalidate>
                 <div class="mb-5">
                     <h3 class="h5 mb-4 text-primary">
                         <i class="fas fa-camera me-2"></i>Основна снимка
@@ -18,9 +18,10 @@
                     <div class="file-upload-wrapper">
                         <input type="file"
                                id="trainingPlanImage"
-                               name="ImageFile"
+                               name="ImageUrl"
                                class="form-control visually-hidden"
-                               accept="image/*">
+                               accept="image/*"
+                               required>
                         <label for="trainingPlanImage" class="file-upload-label">
                             <div class="d-flex flex-column align-items-center p-5 border-2 border-dashed">
                                 <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
@@ -29,7 +30,7 @@
                                 <p class="text-muted">Поддържани формати: .jpg, .png</p>
                             </div>
                         </label>
-                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
                         <div id="imagePreview" class="row g-3 mt-3"></div>
                     </div>
                 </div>
@@ -80,67 +81,87 @@
         </div>
     </div>
 </div>
+
 <link rel="stylesheet" href="~/css/TrainingPlan/CreateTrainingPlan.css" />
+
 @section Scripts {
     <script>
-        const fileInput = document.getElementById('trainingPlanImage');
-        const previewContainer = document.getElementById('imagePreview');
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.getElementById('trainingPlanImage');
+            const previewContainer = document.getElementById('imagePreview');
 
-        fileInput.addEventListener('change', function (e) {
-            previewContainer.innerHTML = '';
-            const file = e.target.files[0];
+            fileInput.addEventListener('change', function (e) {
+                previewContainer.innerHTML = '';
 
-            if (!file.type.startsWith('image/')) return;
+                if (fileInput.files.length === 0) return;
 
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const col = document.createElement('div');
-                col.className = 'col-12';
-                col.innerHTML = `
-                            <div class="card shadow-sm">
-                                <img src="${event.target.result}" class="card-img-top" alt="Preview">
-                                <div class="card-footer py-2">
-                                    <small class="text-muted">${file.name}</small>
-                                    <button type="button" class="btn btn-danger btn-sm float-end" onclick="this.parentElement.parentElement.parentElement.remove(); fileInput.value = '';">
-                                        <i class="fas fa-times"></i>
-                                    </button>
+                const file = fileInput.files[0];
+
+                if (!file.type.startsWith('image/')) return;
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const col = document.createElement('div');
+                    col.className = 'col-12';
+                    col.innerHTML = `
+                                <div class="card shadow-sm">
+                                    <img src="${event.target.result}" class="card-img-top" alt="Preview">
+                                    <div class="card-footer py-2">
+                                        <small class="text-muted">${file.name}</small>
+                                        <button type="button" class="btn btn-danger btn-sm float-end" onclick="removeImage()">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        `;
-                previewContainer.appendChild(col);
-            };
-            reader.readAsDataURL(file);
-        });
+                            `;
+                    previewContainer.appendChild(col);
+                };
+                reader.readAsDataURL(file);
+            });
 
-        const dropZone = document.querySelector('.file-upload-label');
+            function removeImage() {
+                previewContainer.innerHTML = '';
+                fileInput.value = '';
+            }
 
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        });
+            const dropZone = document.querySelector('.file-upload-label');
 
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('dragover');
-        });
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
 
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            fileInput.files = e.dataTransfer.files;
-            fileInput.dispatchEvent(new Event('change'));
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('dragover');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+
+                if (e.dataTransfer.files.length > 0) {
+                    fileInput.files = e.dataTransfer.files;
+                    fileInput.dispatchEvent(new Event('change'));
+                }
+            });
+
+            (() => {
+                'use strict'
+                const forms = document.querySelectorAll('.needs-validation')
+                Array.from(forms).forEach(form => {
+                    form.addEventListener('submit', event => {
+                        if (fileInput.files.length === 0) {
+                            event.preventDefault();
+                            alert('Моля, качете снимка преди да запазите тренировъчния план.');
+                        }
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            })();
         });
-        (() => {
-            'use strict'
-            const forms = document.querySelectorAll('.needs-validation')
-            Array.from(forms).forEach(form => {
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-                    form.classList.add('was-validated')
-                }, false)
-            })
-        })()
     </script>
 }

@@ -30,7 +30,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [ForeignKey(nameof(CreatedById))]
         public Dietitian User { get; set; } = null!;
 
-        public ICollection<DietDetail> DietDetails { get; set; } = new List<DietDetail>();
+        public ICollection<MealsDietDietail> MealsDietDietails { get; set; } = new List<MealsDietDietail>();
         public ICollection<PlanAssignment> PlanAssignments { get; set; } = new List<PlanAssignment>();            
     }
 }

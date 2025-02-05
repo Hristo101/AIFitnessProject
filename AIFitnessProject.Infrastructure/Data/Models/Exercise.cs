@@ -38,7 +38,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [MaxLength(100)]
         public string DifficultyLevel { get; set; }
 
-        public ICollection<Workout> Workouts { get; set; }
+        public ICollection<WorkoutsExercise> WorkoutsExercises { get; set; } = new List<WorkoutsExercise>();
 
     }
 }

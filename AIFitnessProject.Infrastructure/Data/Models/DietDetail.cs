@@ -12,18 +12,18 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Key]
         public int Id { get; set; }
 
-        public int DietId { get; set; }
-        [ForeignKey(nameof(DietId))]
-        public Diet Diet { get; set; } = null!;
-
-        public int MealId { get; set; }
-        [ForeignKey(nameof(MealId))]
-        public Meal Meal { get; set; } = null!;
         [Required]
         [Comment("DietDetail MealTime")]
         public string MealTime { get; set; } = string.Empty;
         [Required]
         [Comment("DietDetail MealTime")]
         public string DayOfWeel { get; set; } = string.Empty;
+
+        [Required]
+        public int CreatorId { get; set; }
+        [ForeignKey("CreatorId")]
+        public Dietitian Dietitian { get; set; }
+
+        public ICollection<MealsDietDietail> MealsDietDietails { get; set; } = new List<MealsDietDietail>();
     }
 }

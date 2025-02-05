@@ -17,18 +17,16 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public string Title { get; set; }
 
         [Required]
+        public int CreatorId { get; set; }
+        [ForeignKey("CreatorId")]
+        public Trainer Trainer { get; set; }
+
+        [Required]
         [Comment("Workout Training Plan Id")]
         public int TrainingPlanId { get; set; }
 
         [ForeignKey(nameof(TrainingPlanId))]
         public TrainingPlan TrainingPlans { get; set; } = null!;
-
-        [Required]
-        [Comment("Workout Exercise Id")]
-        public int ExerciseId { get; set; }
-
-        [ForeignKey(nameof(ExerciseId))]
-        public Exercise Exercise { get; set; } = null!;
 
         [Required]
         [MaxLength(MaxDayOfWeekLength)]
@@ -38,5 +36,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Required]
         [Comment("Workout Order In Workout")]
         public int OrderInWorkout {  get; set; }
+
+        public ICollection<WorkoutsExercise> WorkoutsExercises { get; set; } = new List<WorkoutsExercise>();
     }
 }

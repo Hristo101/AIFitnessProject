@@ -21,13 +21,21 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [MaxLength(MaxDescriptionLength)]
         [Comment("Training Plan Description")]
         public string Description { get; set; } = string.Empty;
+        [Required]
+        [Comment("Training Plan  User Id")]
+        public string UserId { get; set; }
+
+        [ForeignKey(nameof(UserId))]
+        public ApplicationUser User { get; set; } = null!;
 
         [Required]
         [Comment("Training Plan Creator Id")]
-        public string CreatedById { get; set; }
+        public int CreatedById { get; set; }
 
         [ForeignKey(nameof(CreatedById))]
-        public Trainer User { get; set; } = null!;
+        public Trainer Trainer { get; set; } = null!;
+
+        public bool IsActive { get; set; } = false;
 
         public ICollection<Workout> Workouts { get; set; } = new List<Workout>();
         public ICollection<PlanAssignment> PlanAssignments { get; set; } = new List<PlanAssignment>();

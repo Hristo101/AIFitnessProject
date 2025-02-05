@@ -86,6 +86,7 @@ namespace AIFitnessProject.Core.Services
                 .Select(x => new AllSurveyViewModel() 
                 {
                     Id = x.Id,
+                    UserId = x.User.Id,
                     ExperienceLevel = x.TrainingBackground,
                     FirstName = x.User.FirstName,
                     LastName = x.User.LastName,
