@@ -19,9 +19,9 @@ namespace AIFitnessProject.Infrastructure.Data
             //    ().HasKey(x => new { x.TrainerId, x.UserId });
 
             builder.Entity<MealsDietDietail>()
-         .HasOne(x => x.Diet)
+         .HasOne(x => x.DietDetails)
          .WithMany(x => x.MealsDietDietails)
-         .HasForeignKey(x => x.DietId);
+         .HasForeignKey(x => x.DietDetailsId);
 
 
             builder.Entity<MealsDietDietail>()

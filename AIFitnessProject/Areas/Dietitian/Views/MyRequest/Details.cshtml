@@ -455,7 +455,7 @@
             <a asp-area="Dietitian" asp-action="All" asp-controller="MyRequest" class="btn-custom btn-back">
                 <i class="fas fa-arrow-left me-2"></i>Назад
             </a>
-                <a asp-area="Dietitian" asp-action="Create" asp-controller="Diet" class="btn-custom btn-plan">
+                <a asp-area="Dietitian" asp-action="Create" asp-route-id="@Model.UserId" asp-controller="Diet" class="btn-custom btn-plan">
                     <i class="fas fa-calendar-check me-2"></i>Създай Хранителен Режим
             </a>
          @*    <button class="btn-custom btn-plan">

@@ -87,6 +87,7 @@ namespace AIFitnessProject.Core.Services
               .Select(x => new AllSurveyViewModel()
               {
                   Id = x.Id,
+                  UserId = x.User.Id,
                   ExperienceLevel = x.User.ExperienceLevel,
                   FirstName = x.User.FirstName,
                   LastName = x.User.LastName,
@@ -121,7 +122,8 @@ namespace AIFitnessProject.Core.Services
                     DislikedFoods = x.DislikedFoods,
                     FavouriteFoods = x.FavouriteFoods,
                     FoodAllergies = x.FoodAllergies,
-                    ExperienceLevel = x.User.ExperienceLevel
+                    ExperienceLevel = x.User.ExperienceLevel,
+                    UserId = x.User.Id
                 })
                 .FirstAsync();
 

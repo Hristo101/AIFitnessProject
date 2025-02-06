@@ -24,13 +24,22 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public string ImageUrl { get; set; } = string.Empty;
 
         [Required]
+        [Comment("Diet User Id")]
+        public string UserId { get; set; }
+
+        [ForeignKey(nameof(UserId))]
+        public ApplicationUser User { get; set; } = null!;
+
+        [Required]
         [Comment("Diet Creator Id")]
         public int CreatedById { get; set; }
 
         [ForeignKey(nameof(CreatedById))]
-        public Dietitian User { get; set; } = null!;
+        public Dietitian Dietitian { get; set; } = null!;
 
-        public ICollection<MealsDietDietail> MealsDietDietails { get; set; } = new List<MealsDietDietail>();
+        public bool IsActive { get; set; } = false;
+
+        public ICollection<DietDetail> MealsDietDietails { get; set; } = new List<DietDetail>();
         public ICollection<PlanAssignment> PlanAssignments { get; set; } = new List<PlanAssignment>();            
     }
 }

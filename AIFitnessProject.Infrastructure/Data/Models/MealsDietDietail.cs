@@ -14,9 +14,10 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public int Id { get; set; }
 
         [Required]
-        public int DietId { get; set; }
-        [ForeignKey(nameof(DietId))]
-        public Diet Diet { get; set; }
+        public int DietDetailsId { get; set; }
+
+        [ForeignKey(nameof(DietDetailsId))]
+        public DietDetail DietDetails { get; set; }
 
         [Required]
         public int MealId { get; set; }

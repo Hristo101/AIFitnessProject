@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 using static AIFitnessProject.Infrastructure.Constants.DataConstants.Diet;
 namespace AIFitnessProject.Core.Models.Diet
@@ -7,7 +8,7 @@ namespace AIFitnessProject.Core.Models.Diet
     {
 
         [Required(ErrorMessage = "Снимката е задължителна.")]
-        public string ImageUrl { get; set; }
+        public IFormFile ImageUrl { get; set; }
 
 
         [Required(ErrorMessage = "Името на хранителния режим е задължителен.")]
@@ -16,6 +17,8 @@ namespace AIFitnessProject.Core.Models.Diet
 
         [Required(ErrorMessage = "Описанието на хранителния режим е задължителен.")]
         [StringLength(MaxDescriptionLength, MinimumLength = MinDescriptionLength, ErrorMessage = "Описанието на хранителния режим трябва да бъде по-голямо от 3 символа и по-малко от 2500")]
-        public string DietDescription { get; set; } 
+        public string DietDescription { get; set; }
+
+        public string UserId { get; set; } = string.Empty;
     }
 }

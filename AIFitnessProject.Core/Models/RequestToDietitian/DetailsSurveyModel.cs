@@ -31,5 +31,7 @@
         public string SupplementsUsed { get; set; }
 
         public string ExperienceLevel { get; set; }
+
+        public string UserId { get; set; }
     }
 }
