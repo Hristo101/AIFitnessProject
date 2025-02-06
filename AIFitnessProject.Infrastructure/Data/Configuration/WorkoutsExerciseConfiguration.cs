@@ -38,6 +38,31 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     Id = 4,
                     ExcersiceId = 4,
                     WorkoutId = 1
+                },
+                  new WorkoutsExercise
+                {
+                    Id = 5,
+                    ExcersiceId = 5,
+                    WorkoutId = 2
+                },
+                     new WorkoutsExercise
+                {
+                    Id = 6,
+                    ExcersiceId = 6,
+                    WorkoutId = 2
+                },
+
+                new WorkoutsExercise
+                {
+                    Id = 7,
+                    ExcersiceId = 7,
+                    WorkoutId = 2
+                },
+                   new WorkoutsExercise
+                {
+                    Id = 8,
+                    ExcersiceId = 8,
+                    WorkoutId = 2
                 }
             };
         }

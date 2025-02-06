@@ -24,6 +24,16 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     TrainingPlanId = 1,        
                     DayOfWeek = "Понеделник",
                     OrderInWorkout = 1
+                },
+                 new Workout
+                {
+                    Id = 2,
+                    Title = "Основна тренировка за гръб",
+                    ImageUrl = "https://pulsefit.bg/uploads/cache/O/public/uploads/media-manager/app-modules-blog-models-blog/header/71/797/back_1800x675.jpg",
+                    CreatorId = 2,
+                    TrainingPlanId = 1,
+                    DayOfWeek = "Вторник",
+                    OrderInWorkout = 2
                 }
             };
         }
