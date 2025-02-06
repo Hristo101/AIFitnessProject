@@ -10,5 +10,6 @@ namespace AIFitnessProject.Core.Contracts
     public interface IWorkoutService 
     {
         Task<ICollection<WorkoutViewModel>> All(string userId);
+        Task<WorkoutViewModel> GetModelForDetails(int id);
     }
 }

@@ -52,5 +52,32 @@ namespace AIFitnessProject.Core.Services
 
             return model;
         }
+
+        public async Task<WorkoutViewModel> GetModelForDetails(int id)
+        {
+            var model = await repository.AllAsReadOnly<Infrastructure.Data.Models.Workout>()
+                .Where(x => x.Id == id)
+                .Select(x => new WorkoutViewModel()
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    DayOfWeek = x.DayOfWeek,
+                    ImageUrl = x.ImageUrl,
+                    Exercises = x.WorkoutsExercises.Select(we => new ExerciseViewModel
+                    {
+                        Name = we.Exercise.Name,
+                        Description = we.Exercise.Description,
+                        ImageUrl = we.Exercise.ImageUrl,
+                        VideoUrl = we.Exercise.VideoUrl,
+                        MuscleGroup = we.Exercise.MuscleGroup,
+                        Series = we.Exercise.Series,
+                        Repetitions = we.Exercise.Repetitions,
+                        DifficultyLevel = we.Exercise.DifficultyLevel
+                    }).ToList()
+                })
+                .FirstAsync();
+
+            return model;
+        }
     }
 }

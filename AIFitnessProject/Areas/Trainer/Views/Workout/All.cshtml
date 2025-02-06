@@ -50,7 +50,7 @@
  
                 <!-- Бутоните ДЕТАЙЛИ и РЕДАКТИРАЙ под всяка тренировка -->
 <div class="workout-actions">
-<a asp-action="Details" asp-controller class="btn btn-details">Детайли</a>
+<a asp-action="Details" asp-controller="Workout" asp-route-id="@workout.Id" class="btn btn-details">Детайли</a>
 <button class="btn btn-edit">Редактирай</button>
 </div>
 </div>

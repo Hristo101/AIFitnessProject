@@ -1,4 +1,5 @@
-﻿@model WorkoutViewModel
+﻿@using AIFitnessProject.Core.Models.Workout
+@model WorkoutViewModel
 @{
     ViewData["Title"] = "Тренировка: @Model.Title";
 }
@@ -119,7 +120,6 @@
     </script>
 }
 
-@section Styles {
     <style>
         /* Примерни стилове, които да направят визията по-привлекателна */
 
@@ -215,11 +215,4 @@
             box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15) !important;
         }
 
-        /* Ако искаш леко наслагване на частици над картите,
-                           можеш да промениш z-index: -1 на #particles-js контейнера
-                           и да промениш тук, но внимавай с визуалното покритие. */
-
-        /* Допълнително може да добавиш медиa заявки,
-                           ако искаш да нагласиш изгледа за мобилни устройства. */
     </style>
-}
