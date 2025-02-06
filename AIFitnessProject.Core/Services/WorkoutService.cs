@@ -65,6 +65,7 @@ namespace AIFitnessProject.Core.Services
                     ImageUrl = x.ImageUrl,
                     Exercises = x.WorkoutsExercises.Select(we => new ExerciseViewModel
                     {
+                        Id = we.Exercise.Id,
                         Name = we.Exercise.Name,
                         Description = we.Exercise.Description,
                         ImageUrl = we.Exercise.ImageUrl,

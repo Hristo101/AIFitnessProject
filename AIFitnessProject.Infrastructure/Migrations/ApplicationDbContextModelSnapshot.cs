@@ -248,7 +248,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             Id = "0c4c8519-6a0a-45a5-acc2-64c0de9af4a8",
                             AccessFailedCount = 0,
                             Aim = "",
-                            ConcurrencyStamp = "6d2ebaf6-bb1b-42f9-8d65-126b6f28fdc5",sto
+                            ConcurrencyStamp = "6d2ebaf6-bb1b-42f9-8d65-126b6f28fdc5",
                             Email = "zhenya@abv.bg",
                             EmailConfirmed = false,
                             ExperienceLevel = "Женя Желязкова е диетолог с дългогодишен опит, която се стреми да помогне на хората да водят здравословен начин на живот и да се чувстват уверени в своята визия. Тя създава индивидуални диетични програми, които водят до трайни резултати и по-добро самочувствие.",

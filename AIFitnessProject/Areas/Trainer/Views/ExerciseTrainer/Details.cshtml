@@ -1,0 +1,126 @@
+﻿@using AIFitnessProject.Core.Models.Exercise
+@model AllExerciseViewModel
+
+<!DOCTYPE html>
+<html lang="bg" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Детайлна информация за упражнението @Model.Name">
+    <meta name="keywords" content="фитнес, упражнения, @Model.MuscleGroup, @Model.DifficultyLevel">
+    <title>@Model.Name - Детайли</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Exercise/DetailsExerciseView.css" />
+</head>
+<body class="d-flex flex-column h-100">
+
+
+    <!-- Основно съдържание -->
+    <main class="flex-shrink-0">
+        <div class="container py-5">
+            <div class="exercise-container">
+                <div class="row g-0">
+                    <!-- Лява колона -->
+                    <div class="col-lg-6 position-relative">
+                        <div class="image-loader">
+                            <img src="@Model.ImageUrl"
+                                 class="exercise-image w-100"
+                                 alt="@Model.Name"
+                                 loading="lazy"
+                                 onerror="this.onerror=null;this.src='/images/placeholder.jpg';">
+                        </div>
+
+                        <div class="video-wrapper">
+                            @if (!string.IsNullOrEmpty(Model.VideoUrl))
+                            {
+                                var videoId = System.Text.RegularExpressions.Regex.Match(Model.VideoUrl, @"(?:v=|\/)([a-zA-Z0-9_-]{11})").Groups[1].Value;
+                                <iframe src="https://www.youtube.com/embed/@videoId"
+                                        title="Видео демонстрация - @Model.Name"
+                                        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen
+                                        aria-label="Видео демонстрация"></iframe>
+                            }
+                            else
+                            {
+                                <div class="video-placeholder">
+                                    <i class="fas fa-video-slash"></i>
+                                    <p>Няма налично видео</p>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+
+                    <!-- Дясна колона -->
+                    <div class="col-lg-6">
+                        <div class="exercise-details">
+                            <h1 class="display-5 mb-4" itemprop="name">@Model.Name</h1>
+
+                            <!-- Описание -->
+                            <div class="detail-item" itemprop="description">
+                                <h5 class="text-muted mb-3"><i class="fas fa-align-left me-2"></i>Описание</h5>
+                                <p class="mb-0">@(string.IsNullOrEmpty(Model.Description) ? "Няма предоставено описание" : Model.Description)</p>
+                            </div>
+
+                            <!-- Мускулна група -->
+                            <div class="detail-item">
+                                <h5 class="text-muted mb-3"><i class="fas fa-dumbbell me-2"></i>Мускулна група</h5>
+                                <p class="mb-0">@Model.MuscleGroup</p>
+                            </div>
+
+                            <!-- Серии и повторения -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <h5 class="text-muted mb-3"><i class="fas fa-list-ol me-2"></i>Серии</h5>
+                                        <p class="mb-0">@(Model.Series > 0 ? Model.Series.ToString() : "По желание")</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <h5 class="text-muted mb-3"><i class="fas fa-redo me-2"></i>Повторения</h5>
+                                        <p class="mb-0">@(Model.Repetitions > 0 ? Model.Repetitions.ToString() : "По желание")</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ниво на трудност -->
+                            <div class="detail-item">
+                                <h5 class="text-muted mb-3"><i class="fas fa-tachometer-alt me-2"></i>Ниво на трудност</h5>
+                                <div class="difficulty-badge difficulty-@Model.DifficultyLevel?.ToLower()">
+                                    @Model.DifficultyLevel
+                                </div>
+                            </div>
+
+                            <!-- Действия -->
+                            <div class="action-buttons">
+                                <a asp-controller="Exercise"
+                                   asp-action="Edit"
+                                   class="btn-edit"
+                                   aria-label="Редактирай упражнение">
+                                    <i class="fas fa-edit me-2"></i>Редактирай
+                                </a>
+                                <button onclick="window.history.back()"
+                                        class="btn btn-back"
+                                        aria-label="Върни се назад">
+                                    <i class="fas fa-arrow-left me-2"></i>Назад
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Футър -->
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container text-center">
+            <span class="text-muted">&copy; @DateTime.Now.Year - FITNESS APP</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
