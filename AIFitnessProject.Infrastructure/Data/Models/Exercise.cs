@@ -38,6 +38,10 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [MaxLength(100)]
         public string DifficultyLevel { get; set; }
 
+        [Required]
+        public int Series { get; set; }
+        [Required]
+        public int Repetitions { get; set; }
         public ICollection<WorkoutsExercise> WorkoutsExercises { get; set; } = new List<WorkoutsExercise>();
 
     }

@@ -1,0 +1,225 @@
+﻿@model WorkoutViewModel
+@{
+    ViewData["Title"] = "Тренировка: @Model.Title";
+}
+
+<div id="particles-js" style="position: absolute; width: 100%; height: 100%; z-index: -1;"></div>
+
+<div class="container py-5">
+    @if (Model != null)
+    {
+        <div class="row gy-5">
+            <div class="col-12" data-aos="fade-up">
+                <div class="glass-card p-5 mb-4 shadow-lg workout-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="gradient-text">@Model.Title</h3>
+                        <span class="badge-custom badge-pill shadow-sm">@Model.DayOfWeek</span>
+                    </div>
+
+                    <hr class="hr-glow" />
+
+                    <div class="row g-4 mt-4">
+                        <!-- Проверка за упражненията в тренировката -->
+                        @if (Model.Exercises?.Any() == true)
+                        {
+                            @foreach (var exercise in Model.Exercises)
+                            {
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="exercise-item card-lift p-4 shadow-sm bg-light position-relative rounded-4 overflow-hidden h-100">
+                                        <div class="exercise-bg-overlay"></div>
+
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="text-primary mb-0 fw-bold">
+                                                <i class="fas fa-dumbbell me-2"></i>@exercise.Name
+                                            </h5>
+                                            <span class="badge-custom badge-pill text-light bg-warning">
+                                                <i class="fas fa-bolt me-1"></i>@exercise.DifficultyLevel
+                                            </span>
+                                        </div>
+
+                                        <p class="text-muted mb-3">@exercise.Description</p>
+
+                                        <div class="hover-zoom mb-3 rounded-3 overflow-hidden">
+                                            <img src="@exercise.ImageUrl" class="img-fluid" alt="@exercise.Name">
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <span class="text-accent-secondary fw-bold">
+                                                <i class="fas fa-fire me-1"></i>@exercise.MuscleGroup
+                                            </span>
+                                            <div class="btn-group">
+                                                <a href="@exercise.VideoUrl" target="_blank" class="btn btn-custom btn-primary btn-sm">
+                                                    <i class="fas fa-play-circle me-2"></i>Видео
+                                                </a>
+                                                <a href="#" class="btn btn-custom btn-info btn-sm">
+                                                    <i class="fas fa-info-circle me-2"></i>Подробности
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span class="series-reps badge bg-success text-white">
+                                                <i class="fas fa-sync-alt me-1"></i>Серии: @exercise.Series
+                                            </span>
+                                            <span class="series-reps badge bg-danger text-white">
+                                                <i class="fas fa-redo me-1"></i>Повторения: @exercise.Repetitions
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <!-- Зареждане на AOS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Добавен particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+            easing: 'ease-in-out-quart'
+        });
+
+        // Конфигурация за частици
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80 },
+                color: { value: '#3498db' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.15 },
+                size: { value: 3 },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' },
+                    resize: true
+                }
+            }
+        });
+    </script>
+}
+
+@section Styles {
+    <style>
+        /* Примерни стилове, които да направят визията по-привлекателна */
+
+        .glass-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .badge-custom {
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            background: linear-gradient(to right, #fa709a, #fee140);
+            color: #fff;
+        }
+
+        .btn-custom {
+            border-radius: 2rem;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+
+            .btn-custom:hover {
+                filter: brightness(1.1);
+                transform: translateY(-2px);
+            }
+
+        .hover-zoom img {
+            transition: transform 0.3s ease;
+        }
+
+        .hover-zoom:hover img {
+            transform: scale(1.05);
+        }
+
+        .workout-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-lift {
+            transition: all 0.3s ease;
+        }
+
+            .card-lift:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            }
+
+        .hr-glow {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
+        }
+
+        /* Фоново полупрозрачно "послойно" оцветяване */
+        .exercise-bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(rgba(255,255,255,0.1), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .exercise-item {
+            z-index: 1; /* За да е над overlay-a */
+        }
+
+        .series-reps {
+            font-size: 0.8rem;
+            padding: 0.5rem 0.8rem;
+        }
+
+        .text-accent-secondary {
+            color: #16a085;
+            font-weight: 500;
+        }
+
+        /* Добавяме малко по-меки сенки */
+        .shadow-lg {
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        /* Ако искаш леко наслагване на частици над картите,
+                           можеш да промениш z-index: -1 на #particles-js контейнера
+                           и да промениш тук, но внимавай с визуалното покритие. */
+
+        /* Допълнително може да добавиш медиa заявки,
+                           ако искаш да нагласиш изгледа за мобилни устройства. */
+    </style>
+}

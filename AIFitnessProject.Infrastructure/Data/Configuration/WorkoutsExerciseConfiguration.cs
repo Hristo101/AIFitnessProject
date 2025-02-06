@@ -63,6 +63,100 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     Id = 8,
                     ExcersiceId = 8,
                     WorkoutId = 2
+                },
+                    new WorkoutsExercise
+                {
+                    Id = 9,
+                    ExcersiceId = 14, // Екстензии за предно бедро
+                    WorkoutId = 4
+                },
+                new WorkoutsExercise
+                {
+                    Id = 10,
+                    ExcersiceId = 13, // Лег преса
+                    WorkoutId = 4
+                },
+                new WorkoutsExercise
+                {
+                    Id = 11,
+                    ExcersiceId = 15, // Екстензии за задно бедро
+                    WorkoutId = 4
+                },
+                new WorkoutsExercise
+                {
+                    Id = 12,
+                    ExcersiceId = 16, // Сгъване на адуктори
+                    WorkoutId = 4
+                },
+                new WorkoutsExercise
+                {
+                    Id = 13,
+                    ExcersiceId = 18, // Топка към стена
+                    WorkoutId = 4
+                },
+
+                // Средна тренировка
+                new WorkoutsExercise
+                {
+                    Id = 14,
+                    ExcersiceId = 9,  // Римска тяга с лост
+                    WorkoutId = 3
+                },
+                new WorkoutsExercise
+                {
+                    Id = 15,
+                    ExcersiceId = 10, // Напади с дъмбели
+                    WorkoutId = 3
+                },
+                new WorkoutsExercise
+                {
+                    Id = 16,
+                    ExcersiceId = 11, // Клек с щанга
+                    WorkoutId = 3
+                },
+                new WorkoutsExercise
+                {
+                    Id = 17,
+                    ExcersiceId = 12, // Преден клек
+                    WorkoutId = 3
+                },
+                new WorkoutsExercise
+                {
+                    Id = 18,
+                    ExcersiceId = 17, // Български клек
+                    WorkoutId = 3
+                },
+
+                // Трудна тренировка
+                new WorkoutsExercise
+                {
+                    Id = 19,
+                    ExcersiceId = 9,  // Римска тяга с лост
+                    WorkoutId = 5
+                },
+                new WorkoutsExercise
+                {
+                    Id = 20,
+                    ExcersiceId = 10, // Напади с дъмбели
+                    WorkoutId = 5
+                },
+                new WorkoutsExercise
+                {
+                    Id = 21,
+                    ExcersiceId = 11, // Клек с щанга
+                    WorkoutId = 5
+                },
+                new WorkoutsExercise
+                {
+                    Id = 22,
+                    ExcersiceId = 12, // Преден клек
+                    WorkoutId = 5
+                },
+                new WorkoutsExercise
+                {
+                    Id = 23,
+                    ExcersiceId = 17, // Български клек
+                    WorkoutId = 5
                 }
             };
         }

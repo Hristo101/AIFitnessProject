@@ -23,6 +23,8 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     CreatorId = 2,           
                     TrainingPlanId = 1,        
                     DayOfWeek = "Понеделник",
+                    MuscleGroup = "Гърди",
+                    DificultyLevel = "Средно-Напреднал",
                     OrderInWorkout = 1
                 },
                  new Workout
@@ -33,7 +35,42 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     CreatorId = 2,
                     TrainingPlanId = 1,
                     DayOfWeek = "Вторник",
-                    OrderInWorkout = 2
+                    OrderInWorkout = 2,
+                        MuscleGroup = "Гръб",
+                    DificultyLevel = "Средно-Напреднал"
+                },
+                new Workout
+                {
+                    Id = 3,
+                    Title = "Основна тренировка за крака",
+                    ImageUrl = "https://4fitness.bg/blog/Files/Images/Article/Cache/580_232_koi-sa-nay-chestite-prichini-krakata-vi-da-izostavat.jpg",
+                    CreatorId = 2,
+                    DayOfWeek = "Сряда",
+                    OrderInWorkout = 3,
+                       MuscleGroup = "Крака",
+                    DificultyLevel = "Средно-Напреднал"
+                },
+                new Workout
+                {
+                    Id = 4,
+                    Title = "Основна тренировка за крака",
+                    ImageUrl = "https://spisanie.muscleandfitness.bg/wp-content/uploads/2016/02/%D0%91%D0%B5%D0%B4%D1%80%D0%B5%D0%BD%D0%BE-%D1%81%D0%B3%D1%8A%D0%B2%D0%B0%D0%BD%D0%B5.jpg",
+                    CreatorId = 2,
+                    DayOfWeek = "Сряда",
+                    OrderInWorkout = 3,
+                     MuscleGroup = "Крака",
+                    DificultyLevel = "Лесно"
+                },
+                new Workout
+                {
+                    Id = 5,
+                    Title = "Основна тренировка за крака",
+                    ImageUrl = "https://www.obekti.bg/sites/default/files/styles/facebook/public/images/shutterstock_714092962.jpg?itok=8KXBwu4y",
+                    CreatorId = 2,
+                    DayOfWeek = "Сряда",
+                    OrderInWorkout = 3,
+                     MuscleGroup = "Крака",
+                    DificultyLevel = "Трудно"
                 }
             };
         }
