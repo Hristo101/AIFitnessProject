@@ -13,6 +13,8 @@ namespace AIFitnessProject.Core.Models.Exercise
         public string ImageUrl { get; set; }
         public string VideoUrl { get; set; }
         public string MuscleGroup { get; set; }
+        public int Series { get; set; }
+        public int Repetitions { get; set; }
         public string DifficultyLevel { get; set; }
     }
 }

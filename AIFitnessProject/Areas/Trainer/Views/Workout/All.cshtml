@@ -1,0 +1,86 @@
+﻿@using AIFitnessProject.Core.Models.Workout
+@model IEnumerable<WorkoutViewModel>
+ 
+ <link rel="stylesheet" href="~/css/Workout/AllWorkout.css" />
+
+<div class="container">
+<!-- Филтри -->
+<div class="filters">
+<select id="muscleGroupFilter">
+<option value="">Търсене по мускулна група</option>
+<option value="Гърди">Гърди</option>
+<option value="Гръб">Гръб</option>
+<option value="Крака">Крака</option>
+<option value="Ръце">Ръце</option>
+</select>
+<select id="complexityFilter">
+<option value="">Търсене по сложност</option>
+<option value="Лесно">Лесно</option>
+<option value="Средно-Напреднал">Средно-Напреднал</option>
+<option value="Трудно">Трудно</option>
+</select>
+</div>
+ 
+    <!-- Грид с тренировките -->
+<div class="workouts-grid">
+        @foreach (var workout in Model)
+        {
+<div class="workout-card" data-muscle-group="@workout.Exercises.First().MuscleGroup" data-complexity="@workout.Exercises.First().DifficultyLevel">
+<!-- Чекбокс за маркиране -->
+<div class="checkbox-container">
+<input type="checkbox" class="workout-checkbox">
+</div>
+ 
+                <!-- Снимка -->
+<img src="@workout.ImageUrl" class="workout-image" alt="@workout.Title" />
+ 
+                <!-- Заглавие и ден от седмицата -->
+<h3>@workout.Title</h3>
+<p>Ден: @workout.DayOfWeek</p>
+ 
+                <!-- Упражнения -->
+<div class="exercises">
+                    @foreach (var exercise in workout.Exercises)
+                    {
+<div class="exercise">
+<p>@exercise.Name - @exercise.Series серии</p>
+</div>
+                    }
+</div>
+ 
+                <!-- Бутоните ДЕТАЙЛИ и РЕДАКТИРАЙ под всяка тренировка -->
+<div class="workout-actions">
+<a asp-action="Details" asp-controller="Workout" asp-route-id="@workout.Id" class="btn btn-details">Детайли</a>
+<button class="btn btn-edit">Редактирай</button>
+</div>
+</div>
+        }
+</div>
+</div>
+ 
+<script>
+    document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('change', filterWorkouts);
+    });
+ 
+    function filterWorkouts() {
+        const muscleGroup = document.getElementById('muscleGroupFilter').value;
+        const complexity = document.getElementById('complexityFilter').value;
+ 
+        document.querySelectorAll('.workout-card').forEach(card => {
+            const cardMuscle = card.dataset.muscleGroup;
+            const cardComplexity = card.dataset.complexity;
+ 
+            const muscleMatch = !muscleGroup || cardMuscle === muscleGroup;
+            const complexityMatch = !complexity || cardComplexity === complexity;
+ 
+            card.style.display = (muscleMatch && complexityMatch) ? 'block' : 'none';
+        });
+    }
+
+    document.querySelectorAll('.workout-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            this.closest('.workout-card').classList.toggle('selected', this.checked);
+        });
+    });
+</script>

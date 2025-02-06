@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IRequestsToCoach, RequestsToCoachService>();
             services.AddScoped<IRequestToDietitianSurvice, RequestToDietitianSurvice>();
             services.AddScoped<ITrainingPlanService, TrainingPlanService>();
-            services.AddScoped<IDietService, DietService>();
+            services.AddScoped<IWorkoutService, WorkoutService>();
 
             return services;
         }
