@@ -5,5 +5,6 @@ namespace AIFitnessProject.Core.Contracts
     public interface IDietService
     {
         Task CreateDiet(string id, string dietitianId, CreateDietViewModel model);
+        Task<ICollection<AllDietViewModel>> GetAllDietsAsync(string userId);
     }
 }

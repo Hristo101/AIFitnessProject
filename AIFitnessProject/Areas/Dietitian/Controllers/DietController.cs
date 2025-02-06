@@ -35,7 +35,15 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             }
             await dietService.CreateDiet(id, GetUserId(), model);
 
-            return RedirectToAction("All");
+            return RedirectToAction(nameof(All));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> All()
+        {
+            var model = await dietService.GetAllDietsAsync(GetUserId());
+
+            return View(model);
         }
 
         private string GetUserId()
