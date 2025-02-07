@@ -70,6 +70,29 @@ namespace AIFitnessProject.Core.Services
             return model;
         }
 
+        public async Task<AddWorkoutViewModel> GetModelForAdd()
+        {
+           var model = new AddWorkoutViewModel();
+           
+            model.Exercises = await repository.AllAsReadOnly<Infrastructure.Data.Models.Exercise>()
+                .Select(we => new ExerciseViewModel()
+                {
+                    Id = we.Id,
+                    Name = we.Name,
+                    Description = we.Description,
+                    ImageUrl = we.ImageUrl,
+                    VideoUrl = we.VideoUrl,
+                    MuscleGroup = we.MuscleGroup,
+                    Series = we.Series,
+                    Repetitions = we.Repetitions,
+                    DifficultyLevel = we.DifficultyLevel
+                })
+                .ToListAsync();
+
+            return model;
+
+        }
+
         public async Task<WorkoutViewModel> GetModelForDetails(int id)
         {
             var model = await repository.AllAsReadOnly<Infrastructure.Data.Models.Workout>()

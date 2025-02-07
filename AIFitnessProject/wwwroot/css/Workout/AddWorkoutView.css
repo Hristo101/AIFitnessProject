@@ -1,0 +1,235 @@
+﻿
+:root {
+    --primary: #6366f1;
+    --secondary: #8b5cf6;
+    --accent: #ec4899;
+}
+element.style {
+    margin-right: 4em;
+}
+.exercise-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cardEntrance 0.6s ease forwards;
+    border: 2px solid transparent;
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+}
+.mt-2 {
+    margin-top: .5rem !important;
+    color: #003366;
+    margin-right: 4em;
+}
+@keyframes cardEntrance {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.text-muted {
+    --bs-text-opacity: 1;
+    color: #0c2750 !important;
+}
+
+.pagination-container {
+    position: relative;
+    overflow: hidden;
+    margin: 2rem 0;
+}
+.filter-container select.filter-control,
+.filter-container input.filter-control {
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+    padding: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+    .filter-container select.filter-control:focus,
+    .filter-container input.filter-control:focus {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    }
+.page-btn {
+    transition: all 0.3s ease;
+    min-width: 45px;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    box-shadow: 5px 5px 10px #d1d5db, -5px -5px 10px #ffffff;
+    border: none;
+    margin: 0 3px;
+}
+
+    .page-btn.active {
+        background: linear-gradient(145deg, var(--primary), var(--secondary));
+        color: white !important;
+        box-shadow: inset 3px 3px 5px rgba(0,0,0,0.1), inset -3px -3px 5px rgba(255,255,255,0.2);
+    }
+
+.nav-btn {
+    padding: 8px 25px;
+    border-radius: 10px;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    color: #254a87 !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+    .nav-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+    }
+
+.exercise-card.selected {
+    border: 2px solid var(--primary);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.glow {
+    animation: glowPulse 2s infinite alternate;
+}
+
+@keyframes glowPulse {
+    from {
+        box-shadow: 0 0 10px rgba(99, 102, 241, 0.2);
+    }
+
+    to {
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+    }
+}
+
+.muscle-tag {
+    background: var(--primary);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+
+.difficulty-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 6px 15px;
+    border-radius: 15px;
+    color: white;
+}
+
+.difficulty-easy {
+    background: #4ade80;
+}
+
+.difficulty-medium {
+    background: #f59e0b;
+}
+
+.difficulty-hard {
+    background: #ef4444;
+}
+
+.upload-section {
+    border: 2px dashed var(--primary);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+    .upload-section:hover {
+        background: rgba(99, 102, 241, 0.05);
+        transform: scale(1.02);
+    }
+
+
+.glass-card {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+}
+
+.gradient-text {
+    background: linear-gradient(45deg, #f093fb, #f5576c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+
+.badge-custom {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    background: linear-gradient(to right, #fa709a, #fee140);
+    color: #fff;
+}
+
+.btn-custom {
+    border-radius: 2rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+    .btn-custom:hover {
+        filter: brightness(1.1);
+        transform: translateY(-2px);
+    }
+
+.hover-zoom img {
+    transition: transform 0.3s ease;
+}
+
+.hover-zoom:hover img {
+    transform: scale(1.05);
+}
+
+.workout-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-lift {
+    transition: all 0.3s ease;
+}
+
+    .card-lift:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+.hr-glow {
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
+}
+/* Фоново полупрозрачно "послойно" оцветяване */
+.exercise-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(rgba(255,255,255,0.1), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.exercise-item {
+    z-index: 1; /* За да е над overlay-a */
+}
+
+.series-reps {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.8rem;
+}
+
+.text-accent-secondary {
+    color: #16a085;
+    font-weight: 500;
+}
+
+.shadow-lg {
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15) !important;
+}

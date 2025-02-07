@@ -12,5 +12,6 @@ namespace AIFitnessProject.Core.Contracts
         Task<ICollection<WorkoutViewModel>> All(string userId,int id);
         Task<WorkoutViewModel> GetModelForDetails(int id);
         Task AddWorkout(string selectedIds,int trainingPlanId);
+        Task<AddWorkoutViewModel> GetModelForAdd();
     }
 }
