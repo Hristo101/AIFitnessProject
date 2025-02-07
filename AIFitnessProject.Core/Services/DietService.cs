@@ -1,6 +1,10 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Models.DailyDietPlan;
 using AIFitnessProject.Core.Models.Diet;
+using AIFitnessProject.Core.Models.Exercise;
+using AIFitnessProject.Core.Models.Meal;
 using AIFitnessProject.Core.Models.TrainingPlan;
+using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -59,6 +63,43 @@ namespace AIFitnessProject.Core.Services
                 .ToListAsync();
 
             return models;
+        }
+
+        public async Task<DietDetailsViewModel> GetDietModelsForDetails(int id)
+        {
+            var diet = await repository.AllAsReadOnly<Diet>()
+            .Include(tp => tp.DailyDietPlans)
+                .ThenInclude(w => w.MealsDailyDietPlans)
+                    .ThenInclude(we => we.Meal)
+            .FirstOrDefaultAsync(tp => tp.Id == id);
+
+            var viewModel = new DietDetailsViewModel
+            {
+                Id = diet.Id,
+                Name = diet.Name,
+                Description = diet.Description,
+                ImageUrl = diet.ImageUrl,
+                DailyDietPlans = diet.DailyDietPlans.Select(dailyDietPlan => new DailyDietPlanViewModel
+                {
+                    Title = dailyDietPlan.Title,
+                    DayOfWeek = dailyDietPlan.DayOfWeel,
+                    DificultyLevel = dailyDietPlan.DificultyLevel,
+                    ImageUrl = dailyDietPlan.ImageUrl,
+                    Meals = dailyDietPlan.MealsDailyDietPlans.Select(mddp => new MealViewModel
+                    {
+                        Id = mddp.Id,
+                        Name = mddp.Meal.Name,
+                        Recipe = mddp.Meal.Recipe,
+                        ImageUrl = mddp.Meal.ImageUrl,
+                        VideoUrl = mddp.Meal.VideoUrl,
+                        DificultyLevel = mddp.Meal.DificultyLevel,
+                        Calories = mddp.Meal.Calories,
+                        MealTime = mddp.Meal.MealTime,
+                    }).ToList()
+                }).ToList()
+            };
+
+            return viewModel;
         }
     }
 }
