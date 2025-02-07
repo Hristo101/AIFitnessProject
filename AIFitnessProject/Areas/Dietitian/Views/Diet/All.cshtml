@@ -23,7 +23,14 @@
             {
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="training-card">
-                        <img src="data:image/jpeg;base64,@diet.ImageUrl" class="card-image w-100" alt="Training">
+                        @if (diet.ImageUrl.StartsWith("http"))
+                        {
+                            <img src="@diet.ImageUrl" class="card-image w-100" alt="Training">
+                        }
+                        else
+                        {
+                            <img src="data:image/jpeg;base64,@diet.ImageUrl" class="card-image w-100" alt="Training">
+                        }
                         <div class="card-body">
                             <h3 class="mb-4 fw-bold text-primary">@diet.DietName</h3>
                             <div class="description-wrapper">
