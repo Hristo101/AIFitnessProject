@@ -1,5 +1,9 @@
 ﻿@using AIFitnessProject.Core.Models.Diet
  @model ICollection<AllDietViewModel>
+
+@{
+    ViewData["Title"] = "Всички мои хранителни режими";
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +15,9 @@
 </head>
 <body>
     <div class="container">
+        <h1 class="text-center text-white mb-5 display-4 fw-bold animate__animated animate__fadeInDown">
+            <i class="fas fa-utensils me-2"></i>@ViewData["Title"]
+        </h1>
         <div class="row g-4">
             @foreach (var diet in Model)
             {

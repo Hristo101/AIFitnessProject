@@ -2,7 +2,10 @@
     background-color: #f8f9fa;
     padding: 2rem 0;
 }
-
+.text-white {
+    --bs-text-opacity: 1;
+    color: #3CB371 !important;
+}
 .training-card {
     background: white;
     border-radius: 15px;
@@ -145,3 +148,4 @@
     --bs-text-opacity: 1;
     color: #3CB371 !important;
 }
+

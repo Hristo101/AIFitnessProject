@@ -80,6 +80,7 @@ namespace AIFitnessProject.Infrastructure.Data
             builder.ApplyConfiguration(new CommentsConfiguration());
             builder.ApplyConfiguration(new DietitianConfiguration());
             builder.ApplyConfiguration(new OpinionConfiguration());
+            builder.ApplyConfiguration(new TrainingPlanConfiguration());
             builder.ApplyConfiguration(new ExerciseConfiguration());
             builder.ApplyConfiguration(new WorkoutConfiguration());
             builder.ApplyConfiguration(new WorkoutsExerciseConfiguration());
