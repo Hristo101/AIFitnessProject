@@ -18,15 +18,15 @@ namespace AIFitnessProject.Infrastructure.Data
             //builder.Entity<RequestsToCoach>
             //    ().HasKey(x => new { x.TrainerId, x.UserId });
 
-            builder.Entity<MealsDietDietail>()
-         .HasOne(x => x.DietDetails)
-         .WithMany(x => x.MealsDietDietails)
-         .HasForeignKey(x => x.DietDetailsId);
+            builder.Entity<MealsDailyDietPlan>()
+         .HasOne(x => x.DailyDietPlans)
+         .WithMany(x => x.MealsDailyDietPlans)
+         .HasForeignKey(x => x.DailyDietPlansId);
 
 
-            builder.Entity<MealsDietDietail>()
+            builder.Entity<MealsDailyDietPlan>()
             .HasOne(x => x.Meal)
-            .WithMany(x => x.MealsDietDietails)
+            .WithMany(x => x.MealsDailyDietPlans)
             .HasForeignKey(x => x.MealId);
 
             builder.Entity<WorkoutsExercise>()
@@ -88,9 +88,9 @@ namespace AIFitnessProject.Infrastructure.Data
         }
             public DbSet<Diet> Diets {get; set; }
             public DbSet<Calendar> Calendars { get; set; }
-            public DbSet<DietDetail> DietDetails { get; set; }
+            public DbSet<DailyDietPlan> DailyDietPlans { get; set; }
             public DbSet<RequestsToCoach> RequestsToCoaches { get; set; }
-            public DbSet<MealsDietDietail> MealsDietDietails { get; set; }
+            public DbSet<MealsDailyDietPlan> MealsDailyDietPlans { get; set; }
             public DbSet<WorkoutsExercise> WorkoutsExercises { get; set; }
             public DbSet<RequestToDietitian> RequestToDietitians { get; set; }
             public DbSet<Exercise> Exercises { get; set; }

@@ -31,9 +31,13 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public string VideoUrl { get; set; } = string.Empty;
 
         [Required]
+        [Comment("Meal Dificulty Level")]
+        public string DificultyLevel { get; set; } = string.Empty;
+
+        [Required]
         [Comment("Meal Calories")]
         public int Calories { get; set; }
 
-        public ICollection<MealsDietDietail> MealsDietDietails { get; set; } = new List<MealsDietDietail>();
+        public ICollection<MealsDailyDietPlan> MealsDailyDietPlans { get; set; } = new List<MealsDailyDietPlan>();
     }
 }
