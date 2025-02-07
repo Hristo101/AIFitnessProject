@@ -86,6 +86,9 @@ namespace AIFitnessProject.Infrastructure.Data
             builder.ApplyConfiguration(new WorkoutsExerciseConfiguration());
             builder.ApplyConfiguration(new DietConfiguration());
             builder.ApplyConfiguration(new RequestToDietitianConfiguration());
+            builder.ApplyConfiguration(new DailyDietPlanConfiguration());
+            builder.ApplyConfiguration(new MealConfiguration());
+            builder.ApplyConfiguration(new MealDailyDietPlanConfiguration());
 
             base.OnModelCreating(builder);
         }

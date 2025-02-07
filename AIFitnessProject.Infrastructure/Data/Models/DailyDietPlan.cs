@@ -21,9 +21,6 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public string ImageUrl { get; set; } = string.Empty;
 
         [Required]
-        [Comment("Daily Diet Plan MealTime")]
-        public string MealTime { get; set; } = string.Empty;
-        [Required]
         [Comment("Daily Diet Plan Day Of Week")]
         public string DayOfWeel { get; set; } = string.Empty;
 

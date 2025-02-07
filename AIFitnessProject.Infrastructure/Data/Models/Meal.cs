@@ -20,6 +20,11 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Comment("Meal Recipe")]
         public string Recipe { get; set; } = string.Empty;
 
+
+        [Required]
+        [Comment("Daily Diet Plan MealTime")]
+        public string MealTime { get; set; } = string.Empty;
+
         [Required]
         [MaxLength(MaxImageUrlLength)]
         [Comment("Meal ImageUrl")]
