@@ -20,6 +20,18 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     Id = 1,
                     MealId = 1,
                     DailyDietPlansId = 1,
+                },
+                 new MealsDailyDietPlan
+                {
+                    Id = 2,
+                    MealId = 2,
+                    DailyDietPlansId = 1,
+                },
+                  new MealsDailyDietPlan
+                {
+                    Id = 3,
+                    MealId = 3,
+                    DailyDietPlansId = 1,
                 }
             };
         }
