@@ -145,3 +145,72 @@ select {
     margin-bottom: 5px;
     color: #666666;
 }
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Стилове за новите бутони */
+. /* ✅ За избраните тренировки (фон и бордюр) */
+.workout-card.selected {
+    border: 3px solid #4CAF50;
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+/* ✅ Центриране на бутоните */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 5em;
+}
+
+/* ✅ Бутоните */
+.btn-attach {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.btn-create {
+    background-color: #2196F3;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.btn-attach:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+}
+
+.btn:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+
+/* Responsive дизайн */
+@media (max-width: 768px) {
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-attach, .btn-create {
+        width: 80%;
+        text-align: center;
+    }
+}

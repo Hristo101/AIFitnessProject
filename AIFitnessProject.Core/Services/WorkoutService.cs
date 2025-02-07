@@ -22,7 +22,23 @@ namespace AIFitnessProject.Core.Services
             this.repository = _repository;
         }
 
-        public async Task<ICollection<WorkoutViewModel>> All(string userId)
+        public async Task AddWorkout(string selectedIds, int trainingPlanId)
+        {
+            var ids = selectedIds.Split(',').Select(int.Parse).ToList();
+
+            for (int i = 0; i < ids.Count; i++)
+            {
+                var workouts = await repository
+                .All<Infrastructure.Data.Models.Workout>()
+                .Where(x => x.Id == ids[i])
+                .FirstAsync();
+
+                workouts.TrainingPlanId = trainingPlanId;
+                await repository.SaveChangesAsync();
+            }
+        }
+
+        public async Task<ICollection<WorkoutViewModel>> All(string userId,int id)
         {
             var trainer = await repository.AllAsReadOnly<Infrastructure.Data.Models.Trainer>()
                 .Where(x => x.UserId == userId)
@@ -34,6 +50,7 @@ namespace AIFitnessProject.Core.Services
                  {
                      Id = x.Id,
                      Title = x.Title,
+                     TrainingPlanId = id,
                      DayOfWeek = x.DayOfWeek,
                      ImageUrl = x.ImageUrl,
                      Exercises = x.WorkoutsExercises.Select(we => new ExerciseViewModel

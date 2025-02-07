@@ -81,7 +81,7 @@ namespace AIFitnessProject.Core.Services
                 .Select(x => new ExerciseViewModel()
                 {
                     Id = x.Id,
-                    TrainingPlanId = x.WorkoutsExercises.Where(x => x.Id == id).FirstOrDefault().Workout.TrainingPlans.Id,
+                    TrainingPlanId = x.WorkoutsExercises.Where(x => x.ExcersiceId == id).FirstOrDefault().Workout.TrainingPlans.Id,
                     Description = x.Description,
                     DifficultyLevel = x.DifficultyLevel,
                     ImageUrl = x.ImageUrl,

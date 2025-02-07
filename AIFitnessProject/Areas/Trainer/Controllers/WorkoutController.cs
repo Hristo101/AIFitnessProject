@@ -20,9 +20,9 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(int id)
         {
-            var model = await workoutService.All(GetUserId());
+            var model = await workoutService.All(GetUserId(), id);
 
             return View(model);
         }
@@ -33,7 +33,13 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
          return View(model);
         }
+        [HttpPost]
+        public async Task<IActionResult> AttachWorkouts(string selectedWorkoutIds,int trainingPlanId)
+        {
+            await workoutService.AddWorkout(selectedWorkoutIds,trainingPlanId);
 
+            return RedirectToAction("Details", "TrainingPlan", new { id = trainingPlanId });
+        }
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
