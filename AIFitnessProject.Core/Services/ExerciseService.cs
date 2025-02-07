@@ -75,9 +75,13 @@ namespace AIFitnessProject.Core.Services
         {
             var exercise = await repository.AllAsReadOnly<Infrastructure.Data.Models.Exercise>()
                 .Where(x =>x.Id == id)
+                .Include(x =>x.WorkoutsExercises)
+                .ThenInclude(x =>x.Workout)
+                .ThenInclude(x =>x.TrainingPlans)
                 .Select(x => new ExerciseViewModel()
                 {
                     Id = x.Id,
+                    TrainingPlanId = x.WorkoutsExercises.Where(x => x.Id == id).FirstOrDefault().Workout.TrainingPlans.Id,
                     Description = x.Description,
                     DifficultyLevel = x.DifficultyLevel,
                     ImageUrl = x.ImageUrl,
