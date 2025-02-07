@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
@@ -31,6 +32,7 @@
     <Folder Include="Areas\Trainer\Models\" />
     <Folder Include="wwwroot\css\Dietitian\" />
     <Folder Include="wwwroot\css\Trainer\" />
+    <Folder Include="wwwroot\img\exercises\" />
   </ItemGroup>
 
 </Project>

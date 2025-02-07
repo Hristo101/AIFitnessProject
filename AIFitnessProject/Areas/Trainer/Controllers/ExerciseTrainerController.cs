@@ -1,4 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Models.Exercise;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIFitnessProject.Areas.Trainer.Controllers
@@ -22,6 +23,36 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             var model = await exerciseService.GetModelForDetails(id);
             
             return View(model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> DetailsTrainingPlan(int id)
+        {
+            var model = await exerciseService.GetModelForDetails(id);
+
+            return View(model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = await exerciseService.GetModelForEdit(id);
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditExerciseViewModel model,int id)
+        {
+            if (await exerciseService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await exerciseService.EditAsync(id, model);
+
+            return RedirectToAction("Details", "ExerciseTrainer", new { id = model.Id });
         }
     }
 }
