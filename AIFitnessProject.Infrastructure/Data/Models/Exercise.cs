@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,10 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Comment("Exercise DifficultyLevel")]
         [MaxLength(100)]
         public string DifficultyLevel { get; set; }
+
+        public int CreatedById { get; set; }
+        [ForeignKey(nameof(CreatedById))]
+        public Trainer Trainer { get; set; }
 
         [Required]
         public int Series { get; set; }

@@ -1,4 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Models.Workout;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Security.Claims;
@@ -32,6 +33,11 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             var model = await workoutService.GetModelForAdd();
 
             return View(model);
+        }
+        public async Task<IActionResult> Create(AddWorkoutViewModel model)
+        {
+
+            return RedirectToAction("All");
         }
         [HttpGet]
         public async Task<IActionResult> Details(int id)

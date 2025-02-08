@@ -16,7 +16,8 @@ namespace AIFitnessProject.Core.Models.Workout
         public string Title { get; set; }
         public string DayOfWeek { get; set; }
         public string MuscleGroup { get; set; }
-        public string DificultyLevel { get; set; }
+        public string DifficultyLevel { get; set; }
+        public string SelectedWorkoutIds { get; set; }
         public IFormFile? ImageUrl { get; set; }
         public List<ExerciseViewModel> Exercises { get; set; } = new List<ExerciseViewModel>();
     }

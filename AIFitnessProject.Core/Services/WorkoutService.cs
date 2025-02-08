@@ -120,5 +120,17 @@ namespace AIFitnessProject.Core.Services
 
             return model;
         }
+
+        public Task<ICollection<ExerciseViewModel>> ReturnAllExerciseViewModel()
+        {
+            throw new NotImplementedException();
+        }
+
+        //public async Task<ICollection<ExerciseViewModel>> ReturnAllExerciseViewModel(string userId)
+        //{
+        //    var trainer
+        //   var models = await repository.AllAsReadOnly<Exercise>()
+        //        .Select()
+        //}
     }
 }

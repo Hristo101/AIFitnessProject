@@ -20,6 +20,11 @@ element.style {
     color: #003366;
     margin-right: 4em;
 }
+
+.mb-3 {
+    margin-bottom: 1rem !important;
+    color: black;
+}
 @keyframes cardEntrance {
     to {
         opacity: 1;
@@ -37,11 +42,30 @@ element.style {
     overflow: hidden;
     margin: 2rem 0;
 }
+.form-floating > label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0.2rem 0.75rem;
+    overflow: hidden;
+    text-align: start;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none;
+    color: black;
+    border: var(--bs-border-width) solid transparent;
+    transform-origin: 0 0;
+    transition: opacity .1s ease-in-out, transform .1s ease-in-out;
+}
+
 .filter-container select.filter-control,
 .filter-container input.filter-control {
     border-radius: 0.25rem;
     border: 1px solid #ced4da;
     padding: 0.5rem;
+    height: 53px;
     font-size: 1rem;
     transition: border-color 0.3s;
 }

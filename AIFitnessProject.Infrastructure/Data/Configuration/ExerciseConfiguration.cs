@@ -27,6 +27,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     Series = 4,
                     Repetitions = 10,
                     MuscleGroup = "Гърди",
+                    CreatedById = 2,
                     DifficultyLevel = "Лесно"
                 },
                 new Exercise
@@ -39,6 +40,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     MuscleGroup = "Гърди",
                     Series = 3,
                     Repetitions = 10,
+                      CreatedById = 2,
                     DifficultyLevel = "Средно"
                 },
                 new Exercise
@@ -51,6 +53,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     MuscleGroup = "Гърди",
                     Series = 3,
                     Repetitions = 8,
+                      CreatedById = 2,
                     DifficultyLevel = "Средно"
                 },
                 new Exercise
@@ -63,6 +66,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     MuscleGroup = "Гърди",
                     Series = 3,
                     Repetitions = 8,
+                      CreatedById = 2,
                     DifficultyLevel = "Лесно",
                 },
                    new Exercise
@@ -75,6 +79,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     MuscleGroup = "Гръб",
                     Series = 3,
                     Repetitions = 10,
+                      CreatedById = 2,
                     DifficultyLevel = "Трудно",
                    },
                      new Exercise
@@ -87,6 +92,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     Series = 4,
                     Repetitions = 12,
                     MuscleGroup = "Гръб",
+                      CreatedById = 2,
                     DifficultyLevel = "Лесно",
                    },
                 new Exercise
@@ -99,6 +105,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     Series = 3,
                     Repetitions = 10,
                     MuscleGroup = "Гръб",
+                      CreatedById = 2,
                     DifficultyLevel = "Лесно",
                 },
                   new Exercise
@@ -111,6 +118,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                      Series = 3,
                     Repetitions = 10,
                     MuscleGroup = "Гръб",
+                      CreatedById = 2,
                     DifficultyLevel = "Средно",
                 },
                   new Exercise
@@ -123,6 +131,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                       Series = 4,
                       Repetitions = 12,
                       MuscleGroup = "Крака",
+                        CreatedById = 2,
                       DifficultyLevel = "Трудно"
                   },
                        new Exercise
@@ -135,6 +144,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                       Series = 3,
                       Repetitions = 10,
                       MuscleGroup = "Крака",
+                        CreatedById = 2,
                       DifficultyLevel = "Трудно"
                   },
                   new Exercise
@@ -147,6 +157,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                       Series = 4,
                       Repetitions = 12,
                       MuscleGroup = "Крака",
+                        CreatedById = 2,
                       DifficultyLevel = "Средно",
                   },
                   new Exercise
@@ -159,6 +170,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                       Series = 3,
                       Repetitions = 10,
                       MuscleGroup = "Крака",
+                        CreatedById = 2,
                       DifficultyLevel = "Средно"
                   },
                   new Exercise
@@ -171,6 +183,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                       Series = 3,
                       Repetitions = 10,
                       MuscleGroup = "Крака",
+                        CreatedById = 2,
                       DifficultyLevel = "Лесно"
                   },
                   new Exercise
@@ -183,6 +196,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                      Series = 4,
                      Repetitions = 12,
                      MuscleGroup = "Крака",
+                       CreatedById = 2,
                      DifficultyLevel = "Лесно"
                   },
                   new Exercise
@@ -195,6 +209,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                       Repetitions = 12,
                       Description = "Сгъване за задно бедро – основно натоварва хамстрингите (задната част на бедрото). Включват се и седалищните мускули в зависимост от амплитудата на движението.",
                       DifficultyLevel = "Лесно",
+                        CreatedById = 2,
                       MuscleGroup = "Крака",
                   },
                   new Exercise
@@ -207,6 +222,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                       Repetitions = 10,
                       Description = "Сгъването на адуктори на машина се изпълнява, като седнеш на специализирана машина със странични подложки за бедрата. Краката са разтворени и поставени на подложките, след което ги приближаваш една към друга, като напрягаш вътрешната част на бедрата. Това упражнение активно натоварва адукторите, които са мускулите на вътрешната част на бедрата.",
                       DifficultyLevel = "Лесно",
+                        CreatedById = 2,
                       MuscleGroup = "Крака"
                   },
                   new Exercise
@@ -219,6 +235,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                       DifficultyLevel = "Трудно",
                       MuscleGroup = "Крака",
                       Repetitions = 8,
+                        CreatedById = 2,
                       Series = 3,
                   },
                   new Exercise
@@ -230,6 +247,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                       DifficultyLevel = "Средно",
                       MuscleGroup = "Крака",
                       Repetitions = 4,
+                       CreatedById = 2,
                       Series = 15,
                       VideoUrl = "https://www.youtube.com/watch?v=ZRO2yxaibc0",
                   }
