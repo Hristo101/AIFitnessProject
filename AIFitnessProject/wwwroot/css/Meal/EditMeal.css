@@ -52,25 +52,45 @@ body {
     animation: pulse 2s infinite;
 }
 
-/* Редизайн на формата с оптимизирана мрежова структура */
+
 .form-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(2, 1fr); /* Разпределяне на двата реда за полетата */
     gap: 2rem;
     margin-bottom: 2rem;
 }
 
+/* Полета, които да се разпределят по двойки */
 .form-group {
     margin-bottom: 1.5rem;
 }
 
+    /* Видео и рецепта да се разпъват на широчината на целия контейнер */
+    .form-group.video-url,
+    .form-group.recipe {
+        grid-column: span 2; /* Заема две колони (цялата ширина) */
+    }
+
+/* Стилове за видео линк */
+.video-input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+    .video-input-group input {
+        width: 100%;
+    }
 label {
     display: block;
     margin-bottom: 0.5rem;
     color: var(--text-color);
     font-weight: 600;
 }
-
+/* Стилове за textarea с рецепта */
+textarea {
+    width: 100%;
+    resize: vertical;
+}
 /* Стилове за входни полета и textarea с анимация при фокус */
 .input-animate {
     width: 100%;
