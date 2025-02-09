@@ -34,9 +34,16 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             return View(model);
         }
+        [HttpPost]
         public async Task<IActionResult> Create(AddWorkoutViewModel model)
         {
-
+            var modelsExercises = await workoutService.ReturnAllExerciseViewModel(GetUserId());
+            if (!ModelState.IsValid) 
+            {
+                model.Exercises = modelsExercises.ToList();
+                return View(model);
+            }
+            await workoutService.CreateWorkout(model, GetUserId());
             return RedirectToAction("All");
         }
         [HttpGet]

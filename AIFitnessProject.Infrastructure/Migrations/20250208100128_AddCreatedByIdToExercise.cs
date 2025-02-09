@@ -203,7 +203,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                 column: "CreatedById",
                 principalTable: "Trainers",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.NoAction);
         }
 
         /// <inheritdoc />

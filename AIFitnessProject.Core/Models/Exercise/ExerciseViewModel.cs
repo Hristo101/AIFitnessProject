@@ -9,7 +9,7 @@ namespace AIFitnessProject.Core.Models.Exercise
     public class ExerciseViewModel
     {
         public int Id { get; set; }
-        public int TrainingPlanId { get; set; }
+        public int? TrainingPlanId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
