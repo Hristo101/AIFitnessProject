@@ -25,7 +25,7 @@
                     <div class="col-lg-6 position-relative">
                         <div class="image-loader">
                            
-                            @if (Model.ImageUrl.StartsWith("http"))
+                            @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("/img"))
                             {
                                 <img src="@Model.ImageUrl" class="exercise-image w-100" alt="@Model.Name"loading="lazy"
                                  onerror="this.onerror=null;this.src='/images/placeholder.jpg';">
@@ -90,12 +90,12 @@
 
                             <!-- Действия -->
                             <div class="action-buttons">
-                                <a asp-controller="ExerciseTrainer"
-                                   asp-area="Trainer"
+                                <a asp-controller="Meal"
+                                   asp-area="Dietitian"
                                    asp-action="Edit"
                                    asp-route-id="@Model.Id"
                                    class="btn-edit"
-                                   aria-label="Редактирай упражнение">
+                                   aria-label="Редактирай хранене">
                                     <i class="fas fa-edit me-2"></i>Редактирай
                                 </a>
                                 <a asp-action="Details"

@@ -240,7 +240,7 @@
                                            @*  <span class="text-muted mb-3">Калории: @meal.Calories kcal</span> *@
 
                                             <div class="hover-zoom mb-3">
-                                                @if (meal.ImageUrl.StartsWith("http"))
+                                                @if (meal.ImageUrl.StartsWith("http") || meal.ImageUrl.StartsWith("/img"))
                                                 {
                                                     <img src="@meal.ImageUrl" class="img-fluid rounded-3" alt="Training">
                                                 }

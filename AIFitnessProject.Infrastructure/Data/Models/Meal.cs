@@ -26,12 +26,10 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public string MealTime { get; set; } = string.Empty;
 
         [Required]
-        [MaxLength(MaxImageUrlLength)]
         [Comment("Meal ImageUrl")]
         public string ImageUrl { get; set; } = string.Empty;
 
         [Required]
-        [MaxLength(MaxVideoUrlLength)]
         [Comment("Meal VideoUrl")]
         public string VideoUrl { get; set; } = string.Empty;
 
