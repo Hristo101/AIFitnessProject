@@ -277,7 +277,7 @@ textarea {
 
 /* 2. Описание */
 .form-grid .form-group:nth-child(2) label::before {
-    content: "\f036"; /* Align left icon */
+    content: "\f2e7"; /* Align left icon */
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
@@ -286,7 +286,7 @@ textarea {
 
 /* 3. Мускулна група */
 .form-grid .form-group:nth-child(3) label::before {
-    content: "\f21e"; /* Heartbeat icon */
+    content: "\f012"; /* Heartbeat icon */
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
@@ -295,7 +295,7 @@ textarea {
 
 /* 4. Видео линк */
 .form-grid .form-group:nth-child(4) label::before {
-    content: "\f03d"; /* Video icon */
+    content: "\f06d"; /* Video icon */
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
@@ -304,7 +304,7 @@ textarea {
 
 /* 5. Ниво на трудност */
 .form-grid .form-group:nth-child(5) label::before {
-    content: "\f012"; /* Signal icon */
+    content: "\f03d"; /* Signal icon */
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
@@ -320,11 +320,4 @@ textarea {
     color: var(--primary-color);
 }
 
-/* 7. Повторения */
-.form-grid .form-group:nth-child(7) label::before {
-    content: "\f2f9"; /* Redo icon */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    margin-right: 0.5rem;
-    color: var(--primary-color);
-}
+

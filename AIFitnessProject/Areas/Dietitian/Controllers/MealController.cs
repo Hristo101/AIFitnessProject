@@ -38,6 +38,7 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             if (!ModelState.IsValid)
             {
+                
                 return View(model);
             }
 
