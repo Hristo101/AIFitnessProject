@@ -10,6 +10,8 @@ namespace AIFitnessProject.Core.Models.Meal
     {
         public int Id { get; set; }
 
+        public int DietId { get; set; }
+
         public string Name { get; set; }
 
         public string Recipe { get; set; }

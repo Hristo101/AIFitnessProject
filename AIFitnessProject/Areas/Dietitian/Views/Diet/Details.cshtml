@@ -210,7 +210,7 @@
 
     <div class="text-center mb-6" data-aos="fade-up">
         <a asp-controller="Workout" asp-action="All" class="btn btn-custom btn-add btn-lg px-5 py-3">
-            <i class="fas fa-plus-circle mr-2"></i>Добави дневен хранителен режим
+            <i class="fas fa-plus-circle mr-2"></i>Добави дневен хранителен план
         </a>
     </div>
 
@@ -255,10 +255,10 @@
                                                 <p class="text-muted mb-3">@meal.MealTime</p>
                                                 <div class="btn-group">
                                                     <a href="@meal.VideoUrl" target="_blank" class="btn btn-custom btn-primary btn-sm">
-                                                        <i class="fas fa-play-circle mr-2"></i>видео
+                                                        <i class="fas fa-play-circle mr-2"></i> Видео
                                                     </a>
-                                                    <a asp-action="details" asp-controller="exercisetrainer" asp-route-id="@meal.Id" class="btn btn-custom btn-info btn-sm">
-                                                        <i class="fas fa-info-circle mr-2"></i>подробности
+                                                    <a asp-action="Details" asp-controller="Meal" asp-route-id="@meal.Id" class="btn btn-custom btn-info btn-sm">
+                                                        <i class="fas fa-info-circle mr-2"></i> Подробности
                                                     </a>
                                                 </div>
                                             </div>
