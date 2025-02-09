@@ -6,6 +6,8 @@ namespace AIFitnessProject.Core.Models.DailyDietPlan
     {
         public int Id { get; set; }
 
+        public int DietId { get; set; }
+
         public string Title { get; set; }
 
         public string DayOfWeek { get; set; }
