@@ -22,6 +22,19 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            if(await dailyDietPlanService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            var model = await dailyDietPlanService.GetModelForDetails(id);
+
+            return View(model);
+        }
+
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);

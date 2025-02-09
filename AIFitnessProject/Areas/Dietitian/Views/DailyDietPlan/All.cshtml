@@ -155,13 +155,13 @@
                                 {
                                    
                                     <div class="exercise">
-                                        <span class="text-primary"> <h5>@meal.MealTime: </h5></span><p>@meal.Name - @meal.Calories калории</p>
+                                        <span class="text-primary"> <h5>@meal.MealTime: </h5></span><p>@meal.Name</p>
                                     </div>
                                 }
 
                             </div>
                             <div class="button-group d-flex justify-content-end gap-2">
-                                <a asp-action="Details" asp-controller="Diet" asp-route-id="@dailyDietPlan.Id" asp-area="Dietitian" class="btn btn-custom btn-details">
+                                <a asp-action="Details" asp-controller="DailyDietPlan" asp-route-id="@dailyDietPlan.Id" asp-area="Dietitian" class="btn btn-custom btn-details">
                                     <i class="fas fa-info-circle me-2"></i>Детайли
                                 </a>
                                 <a asp-action="Edit" asp-controller="Diet" asp-route-id="@dailyDietPlan.Id" asp-area="Dietitian" class="btn btn-custom btn-edit">
