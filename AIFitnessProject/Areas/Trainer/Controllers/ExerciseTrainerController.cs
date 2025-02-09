@@ -1,6 +1,7 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.Exercise;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AIFitnessProject.Areas.Trainer.Controllers
 {
@@ -17,7 +18,25 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
         {
             return View();
         }
+
         [HttpGet]
+        public async Task<IActionResult> Add()
+        {
+            var model = new CreateExerciseViewModel();
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Add(CreateExerciseViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            await exerciseService.AddExercise(model, GetUserId());
+
+            return RedirectToAction("Create","Workout");
+        }
         public async Task<IActionResult> Details(int id)
         {
             var model = await exerciseService.GetModelForDetails(id);
@@ -53,6 +72,10 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             await exerciseService.EditAsync(id, model);
 
             return RedirectToAction("Details", "ExerciseTrainer", new { id = model.Id });
+        }
+        private string GetUserId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

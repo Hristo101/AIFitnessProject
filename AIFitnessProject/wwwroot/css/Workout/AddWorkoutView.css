@@ -1,12 +1,10 @@
-﻿
-:root {
+﻿:root {
     --primary: #6366f1;
     --secondary: #8b5cf6;
     --accent: #ec4899;
 }
-element.style {
-    margin-right: 4em;
-}
+
+/* Exercise Card */
 .exercise-card {
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     opacity: 0;
@@ -15,8 +13,10 @@ element.style {
     border: 2px solid transparent;
     background: linear-gradient(145deg, #ffffff, #f8f9fa);
 }
+
+/* Utility Classes */
 .mt-2 {
-    margin-top: .5rem !important;
+    margin-top: 0.5rem !important;
     color: #003366;
     margin-right: 4em;
 }
@@ -25,6 +25,8 @@ element.style {
     margin-bottom: 1rem !important;
     color: black;
 }
+
+/* Keyframes */
 @keyframes cardEntrance {
     to {
         opacity: 1;
@@ -32,16 +34,20 @@ element.style {
     }
 }
 
+/* Text Muted */
 .text-muted {
     --bs-text-opacity: 1;
     color: #0c2750 !important;
 }
 
+/* Pagination */
 .pagination-container {
     position: relative;
     overflow: hidden;
     margin: 2rem 0;
 }
+
+/* Form Floating Label */
 .form-floating > label {
     position: absolute;
     top: 0;
@@ -57,9 +63,10 @@ element.style {
     color: black;
     border: var(--bs-border-width) solid transparent;
     transform-origin: 0 0;
-    transition: opacity .1s ease-in-out, transform .1s ease-in-out;
+    transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
 }
 
+/* Filter Controls */
 .filter-container select.filter-control,
 .filter-container input.filter-control {
     border-radius: 0.25rem;
@@ -75,6 +82,8 @@ element.style {
         border-color: #86b7fe;
         box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
     }
+
+/* Page Button */
 .page-btn {
     transition: all 0.3s ease;
     min-width: 45px;
@@ -88,9 +97,10 @@ element.style {
     .page-btn.active {
         background: linear-gradient(145deg, var(--primary), var(--secondary));
         color: white !important;
-        box-shadow: inset 3px 3px 5px rgba(0,0,0,0.1), inset -3px -3px 5px rgba(255,255,255,0.2);
+        box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.1), inset -3px -3px 5px rgba(255, 255, 255, 0.2);
     }
 
+/* Navigation Button */
 .nav-btn {
     padding: 8px 25px;
     border-radius: 10px;
@@ -108,11 +118,13 @@ element.style {
         box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
     }
 
+/* Selected Exercise Card */
 .exercise-card.selected {
     border: 2px solid var(--primary);
     background: rgba(99, 102, 241, 0.05);
 }
 
+/* Glow Animation */
 .glow {
     animation: glowPulse 2s infinite alternate;
 }
@@ -127,6 +139,7 @@ element.style {
     }
 }
 
+/* Muscle Tag */
 .muscle-tag {
     background: var(--primary);
     color: white;
@@ -135,6 +148,7 @@ element.style {
     font-size: 0.9em;
 }
 
+/* Difficulty Badge */
 .difficulty-badge {
     position: absolute;
     top: 10px;
@@ -156,6 +170,7 @@ element.style {
     background: #ef4444;
 }
 
+/* Upload Section */
 .upload-section {
     border: 2px dashed var(--primary);
     border-radius: 15px;
@@ -167,7 +182,7 @@ element.style {
         transform: scale(1.02);
     }
 
-
+/* Glass Card */
 .glass-card {
     backdrop-filter: blur(10px);
     background: rgba(255, 255, 255, 0.2);
@@ -175,6 +190,7 @@ element.style {
     border-radius: 1rem;
 }
 
+/* Gradient Text */
 .gradient-text {
     background: linear-gradient(45deg, #f093fb, #f5576c);
     -webkit-background-clip: text;
@@ -182,6 +198,7 @@ element.style {
     font-weight: 700;
 }
 
+/* Badge Custom */
 .badge-custom {
     font-size: 0.9rem;
     padding: 0.5rem 1rem;
@@ -190,6 +207,7 @@ element.style {
     color: #fff;
 }
 
+/* Button Custom */
 .btn-custom {
     border-radius: 2rem;
     font-weight: 500;
@@ -201,6 +219,7 @@ element.style {
         transform: translateY(-2px);
     }
 
+/* Hover Zoom */
 .hover-zoom img {
     transition: transform 0.3s ease;
 }
@@ -209,11 +228,13 @@ element.style {
     transform: scale(1.05);
 }
 
+/* Workout Card */
 .workout-card {
     position: relative;
     overflow: hidden;
 }
 
+/* Card Lift */
 .card-lift {
     transition: all 0.3s ease;
 }
@@ -223,12 +244,14 @@ element.style {
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
 
+/* Horizontal Rule Glow */
 .hr-glow {
     border: none;
     height: 2px;
     background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
 }
-/* Фоново полупрозрачно "послойно" оцветяване */
+
+/* Exercise Background Overlay */
 .exercise-bg-overlay {
     position: absolute;
     top: 0;
@@ -240,20 +263,45 @@ element.style {
     z-index: 0;
 }
 
+/* Exercise Item */
 .exercise-item {
     z-index: 1; /* За да е над overlay-a */
 }
 
+/* Series & Reps */
 .series-reps {
     font-size: 0.8rem;
     padding: 0.5rem 0.8rem;
 }
 
+/* Text Accent Secondary */
 .text-accent-secondary {
     color: #16a085;
     font-weight: 500;
 }
 
+/* Shadow Large */
 .shadow-lg {
     box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15) !important;
 }
+
+/* Custom Style for "Създай упражнение" Button */
+a {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-right: 4em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+    border: 5px solid rgba(0, 0, 0, 0.1);
+}
+
+    a:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(5, 5, 5, 0.4);
+    }
