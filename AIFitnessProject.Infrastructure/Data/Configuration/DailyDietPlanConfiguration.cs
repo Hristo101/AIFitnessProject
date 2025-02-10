@@ -37,7 +37,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     CreatorId = 2,
                     DayOfWeel = "Вторник",
                     DietId = 1,
-                    DificultyLevel = "Средно",
+                    DificultyLevel = "Средно-Напреднал",
                     ImageUrl = "/img/DailyDietPlan/dailyDietPlan2.webp",
                 }
                 //new DailyDietPlan
