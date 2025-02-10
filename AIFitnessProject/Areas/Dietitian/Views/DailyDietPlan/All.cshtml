@@ -22,7 +22,7 @@
             @foreach (var dailyDietPlan in Model)
             {
                 <div class="col-12 col-md-6 col-lg-4">
-                    <div class="training-card" data-id="@dailyDietPlan.Id" data-complexity="@dailyDietPlan.Meals.First().DificultyLevel">
+                    <div class="training-card" data-id="@dailyDietPlan.Id" data-complexity="@dailyDietPlan.DificultyLevel">
                         <!-- Чекбокс за маркиране -->
                         <div class="checkbox-container">
                             <input type="checkbox" class="diet-checkbox">
