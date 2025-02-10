@@ -1,5 +1,4 @@
 ﻿using AIFitnessProject.Core.Models.Diet;
-using AIFitnessProject.Core.Models.Meal;
 
 namespace AIFitnessProject.Core.Contracts
 {
@@ -9,7 +8,7 @@ namespace AIFitnessProject.Core.Contracts
         Task<ICollection<AllDietViewModel>> GetAllDietsAsync(string userId);
         Task<DietDetailsViewModel> GetDietModelsForDetails(int id);
         Task<EditDietViewModel> GetModelForEdit(int id);
-        Task EditAsync(int id, EditMealViewModel model);
+        Task EditAsync(int id, EditDietViewModel model);
         Task<bool> ExistAsync(int id);
     }
 }

@@ -20,7 +20,8 @@ namespace AIFitnessProject.Core.Models.Diet
         [StringLength(MaxDescriptionLength, MinimumLength = MinDescriptionLength, ErrorMessage = "Описанието трябва да е между {2} и {1} символа.")]
         public string Description { get; set; } = string.Empty;
 
-        public string? ExistingImageUrl { get; set; }
+        
+        public string? ExistingImageUrl { get; set; } 
 
         public IFormFile? NewImage { get; set; }
 

@@ -15,8 +15,15 @@
             <div class="image-container">
                 @if (!string.IsNullOrEmpty(Model.ExistingImageUrl))
                 {
-                    <img src="@Model.ExistingImageUrl" alt="Current exercise image"
-                         class="existing-image animate__animated animate__fadeIn" />
+                    @if (Model.ExistingImageUrl.StartsWith("http") || Model.ExistingImageUrl.StartsWith("/img"))
+                    {
+                        <img src="@Model.ExistingImageUrl" class="existing-image animate__animated animate__fadeIn" alt="Training">
+                    }
+                    else
+                    {
+                        <img src="data:image/jpeg;base64,@Model.ExistingImageUrl" class="existing-image animate__animated animate__fadeIn" alt="Training">
+                    }
+                  
                 }
                 <div class="upload-box">
                     <input asp-for="NewImage" type="file" class="upload-input"
