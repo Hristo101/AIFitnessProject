@@ -1,4 +1,5 @@
 ﻿using AIFitnessProject.Core.Models.Diet;
+using AIFitnessProject.Infrastructure.Data.Models;
 
 namespace AIFitnessProject.Core.Contracts
 {
@@ -10,5 +11,6 @@ namespace AIFitnessProject.Core.Contracts
         Task<EditDietViewModel> GetModelForEdit(int id);
         Task EditAsync(int id, EditDietViewModel model);
         Task<bool> ExistAsync(int id);
+        Task<Diet> GetDietById(int id);
     }
 }

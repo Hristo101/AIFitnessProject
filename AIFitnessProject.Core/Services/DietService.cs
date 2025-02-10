@@ -107,6 +107,16 @@ namespace AIFitnessProject.Core.Services
             return models;
         }
 
+        public async Task<Diet> GetDietById(int id)
+        {
+           var diet = await repository.All<Diet>()
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+            
+                return diet;
+            
+        }
+
         public async Task<DietDetailsViewModel> GetDietModelsForDetails(int id)
         {
             var diet = await repository.AllAsReadOnly<Diet>()

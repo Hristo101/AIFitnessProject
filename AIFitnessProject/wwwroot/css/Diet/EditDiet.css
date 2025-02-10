@@ -87,8 +87,8 @@ label {
     color: var(--text-color);
     font-weight: 600;
 }
-.section-label{
-    text-align:center;
+.section-label {
+    text-align: center;
 }
 /* Стилове за textarea с рецепта */
 textarea {

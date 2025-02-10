@@ -17,24 +17,25 @@
                 {
                     @if (Model.ExistingImageUrl.StartsWith("http") || Model.ExistingImageUrl.StartsWith("/img"))
                     {
+                       
                         <img src="@Model.ExistingImageUrl" class="existing-image animate__animated animate__fadeIn" alt="Training">
                     }
                     else
                     {
+                        <label class="section-label">Снимка на хранителния режим</label>
                         <img src="data:image/jpeg;base64,@Model.ExistingImageUrl" class="existing-image animate__animated animate__fadeIn" alt="Training">
                     }
-                  
                 }
                 <div class="upload-box">
-                    <input asp-for="NewImage" type="file" class="upload-input"
-                           accept="image/*" id="imageUpload" />
+                    <input asp-for="NewImage" type="file" class="upload-input" accept="image/*" id="imageUpload" />
                     <label for="imageUpload" class="upload-label">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <span>Изберете нова снимка</span>
                     </label>
-
                     <span asp-validation-for="NewImage" class="text-danger"></span>
-                    <div id="imagePreview" class="row g-3 mt-3"></div>
+                </div>
+                <div id="imagePreviewContainer" class="preview-container existing-image animate__animated animate__fadeIn" style="display: none;">
+                    <img id="imagePreview" class="preview-image" alt="Preview" />
                 </div>
             </div>
         </div>
@@ -45,24 +46,14 @@
                 <input asp-for="Name" class="form-control input-animate" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-          @*   <div class="form-group video-url">
-                <label>Видео линк</label>
-                <div class="video-input-group">
-                    <input asp-for="VideoUrl" class="form-control input-animate" placeholder="https://youtube.com/..." />
-                    <small class="input-hint">Въведете пълен YouTube URL</small>
-                    <span asp-validation-for="VideoUrl" class="text-danger"></span>
-                </div>
-            </div> *@
-            
+
             <div class="form-group recipe">
                 <label asp-for="Description"></label>
                 <textarea asp-for="Description" class="form-control input-animate" rows="4"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-           
         </div>
 
-       
         <button type="submit" class="submit-btn">
             <span class="btn-text">Запази промените</span>
             <i class="fas fa-save btn-icon"></i>
@@ -70,12 +61,39 @@
     </form>
 </div>
 
-@functions {
-    private string GetYouTubeId(string url)
-    {
-        var uri = new Uri(url);
-        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
-        return query.AllKeys.Contains("v") ? query["v"] : uri.Segments.Last();
-    }
-}
 <link rel="stylesheet" href="~/css/Diet/EditDiet.css" />
+
+<script>
+    document.getElementById('imageUpload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const previewContainer = document.getElementById('imagePreviewContainer');
+                const previewImage = document.getElementById('imagePreview');
+                previewImage.src = e.target.result;
+                previewContainer.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+<style>
+    .preview-container {
+        display: inline-block;
+        margin-left: 15px;
+        vertical-align: top;
+    }
+
+    .preview-image 
+
+    {
+        max-width: 200px;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+</style>

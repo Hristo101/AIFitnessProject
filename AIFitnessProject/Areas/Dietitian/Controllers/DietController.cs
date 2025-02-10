@@ -69,7 +69,8 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             if (!ModelState.IsValid)
             {
-
+                var diet = await dietService.GetDietById(id);
+                model.ExistingImageUrl = diet.ImageUrl;
                 return View(model);
             }
 
