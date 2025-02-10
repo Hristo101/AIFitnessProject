@@ -1,119 +1,4 @@
-﻿@* @using AIFitnessProject.Core.Models.DailyDietPlan
-@model IEnumerable<DailyDietPlanViewModel>
-
-<link rel="stylesheet" href="~/css/Workout/AllWorkout.css" />
-
-<div class="container">
-    <!-- Филтри -->
-    <div class="filters">
-        <select id="muscleGroupFilter">
-            <option value="">Търсене по мускулна група</option>
-            <option value="Гърди">Гърди</option>
-            <option value="Гръб">Гръб</option>
-            <option value="Крака">Крака</option>
-            <option value="Ръце">Ръце</option>
-        </select>
-        <select id="complexityFilter">
-            <option value="">Търсене по сложност</option>
-            <option value="Лесно">Лесно</option>
-            <option value="Средно">Средно-Напреднал</option>
-            <option value="Трудно">Трудно</option>
-        </select>
-    </div>
-
-    <!-- Грид с тренировките -->
-    <div class="workouts-grid">
-        @foreach (var dailyDietPlan in Model)
-        {
-            <div class="workout-card" data-id="@dailyDietPlan.Id" data-muscle-group="@dailyDietPlan.Meals.First().MealTime" data-complexity="@dailyDietPlan.Meals.First().DificultyLevel">
-                <!-- Чекбокс за маркиране -->
-                <div class="checkbox-container">
-                    <input type="checkbox" class="workout-checkbox">
-                </div>
-
-                <!-- Снимка -->
-                <img src="@dailyDietPlan.ImageUrl" class="workout-image" alt="@dailyDietPlan.Title" />
-
-                <!-- Заглавие и ден от седмицата -->
-                <h3>@dailyDietPlan.Title</h3>
-                <p>Ден: @dailyDietPlan.DayOfWeek</p>
-
-                <!-- Упражнения -->
-                <div class="exercises">
-                    @foreach (var meal in dailyDietPlan.Meals)
-                    {
-                        <div class="exercise">
-                            <p>@meal.Name - @meal.Calories калории</p>
-                        </div>
-                    }
-                </div>
-
-                <!-- Бутоните ДЕТАЙЛИ и РЕДАКТИРАЙ -->
-                <div class="workout-actions">
-                    <a asp-action="Details" asp-controller="Workout" asp-route-id="@dailyDietPlan.Id" class="btn btn-details">Детайли</a>
-                    <button class="btn btn-edit">Редактирай</button>
-                </div>
-            </div>
-        }
-    </div>
-
-    <div class="button-container">
-        <form id="attachWorkoutForm" method="post" asp-action="AttachWorkouts" asp-controller="Workout">
-            <input type="hidden" name="selectedWorkoutIds" id="selectedWorkoutIds" />
-            <input type="hidden" name="trainingPlanId" value="@Model.FirstOrDefault()?.DietId" />
-
-            <button type="submit" id="attachWorkoutBtn" class="btn btn-attach" disabled>
-                📌 Прикачи тренировка
-            </button>
-            <a href="/Workout/Create" class="btn btn-create">➕ Създай тренировка</a>
-        </form>
-    </div>
-</div>
-
-<script>
-    document.querySelectorAll('select').forEach(select => {
-        select.addEventListener('change', filterWorkouts);
-    });
-
-    function filterWorkouts() {
-        const muscleGroup = document.getElementById('muscleGroupFilter').value;
-        const complexity = document.getElementById('complexityFilter').value;
-
-        document.querySelectorAll('.workout-card').forEach(card => {
-            const cardMuscle = card.dataset.muscleGroup;
-            const cardComplexity = card.dataset.complexity;
-
-            const muscleMatch = !muscleGroup || cardMuscle === muscleGroup;
-            const complexityMatch = !complexity || cardComplexity === complexity;
-
-            card.style.display = (muscleMatch && complexityMatch) ? 'block' : 'none';
-        });
-    }
-
-    // Обновяване на бутона при маркиране на тренировки
-    document.querySelectorAll('.workout-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('change', updateSelection);
-    });
-
-    function updateSelection() {
-        const selectedWorkouts = Array.from(document.querySelectorAll('.workout-checkbox:checked'))
-            .map(cb => cb.closest('.workout-card').dataset.id);
-
-        document.getElementById('selectedWorkoutIds').value = selectedWorkouts.join(',');
-        document.getElementById('attachWorkoutBtn').disabled = selectedWorkouts.length === 0;
-
-        document.querySelectorAll('.workout-card').forEach(card => {
-            card.classList.remove('selected');
-        });
-
-        selectedWorkouts.forEach(id => {
-            document.querySelector(`.workout-card[data-id='${id}']`).classList.add('selected');
-        });
-    }
-</script>
- *@
-
- @using AIFitnessProject.Core.Models.DailyDietPlan
+﻿@using AIFitnessProject.Core.Models.DailyDietPlan
  @model ICollection<DailyDietPlanViewModel>
 
 @{
@@ -164,7 +49,7 @@
                                 <a asp-action="Details" asp-controller="DailyDietPlan" asp-route-id="@dailyDietPlan.Id" asp-area="Dietitian" class="btn btn-custom btn-details">
                                     <i class="fas fa-info-circle me-2"></i>Детайли
                                 </a>
-                                <a asp-action="Edit" asp-controller="Diet" asp-route-id="@dailyDietPlan.Id" asp-area="Dietitian" class="btn btn-custom btn-edit">
+                                <a asp-action="Edit" asp-controller="DailyDietPlan" asp-route-id="@dailyDietPlan.Id" asp-area="Dietitian" class="btn btn-custom btn-edit">
                                     <i class="fas fa-edit me-2"></i>Редактирай
                                 </a>
                             </div>

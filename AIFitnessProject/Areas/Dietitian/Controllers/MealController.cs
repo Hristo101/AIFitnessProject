@@ -1,6 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.Meal;
-using AIFitnessProject.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIFitnessProject.Areas.Dietitian.Controllers
