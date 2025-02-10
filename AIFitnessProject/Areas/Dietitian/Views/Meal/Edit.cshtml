@@ -15,19 +15,27 @@
             <div class="image-container">
                 @if (!string.IsNullOrEmpty(Model.ExistingImageUrl))
                 {
-                    <img src="@Model.ExistingImageUrl" alt="Current exercise image"
-                         class="existing-image animate__animated animate__fadeIn" />
+                    @if (Model.ExistingImageUrl.StartsWith("http") || Model.ExistingImageUrl.StartsWith("/img"))
+                    {
+
+                        <img src="@Model.ExistingImageUrl" class="existing-image animate__animated animate__fadeIn" alt="Training">
+                    }
+                    else
+                    {
+                        <label class="section-label">Снимка на хранителния режим</label>
+                        <img src="data:image/jpeg;base64,@Model.ExistingImageUrl" class="existing-image animate__animated animate__fadeIn" alt="Training">
+                    }
                 }
                 <div class="upload-box">
-                    <input asp-for="NewImage" type="file" class="upload-input"
-                           accept="image/*" id="imageUpload" />
+                    <input asp-for="NewImage" type="file" class="upload-input" accept="image/*" id="imageUpload" />
                     <label for="imageUpload" class="upload-label">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <span>Изберете нова снимка</span>
                     </label>
-
                     <span asp-validation-for="NewImage" class="text-danger"></span>
-                    <div id="imagePreview" class="row g-3 mt-3"></div>
+                </div>
+                <div id="imagePreviewContainer" class="preview-container existing-image animate__animated animate__fadeIn" style="display: none;">
+                    <img id="imagePreview" class="preview-image" alt="Preview" />
                 </div>
             </div>
         </div>
@@ -111,5 +119,36 @@
         var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
         return query.AllKeys.Contains("v") ? query["v"] : uri.Segments.Last();
     }
-}
+}  
+<script>
+    document.getElementById('imageUpload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const previewContainer = document.getElementById('imagePreviewContainer');
+                const previewImage = document.getElementById('imagePreview');
+                previewImage.src = e.target.result;
+                previewContainer.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+<style>
+    .preview-container {
+        display: inline-block;
+        margin-left: 15px;
+        vertical-align: top;
+    }
+
+    .preview-image {
+        max-width: 200px;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+</style>
 <link rel="stylesheet" href="~/css/Meal/EditMeal.css" />

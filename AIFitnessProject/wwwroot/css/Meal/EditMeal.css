@@ -80,11 +80,16 @@ body {
     .video-input-group input {
         width: 100%;
     }
+
 label {
     display: block;
     margin-bottom: 0.5rem;
     color: var(--text-color);
     font-weight: 600;
+}
+
+.section-label {
+    text-align: center;
 }
 /* Стилове за textarea с рецепта */
 textarea {
@@ -118,6 +123,7 @@ textarea {
     gap: 2rem;
     align-items: center;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .existing-image {
@@ -319,5 +325,3 @@ textarea {
     margin-right: 0.5rem;
     color: var(--primary-color);
 }
-
-
