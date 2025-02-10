@@ -1,10 +1,7 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.DailyDietPlan;
 using AIFitnessProject.Core.Models.Diet;
-using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
-using AIFitnessProject.Core.Models.TrainingPlan;
-using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +41,17 @@ namespace AIFitnessProject.Core.Services
 
             await repository.AddAsync(diet);
             await repository.SaveChangesAsync();
+        }
+
+        public Task EditAsync(int id, EditMealViewModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> ExistAsync(int id)
+        {
+            return await repository.AllAsReadOnly<Diet>()
+               .AnyAsync(x => x.Id == id);
         }
 
         public async Task<ICollection<AllDietViewModel>> GetAllDietsAsync(string userId)
@@ -100,6 +108,23 @@ namespace AIFitnessProject.Core.Services
             };
 
             return viewModel;
+        }
+
+        public async Task<EditDietViewModel> GetModelForEdit(int id)
+        {
+            var diet = await repository.AllAsReadOnly<Diet>()
+               .Where(x => x.Id == id)
+               .Select(x => new EditDietViewModel()
+               {
+                   Id = x.Id,
+                   Name = x.Name,
+                   ExistingImageUrl = x.ImageUrl,
+                   Description = x.Description,
+                   
+               })
+               .FirstAsync();
+
+            return diet;
         }
     }
 }

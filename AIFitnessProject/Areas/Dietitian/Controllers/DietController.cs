@@ -1,5 +1,6 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.Diet;
+using AIFitnessProject.Core.Models.Meal;
 using AIFitnessProject.Core.Models.TrainingPlan;
 using AIFitnessProject.Core.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -53,6 +54,32 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = await dietService.GetModelForEdit(id);
+            return View(model);
+        }
+
+        //[HttpPost]
+        //public async Task<IActionResult> Edit(EditMealViewModel model, int id)
+        //{
+        //    if (await dietService.ExistAsync(id) == false)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    if (!ModelState.IsValid)
+        //    {
+
+        //        return View(model);
+        //    }
+
+        //    await dietService.EditAsync(id, model);
+
+        //    return RedirectToAction(nameof(Details), new { id = model.Id });
+        //}
 
         private string GetUserId()
         {

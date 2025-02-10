@@ -13,7 +13,7 @@ namespace AIFitnessProject.Core.Models.Meal
         public string Name { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Описанието е задължително.")]
-        [StringLength(MaxRecipeLength, MinimumLength =MinRecipeLength, ErrorMessage = "Описанието трябва да е между {2} и {1} символа.")]
+        [StringLength(MaxRecipeLength, MinimumLength =MinRecipeLength, ErrorMessage = "Рецептата трябва да е между {2} и {1} символа.")]
         public string Recipe { get; set; } = string.Empty;
 
         public string? ExistingImageUrl { get; set; }
