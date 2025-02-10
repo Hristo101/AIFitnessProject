@@ -62,9 +62,9 @@
         </div>
 
         <div class="button-container">
-            <form id="attachDietForm" method="post" asp-action="AttachDiets" asp-controller="Diet">
-                <input type="hidden" name="selectedDietIds" id="selectedDietIds" />
-                <input type="hidden" name="dietPlanId" value="@Model.FirstOrDefault()?.DietId" />
+            <form id="attachDietForm" method="post" asp-action="AttachDailyDietPlan" asp-controller="DailyDietPlan">
+                <input type="hidden" name="selectedDailyDietPlanIds" id="selectedDailyDietPlanIds" />
+                <input type="hidden" name="dietId" value="@Model.FirstOrDefault()?.DietId" />
 
                 <button type="submit" id="attachDietBtn" class="btn btn-custom btn-attach" disabled>
                     📌 Прикачи дневен хранителен план
@@ -84,6 +84,9 @@
         </div>
     </div>
 </body>
+
+
+</html>
 
 <script>
     document.querySelectorAll('select').forEach(select => {
@@ -109,7 +112,7 @@
         const selectedDiets = Array.from(document.querySelectorAll('.diet-checkbox:checked'))
             .map(cb => cb.closest('.training-card').dataset.id);
 
-        document.getElementById('selectedDietIds').value = selectedDiets.join(',');
+        document.getElementById('selectedDailyDietPlanIds').value = selectedDiets.join(',');
         document.getElementById('attachDietBtn').disabled = selectedDiets.length === 0;
 
         document.querySelectorAll('.training-card').forEach(card => {
@@ -121,5 +124,4 @@
         });
     }
 </script>
-</html>
 <link rel="stylesheet" href="~/css/DailyDietPlan/AllDailyDietPlan.css" />
