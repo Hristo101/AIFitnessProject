@@ -63,6 +63,7 @@ namespace AIFitnessProject.Core.Services
             }
             await repository.AddAsync(exercise);
             await repository.SaveChangesAsync();
+
         }
 
         public async Task EditAsync(int id, EditExerciseViewModel model)

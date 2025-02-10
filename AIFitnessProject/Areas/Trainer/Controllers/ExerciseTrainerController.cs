@@ -23,7 +23,6 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
         public async Task<IActionResult> Add()
         {
             var model = new CreateExerciseViewModel();
-
             return View(model);
         }
         [HttpPost]
@@ -35,7 +34,7 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             }
             await exerciseService.AddExercise(model, GetUserId());
 
-            return RedirectToAction("Create","Workout");
+            return RedirectToAction("Add","Workout");
         }
         public async Task<IActionResult> Details(int id)
         {

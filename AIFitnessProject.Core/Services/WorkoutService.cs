@@ -72,7 +72,7 @@ namespace AIFitnessProject.Core.Services
             return model;
         }
 
-        public async Task CreateWorkout(AddWorkoutViewModel model,string userId)
+        public async Task<int> CreateWorkout(AddWorkoutViewModel model,string userId)
         {
             var trainer = await repository.AllAsReadOnly<Infrastructure.Data.Models.Trainer>()
                .Where(x => x.UserId == userId)
@@ -124,6 +124,7 @@ namespace AIFitnessProject.Core.Services
                 await repository.AddAsync(workoutsExercise);
                 await repository.SaveChangesAsync();
             }
+            return workout.Id;
         }
 
         public async Task<AddWorkoutViewModel> GetModelForAdd()

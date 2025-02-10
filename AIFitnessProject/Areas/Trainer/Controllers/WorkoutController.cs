@@ -43,8 +43,8 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
                 model.Exercises = modelsExercises.ToList();
                 return View(model);
             }
-            await workoutService.CreateWorkout(model, GetUserId());
-            return RedirectToAction("All");
+           var workoutId = await workoutService.CreateWorkout(model, GetUserId());
+            return RedirectToAction("All", new {id = workoutId});
         }
         [HttpGet]
         public async Task<IActionResult> Details(int id)
