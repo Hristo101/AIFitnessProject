@@ -118,7 +118,6 @@ namespace AIFitnessProject.Core.Services
                 .Where(x => x.ExcersiceId == id)
                 .Include(x => x.Workout)
                 .ThenInclude(x => x.TrainingPlans)
-                 .Where(x => x.Workout.TrainingPlanId != null)
                 .FirstOrDefaultAsync();
 
             var workout = await repository.AllAsReadOnly<WorkoutsExercise>()
@@ -151,11 +150,21 @@ namespace AIFitnessProject.Core.Services
 
         public async Task<EditExerciseViewModel> GetModelForEdit(int id)
         {
+            var workout = await repository.AllAsReadOnly<WorkoutsExercise>()
+                 .Where(x => x.ExcersiceId == id)
+                 .Include(x =>x.Workout)
+                 .FirstAsync();
+
+            var trainingPlanId = workout.Workout.TrainingPlanId;
+
             var exercise = await repository.AllAsReadOnly<Infrastructure.Data.Models.Exercise>()
                 .Where(x => x.Id == id)
+                .Include(x =>x.WorkoutsExercises)
+                .ThenInclude(x =>x.Workout)
                 .Select(x => new EditExerciseViewModel()
                 {
                     Id = x.Id,
+                    TrainingPlanId = trainingPlanId,
                     Description = x.Description,
                     DifficultyLevel = x.DifficultyLevel,
                     ExistingImageUrl = x.ImageUrl,

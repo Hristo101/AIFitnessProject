@@ -10,7 +10,8 @@ namespace AIFitnessProject.Core.Models.Exercise
 {
     public class EditExerciseViewModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
+        public int? TrainingPlanId { get; set; }
 
         [Required(ErrorMessage = "Името е задължително.")]
         [StringLength(100, ErrorMessage = "Името трябва да е между {2} и {1} символа.", MinimumLength = 3)]

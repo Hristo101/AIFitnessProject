@@ -70,7 +70,7 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             await exerciseService.EditAsync(id, model);
 
-            return RedirectToAction("Details", "ExerciseTrainer", new { id = model.Id });
+            return RedirectToAction("DetailsTrainingPlan", "ExerciseTrainer", new { id = model.Id });
         }
         private string GetUserId()
         {
