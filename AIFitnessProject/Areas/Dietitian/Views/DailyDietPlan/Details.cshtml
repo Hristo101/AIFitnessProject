@@ -1,0 +1,291 @@
+﻿@using AIFitnessProject.Core.Models.DailyDietPlan
+@model DailyDietPlanViewModel
+@{
+    ViewData["Title"] = "Детайли на дневния хранителен план";
+    Layout = "_Layout";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<style>
+    :root {
+        --main-bg: #f8f9fa;
+        --accent-primary: #2ecc71;
+        --button-video: #3498db;
+        --accent-secondary: #1e3d29;
+        --button-add: #2ecc71;
+        --button-info: #f1c40f;
+        --text-dark: #1e3d29;
+        --text-light: #ecf0f1;
+        --glass: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Добавено за частици */
+    .particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    body {
+        background: var(--main-bg);
+        color: var(--text-dark);
+        overflow-x: hidden;
+    }
+
+    .hero-section {
+        position: relative;
+        padding: 8rem 0;
+        background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+        clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        margin-bottom: 5rem;
+    }
+
+    .floating-img {
+        animation: float 6s ease-in-out infinite;
+        filter: drop-shadow(0 15px 30px rgba(0,0,0,0.3));
+    }
+
+    .glass-card {
+        background: var(--glass);
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.3);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s;
+    }
+
+    .hover-zoom img {
+        transition: transform 0.4s ease;
+       
+    }
+    .text-primary {
+        --bs-text-opacity: 1;
+        color: #3CB371 !important;
+        /*   font-weight: bold; */
+    }
+
+    .text-muted {
+        font-size: 1.3rem;
+        /* font-weight: bold; */
+        color: #3CB371 !important;
+    }
+
+    .exercise-item {
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s;
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+        .exercise-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.2);
+        }
+
+    .btn-custom {
+        border: none;
+        border-radius: 30px;
+        padding: 12px 25px;
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-add {
+        background: linear-gradient(135deg, var(--button-add), #27ae60);
+        margin-bottom: 2em;
+        color: var(--text-light);
+    }
+
+        .btn-add:hover {
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+            transform: translateY(-2px);
+        }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--button-video), #2980b9);
+        color: var(--text-light);
+    }
+
+        .btn-primary:hover {
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            transform: translateY(-2px);
+        }
+
+    .btn-info {
+        background: linear-gradient(135deg, var(--button-info), #f39c12);
+        color: var(--text-dark);
+    }
+
+        .btn-info:hover {
+            box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4);
+            transform: translateY(-2px);
+        }
+
+    .badge-custom {
+        background: rgba(52, 152, 219, 0.1);
+        color: var(--accent-primary);
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-weight: 600;
+        border: 1px solid var(--accent-primary);
+    }
+
+    @@keyframes float {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    .gradient-text {
+        background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hover-zoom {
+        overflow: hidden;
+        border-radius: 10px;
+        transition: transform 0.3s;
+    }
+
+        .hover-zoom img {
+            transition: transform 0.4s ease;
+        }
+
+        .hover-zoom:hover img {
+            transform: scale(1.05);
+        }
+
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--main-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--accent-primary);
+        border-radius: 4px;
+    }
+</style>
+
+<div class="hero-section">
+    <!-- Добавени частици -->
+    <div class="particles" id="particles-js"></div>
+
+    <div class="container text-center">
+        <h1 class="gradient-text display-3 mb-4 animate__animated animate__fadeInDown">@Model.Title</h1>
+        <div class="floating-img">
+            @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("/img"))
+            {
+                <img src="@Model.ImageUrl" alt="@Model.Title" class="img-fluid rounded-lg shadow-lg" style="max-height: 400px;">
+            }
+            else
+            {
+                <img src="data:image/jpeg;base64,@Model.ImageUrl" alt="@Model.Title" class="img-fluid rounded-lg shadow-lg" style="max-height: 400px;">
+            }
+
+        </div>
+        <h4 class="gradient-text display-3 mb-4 animate__animated animate__fadeInDown">@Model.DayOfWeek</h4>
+        <h4 class="gradient-text display-3 mb-4 animate__animated animate__fadeInDown">Ниво на трудност - @Model.DificultyLevel</h4>
+    </div>
+</div>
+<div class="row g-4">
+    @if (Model.Meals.Any() == true)
+    {
+        @foreach (var meal in Model.Meals)
+        {
+            <div class="col-md-6">
+                <div class="exercise-item">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="text-primary">@meal.Name</h5>
+                        <span class="badge-custom">@meal.DificultyLevel</span>
+                    </div>
+
+                    <div class="hover-zoom mb-3">
+                        @if (meal.ImageUrl.StartsWith("http") || meal.ImageUrl.StartsWith("/img"))
+                        {
+                            <img src="@meal.ImageUrl" class="img-fluid rounded-3" alt="Training">
+                        }
+                        else
+                        {
+                            <img src="data:image/jpeg;base64,@meal.ImageUrl" class="img-fluid rounded-3" alt="@meal.Name">
+                        }
+
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class="text-muted mb-3">@meal.MealTime</p>
+                        
+                        <div class="btn-group">
+                            <a href="@meal.VideoUrl" target="_blank" class="btn btn-custom btn-primary btn-sm">
+                                <i class="fas fa-play-circle mr-2"></i> Видео
+                            </a>
+                            <a asp-action="Details" asp-controller="Meal" asp-route-id="@meal.Id" class="btn btn-custom btn-info btn-sm">
+                                <i class="fas fa-info-circle mr-2"></i> Подробности
+                            </a>
+                        </div>
+                    </div>
+                    <p class="text-muted mb-3">@meal.Calories ckal</p>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@section Scripts {
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Добавен particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+            easing: 'ease-in-out-quart'
+        });
+
+        // Конфигурация за частици
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80 },
+                color: { value: '#3498db' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.15 },
+                size: { value: 3 },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' },
+                    resize: true
+                }
+            }
+        });
+    </script>
+}

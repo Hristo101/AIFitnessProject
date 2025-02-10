@@ -33,6 +33,7 @@
     <Folder Include="wwwroot\css\Dietitian\" />
     <Folder Include="wwwroot\css\Trainer\" />
     <Folder Include="wwwroot\img\exercises\" />
+    <Folder Include="wwwroot\img\meals\" />
   </ItemGroup>
 
 </Project>

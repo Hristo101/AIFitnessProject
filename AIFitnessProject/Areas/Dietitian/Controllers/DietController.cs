@@ -46,6 +46,14 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var model = await dietService.GetDietModelsForDetails(id);
+
+            return View(model);
+        }
+
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);

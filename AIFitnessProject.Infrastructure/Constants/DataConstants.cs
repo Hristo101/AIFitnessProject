@@ -15,6 +15,12 @@ namespace AIFitnessProject.Infrastructure.Constants
             public const int MaxNameLength = 500;
             public const int MinNameLength = 3;
 
+            public const int MaxMealTimeLength = 200;
+            public const int MinMealTimeLength = 3;
+
+            public const int MaxDificultyLevelLength = 100;
+            public const int MinDificultyLevelLength = 3;
+
             public const int MaxRecipeLength = 2000;
             public const int MinRecipeLength = 3;
 

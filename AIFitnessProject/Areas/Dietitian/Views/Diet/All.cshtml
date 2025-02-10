@@ -23,7 +23,14 @@
             {
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="training-card">
-                        <img src="data:image/jpeg;base64,@diet.ImageUrl" class="card-image w-100" alt="Training">
+                        @if (diet.ImageUrl.StartsWith("http"))
+                        {
+                            <img src="@diet.ImageUrl" class="card-image w-100" alt="Training">
+                        }
+                        else
+                        {
+                            <img src="data:image/jpeg;base64,@diet.ImageUrl" class="card-image w-100" alt="Training">
+                        }
                         <div class="card-body">
                             <h3 class="mb-4 fw-bold text-primary">@diet.DietName</h3>
                             <div class="description-wrapper">
@@ -34,10 +41,10 @@
                             </div>
                             <div class="button-group d-flex justify-content-end gap-2">
                                 <a asp-action="Details" asp-controller="Diet" asp-route-id="@diet.Id" asp-area="Dietitian" class="btn btn-custom btn-details">
-                                    <i class="fas fa-info-circle me-2"></i>Details
+                                    <i class="fas fa-info-circle me-2"></i>Детайли
                                 </a>
                                 <a asp-action="Edit" asp-controller="Diet" asp-route-id="@diet.Id" asp-area="Dietitian" class="btn btn-custom btn-edit">
-                                    <i class="fas fa-edit me-2"></i>Edit
+                                    <i class="fas fa-edit me-2"></i>Редактирай
                                 </a>
                             </div>
                             <div class="animated-border"></div>

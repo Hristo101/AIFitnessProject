@@ -7,9 +7,6 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
     [Authorize(Roles = DietitianRole)]
     public class DietitianBaseController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+      
     }
 }
