@@ -12,6 +12,7 @@
             <option value="Гръб">Гръб</option>
             <option value="Крака">Крака</option>
             <option value="Ръце">Ръце</option>
+            <option value="Цяло Тяло">Цяло Тяло</option>
         </select>
         <select id="complexityFilter">
             <option value="">Търсене по сложност</option>
@@ -65,7 +66,7 @@
             <button type="submit" id="attachWorkoutBtn" class="btn btn-attach" disabled>
                 📌 Прикачи тренировка
             </button>
-            <a href="/Workout/Create" class="btn btn-create">➕ Създай тренировка</a>
+            <a asp-action="Add" asp-controller="Workout" asp-area="Trainer" class="btn btn-create">➕ Създай тренировка</a>
         </form>
     </div>
 </div>

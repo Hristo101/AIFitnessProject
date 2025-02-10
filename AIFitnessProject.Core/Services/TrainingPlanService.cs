@@ -99,6 +99,42 @@ namespace AIFitnessProject.Core.Services
 
             return viewModel;
         }
+
+        public async Task<TrainingPlanDetailsViewModel> GetGetTrainingPlanModelsForDetailsFromExercise(int exerciseId)
+        {
+            var workoutsExercise = await repository.AllAsReadOnly<WorkoutsExercise>()
+                .Where(x =>x.ExcersiceId == exerciseId)
+                .Include(x => x.Workout)
+                .ThenInclude(x =>x.TrainingPlans)
+                .Include(x =>x.Exercise)
+                .FirstAsync();
+
+            var viewModel = new TrainingPlanDetailsViewModel
+            {
+                Id = workoutsExercise.Workout.TrainingPlanId,
+                Name = workoutsExercise.Workout.TrainingPlans.Name,
+                Description = workoutsExercise.Workout.TrainingPlans.Description,
+                ImageUrl = workoutsExercise.Workout.TrainingPlans.ImageUrl,
+                Workouts = workoutsExercise.Workout.TrainingPlans.Workouts.Select(workout => new WorkoutViewModel
+                {
+                    Title = workout.Title,
+                    DayOfWeek = workout.DayOfWeek,
+                    ImageUrl = workout.ImageUrl,
+                    Exercises = workout.WorkoutsExercises.Select(we => new ExerciseViewModel
+                    {
+                        Id = we.ExcersiceId,
+                        Name = we.Exercise.Name,
+                        Description = we.Exercise.Description,
+                        ImageUrl = we.Exercise.ImageUrl,
+                        VideoUrl = we.Exercise.VideoUrl,
+                        MuscleGroup = we.Exercise.MuscleGroup,
+                        DifficultyLevel = we.Exercise.DifficultyLevel
+                    }).ToList()
+                }).ToList()
+            };
+
+            return viewModel;
+        }
     }
 
 }
