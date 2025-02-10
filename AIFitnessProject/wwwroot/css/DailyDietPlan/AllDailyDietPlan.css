@@ -7,12 +7,10 @@
     color: #3CB371 !important;
 }
 
-p{
+p {
     font-size: 1.2rem;
 }
-h5{
-    font-size : 1.3rem;
-}
+
 
 .training-card {
     background: white;
@@ -44,9 +42,9 @@ h5{
     transition: transform 0.3s ease;
 }
 
-.training-card:hover .card-image {
+./*training-card:hover .card-image {
     transform: scale(1.03);
-}
+}*/
 
 .card-body {
     padding: 2rem;
@@ -119,7 +117,6 @@ h5{
     border: 2px solid #3CB371;
 }
 
-
 .btn-edit {
     background: #6c757d;
     color: white;
@@ -132,8 +129,9 @@ h5{
 }
 
 .btn-edit:hover {
-    background: #5c636a;
-    border-color: #5c636a;
+    background: #495057;
+    border-color: #495057;
+    color: white;
 }
 
 .animated-border {
@@ -150,7 +148,6 @@ h5{
 .training-card:hover .animated-border {
     width: 100%;
 }
-
 
 .text-primary {
     --bs-text-opacity: 1;
@@ -195,9 +192,33 @@ h5{
     background: #3CB371;
     border-color: #3CB371;
 }
+.btn-attach:hover {
+    background: #495057;
+    border-color: #495057;
+    color: white;
+}
 
-/* Филтриращи селекти */
-.filters {
+/* Чекбокс за отбелязване на тренировка */
+.checkbox-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+    .checkbox-container input {
+        width: 20px;
+        height: 20px;
+        accent-color: #3CB371;
+        cursor: pointer;
+    }
+
+/* Маркиране на избрани тренировки */
+.training-card.selected {
+    border: 3px solid #3CB371;
+    background-color: rgba(60, 179, 113, 0.1);
+}
+
+filters {
     display: flex;
     gap: 20px;
     margin-bottom: 30px;
