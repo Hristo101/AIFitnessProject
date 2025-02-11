@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Всички мои дневни хранителни планове";
+    var dietId = Model.FirstOrDefault()?.DietId;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -64,12 +65,12 @@
         <div class="button-container">
             <form id="attachDietForm" method="post" asp-action="AttachDailyDietPlan" asp-controller="DailyDietPlan">
                 <input type="hidden" name="selectedDailyDietPlanIds" id="selectedDailyDietPlanIds" />
-                <input type="hidden" name="dietId" value="@Model.FirstOrDefault()?.DietId" />
+                <input type="hidden" name="dietId" value="@dietId" />
 
                 <button type="submit" id="attachDietBtn" class="btn btn-custom btn-attach" disabled>
                     📌 Прикачи дневен хранителен план
                 </button>
-                <a asp-action="Details" asp-controller="Diet" asp-area="Dietitian" class="btn btn-custom btn-details">
+                <a asp-action="Add" asp-controller="DailyDietPlan" asp-area="Dietitian" class="btn btn-custom btn-details" asp-route-dietId="@(dietId ?? 0)">
                     ➕ Създай дневен хранителен план
                 </a>
             </form>

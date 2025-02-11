@@ -23,7 +23,13 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             return View(model);
         }
+        [HttpGet]
+        public async Task<IActionResult> Add(int dietId)
+        {
+            var model = await dailyDietPlanService.GetModelForAdd(dietId);
 
+            return View(model);
+        }
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {

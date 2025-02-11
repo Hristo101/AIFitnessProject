@@ -1,6 +1,8 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.DailyDietPlan;
+using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
+using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -118,6 +120,28 @@ namespace AIFitnessProject.Core.Services
                 .FirstOrDefaultAsync();
 
             return dailyDietPlan;
+        }
+
+        public async Task<AddDailyDietPlanViewModel> GetModelForAdd(int dietId)
+        {
+            var model = new AddDailyDietPlanViewModel();
+
+            model.DietId = dietId;
+
+            model.Meals = await repository.AllAsReadOnly<Meal>()
+                .Select(x => new MealViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Recipe = x.Recipe,
+                    ImageUrl = x.ImageUrl,
+                    VideoUrl = x.VideoUrl,
+                    DificultyLevel = x.DificultyLevel,
+                    Calories = x.Calories,
+                    MealTime = x.MealTime,
+                }).ToListAsync();
+
+            return model;
         }
 
         public async Task<DailyDietPlanViewModel> GetModelForDetails(int id)
