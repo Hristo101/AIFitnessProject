@@ -42,7 +42,20 @@ namespace AIFitnessProject.Infrastructure.Constants
             public const int MaxDescriptionLength = 2500;
             public const int MinDescriptionLength = 3;
         }
-        
+
+        public static class DailyDietPlan
+        {
+            public const int MaxTitleLength = 500;
+            public const int MinTitleLength = 3;
+
+            public const int MaxDayOfWeekLength = 10;
+            public const int MinDayOfWeekLength = 5;
+
+
+            public const int MaxDifficultyLevelLength = 16;
+            public const int MinDifficultyLevelLength = 5;
+        }
+
         public static class Exercise
         {
             public const int MaxNameLength = 500;

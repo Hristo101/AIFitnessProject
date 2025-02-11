@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
+using static AIFitnessProject.Infrastructure.Constants.DataConstants.DailyDietPlan;
 namespace AIFitnessProject.Infrastructure.Data.Models
 {
     [Comment("DailyDietPlan Table")]
@@ -14,6 +14,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 
         [Required]
         [Comment("Daily Diet Plan Title")]
+        [MaxLength(MaxTitleLength)]
         public string Title { get; set; } = string.Empty;
 
         [Required]
@@ -22,6 +23,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 
         [Required]
         [Comment("Daily Diet Plan Day Of Week")]
+        [MaxLength(MaxDayOfWeekLength)]
         public string DayOfWeel { get; set; } = string.Empty;
 
         [Required]
@@ -40,6 +42,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 
         [Required]
         [Comment("Daily Diet Plan Dificulty Level")]
+        [MaxLength(MaxDifficultyLevelLength)]
         public string DificultyLevel { get; set; } = string.Empty;
 
         public ICollection<MealsDailyDietPlan> MealsDailyDietPlans { get; set; } = new List<MealsDailyDietPlan>();
