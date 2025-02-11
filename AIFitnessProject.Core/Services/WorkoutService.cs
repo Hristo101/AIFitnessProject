@@ -124,13 +124,13 @@ namespace AIFitnessProject.Core.Services
                 await repository.AddAsync(workoutsExercise);
                 await repository.SaveChangesAsync();
             }
-            return workout.Id;
+            return model.TrainingPlanId;
         }
 
-        public async Task<AddWorkoutViewModel> GetModelForAdd()
+        public async Task<AddWorkoutViewModel> GetModelForAdd(int trainingPlanId)
         {
            var model = new AddWorkoutViewModel();
-           
+           model.TrainingPlanId = trainingPlanId;
             model.Exercises = await repository.AllAsReadOnly<Infrastructure.Data.Models.Exercise>()
                 .Select(we => new ExerciseViewModel()
                 {
@@ -173,7 +173,7 @@ namespace AIFitnessProject.Core.Services
                         DifficultyLevel = we.Exercise.DifficultyLevel
                     }).ToList()
                 })
-                .FirstAsync();
+                .FirstOrDefaultAsync();
 
             return model;
         }

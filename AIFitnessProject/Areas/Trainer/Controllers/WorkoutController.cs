@@ -28,9 +28,9 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             return View(model);
         }
         [HttpGet]
-        public async Task<IActionResult> Add()
+        public async Task<IActionResult> Add(int trainingPlanId)
         {
-            var model = await workoutService.GetModelForAdd();
+            var model = await workoutService.GetModelForAdd(trainingPlanId);
 
             return View(model);
         }
@@ -44,7 +44,7 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
                 return View(model);
             }
            var workoutId = await workoutService.CreateWorkout(model, GetUserId());
-            return RedirectToAction("All", new {id = workoutId});
+            return RedirectToAction("All", new {id = model.TrainingPlanId });
         }
         [HttpGet]
         public async Task<IActionResult> Details(int id)

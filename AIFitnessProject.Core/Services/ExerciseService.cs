@@ -112,6 +112,35 @@ namespace AIFitnessProject.Core.Services
                 .AnyAsync(x => x.Id == id);
         }
 
+        public async Task<DetailsExerciseViewModel> GetModelForDetailsFromWorkouts(int id)
+        {
+
+            var workout = await repository.AllAsReadOnly<WorkoutsExercise>()
+                .Where(x => x.ExcersiceId == id)
+                .FirstAsync();
+
+            var exercise = await repository.AllAsReadOnly<Infrastructure.Data.Models.Exercise>()
+                .Where(x => x.Id == id)
+                .Include(x => x.WorkoutsExercises)
+                .ThenInclude(x => x.Workout)
+                .ThenInclude(x => x.TrainingPlans)
+                .Select(x => new DetailsExerciseViewModel()
+                {
+                    Id = x.Id,
+                    WorkoutId = workout.WorkoutId,
+                    Description = x.Description,
+                    DifficultyLevel = x.DifficultyLevel,
+                    ImageUrl = x.ImageUrl,
+                    VideoUrl = x.VideoUrl,
+                    MuscleGroup = x.MuscleGroup,
+                    Name = x.Name,
+                    Repetitions = x.Repetitions,
+                    Series = x.Series,
+                }).FirstAsync();
+
+            return exercise;
+        }
+
         public async Task<ExerciseViewModel> GetModelForDetails(int id)
         {
             var model = await repository.AllAsReadOnly<WorkoutsExercise>()
@@ -122,9 +151,11 @@ namespace AIFitnessProject.Core.Services
 
             var workout = await repository.AllAsReadOnly<WorkoutsExercise>()
                 .Where(x =>x.ExcersiceId == id)
+                .Where(x =>x.Workout.TrainingPlans != null)
+                .Include(x => x.Workout)
                 .FirstAsync();
 
-            var trainingPlanId = model.Workout.TrainingPlanId;
+            var trainingPlanId = workout.Workout.TrainingPlanId;
 
             var exercise = await repository.AllAsReadOnly<Infrastructure.Data.Models.Exercise>()
                 .Where(x =>x.Id == id)
@@ -144,6 +175,36 @@ namespace AIFitnessProject.Core.Services
                     Repetitions = x.Repetitions,
                     Series = x.Series,
                 }).FirstAsync();
+
+            return exercise;
+        }
+
+        public async Task<EditExerciseFromWorkoutViewModel> GetModelFromWorkoutForEdit(int id)
+        {
+            var workout = await repository.AllAsReadOnly<WorkoutsExercise>()
+                 .Where(x => x.ExcersiceId == id)
+                 .Include(x => x.Workout)
+                 .FirstAsync();
+
+
+            var exercise = await repository.AllAsReadOnly<Infrastructure.Data.Models.Exercise>()
+                .Where(x => x.Id == id)
+                .Include(x => x.WorkoutsExercises)
+                .ThenInclude(x => x.Workout)
+                .Select(x => new EditExerciseFromWorkoutViewModel()
+                {
+                    Id = x.Id,
+                    WorkoutId = workout.WorkoutId,
+                    Description = x.Description,
+                    DifficultyLevel = x.DifficultyLevel,
+                    ExistingImageUrl = x.ImageUrl,
+                    VideoUrl = x.VideoUrl,
+                    MuscleGroup = x.MuscleGroup,
+                    Name = x.Name,
+                    Repetitions = x.Repetitions,
+                    Series = x.Series,
+                })
+                .FirstAsync();
 
             return exercise;
         }
@@ -177,6 +238,45 @@ namespace AIFitnessProject.Core.Services
                 .FirstAsync();
 
             return exercise;
+        }
+
+        public async Task EditAsyncFromWorkout(int id, EditExerciseFromWorkoutViewModel model)
+        {
+            var exercise = await repository.All<Infrastructure.Data.Models.Exercise>()
+             .Where(x => x.Id == id)
+             .FirstOrDefaultAsync();
+
+            if (exercise != null)
+            {
+                exercise.MuscleGroup = model.MuscleGroup;
+                exercise.Description = model.Description;
+                exercise.Series = model.Series;
+                exercise.Repetitions = model.Repetitions;
+                exercise.DifficultyLevel = model.DifficultyLevel;
+                exercise.VideoUrl = model.VideoUrl;
+                exercise.Name = model.Name;
+
+                if (model.NewImage != null)
+                {
+                    string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "img/exercises");
+
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.NewImage.FileName);
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.NewImage.CopyToAsync(fileStream);
+                    }
+                    exercise.ImageUrl = "/img/exercises/" + uniqueFileName;
+                }
+
+                await repository.SaveChangesAsync();
+            }
         }
     }
 }

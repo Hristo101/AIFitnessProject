@@ -298,7 +298,8 @@ a {
         </div>
         <div class="card-body p-4">
             <!-- Уверете се, че ViewModel съдържа свойството SelectedWorkoutIds -->
-            <form asp-action="Create" asp-controller="Workout" asp-area="Trainer" method="post" enctype="multipart/form-data">
+            <form asp-action="Create"  asp-controller="Workout" asp-area="Trainer" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="TrainingPlanId" />
                 <!-- Основна информация -->
                 <div class="row g-4 mb-5 animate__animated animate__fadeIn">
                     <div class="col-md-6">
@@ -398,6 +399,7 @@ a {
                                         <option value="Гърди">Гърди</option>
                                         <option value="Гръб">Гръб</option>
                                         <option value="Крака">Крака</option>
+                                        <option value="Цяло Тяло">Цяло Тяло</option>
                                         <option value="Ръце">Ръце</option>
                                     </select>
                                     <label for="filterMuscleGroup">💪 Мускулна група</label>

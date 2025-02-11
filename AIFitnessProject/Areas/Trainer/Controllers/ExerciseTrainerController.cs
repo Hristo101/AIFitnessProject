@@ -36,9 +36,10 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             return RedirectToAction("Add","Workout");
         }
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var model = await exerciseService.GetModelForDetails(id);
+            var model = await exerciseService.GetModelForDetailsFromWorkouts(id);
             
             return View(model);
         }
@@ -50,10 +51,34 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             return View(model);
         }
         [HttpGet]
+        public async Task<IActionResult> EditFromWorkout(int id)
+        {
+            var model = await exerciseService.GetModelFromWorkoutForEdit(id);
+
+            return View(model);
+        }
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var model = await exerciseService.GetModelForEdit(id);
             return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditFromWorkout(EditExerciseFromWorkoutViewModel model,int id)
+        {
+            if (await exerciseService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await exerciseService.EditAsyncFromWorkout(id, model);
+
+            return RedirectToAction("Details",new { id = model.Id });
         }
         [HttpPost]
         public async Task<IActionResult> Edit(EditExerciseViewModel model,int id)
