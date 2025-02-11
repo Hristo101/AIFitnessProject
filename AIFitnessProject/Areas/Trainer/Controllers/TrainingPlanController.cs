@@ -43,6 +43,37 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
         [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = await trainingPlanService.GetTrainingPlanForEditAsync(id);
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditTrainingPlanViewModel model,int id)
+        {
+            if (await trainingPlanService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (User.IsInRole("Trainer") == false)
+            {
+                return Unauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var trainingPlan = await trainingPlanService.GetDietById(id);
+                model.ImageUrl = trainingPlan.ImageUrl;
+                return View(model);
+            }
+
+            await trainingPlanService.EditAsync(id, model);
+
+            return RedirectToAction("All");
+        }
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
             var model = await trainingPlanService.GetTrainingPlanModelsForDetails(id);

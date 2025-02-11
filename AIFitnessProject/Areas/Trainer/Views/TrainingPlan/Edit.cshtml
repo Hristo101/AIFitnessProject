@@ -1,0 +1,233 @@
+﻿@using AIFitnessProject.Core.Models.TrainingPlan
+@model EditTrainingPlanViewModel
+
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="utf-8" />
+    <title>Редактиране на Тренировъчен План</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <!-- Animate.css за анимации -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <!-- Font Awesome за икони -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav.navbar {
+            background-color: #343a40 !important;
+            width: 100%;
+            padding: 10px 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: absolute;
+            top: 0;
+            z-index: 1000;
+        } 
+        .form-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 1s;
+        }
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .form-group label {
+            font-weight: 600;
+            color: #343a40;
+        }
+        .form-control {
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+        }
+        .btn-primary {
+            transition: all 0.3s ease;
+            border-radius: 50px;
+            padding: 12px 24px;
+            font-size: 18px;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+        }
+        /* File Upload Custom Styles */
+        .file-upload-wrapper {
+            border: 2px dashed #007bff;
+            border-radius: 8px;
+            padding: 20px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .file-upload-wrapper:hover {
+            background-color: #f1f1f1;
+        }
+        .file-upload-label {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        .preview-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 5px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="form-container">
+                    <h2 class="mb-4 text-center animate__animated animate__fadeInDown">
+                        Редактиране на Тренировъчен План
+                    </h2>
+                    <form asp-action="Edit" asp-controller="TrainingPlan" method="post" enctype="multipart/form-data">
+                        
+                        <!-- Показване на текущата (стара) снимка, ако съществува -->
+                        @if(!string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <div class="mb-4 text-center">
+                                <img src="@Model.ImageUrl" alt="Текуща снимка" class="img-fluid rounded" style="max-height:300px;" />
+                                <p class="mt-2">Текуща снимка</p>
+                            </div>
+                        }
+
+                        <!-- Компонент за качване на нова снимка с предварителен преглед -->
+                        <div class="mb-4">
+                            <div class="file-upload-wrapper">
+                                <input asp-for="NewImageUrl" type="file" id="imageInput"
+                                       class="form-control visually-hidden" accept="image/*">
+                                <label for="imageInput" class="file-upload-label">
+                                    <div class="d-flex flex-column align-items-center p-5">
+                                        <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+                                        <h5 class="mb-2">Провлачете снимка или кликнете за избор</h5>
+                                        <p class="text-muted mb-0">Максимален размер: 5MB</p>
+                                        <p class="text-muted">Формати: .jpg, .jpeg, .png</p>
+                                    </div>
+                                </label>
+                                <span asp-validation-for="NewImageUrl" class="text-danger mt-1 d-block"></span>
+                                <div id="imagePreview" class="row g-3 mt-3"></div>
+                            </div>
+                        </div>
+
+                        <!-- Други полета от формата -->
+                        <div class="form-group animate__animated animate__fadeInLeft animate__delay-1s">
+                            <label asp-for="TrainingPlanName">Име на плана</label>
+                            <input asp-for="TrainingPlanName" class="form-control" placeholder="Въведете име на тренировъчния план" />
+                            <span asp-validation-for="TrainingPlanName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group animate__animated animate__fadeInLeft animate__delay-1s">
+                            <label asp-for="TrainingPlanDescription">Описание на плана</label>
+                            <textarea asp-for="TrainingPlanDescription" class="form-control" rows="5" placeholder="Въведете описание на тренировъчния план"></textarea>
+                            <span asp-validation-for="TrainingPlanDescription" class="text-danger"></span>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg animate__animated animate__zoomIn animate__delay-2s">
+                                Запази промените
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Скриптове за Bootstrap и jQuery валидация -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+    <!-- Скрипт за предварителен преглед и валидация на новата снимка -->
+    <script>
+        // Enhanced Image Preview with File Validation
+        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+        const imageInput = document.getElementById('imageInput');
+        const previewContainer = document.getElementById('imagePreview');
+
+        imageInput.addEventListener('change', function (e) {
+            previewContainer.innerHTML = '';
+            Array.from(e.target.files).forEach(file => {
+                if (!file.type.startsWith('image/')) {
+                    alert('Моля изберете валиден изображениевен файл!');
+                    return;
+                }
+
+                if (file.size > MAX_FILE_SIZE) {
+                    alert('Файлът надвишава максималния размер от 5MB!');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const col = document.createElement('div');
+                    col.className = 'col-6 col-md-4 col-lg-3 position-relative mb-3';
+                    col.innerHTML = `
+                        <div class="card shadow-sm overflow-hidden">
+                            <div class="preview-badge">${(file.size / 1024 / 1024).toFixed(2)}MB</div>
+                            <img src="${event.target.result}" class="card-img-top" alt="Preview">
+                            <div class="card-footer py-2">
+                                <small class="text-muted d-block text-truncate">${file.name}</small>
+                                <button type="button" class="btn btn-danger btn-sm float-end"
+                                    onclick="this.closest('.col-6').remove()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>`;
+                    previewContainer.appendChild(col);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // Dynamic Difficulty Level Indicators (ако има други елементи, които ги използват)
+        document.querySelectorAll('.form-select option').forEach(option => {
+            const indicator = document.createElement('span');
+            indicator.className = 'difficulty-indicator ' +
+                (option.value === 'Лесно' ? 'easy' :
+                 option.value === 'Средно-напреднал' ? 'medium' : 'hard');
+            option.prepend(indicator);
+        });
+
+        // Input Number Validation
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', function () {
+                if (this.validity.rangeUnderflow) {
+                    this.setCustomValidity('Минималната стойност е ' + this.min);
+                } else if (this.validity.rangeOverflow) {
+                    this.setCustomValidity('Максималната стойност е ' + this.max);
+                } else {
+                    this.setCustomValidity('');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

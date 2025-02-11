@@ -16,7 +16,7 @@
             {
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="training-card">
-                        <img src="data:image/jpeg;base64,@Url.Content(training.ImageUrl)" class="card-image w-100" alt="Training">
+                        <img src="@Url.Content(training.ImageUrl)" class="card-image w-100" alt="Training">
                         <div class="card-body">
                             <h3 class="mb-4 fw-bold text-primary">@training.TitleOfTriningPlan</h3>
                             <div class="description-wrapper">
@@ -29,7 +29,7 @@
                                 <a asp-action="Details" asp-controller="TrainingPlan" asp-route-id="@training.Id" asp-area="Trainer" class="btn btn-custom btn-details">
                                     <i class="fas fa-info-circle me-2"></i>Details
                                 </a>
-                                <a asp-action="Details" asp-controller="TrainingPlan" asp-route-id="@training.Id" asp-area="Trainer" class="btn btn-custom btn-edit">
+                                <a asp-action="Edit" asp-controller="TrainingPlan" asp-route-id="@training.Id" asp-area="Trainer" class="btn btn-custom btn-edit">
                                     <i class="fas fa-edit me-2"></i>Edit
                                 </a>
                             </div>
