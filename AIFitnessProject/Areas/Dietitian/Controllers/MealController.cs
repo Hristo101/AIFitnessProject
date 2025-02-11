@@ -1,6 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.Meal;
-using AIFitnessProject.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIFitnessProject.Areas.Dietitian.Controllers
@@ -46,7 +45,8 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             if (!ModelState.IsValid)
             {
-                
+                var meal = await mealService.GetMealById(id);
+                model.ExistingImageUrl = meal.ImageUrl;
                 return View(model);
             }
 

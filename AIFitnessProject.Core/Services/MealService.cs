@@ -1,5 +1,4 @@
 ﻿using AIFitnessProject.Core.Contracts;
-using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
@@ -61,6 +60,15 @@ namespace AIFitnessProject.Core.Services
         {
             return await repository.AllAsReadOnly<Meal>()
                .AnyAsync(x => x.Id == id);
+        }
+
+        public async Task<Meal> GetMealById(int id)
+        {
+            var meal = await repository.All<Meal>()
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            return meal;
         }
 
         public async Task<MealViewModel> GetModelForDetails(int id)

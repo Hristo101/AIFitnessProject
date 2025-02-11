@@ -87,7 +87,6 @@ label {
     color: var(--text-color);
     font-weight: 600;
 }
-
 .section-label {
     text-align: center;
 }
@@ -123,7 +122,7 @@ textarea {
     gap: 2rem;
     align-items: center;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content :center;
 }
 
 .existing-image {

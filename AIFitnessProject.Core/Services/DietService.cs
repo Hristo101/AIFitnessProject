@@ -1,22 +1,22 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.DailyDietPlan;
 using AIFitnessProject.Core.Models.Diet;
-using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
-using AIFitnessProject.Core.Models.TrainingPlan;
-using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 
 namespace AIFitnessProject.Core.Services
 {
     public class DietService : IDietService
     {
+        private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IRepository repository;
 
-        public DietService(IRepository _repository)
+        public DietService(IHostingEnvironment hostingEnvironment,IRepository _repository)
         {
+            _hostingEnvironment = hostingEnvironment;
             this.repository = _repository;
         }
 
@@ -46,6 +46,48 @@ namespace AIFitnessProject.Core.Services
             await repository.SaveChangesAsync();
         }
 
+        public async Task EditAsync(int id, EditDietViewModel model)
+        {
+           
+
+            var diet = await repository.All<Diet>()
+               .Where(x => x.Id == id)
+               .FirstOrDefaultAsync();
+
+            if (diet != null)
+            {
+                diet.Name = model.Name;
+                diet.Description = model.Description;
+
+                if (model.NewImage != null)
+                {
+                    string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "img/diet");
+
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.NewImage.FileName);
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.NewImage.CopyToAsync(fileStream);
+                    }
+                    diet.ImageUrl = "/img/diet/" + uniqueFileName;
+                }
+
+                await repository.SaveChangesAsync();
+            }
+        }
+
+        public async Task<bool> ExistAsync(int id)
+        {
+            return await repository.AllAsReadOnly<Diet>()
+               .AnyAsync(x => x.Id == id);
+        }
+
         public async Task<ICollection<AllDietViewModel>> GetAllDietsAsync(string userId)
         {
             var dietitian = await repository.All<Dietitian>().Where(x => x.UserId == userId).FirstAsync();
@@ -56,13 +98,23 @@ namespace AIFitnessProject.Core.Services
                 .Select(x => new AllDietViewModel()
                 {
                     Id = x.Id,
-                    DietDescription= x.Description,
+                    DietDescription = x.Description,
                     ImageUrl = x.ImageUrl,
                     DietName = x.Name,
                 })
                 .ToListAsync();
 
             return models;
+        }
+
+        public async Task<Diet> GetDietById(int id)
+        {
+           var diet = await repository.All<Diet>()
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+            
+                return diet;
+            
         }
 
         public async Task<DietDetailsViewModel> GetDietModelsForDetails(int id)
@@ -100,6 +152,23 @@ namespace AIFitnessProject.Core.Services
             };
 
             return viewModel;
+        }
+
+        public async Task<EditDietViewModel> GetModelForEdit(int id)
+        {
+            var diet = await repository.AllAsReadOnly<Diet>()
+               .Where(x => x.Id == id)
+               .Select(x => new EditDietViewModel()
+               {
+                   Id = x.Id,
+                   Name = x.Name,
+                   ExistingImageUrl = x.ImageUrl,
+                   Description = x.Description,
+
+               })
+               .FirstAsync();
+
+            return diet;
         }
     }
 }

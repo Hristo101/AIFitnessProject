@@ -31,9 +31,9 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [ForeignKey(nameof(CreatorId))]
         public Dietitian Dietitian { get; set; } = null!;
 
-        [Required]
+        
         [Comment("Daily Diet Plan Diet Identifier")]
-        public int DietId { get; set; }
+        public int? DietId { get; set; }
 
         [ForeignKey(nameof(DietId))]
         public Diet Diet { get; set; } = null!;

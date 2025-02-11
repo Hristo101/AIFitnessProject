@@ -35,6 +35,14 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AttachDailyDietPlan(string selectedDailyDietPlanIds, int dietId)
+        {
+            await dailyDietPlanService.AttachDailyDietPlan(selectedDailyDietPlanIds, dietId);
+
+            return RedirectToAction("Details", "Diet", new { id = dietId });
+        }
+
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);

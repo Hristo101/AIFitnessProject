@@ -5,6 +5,7 @@ using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace AIFitnessProject.Core.Services
 {
     public class DailyDietPlanService : IDailyDietPlanService
@@ -14,6 +15,22 @@ namespace AIFitnessProject.Core.Services
         public DailyDietPlanService(IRepository _repository)
         {
             repository = _repository;
+        }
+
+        public async Task AttachDailyDietPlan(string selectedIds, int dietId)
+        {
+            var ids = selectedIds.Split(',').Select(int.Parse).ToList();
+
+            for (int i = 0; i < ids.Count; i++)
+            {
+                var dailyDietPlan = await repository
+                .All<DailyDietPlan>()
+                .Where(x => x.Id == ids[i])
+                .FirstAsync();
+
+                dailyDietPlan.DietId = dietId;
+                await repository.SaveChangesAsync();
+            }
         }
 
         public async Task<bool> ExistAsync(int id)

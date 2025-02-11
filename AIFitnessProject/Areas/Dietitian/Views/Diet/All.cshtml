@@ -23,7 +23,7 @@
             {
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="training-card">
-                        @if (diet.ImageUrl.StartsWith("http"))
+                        @if (diet.ImageUrl.StartsWith("http") || diet.ImageUrl.StartsWith("/img"))
                         {
                             <img src="@diet.ImageUrl" class="card-image w-100" alt="Training">
                         }

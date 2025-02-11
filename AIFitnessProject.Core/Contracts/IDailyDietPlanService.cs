@@ -7,5 +7,6 @@ namespace AIFitnessProject.Core.Contracts
         Task<ICollection<DailyDietPlanViewModel>> GetAllDailyDietPlans(string userId, int id);
         Task<DailyDietPlanViewModel> GetModelForDetails(int id);
         Task<bool> ExistAsync(int id);
+        Task AttachDailyDietPlan(string selectedIds, int dietId);
     }
 }
