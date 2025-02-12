@@ -167,7 +167,8 @@
         <i class="fas fa-dumbbell me-2"></i>@ViewData["Title"]
     </h2>
 
-    <form asp-action="Add" asp-controller="ExerciseTrainer" asp-area="Trainer" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+    <form asp-action="Add"  asp-controller="ExerciseTrainer" asp-area="Trainer" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        <input type="hidden" name="TrainingPlanId" value="@Model.TrainingPlanId" />
         <div class="mb-4">
             <label asp-for="Name" class="form-label">
                 <i class="fas fa-tag"></i>Име на упражнение

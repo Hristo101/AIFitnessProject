@@ -36,7 +36,7 @@ namespace AIFitnessProject.Core.Models.Exercise
         [Comment("Exercise DifficultyLevel")]
         [MaxLength(100)]
         public string DifficultyLevel { get; set; }
-
+        public int TrainingPlanId { get; set; }
         public int Repetitions { get; set; }
         public int Series { get; set; }
 

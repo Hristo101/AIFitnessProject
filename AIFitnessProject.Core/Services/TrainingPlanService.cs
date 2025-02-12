@@ -232,6 +232,7 @@ namespace AIFitnessProject.Core.Services
                 .Where(x => x.Id == id)
                 .Select(x => new SendTrainingPlanViewModel()
                 {
+                    Id = id,
                     DescriptionTrainingPlan = x.Description,
                     ImageUrlTrainingPlan = x.ImageUrl,
                     UserProfilePicture = x.User.ProfilePicture,
@@ -243,6 +244,16 @@ namespace AIFitnessProject.Core.Services
                 }).FirstAsync();
 
             return trainingPlanModel;
+        }
+
+        public async Task SendToUserAsync(int id)
+        {
+            var trainingPlan = await repository.All<TrainingPlan>()
+                .Where(x =>x.Id == id)
+                .FirstAsync();
+
+            trainingPlan.IsActive = true;
+            await repository.SaveChangesAsync();
         }
     }
 

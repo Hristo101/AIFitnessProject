@@ -33,11 +33,14 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             return View(model);
         }
-        //[HttpPost]
-        //public async Task<IActionResult> Send(int id)
-        //{
 
-        //}
+        [HttpPost]
+        public async Task<IActionResult> SendConfrimed(int id)
+        {
+            await trainingPlanService.SendToUserAsync(id);
+            return RedirectToAction("All");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateTraingPlanViewModel model,string id)
         {

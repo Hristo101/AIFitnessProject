@@ -8,6 +8,7 @@ namespace AIFitnessProject.Core.Models.TrainingPlan
 {
     public class SendTrainingPlanViewModel
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string ImageUrlTrainingPlan { get; set; }
         public string DescriptionTrainingPlan { get; set; }
