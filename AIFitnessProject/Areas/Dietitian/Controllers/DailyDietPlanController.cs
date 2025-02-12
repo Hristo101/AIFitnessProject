@@ -1,6 +1,7 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.DailyDietPlan;
 using AIFitnessProject.Core.Models.Meal;
+using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -29,6 +30,19 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             var model = await dailyDietPlanService.GetModelForAdd(dietId);
 
             return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Add(AddDailyDietPlanViewModel model)
+        {
+            var modelsMeals = await dailyDietPlanService.ReturnAllMealViewModel(GetUserId());
+
+            if (!ModelState.IsValid)
+            {
+                model.Meals = modelsMeals.ToList();
+                return View(model);
+            }
+            var workoutId = await dailyDietPlanService.CreateDailyDietPlan(model, GetUserId());
+            return RedirectToAction(nameof(All), new { id = model.DietId });
         }
         [HttpGet]
         public async Task<IActionResult> Details(int id)

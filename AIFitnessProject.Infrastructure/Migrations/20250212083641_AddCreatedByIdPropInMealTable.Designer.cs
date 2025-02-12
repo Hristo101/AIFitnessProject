@@ -4,6 +4,7 @@ using AIFitnessProject.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AIFitnessProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250212083641_AddCreatedByIdPropInMealTable")]
+    partial class AddCreatedByIdPropInMealTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -331,7 +334,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("WorkoutId");
 
-                    b.ToTable("Calendars", (string)null);
+                    b.ToTable("Calendars");
                 });
 
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.DailyDietPlan", b =>
@@ -380,7 +383,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("DietId");
 
-                    b.ToTable("DailyDietPlans", null, t =>
+                    b.ToTable("DailyDietPlans", t =>
                         {
                             t.HasComment("DailyDietPlan Table");
                         });
@@ -452,7 +455,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Diets", null, t =>
+                    b.ToTable("Diets", t =>
                         {
                             t.HasComment("Diet Table");
                         });
@@ -522,7 +525,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Dietitians", null, t =>
+                    b.ToTable("Dietitians", t =>
                         {
                             t.HasComment("Dietitian Table");
                         });
@@ -607,7 +610,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Documents", null, t =>
+                    b.ToTable("Documents", t =>
                         {
                             t.HasComment("Document Table");
                         });
@@ -671,7 +674,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable("Exercises", (string)null);
+                    b.ToTable("Exercises");
 
                     b.HasData(
                         new
@@ -963,7 +966,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable("Meals", null, t =>
+                    b.ToTable("Meals", t =>
                         {
                             t.HasComment("Meal Table");
                         });
@@ -1066,7 +1069,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("MealId");
 
-                    b.ToTable("MealsDailyDietPlans", null, t =>
+                    b.ToTable("MealsDailyDietPlans", t =>
                         {
                             t.HasComment("Meals Dily Diet Plan Table");
                         });
@@ -1147,7 +1150,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications", null, t =>
+                    b.ToTable("Notifications", t =>
                         {
                             t.HasComment("Notification Table");
                         });
@@ -1179,7 +1182,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Opinions", (string)null);
+                    b.ToTable("Opinions");
 
                     b.HasData(
                         new
@@ -1250,7 +1253,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PlanAssignments", null, t =>
+                    b.ToTable("PlanAssignments", t =>
                         {
                             t.HasComment("Plan Assignment Table");
                         });
@@ -1343,7 +1346,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RequestToDietitians", null, t =>
+                    b.ToTable("RequestToDietitians", t =>
                         {
                             t.HasComment("Request To Dietitian Table");
                         });
@@ -1416,7 +1419,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RequestsToCoaches", (string)null);
+                    b.ToTable("RequestsToCoaches");
                 });
 
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.Trainer", b =>
@@ -1470,7 +1473,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Trainers", null, t =>
+                    b.ToTable("Trainers", t =>
                         {
                             t.HasComment("Trainer Table");
                         });
@@ -1543,7 +1546,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TrainingPlan", null, t =>
+                    b.ToTable("TrainingPlan", t =>
                         {
                             t.HasComment("Training Plan Table");
                         });
@@ -1554,47 +1557,10 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             Id = 1,
                             CreatedById = 2,
                             Description = "Тренировъчният план за покачване на мускулна маса ще ти помогне да стимулираш растежа на мускулите чрез прогресивно натоварване и правилна техника. Когато увеличаваш тежестта или повторенията постепенно, мускулите ти ще бъдат предизвикани да се адаптират и да растат по-големи и по-силни. Силовите тренировки не само увеличават обема на мускулите, но и подобряват силата, което ти дава възможност да работиш с по-големи тежести и да продължаваш да напредваш. Това ще оптимизира метаболизма ти и ще подобри цялостната ти физическа форма, като същевременно ще увеличи способността ти да изгаряш мазнини, дори когато не тренираш активно. Ключово е да комбинираш тези тренировки с подходящо хранене и възстановяване, за да постигнеш максимални резултати в покачването на мускулната маса.",
-                            ImageUrl = "~/img/Flux_Dev_Create_a_highquality_fitnessthemed_image_that_represe_32.jpeg",
+                            ImageUrl = "~img/Flux_Dev_Create_a_highquality_fitnessthemed_image_that_represe_32.jpeg",
                             IsActive = false,
                             Name = "План за покачване на мускулна маса",
                             UserId = "cd87d0e2-4047-473e-924a-3e10406c5583"
-                        });
-                });
-
-            modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.TrainingPlanWorkout", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("TrainingPlanId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WorkoutId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TrainingPlanId");
-
-                    b.HasIndex("WorkoutId");
-
-                    b.ToTable("TrainingPlanWorkouts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            TrainingPlanId = 1,
-                            WorkoutId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            TrainingPlanId = 1,
-                            WorkoutId = 2
                         });
                 });
 
@@ -1633,7 +1599,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("UserComments", null, t =>
+                    b.ToTable("UserComments", t =>
                         {
                             t.HasComment("User Comment Table");
                         });
@@ -1714,7 +1680,8 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         .HasComment("Workout Title");
 
                     b.Property<int?>("TrainingPlanId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Workout Training Plan Id");
 
                     b.HasKey("Id");
 
@@ -1722,7 +1689,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("TrainingPlanId");
 
-                    b.ToTable("Workouts", null, t =>
+                    b.ToTable("Workouts", t =>
                         {
                             t.HasComment("Workout Table");
                         });
@@ -1737,7 +1704,8 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             ImageUrl = "https://cdn5.amcn.in/a/sport-direct.alle.bg/assets/d0001a0431ab-c999999999/e2omdu5nt1ga19ea1zuc.jpg",
                             MuscleGroup = "Гърди",
                             OrderInWorkout = 1,
-                            Title = "Основна тренировка за гърди"
+                            Title = "Основна тренировка за гърди",
+                            TrainingPlanId = 1
                         },
                         new
                         {
@@ -1748,7 +1716,8 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             ImageUrl = "https://pulsefit.bg/uploads/cache/O/public/uploads/media-manager/app-modules-blog-models-blog/header/71/797/back_1800x675.jpg",
                             MuscleGroup = "Гръб",
                             OrderInWorkout = 2,
-                            Title = "Основна тренировка за гръб"
+                            Title = "Основна тренировка за гръб",
+                            TrainingPlanId = 1
                         },
                         new
                         {
@@ -1805,7 +1774,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("WorkoutId");
 
-                    b.ToTable("WorkoutsExercises", (string)null);
+                    b.ToTable("WorkoutsExercises");
 
                     b.HasData(
                         new
@@ -2352,25 +2321,6 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.TrainingPlanWorkout", b =>
-                {
-                    b.HasOne("AIFitnessProject.Infrastructure.Data.Models.TrainingPlan", "TrainingPlan")
-                        .WithMany("TrainingPlanWorkouts")
-                        .HasForeignKey("TrainingPlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AIFitnessProject.Infrastructure.Data.Models.Workout", "Workout")
-                        .WithMany("TrainingPlanWorkouts")
-                        .HasForeignKey("WorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TrainingPlan");
-
-                    b.Navigation("Workout");
-                });
-
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.UserComment", b =>
                 {
                     b.HasOne("AIFitnessProject.Infrastructure.Data.Models.ApplicationUser", "Receiver")
@@ -2398,11 +2348,13 @@ namespace AIFitnessProject.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AIFitnessProject.Infrastructure.Data.Models.TrainingPlan", null)
+                    b.HasOne("AIFitnessProject.Infrastructure.Data.Models.TrainingPlan", "TrainingPlans")
                         .WithMany("Workouts")
                         .HasForeignKey("TrainingPlanId");
 
                     b.Navigation("Trainer");
+
+                    b.Navigation("TrainingPlans");
                 });
 
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.WorkoutsExercise", b =>
@@ -2550,15 +2502,11 @@ namespace AIFitnessProject.Infrastructure.Migrations
                 {
                     b.Navigation("PlanAssignments");
 
-                    b.Navigation("TrainingPlanWorkouts");
-
                     b.Navigation("Workouts");
                 });
 
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.Workout", b =>
                 {
-                    b.Navigation("TrainingPlanWorkouts");
-
                     b.Navigation("WorkoutsExercises");
                 });
 #pragma warning restore 612, 618

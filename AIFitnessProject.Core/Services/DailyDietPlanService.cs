@@ -1,13 +1,10 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.DailyDietPlan;
-using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
-using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-
 
 namespace AIFitnessProject.Core.Services
 {
@@ -36,6 +33,61 @@ namespace AIFitnessProject.Core.Services
                 dailyDietPlan.DietId = dietId;
                 await repository.SaveChangesAsync();
             }
+        }
+
+        public async Task<int> CreateDailyDietPlan(AddDailyDietPlanViewModel model, string userId)
+        {
+            var dietitian = await repository.AllAsReadOnly<Dietitian>()
+               .Where(x => x.UserId == userId)
+               .FirstOrDefaultAsync();
+
+            DailyDietPlan dailyDietPlan = new DailyDietPlan()
+            {
+                CreatorId = dietitian.Id,
+                DayOfWeel = model.DayOfWeek,
+                DificultyLevel = model.DificultyLevel,
+                Title = model.Title,
+                DietId = null,
+            };
+
+            List<int> mealsIds = model.SelectedMealIds.Split(",").Select(int.Parse).ToList();
+
+            if (model.ImageUrl != null)
+            {
+                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "img/DailyDietPlan");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ImageUrl.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.ImageUrl.CopyToAsync(fileStream);
+                }
+                dailyDietPlan.ImageUrl = "/img/DailyDietPlan/" + uniqueFileName;
+            }
+            await repository.AddAsync<DailyDietPlan>(dailyDietPlan);
+            await repository.SaveChangesAsync();
+
+            for (int i = 0; i < mealsIds.Count; i++)
+            {
+                var meal = await repository.AllAsReadOnly<Meal>()
+                    .Where(x => x.Id == mealsIds[i])
+                    .FirstAsync();
+
+                MealsDailyDietPlan mealDailyDietPlan = new MealsDailyDietPlan()
+                {
+                    MealId = meal.Id,
+                    DailyDietPlansId = dailyDietPlan.Id,
+                };
+                await repository.AddAsync(mealDailyDietPlan);
+                await repository.SaveChangesAsync();
+            }
+            return model.DietId;
         }
 
         public async Task EditAsync(int id, EditDailyDietPlanViewModel model)
@@ -187,6 +239,29 @@ namespace AIFitnessProject.Core.Services
                .FirstAsync();
 
             return dailyDietPlan;
+        }
+
+        public async Task<ICollection<MealViewModel>> ReturnAllMealViewModel(string userId)
+        {
+            var dietitian = await repository.AllAsReadOnly<Dietitian>()
+                .Where(x => x.UserId == userId)
+                .FirstOrDefaultAsync();
+
+            var models = await repository.AllAsReadOnly<Meal>()
+                 .Where(x => x.CreatedById == dietitian.Id)
+                 .Select(m => new MealViewModel()
+                 {
+                     Id = m.Id,
+                     Name = m.Name,
+                     ImageUrl = m.ImageUrl,
+                     VideoUrl = m.VideoUrl,
+                     DificultyLevel = m.DificultyLevel,
+                     Calories = m.Calories,
+                     MealTime = m.MealTime,
+                 })
+                 .ToListAsync();
+
+            return models;
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static AIFitnessProject.Infrastructure.Constants.DataConstants;
 using static AIFitnessProject.Infrastructure.Constants.DataConstants.Dietitian;
 
 namespace AIFitnessProject.Infrastructure.Data.Models
@@ -53,6 +54,8 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 
         public ICollection<Calendar> Calendars { get; set; } = new List<Calendar>();
         public ICollection<RequestToDietitian> RequestToDietitians { get; set; } = new List<RequestToDietitian>();
+        public ICollection<DailyDietPlan> DailyDietPlans { get; set; } = new List<DailyDietPlan>();
+        public ICollection<Meal> Meals { get; set; } = new List<Meal>();
 
     }
 }
