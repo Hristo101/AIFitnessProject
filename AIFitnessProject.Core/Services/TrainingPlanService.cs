@@ -1,4 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Models.Document;
 using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.TrainingPlan;
 using AIFitnessProject.Core.Models.Workout;
@@ -82,14 +83,19 @@ namespace AIFitnessProject.Core.Services
 
             return trainingPlan;
         }
-
         public async Task<TrainingPlanDetailsViewModel> GetTrainingPlanModelsForDetails(int id)
         {
             var trainingPlan = await repository.AllAsReadOnly<TrainingPlan>()
-            .Include(tp => tp.Workouts)
-                .ThenInclude(w => w.WorkoutsExercises)
-                    .ThenInclude(we => we.Exercise)
-            .FirstOrDefaultAsync(tp => tp.Id == id);
+                .Include(tp => tp.TrainingPlanWorkouts)
+                    .ThenInclude(tpw => tpw.Workout)
+                        .ThenInclude(w => w.WorkoutsExercises)
+                            .ThenInclude(we => we.Exercise)
+                .FirstOrDefaultAsync(tp => tp.Id == id);
+
+            if (trainingPlan == null)
+            {
+                return null;
+            }
 
             var viewModel = new TrainingPlanDetailsViewModel
             {
@@ -97,12 +103,12 @@ namespace AIFitnessProject.Core.Services
                 Name = trainingPlan.Name,
                 Description = trainingPlan.Description,
                 ImageUrl = trainingPlan.ImageUrl,
-                Workouts = trainingPlan.Workouts.Select(workout => new WorkoutViewModel
+                Workouts = trainingPlan.TrainingPlanWorkouts.Select(tpWorkout => new WorkoutViewModel
                 {
-                    Title = workout.Title,
-                    DayOfWeek = workout.DayOfWeek,
-                    ImageUrl = workout.ImageUrl,
-                    Exercises = workout.WorkoutsExercises.Select(we => new ExerciseViewModel
+                    Title = tpWorkout.Workout.Title,
+                    DayOfWeek = tpWorkout.Workout.DayOfWeek,
+                    ImageUrl = tpWorkout.Workout.ImageUrl,
+                    Exercises = tpWorkout.Workout.WorkoutsExercises.Select(we => new ExerciseViewModel
                     {
                         Id = we.ExcersiceId,
                         Name = we.Exercise.Name,
@@ -118,27 +124,41 @@ namespace AIFitnessProject.Core.Services
             return viewModel;
         }
 
-        public async Task<TrainingPlanDetailsViewModel> GetGetTrainingPlanModelsForDetailsFromExercise(int exerciseId)
+
+        public async Task<TrainingPlanDetailsViewModel> GetTrainingPlanModelsForDetailsFromExercise(int exerciseId)
         {
             var workoutsExercise = await repository.AllAsReadOnly<WorkoutsExercise>()
-                .Where(x =>x.ExcersiceId == exerciseId)
+                .Where(x => x.ExcersiceId == exerciseId)
                 .Include(x => x.Workout)
-                .ThenInclude(x =>x.TrainingPlans)
-                .Include(x =>x.Exercise)
-                .FirstAsync();
+                .ThenInclude(x => x.TrainingPlanWorkouts)
+                .ThenInclude(x => x.TrainingPlan)
+                .Include(x => x.Exercise)
+                .FirstOrDefaultAsync();
+
+            if (workoutsExercise == null || workoutsExercise.Workout?.TrainingPlanWorkouts == null)
+            {
+                return null;
+            }
+
+            var trainingPlan = workoutsExercise.Workout.TrainingPlanWorkouts.FirstOrDefault()?.TrainingPlan;
+
+            if (trainingPlan == null)
+            {
+                return null;
+            }
 
             var viewModel = new TrainingPlanDetailsViewModel
             {
-                Id = workoutsExercise.Workout.TrainingPlanId,
-                Name = workoutsExercise.Workout.TrainingPlans.Name,
-                Description = workoutsExercise.Workout.TrainingPlans.Description,
-                ImageUrl = workoutsExercise.Workout.TrainingPlans.ImageUrl,
-                Workouts = workoutsExercise.Workout.TrainingPlans.Workouts.Select(workout => new WorkoutViewModel
+                Id = trainingPlan.Id,
+                Name = trainingPlan.Name,
+                Description = trainingPlan.Description,
+                ImageUrl = trainingPlan.ImageUrl,
+                Workouts = trainingPlan.TrainingPlanWorkouts.Select(tpWorkout => new WorkoutViewModel
                 {
-                    Title = workout.Title,
-                    DayOfWeek = workout.DayOfWeek,
-                    ImageUrl = workout.ImageUrl,
-                    Exercises = workout.WorkoutsExercises.Select(we => new ExerciseViewModel
+                    Title = tpWorkout.Workout.Title,
+                    DayOfWeek = tpWorkout.Workout.DayOfWeek,
+                    ImageUrl = tpWorkout.Workout.ImageUrl,
+                    Exercises = tpWorkout.Workout.WorkoutsExercises.Select(we => new ExerciseViewModel
                     {
                         Id = we.ExcersiceId,
                         Name = we.Exercise.Name,
@@ -199,6 +219,30 @@ namespace AIFitnessProject.Core.Services
 
                 await repository.SaveChangesAsync();
             }
+        }
+
+        public async Task<SendTrainingPlanViewModel> GetTrainingPlanModelForSendView(int id)
+        {
+            var countOfWorkouts = await repository.AllAsReadOnly<TrainingPlanWorkout>()
+                .Where(x => x.TrainingPlanId == id)
+                .ToListAsync();
+
+            var trainingPlanModel = await repository.AllAsReadOnly<TrainingPlan>()
+                .Include(x => x.User)
+                .Where(x => x.Id == id)
+                .Select(x => new SendTrainingPlanViewModel()
+                {
+                    DescriptionTrainingPlan = x.Description,
+                    ImageUrlTrainingPlan = x.ImageUrl,
+                    UserProfilePicture = x.User.ProfilePicture,
+                    Name = x.Name,
+                    UserEmail = x.User.Email,
+                    UserFirstName = x.User.FirstName,
+                    UserLastName = x.User.LastName,
+                    WorkoutsCount = countOfWorkouts.Count(),
+                }).FirstAsync();
+
+            return trainingPlanModel;
         }
     }
 

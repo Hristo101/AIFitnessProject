@@ -21,12 +21,6 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [ForeignKey("CreatorId")]
         public Trainer Trainer { get; set; }
 
-        [Comment("Workout Training Plan Id")]
-        public int? TrainingPlanId { get; set; } = null;
-
-        [ForeignKey(nameof(TrainingPlanId))]
-        public TrainingPlan TrainingPlans { get; set; } = null!;
-
         [Required]
         [MaxLength(MaxDayOfWeekLength)]
         [Comment("Workout Day Of Week")]
@@ -40,5 +34,6 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Required]
         public string MuscleGroup { get; set; }
         public ICollection<WorkoutsExercise> WorkoutsExercises { get; set; } = new List<WorkoutsExercise>();
+        public ICollection<TrainingPlanWorkout> TrainingPlanWorkouts { get; set; } = new List<TrainingPlanWorkout>();
     }
 }

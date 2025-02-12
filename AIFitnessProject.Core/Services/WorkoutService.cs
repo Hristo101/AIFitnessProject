@@ -23,22 +23,30 @@ namespace AIFitnessProject.Core.Services
             this.repository = _repository;
             this.hostingEnvironment = _hostingEnvironment;
         }
-
         public async Task AddWorkout(string selectedIds, int trainingPlanId)
         {
             var ids = selectedIds.Split(',').Select(int.Parse).ToList();
 
-            for (int i = 0; i < ids.Count; i++)
+            foreach (var id in ids)
             {
-                var workouts = await repository
-                .All<Infrastructure.Data.Models.Workout>()
-                .Where(x => x.Id == ids[i])
-                .FirstAsync();
+                var workout = await repository.All<Workout>()
+                    .Where(x => x.Id == id)
+                    .FirstOrDefaultAsync();
 
-                workouts.TrainingPlanId = trainingPlanId;
-                await repository.SaveChangesAsync();
+                if (workout != null)
+                {
+                    var trainingPlanWorkout = new TrainingPlanWorkout
+                    {
+                        TrainingPlanId = trainingPlanId,
+                        WorkoutId = workout.Id
+                    };
+
+                    await repository.AddAsync(trainingPlanWorkout);
+                }
             }
+            await repository.SaveChangesAsync();
         }
+
 
         public async Task<ICollection<WorkoutViewModel>> All(string userId,int id)
         {
@@ -85,8 +93,7 @@ namespace AIFitnessProject.Core.Services
                MuscleGroup = model.MuscleGroup,
                DificultyLevel = model.DifficultyLevel,
                OrderInWorkout = model.OrderInWorkout,
-               Title = model.Title,
-               TrainingPlanId = null,               
+               Title = model.Title,             
            };
             List<int> exercisesIds = model.SelectedWorkoutIds.Split(",").Select(int.Parse).ToList();
 

@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static AIFitnessProject.Infrastructure.Constants.DataConstants;
 using Microsoft.AspNetCore.Hosting;
 
 namespace AIFitnessProject.Core.Services
@@ -114,54 +113,65 @@ namespace AIFitnessProject.Core.Services
 
         public async Task<DetailsExerciseViewModel> GetModelForDetailsFromWorkouts(int id)
         {
-
-            var workout = await repository.AllAsReadOnly<WorkoutsExercise>()
+            var workoutExercise = await repository.AllAsReadOnly<WorkoutsExercise>()
                 .Where(x => x.ExcersiceId == id)
-                .FirstAsync();
+                .Include(x => x.Workout)
+                    .ThenInclude(w => w.TrainingPlanWorkouts)
+                        .ThenInclude(tpw => tpw.TrainingPlan)
+                .FirstOrDefaultAsync();
 
-            var exercise = await repository.AllAsReadOnly<Infrastructure.Data.Models.Exercise>()
+            if (workoutExercise == null)
+            {
+                return null;
+            }
+
+            var exercise = await repository.AllAsReadOnly<Exercise>()
                 .Where(x => x.Id == id)
-                .Include(x => x.WorkoutsExercises)
-                .ThenInclude(x => x.Workout)
-                .ThenInclude(x => x.TrainingPlans)
-                .Select(x => new DetailsExerciseViewModel()
-                {
-                    Id = x.Id,
-                    WorkoutId = workout.WorkoutId,
-                    Description = x.Description,
-                    DifficultyLevel = x.DifficultyLevel,
-                    ImageUrl = x.ImageUrl,
-                    VideoUrl = x.VideoUrl,
-                    MuscleGroup = x.MuscleGroup,
-                    Name = x.Name,
-                    Repetitions = x.Repetitions,
-                    Series = x.Series,
-                }).FirstAsync();
+                .FirstOrDefaultAsync();
 
-            return exercise;
+            if (exercise == null)
+            {
+                return null;
+            }
+
+            var viewModel = new DetailsExerciseViewModel()
+            {
+                Id = exercise.Id,
+                WorkoutId = workoutExercise.WorkoutId,
+                Description = exercise.Description,
+                DifficultyLevel = exercise.DifficultyLevel,
+                ImageUrl = exercise.ImageUrl,
+                VideoUrl = exercise.VideoUrl,
+                MuscleGroup = exercise.MuscleGroup,
+                Name = exercise.Name,
+                Repetitions = exercise.Repetitions,
+                Series = exercise.Series,
+            };
+
+            return viewModel;
         }
+
+
 
         public async Task<ExerciseViewModel> GetModelForDetails(int id)
         {
-            var model = await repository.AllAsReadOnly<WorkoutsExercise>()
+            var workoutExercise = await repository.AllAsReadOnly<WorkoutsExercise>()
                 .Where(x => x.ExcersiceId == id)
                 .Include(x => x.Workout)
-                .ThenInclude(x => x.TrainingPlans)
+                    .ThenInclude(w => w.TrainingPlanWorkouts)
                 .FirstOrDefaultAsync();
 
-            var workout = await repository.AllAsReadOnly<WorkoutsExercise>()
-                .Where(x =>x.ExcersiceId == id)
-                .Where(x =>x.Workout.TrainingPlans != null)
-                .Include(x => x.Workout)
-                .FirstAsync();
+            if (workoutExercise == null)
+            {
+                return null;
+            }
 
-            var trainingPlanId = workout.Workout.TrainingPlanId;
+            var trainingPlanId = workoutExercise.Workout.TrainingPlanWorkouts
+                .Select(tp => tp.TrainingPlanId)
+                .FirstOrDefault();
 
-            var exercise = await repository.AllAsReadOnly<Infrastructure.Data.Models.Exercise>()
-                .Where(x =>x.Id == id)
-                .Include(x =>x.WorkoutsExercises)
-                .ThenInclude(x =>x.Workout)
-                .ThenInclude(x =>x.TrainingPlans)
+            var exercise = await repository.AllAsReadOnly<Exercise>()
+                .Where(x => x.Id == id)
                 .Select(x => new ExerciseViewModel()
                 {
                     Id = x.Id,
@@ -174,7 +184,7 @@ namespace AIFitnessProject.Core.Services
                     Name = x.Name,
                     Repetitions = x.Repetitions,
                     Series = x.Series,
-                }).FirstAsync();
+                }).FirstOrDefaultAsync();
 
             return exercise;
         }
@@ -211,17 +221,23 @@ namespace AIFitnessProject.Core.Services
 
         public async Task<EditExerciseViewModel> GetModelForEdit(int id)
         {
-            var workout = await repository.AllAsReadOnly<WorkoutsExercise>()
-                 .Where(x => x.ExcersiceId == id)
-                 .Include(x =>x.Workout)
-                 .FirstAsync();
+            var workoutExercise = await repository.AllAsReadOnly<WorkoutsExercise>()
+                .Where(x => x.ExcersiceId == id)
+                .Include(x => x.Workout)
+                    .ThenInclude(w => w.TrainingPlanWorkouts)
+                .FirstOrDefaultAsync();
 
-            var trainingPlanId = workout.Workout.TrainingPlanId;
+            if (workoutExercise == null)
+            {
+                return null;
+            }
 
-            var exercise = await repository.AllAsReadOnly<Infrastructure.Data.Models.Exercise>()
+            var trainingPlanId = workoutExercise.Workout.TrainingPlanWorkouts
+                .Select(tp => tp.TrainingPlanId)
+                .FirstOrDefault();
+
+            var exercise = await repository.AllAsReadOnly<Exercise>()
                 .Where(x => x.Id == id)
-                .Include(x =>x.WorkoutsExercises)
-                .ThenInclude(x =>x.Workout)
                 .Select(x => new EditExerciseViewModel()
                 {
                     Id = x.Id,
@@ -234,11 +250,11 @@ namespace AIFitnessProject.Core.Services
                     Name = x.Name,
                     Repetitions = x.Repetitions,
                     Series = x.Series,
-                })
-                .FirstAsync();
+                }).FirstOrDefaultAsync();
 
             return exercise;
         }
+
 
         public async Task EditAsyncFromWorkout(int id, EditExerciseFromWorkoutViewModel model)
         {

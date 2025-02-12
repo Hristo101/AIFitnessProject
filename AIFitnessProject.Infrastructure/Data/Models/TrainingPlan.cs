@@ -39,5 +39,6 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 
         public ICollection<Workout> Workouts { get; set; } = new List<Workout>();
         public ICollection<PlanAssignment> PlanAssignments { get; set; } = new List<PlanAssignment>();
+        public ICollection<TrainingPlanWorkout> TrainingPlanWorkouts { get; set; } = new List<TrainingPlanWorkout>();
     }
 }

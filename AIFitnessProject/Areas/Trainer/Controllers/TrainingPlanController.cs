@@ -26,6 +26,18 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             model.UserId = id;  
             return View(model);
         }
+        [HttpGet]
+        public async Task<IActionResult> Send(int id)
+        {
+            var model = await trainingPlanService.GetTrainingPlanModelForSendView(id);
+
+            return View(model);
+        }
+        //[HttpPost]
+        //public async Task<IActionResult> Send(int id)
+        //{
+
+        //}
         [HttpPost]
         public async Task<IActionResult> Create(CreateTraingPlanViewModel model,string id)
         {
@@ -90,7 +102,7 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
         [HttpGet]
         public async Task<IActionResult> DetailsFromExercise(int id)
         {
-            var model = await trainingPlanService.GetGetTrainingPlanModelsForDetailsFromExercise(id);
+            var model = await trainingPlanService.GetTrainingPlanModelsForDetailsFromExercise(id);
 
             return View(model);
         }

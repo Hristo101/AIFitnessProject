@@ -2,6 +2,7 @@
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace AIFitnessProject.Infrastructure.Data
 {
@@ -18,11 +19,22 @@ namespace AIFitnessProject.Infrastructure.Data
             //builder.Entity<RequestsToCoach>
             //    ().HasKey(x => new { x.TrainerId, x.UserId });
 
+
             builder.Entity<MealsDailyDietPlan>()
          .HasOne(x => x.DailyDietPlans)
          .WithMany(x => x.MealsDailyDietPlans)
          .HasForeignKey(x => x.DailyDietPlansId);
 
+            builder.Entity<TrainingPlanWorkout>()
+                .HasOne(x => x.Workout)
+                .WithMany(x => x.TrainingPlanWorkouts)
+                 .HasForeignKey(x => x.WorkoutId);
+
+
+            builder.Entity<TrainingPlanWorkout>()
+                .HasOne(x => x.TrainingPlan)
+                .WithMany(x => x.TrainingPlanWorkouts)
+                 .HasForeignKey(x => x.TrainingPlanId);
 
             builder.Entity<MealsDailyDietPlan>()
             .HasOne(x => x.Meal)
@@ -80,10 +92,15 @@ namespace AIFitnessProject.Infrastructure.Data
             builder.ApplyConfiguration(new CommentsConfiguration());
             builder.ApplyConfiguration(new DietitianConfiguration());
             builder.ApplyConfiguration(new OpinionConfiguration());
+
+            //Треньор
             builder.ApplyConfiguration(new TrainingPlanConfiguration());
             builder.ApplyConfiguration(new ExerciseConfiguration());
             builder.ApplyConfiguration(new WorkoutConfiguration());
             builder.ApplyConfiguration(new WorkoutsExerciseConfiguration());
+            builder.ApplyConfiguration(new TrainingPlanWorkoutConfiguration());
+
+
             builder.ApplyConfiguration(new DietConfiguration());
             builder.ApplyConfiguration(new RequestToDietitianConfiguration());
             builder.ApplyConfiguration(new DailyDietPlanConfiguration());
@@ -96,7 +113,8 @@ namespace AIFitnessProject.Infrastructure.Data
             public DbSet<Calendar> Calendars { get; set; }
             public DbSet<DailyDietPlan> DailyDietPlans { get; set; }
             public DbSet<RequestsToCoach> RequestsToCoaches { get; set; }
-            public DbSet<MealsDailyDietPlan> MealsDailyDietPlans { get; set; }
+        public DbSet<TrainingPlanWorkout> TrainingPlanWorkouts { get; set; }
+        public DbSet<MealsDailyDietPlan> MealsDailyDietPlans { get; set; }
             public DbSet<WorkoutsExercise> WorkoutsExercises { get; set; }
             public DbSet<RequestToDietitian> RequestToDietitians { get; set; }
             public DbSet<Exercise> Exercises { get; set; }
