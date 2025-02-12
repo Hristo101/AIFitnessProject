@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static AIFitnessProject.Infrastructure.Constants.DataConstants.Meal;
 namespace AIFitnessProject.Infrastructure.Data.Models
 {
@@ -40,6 +41,13 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Required]
         [Comment("Meal Calories")]
         public int Calories { get; set; }
+
+        [Required]
+        [Comment("Meal Creator Identifier")]
+        public int CreatedById { get; set; }
+
+        [ForeignKey(nameof(CreatedById))]
+        public Dietitian Dietitian { get; set; } = null!;
 
         public ICollection<MealsDailyDietPlan> MealsDailyDietPlans { get; set; } = new List<MealsDailyDietPlan>();
     }

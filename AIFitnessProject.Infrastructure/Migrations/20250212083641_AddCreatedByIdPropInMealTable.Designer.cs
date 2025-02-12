@@ -4,6 +4,7 @@ using AIFitnessProject.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AIFitnessProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250212083641_AddCreatedByIdPropInMealTable")]
+    partial class AddCreatedByIdPropInMealTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -331,7 +334,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("WorkoutId");
 
-                    b.ToTable("Calendars", (string)null);
+                    b.ToTable("Calendars");
                 });
 
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.DailyDietPlan", b =>
@@ -380,7 +383,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("DietId");
 
-                    b.ToTable("DailyDietPlans", null, t =>
+                    b.ToTable("DailyDietPlans", t =>
                         {
                             t.HasComment("DailyDietPlan Table");
                         });
@@ -452,7 +455,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Diets", null, t =>
+                    b.ToTable("Diets", t =>
                         {
                             t.HasComment("Diet Table");
                         });
@@ -522,7 +525,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Dietitians", null, t =>
+                    b.ToTable("Dietitians", t =>
                         {
                             t.HasComment("Dietitian Table");
                         });
@@ -607,7 +610,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Documents", null, t =>
+                    b.ToTable("Documents", t =>
                         {
                             t.HasComment("Document Table");
                         });
@@ -671,7 +674,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable("Exercises", (string)null);
+                    b.ToTable("Exercises");
 
                     b.HasData(
                         new
@@ -963,7 +966,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable("Meals", null, t =>
+                    b.ToTable("Meals", t =>
                         {
                             t.HasComment("Meal Table");
                         });
@@ -1066,7 +1069,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("MealId");
 
-                    b.ToTable("MealsDailyDietPlans", null, t =>
+                    b.ToTable("MealsDailyDietPlans", t =>
                         {
                             t.HasComment("Meals Dily Diet Plan Table");
                         });
@@ -1147,7 +1150,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications", null, t =>
+                    b.ToTable("Notifications", t =>
                         {
                             t.HasComment("Notification Table");
                         });
@@ -1179,7 +1182,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Opinions", (string)null);
+                    b.ToTable("Opinions");
 
                     b.HasData(
                         new
@@ -1250,7 +1253,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PlanAssignments", null, t =>
+                    b.ToTable("PlanAssignments", t =>
                         {
                             t.HasComment("Plan Assignment Table");
                         });
@@ -1343,7 +1346,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RequestToDietitians", null, t =>
+                    b.ToTable("RequestToDietitians", t =>
                         {
                             t.HasComment("Request To Dietitian Table");
                         });
@@ -1416,7 +1419,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RequestsToCoaches", (string)null);
+                    b.ToTable("RequestsToCoaches");
                 });
 
             modelBuilder.Entity("AIFitnessProject.Infrastructure.Data.Models.Trainer", b =>
@@ -1470,7 +1473,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Trainers", null, t =>
+                    b.ToTable("Trainers", t =>
                         {
                             t.HasComment("Trainer Table");
                         });
@@ -1543,7 +1546,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TrainingPlan", null, t =>
+                    b.ToTable("TrainingPlan", t =>
                         {
                             t.HasComment("Training Plan Table");
                         });
@@ -1596,7 +1599,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("UserComments", null, t =>
+                    b.ToTable("UserComments", t =>
                         {
                             t.HasComment("User Comment Table");
                         });
@@ -1686,7 +1689,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("TrainingPlanId");
 
-                    b.ToTable("Workouts", null, t =>
+                    b.ToTable("Workouts", t =>
                         {
                             t.HasComment("Workout Table");
                         });
@@ -1771,7 +1774,7 @@ namespace AIFitnessProject.Infrastructure.Migrations
 
                     b.HasIndex("WorkoutId");
 
-                    b.ToTable("WorkoutsExercises", (string)null);
+                    b.ToTable("WorkoutsExercises");
 
                     b.HasData(
                         new
