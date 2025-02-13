@@ -1,5 +1,4 @@
-﻿
-@using AIFitnessProject.Core.Models.TrainingPlan
+﻿@using AIFitnessProject.Core.Models.TrainingPlan
 @model TrainingPlanDetailsViewModel
 
 <!DOCTYPE html>
@@ -31,16 +30,48 @@
 
         .hero-section {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
             padding: 6rem 0;
             position: relative;
             overflow: hidden;
         }
 
+        /* Контейнер за снимката с партикъл слоевете */
+        .training-image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Слоевете за партикъл ефектите */
+        #particles-below,
+        #particles-above {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        #particles-below {
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
         .plan-image {
             border-radius: 1.5rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
             transition: transform 0.3s ease;
+            width: 100%;
+            height: 400px; /* фиксирана височина за по-добра видимост */
+            object-fit: cover;
+            border: 3px solid #fff;
+            position: relative;
+            z-index: 2; /* Снимката е над слоя particles-below */
+        }
+
+        #particles-above {
+            top: 0;
+            left: 0;
+            z-index: 3;
         }
 
         .workout-card {
@@ -59,14 +90,16 @@
             border-radius: 1rem;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
             position: relative;
             overflow: hidden;
+            border: 2px solid transparent;
         }
 
             .exercise-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                transform: translateY(-5px) scale(1.02);
+                box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+                border-color: var(--primary-color);
             }
 
         .difficulty-badge {
@@ -79,21 +112,21 @@
             text-transform: uppercase;
             font-size: 0.75rem;
         }
+            /* Стилове за нивата на трудност */
+            .difficulty-badge.lesen {
+                background: #d1fae5;
+                color: #065f46;
+            }
 
-        .lesen {
-            background: #10b98120;
-            color: #10b981;
-        }
+            .difficulty-badge.sreden {
+                background: #fef3c7;
+                color: #92400e;
+            }
 
-        .sreden {
-            background: #f59e0b20;
-            color: #f59e0b;
-        }
-
-        .truden {
-            background: #ef444420;
-            color: #ef4444;
-        }
+            .difficulty-badge.truden {
+                background: #fee2e2;
+                color: #b91c1c;
+            }
 
         .hover-zoom {
             overflow: hidden;
@@ -119,10 +152,20 @@
             transition: all 0.3s ease;
         }
 
-            .btn-gradient:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
-            }
+        .fw-bold {
+            font-weight: 700 !important;
+            color: #000a31;
+        }
+
+        .mb-5 {
+            margin-bottom: 3rem !important;
+            color: #000a31;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        }
 
         .pagination {
             display: flex;
@@ -150,6 +193,14 @@
                     background: #ccc;
                     cursor: not-allowed;
                 }
+
+        /* Стил за сериите и повторенията */
+        .highlight-badge {
+            background-color: #ffedcc;
+            color: #d97706;
+            font-weight: bold;
+            border: 1px solid #d97706;
+        }
     </style>
 </head>
 <body>
@@ -158,7 +209,12 @@
         <div class="container text-center text-white" data-aos="zoom-in">
             <h1 class="display-3 fw-bold mb-4">@Model.Name</h1>
             <p class="lead mb-5 opacity-90">@Model.Description</p>
-            <img src="@Model.ImageUrl" alt="Training Plan" class="plan-image img-fluid" data-aos="fade-up">
+            <!-- Контейнер за снимката с партикъл слоевете -->
+            <div class="training-image-container">
+                <div id="particles-below"></div>
+                <img src="@Model.ImageUrl" alt="Training Plan" class="plan-image img-fluid" data-aos="fade-up">
+                <div id="particles-above"></div>
+            </div>
         </div>
     </section>
 
@@ -177,7 +233,7 @@
                                     <span class="text-muted">@workout.Exercises.Count упражнения</span>
                                 </div>
                             </div>
-                            <img src="@workout.ImageUrl" alt="@workout.Title" class="rounded-circle" style="width: 100px; height: 100px; object-fit: cover;">
+                            <img src="@workout.ImageUrl" alt="@workout.Title" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
                         </div>
 
                         <div class="row g-4">
@@ -196,10 +252,10 @@
 
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <div>
-                                                <span class="badge bg-light text-dark me-2">
+                                                <span class="badge highlight-badge me-2">
                                                     <i class="fas fa-redo me-1"></i>@exercise.Series серии
                                                 </span>
-                                                <span class="badge bg-light text-dark">
+                                                <span class="badge highlight-badge">
                                                     <i class="fas fa-sync-alt me-1"></i>@exercise.Repetitions повторения
                                                 </span>
                                             </div>
@@ -249,7 +305,7 @@
             easing: 'ease-out-quart'
         });
 
-        const workoutsPerPage = 1; 
+        const workoutsPerPage = 1;
         let currentPage = 1;
         const workouts = document.querySelectorAll('.workout-card-container');
         const totalPages = Math.ceil(workouts.length / workoutsPerPage);
@@ -258,7 +314,6 @@
             workouts.forEach((workout, index) => {
                 workout.style.display = (index >= (page - 1) * workoutsPerPage && index < page * workoutsPerPage) ? 'block' : 'none';
             });
-
             document.getElementById('prev-btn').disabled = page === 1;
             document.getElementById('next-btn').disabled = page === totalPages;
         }
@@ -277,6 +332,29 @@
             }
         });
         showPage(currentPage);
+
+        // Инициализация на партикъл ефектите след зареждане на DOM
+        document.addEventListener("DOMContentLoaded", function () {
+            var particlesConfig = {
+                "particles": {
+                    "number": {
+                        "value": 30,
+                        "density": { "enable": true, "value_area": 800 }
+                    },
+                    "color": { "value": "#ffffff" },
+                    "opacity": { "value": 0.3 },
+                    "size": { "value": 3 },
+                    "line_linked": { "enable": false },
+                    "move": { "enable": true, "speed": 2 }
+                },
+                "interactivity": {
+                    "events": { "onhover": { "enable": false }, "onclick": { "enable": false } }
+                },
+                "retina_detect": true
+            };
+            particlesJS("particles-below", particlesConfig);
+            particlesJS("particles-above", particlesConfig);
+        });
     </script>
 </body>
 </html>
