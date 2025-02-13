@@ -1,5 +1,423 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using AIFitnessProject.Core.Models.TrainingPlan
+@model TrainingPlanDetailsViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Training Plan Details</title>
+ 
+  <!-- Google Fonts & Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+ 
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --clr-primary: #7380ec;
+            --clr-danger: #ff7782;
+            --clr-success: #41f1b6;
+            --clr-white: #ffffff;
+            --clr-dark: #363949;
+            --clr-info-dark: #7d8da1;
+            --clr-light: rgba(132, 139, 200, 0.18);
+            --clr-bg: #f6f6f9;
+            --card-border-radius: 1rem;
+            --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: var(--clr-bg);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 2rem;
+        }
+
+        /* План Header */
+        .plan-header {
+            background: var(--clr-white);
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        /* Обвивка със зададен размер за снимката */
+        .plan-header-img {
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+            border-radius: var(--card-border-radius);
+            margin-bottom: 1rem;
+        }
+
+            .plan-header-img img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+
+        .plan-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--clr-dark);
+        }
+
+        .plan-header p {
+            font-size: 1.1rem;
+            color: var(--clr-info-dark);
+        }
+
+        /* Workout Cards */
+        .workout-card {
+            background: var(--clr-white);
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.8s ease;
+        }
+
+            .workout-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 0.8rem 1.6rem rgba(0, 0, 0, 0.1);
+            }
+
+        .workout-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background: #f0f0f0;
+        }
+
+        .workout-body {
+            padding: 1.5rem;
+        }
+
+        .workout-title {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--clr-dark);
+        }
+
+        .workout-day {
+            font-size: 1rem;
+            color: var(--clr-info-dark);
+            margin-bottom: 1rem;
+        }
+
+        .badge-custom {
+            background: var(--clr-primary);
+            color: var(--clr-white);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+        }
+
+        /* Упражнения */
+        .exercises-list {
+            margin-top: 1.5rem;
+        }
+
+        .exercise-item {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e0e0;
+        }
+
+            .exercise-item:hover {
+                background: #eef5fb;
+                transform: translateY(-3px);
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+            }
+
+        .exercise-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .exercise-item h5 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--clr-dark);
+            font-weight: 600;
+        }
+
+        .exercise-item p {
+            font-size: 0.95rem;
+            color: var(--clr-info-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .exercise-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--clr-dark);
+        }
+
+            .exercise-details span {
+                display: flex;
+                align-items: center;
+                gap: 0.3rem;
+            }
+
+                .exercise-details span .material-symbols-outlined {
+                    font-size: 1.2rem;
+                    color: var(--clr-primary);
+                }
+        /* Оцветяване на сложността */
+        .difficulty.lesen {
+            color: #28a745; /* Зелен */
+        }
+
+        .difficulty.sreden {
+            color: #ffc107; /* Оранжев/Жълт */
+        }
+
+        .difficulty.truden {
+            color: #dc3545; /* Червен */
+        }
+        /* Бутони за действие при упражнение */
+        .exercise-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+            .exercise-actions a {
+                flex: 1;
+                text-decoration: none;
+                padding: 0.5rem;
+                text-align: center;
+                border-radius: 0.5rem;
+                font-weight: 500;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+
+                .exercise-actions a.btn-outline-primary {
+                    border: 1px solid var(--clr-primary);
+                    color: var(--clr-primary);
+                }
+
+                    .exercise-actions a.btn-outline-primary:hover {
+                        background-color: var(--clr-primary);
+                        color: var(--clr-white);
+                    }
+
+                .exercise-actions a.btn-outline-secondary {
+                    border: 1px solid var(--clr-dark);
+                    color: var(--clr-dark);
+                }
+
+                    .exercise-actions a.btn-outline-secondary:hover {
+                        background-color: var(--clr-dark);
+                        color: var(--clr-white);
+                    }
+
+        /* Пагинация & Действия */
+        .pagination-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+            .action-buttons button {
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+            }
+
+        /* Анимации */
+        @@keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <!-- План Header -->
+    <div class="plan-header">
+      <div class="plan-header-img">
+        <img src="@Model.ImageUrl" alt="Training Plan" />
+      </div>
+      <h1>@Model.Name</h1>
+      <p>@Model.Description</p>
+    </div>
+ 
+    <!-- Пагинация за тренировки (ако има повече от една) -->
+    <div class="pagination-controls">
+      <button class="btn btn-outline-primary" onclick="previousWorkout()">
+        <span class="material-symbols-outlined">arrow_back</span> Предишна
+      </button>
+      <button class="btn btn-outline-primary" onclick="nextWorkout()">
+        Следваща <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
+    </div>
+ 
+    <!-- Тренировки -->
+    <div id="workouts-container">
+      @foreach (var workout in Model.Workouts)
+      {
+        <div class="workout-card" data-workout-id="@workout.Id">
+          <!-- Снимка на тренировката -->
+          <img src="@workout.ImageUrl" alt="Workout Image" class="workout-image" />
+          <div class="workout-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h3 class="workout-title">@workout.Title</h3>
+                <p class="workout-day">@workout.DayOfWeek</p>
+              </div>
+              <div>
+                <span class="badge-custom">@workout.Exercises.Count Упражнения</span>
+              </div>
+            </div>
+            <!-- Упражненията -->
+            <div class="exercises-list row">
+              @foreach (var exercise in workout.Exercises)
+              {
+                <div class="col-md-4">
+                  <div class="exercise-item">
+                    @* Снимка на упражнението (ако има) *@
+                    @if(!string.IsNullOrEmpty(exercise.ImageUrl))
+                    {
+                      <img src="@exercise.ImageUrl" alt="@exercise.Name" class="exercise-img" />
+                    }
+                    <h5>@exercise.Name</h5>
+                    <p>@exercise.Description</p>
+                    <div class="exercise-details">
+                      <span>
+                        <span class="material-symbols-outlined">repeat</span>
+                        Серии: @exercise.Series
+                      </span>
+                      <span>
+                        <span class="material-symbols-outlined">autorenew</span>
+                        Повторения: @exercise.Repetitions
+                      </span>
+                      @* Определяне на CSS клас за сложност *@
+                      @{
+                          var difficultyClass = "";
+                          if(exercise.DifficultyLevel == "Лесен") { difficultyClass = "lesen"; }
+                          else if(exercise.DifficultyLevel == "Среден") { difficultyClass = "sreden"; }
+                          else if(exercise.DifficultyLevel == "Труден") { difficultyClass = "truden"; }
+                      }
+                      <span class="difficulty @difficultyClass">
+                        <span class="material-symbols-outlined">whatshot</span>
+                        Сложност: @exercise.DifficultyLevel
+                      </span>
+                    </div>
+                    <div class="mt-2">
+                      <small class="text-muted">
+                        <span class="material-symbols-outlined">fitness_center</span>
+                        Мускулна група: @exercise.MuscleGroup
+                      </small>
+                    </div>
+                    <!-- Бутоните за Видео и Подробности -->
+                    <div class="exercise-actions">
+                      <a href="@(string.IsNullOrEmpty(exercise.VideoUrl) ? "https://www.youtube.com" : exercise.VideoUrl)" target="_blank" class="btn btn-outline-primary">
+                        Видео <span class="material-symbols-outlined">play_circle</span>
+                      </a>
+                      <a href="/Exercise/Details/@exercise.Id" class="btn btn-outline-secondary">
+                        Подробности <span class="material-symbols-outlined">info</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+ 
+    <!-- Действия -->
+    <div class="action-buttons">
+      <button class="btn btn-success btn-lg">
+        Приеми Плана <span class="material-symbols-outlined">thumb_up</span>
+      </button>
+      <button class="btn btn-danger btn-lg">
+        Откажи Плана <span class="material-symbols-outlined">thumb_down</span>
+      </button>
+    </div>
+  </div>
+ 
+  <script>
+    let currentWorkoutIndex = 0;
+    const workouts = document.querySelectorAll('.workout-card');
+ 
+    function showWorkout(index) {
+      workouts.forEach((workout, i) => {
+        workout.style.display = i === index ? 'block' : 'none';
+      });
+      document.querySelector('.pagination-controls').style.display =
+        workouts.length > 1 ? 'flex' : 'none';
+    }
+ 
+    function nextWorkout() {
+      if (currentWorkoutIndex < workouts.length - 1) {
+        currentWorkoutIndex++;
+        showWorkout(currentWorkoutIndex);
+      }
+    }
+ 
+    function previousWorkout() {
+      if (currentWorkoutIndex > 0) {
+        currentWorkoutIndex--;
+        showWorkout(currentWorkoutIndex);
+      }
+    }
+ 
+    // Инициализация
+    showWorkout(0);
+  </script>
+ 
+  <!-- Bootstrap Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

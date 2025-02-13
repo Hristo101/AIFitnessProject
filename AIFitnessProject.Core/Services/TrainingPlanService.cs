@@ -270,6 +270,51 @@ namespace AIFitnessProject.Core.Services
 
             return model;
         }
+
+        public async Task<TrainingPlanDetailsViewModel> GetTrainingPlanModelsForUserForDetails(int id, string userId)
+        {
+            var trainingPlan = await repository.AllAsReadOnly<TrainingPlan>()
+                .Include(tp => tp.TrainingPlanWorkouts)
+                    .ThenInclude(tpw => tpw.Workout)
+                        .ThenInclude(w => w.WorkoutsExercises)
+                            .ThenInclude(we => we.Exercise)
+                .Where(tp => tp.Id == id)
+                .Where(tp =>tp.UserId == userId)
+                .FirstAsync();
+
+            if (trainingPlan == null)
+            {
+                return null;
+            }
+
+            var viewModel = new TrainingPlanDetailsViewModel
+            {
+                Id = trainingPlan.Id,
+                Name = trainingPlan.Name,
+                Description = trainingPlan.Description,
+                ImageUrl = trainingPlan.ImageUrl,
+                Workouts = trainingPlan.TrainingPlanWorkouts.Select(tpWorkout => new WorkoutViewModel
+                {
+                    Title = tpWorkout.Workout.Title,
+                    DayOfWeek = tpWorkout.Workout.DayOfWeek,
+                    ImageUrl = tpWorkout.Workout.ImageUrl,
+                    Exercises = tpWorkout.Workout.WorkoutsExercises.Select(we => new ExerciseViewModel
+                    {
+                        Id = we.ExcersiceId,
+                        Name = we.Exercise.Name,
+                        Description = we.Exercise.Description,
+                        ImageUrl = we.Exercise.ImageUrl,
+                        VideoUrl = we.Exercise.VideoUrl,
+                        Series = we.Exercise.Series,
+                        Repetitions = we.Exercise.Repetitions,
+                        MuscleGroup = we.Exercise.MuscleGroup,
+                        DifficultyLevel = we.Exercise.DifficultyLevel
+                    }).ToList()
+                }).ToList()
+            };
+
+            return viewModel;
+        }
     }
 
 }

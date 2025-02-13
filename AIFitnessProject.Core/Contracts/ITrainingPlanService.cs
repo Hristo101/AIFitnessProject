@@ -21,5 +21,6 @@ namespace AIFitnessProject.Core.Contracts
         Task EditAsync(int id, EditTrainingPlanViewModel model);
         Task<TrainingPlan> GetDietById(int id);
         Task<TrainingPlanDetailsViewModel> GetTrainingPlanModelsForDetails(int id);
+        Task<TrainingPlanDetailsViewModel> GetTrainingPlanModelsForUserForDetails(int id,string userId);
     }
 }

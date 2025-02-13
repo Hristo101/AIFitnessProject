@@ -27,7 +27,9 @@ namespace AIFitnessProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            throw new NotImplementedException();
+            var model = await trainingPlanService.GetTrainingPlanModelsForUserForDetails(id, GetUserId());
+
+            return View(model);
         }
         private string GetUserId()
         {

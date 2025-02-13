@@ -66,7 +66,7 @@
         <img src="@Model.ImageUrl" alt="@Model.TitleOfTriningPlan" />
         <h3>@Model.TitleOfTriningPlan</h3>
         <p>@Model.DescriptionOfTriningPlan</p>
-        <a href="@Url.Action("Details", "Training", new { id = Model.Id })" class="btn">Детайли</a>
+        <a asp-action="Details" asp-asp-controller="UserTrainingPlanController" asp-route-id="@Model.Id" class="btn">Детайли</a>
     </div>
 </body>
 </html>
