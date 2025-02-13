@@ -255,6 +255,21 @@ namespace AIFitnessProject.Core.Services
             trainingPlan.IsActive = true;
             await repository.SaveChangesAsync();
         }
+
+        public async Task<AllTrainingPlanViewModel> GetAllTrainingPlanForUserAsync(string userId)
+        {
+            var model = await repository.AllAsReadOnly<TrainingPlan>()
+                 .Where(x => x.UserId == userId)
+                 .Select(x => new AllTrainingPlanViewModel()
+                 {
+                     Id = x.Id,
+                     DescriptionOfTriningPlan = x.Description,
+                     ImageUrl = x.ImageUrl,
+                     TitleOfTriningPlan = x.Name,
+                 }).FirstAsync();
+
+            return model;
+        }
     }
 
 }

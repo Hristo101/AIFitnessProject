@@ -1,0 +1,72 @@
+﻿@using AIFitnessProject.Core.Models.TrainingPlan
+@model AllTrainingPlanViewModel
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@Model.TitleOfTriningPlan</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: auto;
+            max-width: 600px;
+            padding: 15px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+            .card:hover {
+                transform: scale(1.03);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .card img {
+                width: 100%;
+                height: auto;
+                border-radius: 5px;
+            }
+
+            .card h3 {
+                margin: 10px 0;
+                font-size: 24px;
+            }
+
+            .card p {
+                font-size: 16px;
+                color: #777;
+            }
+
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 16px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+            .btn:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="@Model.ImageUrl" alt="@Model.TitleOfTriningPlan" />
+        <h3>@Model.TitleOfTriningPlan</h3>
+        <p>@Model.DescriptionOfTriningPlan</p>
+        <a href="@Url.Action("Details", "Training", new { id = Model.Id })" class="btn">Детайли</a>
+    </div>
+</body>
+</html>
