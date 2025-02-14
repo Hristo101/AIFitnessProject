@@ -31,6 +31,14 @@ namespace AIFitnessProject.Controllers
 
             return View(model);
         }
+        [HttpGet]
+        public async Task<IActionResult> RejectedTrainingPlan(int id)
+        {
+            var model = await trainingPlanService.GetTrainingPlanModelsForUserForDetails(id, GetUserId());
+
+            return View(model);
+        }
+
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);

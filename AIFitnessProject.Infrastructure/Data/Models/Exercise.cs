@@ -47,7 +47,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public int Series { get; set; }
         [Required]
         public int Repetitions { get; set; }
-        public ICollection<WorkoutsExercise> WorkoutsExercises { get; set; } = new List<WorkoutsExercise>();
-
+        public ICollection<WorkoutsExercise> WorkoutsExercises { get; set; } = new List<WorkoutsExercise>();    
+        public ICollection<ExerciseFeedback> ExerciseFeedbacks { get; set; } = new List<ExerciseFeedback>();
     }
 }
