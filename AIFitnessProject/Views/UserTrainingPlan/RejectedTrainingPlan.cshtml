@@ -1,5 +1,10 @@
 ﻿@using AIFitnessProject.Core.Models.TrainingPlan
 @model TrainingPlanDetailsViewModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@{
+    ViewData["Title"] = Model.Name;
+    var requestToken = Xsrf.GetAndStoreTokens(Context).RequestToken;
+}
 
 <!DOCTYPE html>
 <html lang="bg">
@@ -157,21 +162,18 @@
             border: 1px solid #d97706;
         }
 
-        /* Ново добавени стилове */
         .comment-section {
             margin-top: 20px;
-            display: none;
+            transition: all 0.3s ease;
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
         }
 
-        .exercise-checkbox {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 2;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
+            .comment-section.active {
+                opacity: 1;
+                height: auto;
+            }
 
         .disagree-text {
             font-size: 0.9em;
@@ -239,6 +241,9 @@
     </style>
 </head>
 <body>
+    <!-- Anti-Forgery Token -->
+    <input type="hidden" id="__RequestVerificationToken" name="__RequestVerificationToken" value="@requestToken">
+
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container text-center text-white" data-aos="zoom-in">
@@ -282,18 +287,14 @@
                                         <input type="checkbox" class="exercise-checkbox"
                                                id="ex-check-@exercise.Id"
                                                onchange="toggleComment(@exercise.Id)">
-
                                         <span class="difficulty-badge @exercise.DifficultyLevel.ToLower()">
                                             @exercise.DifficultyLevel
                                         </span>
-
                                         <div class="hover-zoom mb-3">
                                             <img src="@exercise.ImageUrl" class="img-fluid" alt="@exercise.Name">
                                         </div>
-
                                         <h5 class="fw-bold mb-2">@exercise.Name</h5>
                                         <p class="text-muted mb-3">@exercise.Description</p>
-
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <div>
                                                 <span class="badge highlight-badge me-2">
@@ -304,7 +305,6 @@
                                                 </span>
                                             </div>
                                         </div>
-
                                         <div class="d-flex gap-2">
                                             <a href="@exercise.VideoUrl" target="_blank" class="btn btn-gradient flex-grow-1">
                                                 <i class="fas fa-play me-2"></i>Видео
@@ -313,7 +313,6 @@
                                                 <i class="fas fa-info-circle me-2"></i>Детайли
                                             </a>
                                         </div>
-
                                         <!-- Секция за коментари -->
                                         <div class="comment-section" id="comment-section-@exercise.Id">
                                             <div class="container input-container">
@@ -328,17 +327,11 @@
                                                 <i class="fas fa-paper-plane me-2"></i>Изпрати забележка
                                             </button>
                                         </div>
-
                                         <div class="disagree-text" id="disagree-text-@exercise.Id">
                                             ⚠️ Маркирахте, че не сте съгласни с това упражнение
                                         </div>
-
-                                        <!-- Тук добавяме контейнер, който ще показва изпратения коментар + бутоните. По подразбиране е скрит. -->
                                         <div id="posted-comment-section-@exercise.Id" style="display: none; margin-top:10px;">
-                                            <!-- Тук ще изпишем коментара -->
                                             <div id="posted-comment-@exercise.Id" style="font-weight: bold; margin-bottom: 10px;"></div>
-
-                                            <!-- Бутоните Редактиране и Изтрий -->
                                             <button class="btn btn-sm btn-warning me-2" onclick="editComment(@exercise.Id)">Редактиране</button>
                                             <button class="btn btn-sm btn-danger" onclick="deleteComment(@exercise.Id)">Изтрий</button>
                                         </div>
@@ -378,6 +371,7 @@
             easing: 'ease-out-quart'
         });
 
+        // Пагинация
         const workoutsPerPage = 1;
         let currentPage = 1;
         const workouts = document.querySelectorAll('.workout-card-container');
@@ -436,46 +430,24 @@
             const checkbox = document.getElementById(`ex-check-${exerciseId}`);
 
             if (checkbox.checked) {
-                commentSection.style.display = 'block';
+                commentSection.classList.add('active');
                 disagreeText.style.display = 'block';
             } else {
-                commentSection.style.display = 'none';
+                commentSection.classList.remove('active');
                 disagreeText.style.display = 'none';
             }
         }
 
         function submitComment(exerciseId) {
-            const comment = document.getElementById(`comment-${exerciseId}`).value;
-            const exerciseElement = document.getElementById(`ex-check-${exerciseId}`);
-
-            if (!comment.trim()) {
-                alert('Моля въведете коментар преди изпращане!');
-                return;
-            }
-
-            // AJAX заявка тук
-            console.log(`Коментар за упражнение ${exerciseId}:`, comment);
-            alert('Забележката е изпратена успешно!');
-
-            document.getElementById(`comment-${exerciseId}`).value = '';
-            exerciseElement.checked = false;
-            toggleComment(exerciseId);
-        }
-        function submitComment(exerciseId) {
             const comment = document.getElementById(`comment-${exerciseId}`).value.trim();
-
             if (!comment) {
                 alert('Моля въведете коментар преди изпращане!');
                 return;
             }
 
-            // Подготвяме данни за изпращане (JSON)
-            // Ако ти трябва реалният model, можеш да го сериализираш от Razor
-            // или да си вземеш някаква нужна информация.
-            // За демото тук слагаме празен обект.
             const requestData = {
                 exerciseId: exerciseId,
-                model: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)), // пример как да подадем целия model
+                trainingPlanId: @Model.Id,
                 content: comment
             };
 
@@ -483,55 +455,43 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // Ако имаш anti-forgery token => 'RequestVerificationToken': document.getElementById('__RequestVerificationToken').value
+                    'RequestVerificationToken': document.querySelector('#__RequestVerificationToken').value
                 },
                 body: JSON.stringify(requestData)
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Показваме коментара
-                        document.getElementById(`posted-comment-${exerciseId}`).textContent = comment;
-                        document.getElementById(`posted-comment-section-${exerciseId}`).style.display = 'block';
-
-                        // Нулираме полето за коментар, махаме отметката (по желание)
-                        document.getElementById(`comment-${exerciseId}`).value = '';
-                        document.getElementById(`ex-check-${exerciseId}`).checked = false;
-                        toggleComment(exerciseId);
-
-                        // Може да покажеш съобщение
-                        // alert('Забележката е изпратена успешно!');
-                    } else {
-                        alert('Възникна грешка при изпращане на коментара!');
-                    }
-                })
-                .catch(err => {
-                    console.error('Fetch error: ', err);
-                    alert('Възникна грешка при изпращане на заявката!');
-                });
+            .then(async response => {
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Неизвестна грешка');
+                return data;
+            })
+            .then(data => {
+                if (data.success) {
+                    document.getElementById(`posted-comment-${exerciseId}`).textContent = comment;
+                    document.getElementById(`posted-comment-section-${exerciseId}`).style.display = 'block';
+                    document.getElementById(`comment-${exerciseId}`).value = '';
+                    document.getElementById(`ex-check-${exerciseId}`).checked = false;
+                    toggleComment(exerciseId);
+                } else {
+                    alert('Грешка: ' + (data.error || 'Неуспешно изпращане'));
+                }
+            })
+            .catch(err => {
+                console.error('Fetch error:', err);
+                alert('Грешка при изпращане: ' + err.message);
+            });
         }
 
-        // Примерни placeholder функции за Редактиране и Изтриване
         function editComment(exerciseId) {
-            alert(`Тук ще се добави логика за редактиране на коментар за упражнение #${exerciseId}`);
+            const comment = prompt('Въведете нов коментар:');
+            if (comment) {
+                // Тук може да добавите логика за редакция
+                document.getElementById(`posted-comment-${exerciseId}`).textContent = comment;
+            }
         }
 
         function deleteComment(exerciseId) {
-            alert(`Тук ще се добави логика за изтриване на коментар за упражнение #${exerciseId}`);
-        }
-
-        // Оставяме твоята функция toggleComment, само леко редактираме template strings
-        function toggleComment(exerciseId) {
-            const commentSection = document.getElementById(`comment-section-${exerciseId}`);
-            const disagreeText = document.getElementById(`disagree-text-${exerciseId}`);
-            const checkbox = document.getElementById(`ex-check-${exerciseId}`);
-
-            if (checkbox.checked) {
-                commentSection.style.display = 'block';
-                disagreeText.style.display = 'block';
-            } else {
-                commentSection.style.display = 'none';
-                disagreeText.style.display = 'none';
+            if (confirm('Сигурни ли сте, че искате да изтриете коментара?')) {
+                document.getElementById(`posted-comment-section-${exerciseId}`).style.display = 'none';
             }
         }
     </script>

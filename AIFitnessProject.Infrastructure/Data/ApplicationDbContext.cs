@@ -20,6 +20,17 @@ namespace AIFitnessProject.Infrastructure.Data
             //    ().HasKey(x => new { x.TrainerId, x.UserId });
 
 
+            builder.Entity<ExerciseFeedback>()
+         .HasOne(x => x.TrainingPlan)
+         .WithMany(x => x.ExerciseFeedbacks)
+         .HasForeignKey(x => x.TrainingPlanId);
+
+
+            builder.Entity<ExerciseFeedback>()
+         .HasOne(x => x.Exercise)
+         .WithMany(x => x.ExerciseFeedbacks)
+         .HasForeignKey(x => x.ExerciseId);
+
             builder.Entity<MealsDailyDietPlan>()
          .HasOne(x => x.DailyDietPlans)
          .WithMany(x => x.MealsDailyDietPlans)
@@ -121,6 +132,7 @@ namespace AIFitnessProject.Infrastructure.Data
             public DbSet<Meal> Meals { get; set; }
             public DbSet<Opinion> Opinions { get; set; }
             public DbSet<PlanAssignment> PlanAssignments { get; set; }
+            public DbSet<ExerciseFeedback> ExerciseFeedbacks { get; set; }
             public DbSet<Workout> Workouts { get; set; }
             public DbSet<Trainer> Trainers { get; set; }
             public DbSet<Dietitian> Dietitians { get; set; }
