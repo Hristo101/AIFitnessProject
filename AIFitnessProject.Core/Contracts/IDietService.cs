@@ -12,5 +12,7 @@ namespace AIFitnessProject.Core.Contracts
         Task EditAsync(int id, EditDietViewModel model);
         Task<bool> ExistAsync(int id);
         Task<Diet> GetDietById(int id);
+        Task<SendDietViewModel> GetDietModelForSendView(int id);
+        Task SendToUserAsync(int id);
     }
 }

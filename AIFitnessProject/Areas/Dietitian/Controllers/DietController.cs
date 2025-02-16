@@ -52,7 +52,20 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             return View(model);
         }
+        [HttpGet]
+        public async Task<IActionResult> Send(int id)
+        {
+            var model = await dietService.GetDietModelForSendView(id);
 
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendConfirmed(int id)
+        {
+            await dietService.SendToUserAsync(id);
+            return RedirectToAction(nameof(All));
+        }
         //[HttpGet]
         //public async Task<IActionResult> DetailsFromMeal(int id)
         //{

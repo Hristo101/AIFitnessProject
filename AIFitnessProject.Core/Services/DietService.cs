@@ -1,10 +1,7 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.DailyDietPlan;
 using AIFitnessProject.Core.Models.Diet;
-using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
-using AIFitnessProject.Core.Models.TrainingPlan;
-using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -120,6 +117,31 @@ namespace AIFitnessProject.Core.Services
             
         }
 
+        public async Task<SendDietViewModel> GetDietModelForSendView(int id)
+        {
+            var countOfDailyDietPlan = await repository.AllAsReadOnly<DietDailyDietPlan>()
+                .Where(x => x.DietId == id)
+                .ToListAsync();
+
+            var dietModel = await repository.AllAsReadOnly<Diet>()
+                .Include(x => x.User)
+                .Where(x => x.Id == id)
+                .Select(x => new SendDietViewModel()
+                {
+                    Id = id,
+                    DescriptionDiet = x.Description,
+                    ImageUrlDiet = x.ImageUrl,
+                    UserProfilePicture = x.User.ProfilePicture,
+                    Name = x.Name,
+                    UserEmail = x.User.Email,
+                    UserFirstName = x.User.FirstName,
+                    UserLastName = x.User.LastName,
+                    DailyDietPlanCount = countOfDailyDietPlan.Count(),
+                }).FirstAsync();
+
+            return dietModel;
+        }
+
         public async Task<DietDetailsViewModel> GetDietModelsForDetails(int id)
         {
 
@@ -175,6 +197,16 @@ namespace AIFitnessProject.Core.Services
                .FirstAsync();
 
             return diet;
+        }
+
+        public async Task SendToUserAsync(int id)
+        {
+            var diet = await repository.All<Diet>()
+                .Where(x => x.Id == id)
+                .FirstAsync();
+
+            diet.IsActive = true;
+            await repository.SaveChangesAsync();
         }
     }
 }

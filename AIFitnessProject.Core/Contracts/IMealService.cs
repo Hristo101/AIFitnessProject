@@ -1,5 +1,4 @@
-﻿using AIFitnessProject.Core.Models.Exercise;
-using AIFitnessProject.Core.Models.Meal;
+﻿using AIFitnessProject.Core.Models.Meal;
 using AIFitnessProject.Infrastructure.Data.Models;
 
 namespace AIFitnessProject.Core.Contracts
@@ -15,5 +14,6 @@ namespace AIFitnessProject.Core.Contracts
         Task<Meal> GetMealById(int id);
         Task AddMeal(CreateMealViewModel model, string userId);
         Task<EditMealFromDailyDietPlanViewModel> GetModelFromDailyDiePlanForEdit(int id);
+
     }
 }
