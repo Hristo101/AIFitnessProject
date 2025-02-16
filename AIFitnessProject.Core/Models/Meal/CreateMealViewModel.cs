@@ -16,6 +16,8 @@ namespace AIFitnessProject.Core.Models.Meal
         [StringLength(MaxRecipeLength, MinimumLength = MinRecipeLength, ErrorMessage = "Рецептата трябва да е между {2} и {1} символа.")]
         public string Recipe { get; set; } = string.Empty;
 
+
+        [Required(ErrorMessage = "Снимката е задължителна.")]
         public IFormFile ImageUrl { get; set; }
 
         [Required(ErrorMessage = "Видео линкът е задължителен.")]
@@ -31,7 +33,7 @@ namespace AIFitnessProject.Core.Models.Meal
         public int Calories { get; set; }
 
 
-        [Required(ErrorMessage = "Изберете ниво на трудност.")]
+        [Required(ErrorMessage = "Нивото на трудност е задължително.")]
         [StringLength(MaxDificultyLevelLength, MinimumLength = MinDificultyLevelLength, ErrorMessage = "Нивото на трудност трябва да е между {2} и {1} символа.")]
         public string DificultyLevel { get; set; } = string.Empty;
 

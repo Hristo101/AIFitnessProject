@@ -18,10 +18,10 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Add(int dietId)
+        public async Task<IActionResult> Add(int id)
         {
             var model = new CreateMealViewModel();
-            model.DietId = dietId;
+            model.DietId = id;
             return View(model);
         }
         [HttpPost]
