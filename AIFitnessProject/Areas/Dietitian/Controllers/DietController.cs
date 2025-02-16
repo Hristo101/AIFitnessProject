@@ -1,5 +1,6 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.Diet;
+using AIFitnessProject.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -52,6 +53,13 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             return View(model);
         }
 
+        //[HttpGet]
+        //public async Task<IActionResult> DetailsFromMeal(int id)
+        //{
+        //    var model = await trainingPlanService.GetTrainingPlanModelsForDetailsFromExercise(id);
+
+        //    return View(model);
+        //}
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {

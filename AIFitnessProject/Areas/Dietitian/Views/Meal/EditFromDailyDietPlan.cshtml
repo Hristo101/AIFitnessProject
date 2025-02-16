@@ -1,0 +1,154 @@
+﻿@using AIFitnessProject.Core.Models.Meal
+@model EditMealFromDailyDietPlanViewModel
+
+<div class="edit-container">
+    <form asp-action="EditFromDailyDietPlan" method="post" asp-route-id="@Model.Id" asp-controller="Meal" enctype="multipart/form-data" class="edit-form">
+        <div class="form-header">
+            <h2>Редактиране на хранене</h2>
+            <div class="header-decoration"></div>
+        </div>
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-group image-section">
+            <label class="section-label">Снимка на хранене</label>
+            <div class="image-container">
+                @if (!string.IsNullOrEmpty(Model.ExistingImageUrl))
+                {
+                    @if (Model.ExistingImageUrl.StartsWith("http") || Model.ExistingImageUrl.StartsWith("/img"))
+                    {
+
+                        <img src="@Model.ExistingImageUrl" class="existing-image animate__animated animate__fadeIn" alt="Training">
+                    }
+                    else
+                    {
+                        <label class="section-label">Снимка на хранителния режим</label>
+                        <img src="data:image/jpeg;base64,@Model.ExistingImageUrl" class="existing-image animate__animated animate__fadeIn" alt="Training">
+                    }
+                }
+                <div class="upload-box">
+                    <input asp-for="NewImage" type="file" class="upload-input" accept="image/*" id="imageUpload" />
+                    <label for="imageUpload" class="upload-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Изберете нова снимка</span>
+                    </label>
+                    <span asp-validation-for="NewImage" class="text-danger"></span>
+                </div>
+                <div id="imagePreviewContainer" class="preview-container existing-image animate__animated animate__fadeIn" style="display: none;">
+                    <img id="imagePreview" class="preview-image" alt="Preview" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control input-animate" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MealTime"></label>
+                <select asp-for="MealTime" class="form-control input-animate">
+                    <option value="Закуска">Закуска</option>
+                    <option value="Обяд">Обяд</option>
+                    <option value="Вечеря">Вечеря</option>
+                    <option value="Междинно хранене">Междинно хранене</option>
+                </select>
+                <span asp-validation-for="MealTime" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DificultyLevel"></label>
+                <select asp-for="DificultyLevel" class="form-control input-animate">
+                    <option value="Лесно">Лесно</option>
+                    <option value="Средно">Средно-Напреднал</option>
+                    <option value="Трудно">Трудно</option>
+                </select>
+                <span asp-validation-for="DificultyLevel" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Calories"></label>
+                <input asp-for="Calories" class="form-control input-animate" />
+                <span asp-validation-for="Calories" class="text-danger"></span>
+            </div>
+
+            <!-- Видео URL -->
+            <div class="form-group video-url">
+                <label>Видео линк</label>
+                <div class="video-input-group">
+                    <input asp-for="VideoUrl" class="form-control input-animate" placeholder="https://youtube.com/..." />
+                    <small class="input-hint">Въведете пълен YouTube URL</small>
+                    <span asp-validation-for="VideoUrl" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Рецепта -->
+            <div class="form-group recipe">
+                <label asp-for="Recipe"></label>
+                <textarea asp-for="Recipe" class="form-control input-animate" rows="4"></textarea>
+                <span asp-validation-for="Recipe" class="text-danger"></span>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.VideoUrl))
+        {
+            <div class="video-container animate__animated animate__slideInUp">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/@GetYouTubeId(Model.VideoUrl)"
+                            title="Видео демонстрация - @Model.Name"
+                            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            class="video-frame"></iframe>
+                </div>
+            </div>
+        }
+
+        <button type="submit" class="submit-btn">
+            <span class="btn-text">Запази промените</span>
+            <i class="fas fa-save btn-icon"></i>
+        </button>
+    </form>
+</div>
+
+@functions {
+    private string GetYouTubeId(string url)
+    {
+        var uri = new Uri(url);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        return query.AllKeys.Contains("v") ? query["v"] : uri.Segments.Last();
+    }
+}
+<script>
+    document.getElementById('imageUpload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const previewContainer = document.getElementById('imagePreviewContainer');
+                const previewImage = document.getElementById('imagePreview');
+                previewImage.src = e.target.result;
+                previewContainer.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+<style>
+    .preview-container {
+        display: inline-block;
+        margin-left: 15px;
+        vertical-align: top;
+    }
+
+    .preview-image {
+        max-width: 200px;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+</style>
+<link rel="stylesheet" href="~/css/Meal/EditMeal.css" />

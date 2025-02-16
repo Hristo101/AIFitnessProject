@@ -1,9 +1,12 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+
+
 
 namespace AIFitnessProject.Core.Services
 {
@@ -64,9 +67,47 @@ namespace AIFitnessProject.Core.Services
                 .FirstOrDefaultAsync();
 
             if (meal != null)
-            { 
+            {
                 meal.Name = model.Name;
-                meal.DificultyLevel= model.DificultyLevel;
+                meal.DificultyLevel = model.DificultyLevel;
+                meal.Calories = model.Calories;
+                meal.MealTime = model.MealTime;
+                meal.VideoUrl = model.VideoUrl;
+                meal.Recipe = model.Recipe;
+
+                if (model.NewImage != null)
+                {
+                    string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "img/meals");
+
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.NewImage.FileName);
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.NewImage.CopyToAsync(fileStream);
+                    }
+                    meal.ImageUrl = "/img/meals/" + uniqueFileName;
+                }
+
+                await repository.SaveChangesAsync();
+            }
+        }
+
+        public async Task EditAsyncFromDailyDietPlan(int id, EditMealFromDailyDietPlanViewModel model)
+        {
+            var meal = await repository.All<Meal>()
+               .Where(x => x.Id == id)
+               .FirstOrDefaultAsync();
+
+            if (meal != null)
+            {
+                meal.Name = model.Name;
+                meal.DificultyLevel = model.DificultyLevel;
                 meal.Calories = model.Calories;
                 meal.MealTime = model.MealTime;
                 meal.VideoUrl = model.VideoUrl;
@@ -117,16 +158,15 @@ namespace AIFitnessProject.Core.Services
                 .Include(x => x.DailyDietPlans)
                 .ThenInclude(x => x.DietDailyDietPlans)
                 .FirstOrDefaultAsync();
-            
-            if(mealDailyDietPlan == null)
+
+            if (mealDailyDietPlan == null)
             {
                 return null;
             }
 
             var dietId = mealDailyDietPlan.DailyDietPlans.DietDailyDietPlans
-                .Select(x=>x.DietId)
-                .FirstOrDefault();
-
+              .Select(tp => tp.DietId)
+              .FirstOrDefault();
 
             var meal = await repository.AllAsReadOnly<Meal>()
                  .Where(x => x.Id == id)
@@ -141,10 +181,50 @@ namespace AIFitnessProject.Core.Services
                      Recipe = x.Recipe,
                      VideoUrl = x.VideoUrl,
                      DietId = dietId,
-                    
+
                  }).FirstAsync();
 
             return meal;
+        }
+
+        public async Task<MealDetailViewModel> GetModelForDetailsFromDailyDietPlan(int id)
+        {
+            var mealsDailyDietPlan = await repository.AllAsReadOnly<MealsDailyDietPlan>()
+               .Where(x => x.MealId == id)
+               .Include(x => x.DailyDietPlans)
+                   .ThenInclude(w => w.DietDailyDietPlans)
+                       .ThenInclude(tpw => tpw.Diet)
+               .FirstOrDefaultAsync();
+
+            if (mealsDailyDietPlan == null)
+            {
+                return null;
+            }
+
+            var meal = await repository.AllAsReadOnly<Meal>()
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (meal == null)
+            {
+                return null;
+            }
+
+            var viewModel = new MealDetailViewModel()
+            {
+                Id = meal.Id,
+                DificultyLevel = meal.DificultyLevel,
+                Calories = meal.Calories,
+                ImageUrl = meal.ImageUrl,
+                MealTime = meal.MealTime,
+                Name = meal.Name,
+                Recipe = meal.Recipe,
+                VideoUrl = meal.VideoUrl,
+                DailyDietPlanId = mealsDailyDietPlan.DailyDietPlansId,
+
+            };
+
+            return viewModel;
         }
 
         public async Task<EditMealViewModel> GetModelForEdit(int id)
@@ -156,15 +236,44 @@ namespace AIFitnessProject.Core.Services
                     Id = x.Id,
                     Name = x.Name,
                     DificultyLevel = x.DificultyLevel,
-                    Calories= x.Calories,
-                    MealTime= x.MealTime,
-                    Recipe= x.Recipe,
-                    VideoUrl= x.VideoUrl,
+                    Calories = x.Calories,
+                    MealTime = x.MealTime,
+                    Recipe = x.Recipe,
+                    VideoUrl = x.VideoUrl,
                     ExistingImageUrl = x.ImageUrl
                 })
                 .FirstAsync();
 
             return meal;
+        }
+
+        public async Task<EditMealFromDailyDietPlanViewModel> GetModelFromDailyDiePlanForEdit(int id)
+        {
+            var dailyDietPlan = await repository.AllAsReadOnly<MealsDailyDietPlan>()
+                 .Where(x => x.MealId == id)
+                 .Include(x => x.DailyDietPlans)
+                 .FirstAsync();
+
+
+            var exercise = await repository.AllAsReadOnly<Meal>()
+                .Where(x => x.Id == id)
+                .Include(x => x.MealsDailyDietPlans)
+                .ThenInclude(x => x.DailyDietPlans)
+                .Select(x => new EditMealFromDailyDietPlanViewModel()
+                {
+                    Id = x.Id,
+                    DailyDietPlanId = dailyDietPlan.DailyDietPlansId,
+                    Name = x.Name,
+                    DificultyLevel = x.DificultyLevel,
+                    Calories = x.Calories,
+                    MealTime = x.MealTime,
+                    Recipe = x.Recipe,
+                    VideoUrl = x.VideoUrl,
+                    ExistingImageUrl = x.ImageUrl
+                })
+                .FirstAsync();
+
+            return exercise;
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@using AIFitnessProject.Core.Models.Meal
-@model MealViewModel
+@model MealDetailViewModel
 
 <!DOCTYPE html>
 <html lang="bg" class="h-100">
@@ -92,7 +92,7 @@
                             <div class="action-buttons">
                                 <a asp-controller="Meal"
                                    asp-area="Dietitian"
-                                   asp-action="Edit"
+                                   asp-action="EditFromDailyDietPlan"
                                    asp-route-id="@Model.Id"
                                    class="btn-edit"
                                    aria-label="Редактирай хранене">
@@ -100,7 +100,7 @@
                                 </a>
                                 <a asp-action="Details"
                                    asp-controller="DailyDietPlan"
-                                   asp-route-id="@Model.DietId"
+                                   asp-route-id="@Model.DailyDietPlanId"
                                    class="btn btn-back"
                                    aria-label="Върни се назад">
                                     <i class="fas fa-arrow-left me-2"></i>Назад

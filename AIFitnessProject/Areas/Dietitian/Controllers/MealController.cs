@@ -38,7 +38,7 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var model = await mealService.GetModelForDetails(id);
+            var model = await mealService.GetModelForDetailsFromDailyDietPlan(id);
 
             return View(model);
         }
@@ -74,9 +74,33 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             await mealService.EditAsync(id, model);
 
-            return RedirectToAction(nameof(Details), new { id = model.Id });
+            return RedirectToAction(nameof(DetailsDiet), new { id = model.Id });
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditFromDailyDietPlan(int id)
+        {
+            var model = await mealService.GetModelFromDailyDiePlanForEdit(id);
+
+            return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> EditFromDailyDietPlan(EditMealFromDailyDietPlanViewModel model, int id)
+        {
+            if (await mealService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await mealService.EditAsyncFromDailyDietPlan(id, model);
+
+            return RedirectToAction(nameof(Details), new { id = model.Id });
+        }
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
