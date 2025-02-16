@@ -26,7 +26,6 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     Title = "Основни хранения - Ден 1",
                     CreatorId = 2,
                     DayOfWeel = "Понеделник",
-                    DietId = 1,
                     DificultyLevel = "Лесно",
                     ImageUrl = "/img/DailyDietPlan/DailyDietPlanImage.jpeg",
                 },
@@ -36,7 +35,6 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     Title = "Основни хранения - Ден 2",
                     CreatorId = 2,
                     DayOfWeel = "Вторник",
-                    DietId = 1,
                     DificultyLevel = "Средно-Напреднал",
                     ImageUrl = "/img/DailyDietPlan/dailyDietPlan2.webp",
                 }

@@ -30,7 +30,7 @@ namespace AIFitnessProject.Core.Services
                 .Where(x => x.Id == ids[i])
                 .FirstAsync();
 
-                dailyDietPlan.DietId = dietId;
+                //dailyDietPlan.DietId = dietId;
                 await repository.SaveChangesAsync();
             }
         }
@@ -47,7 +47,7 @@ namespace AIFitnessProject.Core.Services
                 DayOfWeel = model.DayOfWeek,
                 DificultyLevel = model.DificultyLevel,
                 Title = model.Title,
-                DietId = null,
+                //DietId = null,
             };
 
             List<int> mealsIds = model.SelectedMealIds.Split(",").Select(int.Parse).ToList();

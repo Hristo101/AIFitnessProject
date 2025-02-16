@@ -1,7 +1,10 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.DailyDietPlan;
 using AIFitnessProject.Core.Models.Diet;
+using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
+using AIFitnessProject.Core.Models.TrainingPlan;
+using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -119,10 +122,13 @@ namespace AIFitnessProject.Core.Services
 
         public async Task<DietDetailsViewModel> GetDietModelsForDetails(int id)
         {
+
+           
             var diet = await repository.AllAsReadOnly<Diet>()
-            .Include(tp => tp.DailyDietPlans)
-                .ThenInclude(w => w.MealsDailyDietPlans)
-                    .ThenInclude(we => we.Meal)
+            .Include(tp => tp.DietDailyDietPlans)
+                .ThenInclude(w => w.DailyDietPlan)
+                    .ThenInclude(we => we.MealsDailyDietPlans)
+                        .ThenInclude(x=>x.Meal)
             .FirstOrDefaultAsync(tp => tp.Id == id);
 
             var viewModel = new DietDetailsViewModel
@@ -131,13 +137,13 @@ namespace AIFitnessProject.Core.Services
                 Name = diet.Name,
                 Description = diet.Description,
                 ImageUrl = diet.ImageUrl,
-                DailyDietPlans = diet.DailyDietPlans.Select(dailyDietPlan => new DailyDietPlanViewModel
+                DailyDietPlans = diet.DietDailyDietPlans.Select(dailyDietPlan => new DailyDietPlanViewModel
                 {
-                    Title = dailyDietPlan.Title,
-                    DayOfWeek = dailyDietPlan.DayOfWeel,
-                    DificultyLevel = dailyDietPlan.DificultyLevel,
-                    ImageUrl = dailyDietPlan.ImageUrl,
-                    Meals = dailyDietPlan.MealsDailyDietPlans.Select(mddp => new MealViewModel
+                    Title = dailyDietPlan.DailyDietPlan.Title,
+                    DayOfWeek = dailyDietPlan.DailyDietPlan.DayOfWeel,
+                    DificultyLevel = dailyDietPlan.DailyDietPlan.DificultyLevel,
+                    ImageUrl = dailyDietPlan.DailyDietPlan.ImageUrl,
+                    Meals = dailyDietPlan.DailyDietPlan.MealsDailyDietPlans.Select(mddp => new MealViewModel
                     {
                         Id = mddp.Id,
                         Name = mddp.Meal.Name,

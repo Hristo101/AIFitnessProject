@@ -33,18 +33,12 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [ForeignKey(nameof(CreatorId))]
         public Dietitian Dietitian { get; set; } = null!;
 
-        
-        [Comment("Daily Diet Plan Diet Identifier")]
-        public int? DietId { get; set; }
-
-        [ForeignKey(nameof(DietId))]
-        public Diet Diet { get; set; } = null!;
-
         [Required]
         [Comment("Daily Diet Plan Dificulty Level")]
         [MaxLength(MaxDifficultyLevelLength)]
         public string DificultyLevel { get; set; } = string.Empty;
 
         public ICollection<MealsDailyDietPlan> MealsDailyDietPlans { get; set; } = new List<MealsDailyDietPlan>();
+        public ICollection<DietDailyDietPlan> DietDailyDietPlans { get; set; } = new List<DietDailyDietPlan>();
     }
 }

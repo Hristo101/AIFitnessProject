@@ -112,11 +112,24 @@ namespace AIFitnessProject.Core.Services
 
         public async Task<MealViewModel> GetModelForDetails(int id)
         {
+            var mealDailyDietPlan = await repository.AllAsReadOnly<MealsDailyDietPlan>()
+                .Where(x => x.MealId == id)
+                .Include(x => x.DailyDietPlans)
+                .ThenInclude(x => x.DietDailyDietPlans)
+                .FirstOrDefaultAsync();
+            
+            if(mealDailyDietPlan == null)
+            {
+                return null;
+            }
+
+            var dietId = mealDailyDietPlan.DailyDietPlans.DietDailyDietPlans
+                .Select(x=>x.DietId)
+                .FirstOrDefault();
+
+
             var meal = await repository.AllAsReadOnly<Meal>()
                  .Where(x => x.Id == id)
-                 .Include(x => x.MealsDailyDietPlans)
-                 .ThenInclude(x => x.DailyDietPlans)
-                 .ThenInclude(x => x.Diet)
                  .Select(x => new MealViewModel()
                  {
                      Id = x.Id,
@@ -127,7 +140,7 @@ namespace AIFitnessProject.Core.Services
                      Name = x.Name,
                      Recipe = x.Recipe,
                      VideoUrl = x.VideoUrl,
-                     DietId = x.MealsDailyDietPlans.Where(x => x.MealId == id).FirstOrDefault().DailyDietPlans.Diet.Id,
+                     DietId = dietId,
                     
                  }).FirstAsync();
 
