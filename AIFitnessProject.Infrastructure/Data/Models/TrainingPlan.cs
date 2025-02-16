@@ -37,7 +37,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 
         public bool IsActive { get; set; } = false;
 
-        public ICollection<Workout> Workouts { get; set; } = new List<Workout>();
+
         public ICollection<PlanAssignment> PlanAssignments { get; set; } = new List<PlanAssignment>();
         public ICollection<TrainingPlanWorkout> TrainingPlanWorkouts { get; set; } = new List<TrainingPlanWorkout>();
         public ICollection<ExerciseFeedback> ExerciseFeedbacks { get; set; } = new List<ExerciseFeedback>();

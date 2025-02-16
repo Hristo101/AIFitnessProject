@@ -153,12 +153,19 @@ namespace AIFitnessProject.Core.Services
 
 
 
-        public async Task<ExerciseViewModel> GetModelForDetails(int id)
+        public async Task<ExerciseViewModel> GetModelForDetails(int id, string userId)
         {
+            var trainer = await repository.AllAsReadOnly<Trainer>()
+                .Where(x => x.UserId == userId)
+                .FirstAsync();
+
+            
+
             var workoutExercise = await repository.AllAsReadOnly<WorkoutsExercise>()
                 .Where(x => x.ExcersiceId == id)
                 .Include(x => x.Workout)
                     .ThenInclude(w => w.TrainingPlanWorkouts)
+                    .ThenInclude(w =>w.TrainingPlan)
                 .FirstOrDefaultAsync();
 
             if (workoutExercise == null)
@@ -167,6 +174,8 @@ namespace AIFitnessProject.Core.Services
             }
 
             var trainingPlanId = workoutExercise.Workout.TrainingPlanWorkouts
+                .Where(x =>x.TrainingPlan.IsActive == false)
+                .Where(x =>x.TrainingPlan.UserId == userId)
                 .Select(tp => tp.TrainingPlanId)
                 .FirstOrDefault();
 

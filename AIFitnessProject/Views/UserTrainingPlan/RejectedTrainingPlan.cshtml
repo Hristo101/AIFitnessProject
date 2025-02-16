@@ -18,226 +18,363 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #6366f1;
-            --secondary-color: #3b82f6;
-            --accent-color: #f59e0b;
-            --dark-color: #1e293b;
-            --light-color: #f8fafc;
-            --glass-effect: rgba(255, 255, 255, 0.95);
-        }
+:root {
+    --primary-color: #6366f1;
+    --secondary-color: #3b82f6;
+    --accent-color: #f59e0b;
+    --dark-color: #1e293b;
+    --light-color: #f8fafc;
+    --glass-effect: rgba(255, 255, 255, 0.95);
+}
 
-        body {
-            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-        }
+body {
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+}
 
-        .hero-section {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            padding: 6rem 0;
-            position: relative;
-            overflow: hidden;
-        }
+.fw-bold {
+    color: black;
+    font-weight: 700 !important;
+}
 
-        .training-image-container {
-            position: relative;
-            display: inline-block;
-        }
+.mb-5 {
+    margin-bottom: 3rem !important;
+    color: black;
+}
 
-        #particles-below,
-        #particles-above {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    padding: 6rem 0;
+    position: relative;
+    overflow: hidden;
+}
 
-        #particles-below {
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
+.training-image-container {
+    position: relative;
+    display: inline-block;
+}
 
-        .plan-image {
-            border-radius: 1.5rem;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-            transition: transform 0.3s ease;
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            border: 3px solid #fff;
-            position: relative;
-            z-index: 2;
-        }
+#particles-below,
+#particles-above {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
 
-        #particles-above {
-            top: 0;
-            left: 0;
-            z-index: 3;
-        }
+#particles-below {
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
 
-        .workout-card {
-            background: var(--glass-effect);
-            backdrop-filter: blur(16px);
-            border-radius: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+.plan-image {
+    border-radius: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+    transition: transform 0.3s ease;
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border: 3px solid #fff;
+    position: relative;
+    z-index: 2;
+}
 
-        .exercise-card {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid transparent;
-        }
+#particles-above {
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
 
-            .exercise-card:hover {
-                transform: translateY(-5px) scale(1.02);
-                box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
-                border-color: var(--primary-color);
-            }
+.workout-card {
+    background: var(--glass-effect);
+    backdrop-filter: blur(16px);
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-        .difficulty-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-        }
+.exercise-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+}
 
-            .difficulty-badge.lesen {
-                background: #d1fae5;
-                color: #065f46;
-            }
+.exercise-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+    border-color: var(--primary-color);
+}
 
-            .difficulty-badge.sreden {
-                background: #fef3c7;
-                color: #92400e;
-            }
+.difficulty-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+}
 
-            .difficulty-badge.truden {
-                background: #fee2e2;
-                color: #b91c1c;
-            }
+.difficulty-badge.lesen {
+    background: #d1fae5;
+    color: #065f46;
+}
 
-        .hover-zoom {
-            overflow: hidden;
-            border-radius: 0.75rem;
-        }
+.difficulty-badge.sreden {
+    background: #fef3c7;
+    color: #92400e;
+}
 
-            .hover-zoom img {
-                transition: transform 0.4s ease;
-            }
+.difficulty-badge.truden {
+    background: #fee2e2;
+    color: #b91c1c;
+}
 
-            .hover-zoom:hover img {
-                transform: scale(1.05);
-            }
+.hover-zoom {
+    overflow: hidden;
+    border-radius: 0.75rem;
+}
 
-        .btn-gradient {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
+.hover-zoom img {
+    transition: transform 0.4s ease;
+}
 
-        .highlight-badge {
-            background-color: #ffedcc;
-            color: #d97706;
-            font-weight: bold;
-            border: 1px solid #d97706;
-        }
+.hover-zoom:hover img {
+    transform: scale(1.05);
+}
 
-        .comment-section {
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            opacity: 0;
-            height: 0;
-            overflow: hidden;
-        }
+.btn-gradient {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 0.75rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
 
-            .comment-section.active {
-                opacity: 1;
-                height: auto;
-            }
+.highlight-badge {
+    background-color: #ffedcc;
+    color: #d97706;
+    font-weight: bold;
+    border: 1px solid #d97706;
+}
 
-        .disagree-text {
-            font-size: 0.9em;
-            color: #ff4444;
-            margin-top: 10px;
-            display: none;
-        }
+.comment-section {
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
 
-        .submit-comment-btn {
-            margin-top: 15px;
-            background: linear-gradient(135deg, #ff6b6b, #ff4444);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+.comment-section.active {
+    display: block !important;
+    opacity: 1 !important;
+    height: auto !important;
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+}
 
-            .submit-comment-btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-            }
+.disagree-text {
+    font-size: 0.9em;
+    color: #ff4444;
+    margin-top: 10px;
+    display: none;
+}
 
-        .container.input-container {
-            position: relative;
-            width: 100%;
-            margin-top: 15px;
-        }
+.submit-comment-btn {
+    margin-top: 15px;
+    background: linear-gradient(135deg, #ff6b6b, #ff4444);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-            .container.input-container .inp {
-                width: 100%;
-                padding: 10px;
-                border: 1.5px solid rgba(0, 167, 161, 0.272);
-                outline: none;
-                margin-top: 20px;
-                border-radius: 5px;
-                color: rgba(0, 167, 181, 0.62);
-                background: rgba(41, 41, 41);
-                font-size: 1em;
-            }
+.submit-comment-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
 
-            .container.input-container .content {
-                position: absolute;
-                left: 0;
-                margin-top: 20px;
-                padding: 10px;
-                text-transform: uppercase;
-                font-size: 1em;
-                pointer-events: none;
-                color: rgba(0, 167, 161, 0.272);
-                transition: 0.5s;
-            }
+.container.input-container {
+    position: relative;
+    width: 100%;
+    margin-top: 15px;
+}
 
-            .container.input-container input:valid ~ span,
-            .container.input-container input:focus ~ span {
-                color: rgb(10, 164, 159);
-                transform: translateX(10px) translateY(-7px);
-                font-size: 0.9em;
-                padding: 0 10px;
-                background: rgb(41, 41, 41);
-                border-left: 2px solid rgba(0, 167, 161, 0.272);
-                border-right: 2px solid rgba(0, 167, 161, 0.272);
-            }
+.container.input-container .inp {
+    width: 100%;
+    padding: 10px;
+    border: 1.5px solid rgba(0, 167, 161, 0.272);
+    outline: none;
+    margin-top: 20px;
+    border-radius: 5px;
+    color: white;
+    background: rgba(41, 41, 41);
+    font-size: 1em;
+}
+
+.container.input-container .content {
+    position: absolute;
+    left: 0;
+    margin-top: 20px;
+    padding: 10px;
+    text-transform: uppercase;
+    font-size: 1em;
+    pointer-events: none;
+    color: rgba(0, 167, 161, 0.272);
+    transition: 0.5s;
+}
+
+.container.input-container input:valid ~ span,
+.container.input-container input:focus ~ span {
+    color: rgb(10, 164, 159);
+    transform: translateX(10px) translateY(-7px);
+    font-size: 0.9em;
+    padding: 0 10px;
+    background: rgb(41, 41, 41);
+    border-left: 2px solid rgba(0, 167, 161, 0.272);
+    border-right: 2px solid rgba(0, 167, 161, 0.272);
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+    gap: 15px;
+}
+
+/* Стилове за бутоните редактиране/изтриване */
+#posted-comment-section {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    align-items: center;
+}
+
+.btn-edit, .btn-delete {
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: none;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.btn-edit {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-delete {
+    background: #dc2626;
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.btn-delete:hover {
+    background: #b91c1c;
+    transform: translateY(-2px);
+}
+
+.btn-edit svg, .btn-delete svg {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+}
+
+/* Стилове за анимации */
+@@keyframes buttonHover {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+    100% { transform: translateY(0); }
+}
+
+.button-3d {
+    -webkit-appearance: none;
+    appearance: none;
+    position: relative;
+    border-width: 0;
+    padding: 0 8px;
+    min-width: 4em;
+    min-height: 4em;
+    box-sizing: border-box;
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 20px;
+}
+
+.button-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    padding: 8px 16px;
+    transform: translateY(0);
+    color: #fff;
+    background-image: linear-gradient(145deg, #6a11cb, #2575fc);
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    transition: transform 0.3s, border-radius 0.3s, background 10s;
+}
+
+.button-3d:active .button-top {
+    border-radius: 10px 10px 8px 8px / 8px;
+    transform: translateY(2px);
+    background-image: linear-gradient(145deg, #2575fc, #6a11cb);
+}
+
+.button-bottom {
+    position: absolute;
+    z-index: 1;
+    bottom: 4px;
+    left: 4px;
+    border-radius: 20px;
+    padding-top: 6px;
+    width: calc(100% - 8px);
+    height: calc(100% - 10px);
+    background-image: linear-gradient(145deg, #2575fc, #6a11cb);
+    box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
+    transition: border-radius 0.2s, padding-top 0.2s;
+}
+
+.button-base {
+    position: absolute;
+    z-index: 0;
+    top: 4px;
+    left: 0;
+    border-radius: 20px;
+    width: 100%;
+    height: calc(100% - 4px);
+    background-color: rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.35);
+    transition: transform 0.2s;
+}
     </style>
 </head>
 <body>
@@ -323,6 +460,7 @@
                                                 <span class="content">Коментар</span>
                                             </div>
                                             <button class="submit-comment-btn"
+                                                    id="submit-btn-@exercise.Id"
                                                     onclick="submitComment(@exercise.Id)">
                                                 <i class="fas fa-paper-plane me-2"></i>Изпрати забележка
                                             </button>
@@ -332,8 +470,25 @@
                                         </div>
                                         <div id="posted-comment-section-@exercise.Id" style="display: none; margin-top:10px;">
                                             <div id="posted-comment-@exercise.Id" style="font-weight: bold; margin-bottom: 10px;"></div>
-                                            <button class="btn btn-sm btn-warning me-2" onclick="editComment(@exercise.Id)">Редактиране</button>
-                                            <button class="btn btn-sm btn-danger" onclick="deleteComment(@exercise.Id)">Изтрий</button>
+                                            <button class="btn-edit" onclick="editComment(@exercise.Id)">
+                                                <div class="svg-wrapper">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                                        <path fill="none" d="M0 0h24v24H0z" />
+                                                        <path fill="currentColor" d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z" />
+                                                    </svg>
+                                                </div>
+                                                <span>Редактирай</span>
+                                            </button>
+
+                                            <button class="btn-delete" onclick="deleteComment(@exercise.Id)">
+                                                <div class="svg-wrapper">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                                        <path fill="none" d="M0 0h24v24H0z" />
+                                                        <path fill="currentColor" d="M16 9v10H8V9h8zm-1 1H9v8h6V10zM18 4v2H6V4h2.5l1-2h5l1 2H18z" />
+                                                    </svg>
+                                                </div>
+                                                <span>Изтрий</span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -345,9 +500,21 @@
         </div>
 
         <!-- Pagination -->
-        <div class="pagination">
-            <button id="prev-btn" disabled>Предишна</button>
-            <button id="next-btn">Следваща</button>
+        <div class="button-container">
+            <button class="button-3d" id="prev-btn" disabled>
+                <div class="button-top">
+                    <span>❮</span>
+                </div>
+                <div class="button-bottom"></div>
+                <div class="button-base"></div>
+            </button>
+            <button class="button-3d" id="next-btn">
+                <div class="button-top">
+                    <span>❯</span>
+                </div>
+                <div class="button-bottom"></div>
+                <div class="button-base"></div>
+            </button>
         </div>
 
         <!-- Action Buttons -->
@@ -423,7 +590,7 @@
             particlesJS("particles-above", particlesConfig);
         });
 
-        // Функции за коментарите
+        // Функция за показване/скриване на коментарите
         function toggleComment(exerciseId) {
             const commentSection = document.getElementById(`comment-section-${exerciseId}`);
             const disagreeText = document.getElementById(`disagree-text-${exerciseId}`);
@@ -438,62 +605,115 @@
             }
         }
 
-        function submitComment(exerciseId) {
-            const comment = document.getElementById(`comment-${exerciseId}`).value.trim();
+        let editingCommentId = null;
+        async function submitComment(exerciseId) {
+            const commentInput = document.getElementById(`comment-${exerciseId}`);
+            const comment = commentInput.value.trim();
+
             if (!comment) {
                 alert('Моля въведете коментар преди изпращане!');
                 return;
             }
 
+            const isEditing = editingCommentId !== null;
+            const url = isEditing ? '/ExerciseFeedback/UpdateComment' : '/ExerciseFeedback/SubmitComment';
+            const method = isEditing ? 'PUT' : 'POST';
+
             const requestData = {
                 exerciseId: exerciseId,
-                trainingPlanId: @Model.Id,
+                trainingPlanId: @Model.Id,  // Трябва да го замениш със стойността на ID от модел
                 content: comment
             };
 
-            fetch('/ExerciseFeedback/SubmitComment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'RequestVerificationToken': document.querySelector('#__RequestVerificationToken').value
-                },
-                body: JSON.stringify(requestData)
-            })
-            .then(async response => {
+            if (isEditing) {
+                requestData.commentId = editingCommentId;
+            }
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('#__RequestVerificationToken').value
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
                 const data = await response.json();
+
                 if (!response.ok) throw new Error(data.error || 'Неизвестна грешка');
-                return data;
-            })
-            .then(data => {
+
                 if (data.success) {
+
                     document.getElementById(`posted-comment-${exerciseId}`).textContent = comment;
                     document.getElementById(`posted-comment-section-${exerciseId}`).style.display = 'block';
-                    document.getElementById(`comment-${exerciseId}`).value = '';
-                    document.getElementById(`ex-check-${exerciseId}`).checked = false;
-                    toggleComment(exerciseId);
-                } else {
-                    alert('Грешка: ' + (data.error || 'Неуспешно изпращане'));
+
+                    commentInput.value = '';
+                    editingCommentId = null;  
+
+                    document.getElementById(`comment-section-${exerciseId}`).classList.remove('active');
+                    document.getElementById(`disagree-text-${exerciseId}`).style.display = 'none';
+
+                    const submitBtn = document.getElementById(`submit-btn-${exerciseId}`);
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Изпрати забележка';
                 }
-            })
-            .catch(err => {
+            } catch (err) {
                 console.error('Fetch error:', err);
                 alert('Грешка при изпращане: ' + err.message);
-            });
-        }
-
-        function editComment(exerciseId) {
-            const comment = prompt('Въведете нов коментар:');
-            if (comment) {
-                // Тук може да добавите логика за редакция
-                document.getElementById(`posted-comment-${exerciseId}`).textContent = comment;
             }
         }
 
-        function deleteComment(exerciseId) {
-            if (confirm('Сигурни ли сте, че искате да изтриете коментара?')) {
-                document.getElementById(`posted-comment-section-${exerciseId}`).style.display = 'none';
+        async function editComment(exerciseId) {
+            const commentElement = document.getElementById(`posted-comment-${exerciseId}`);
+            editingCommentId = commentElement.dataset.commentId;
+
+            const submitBtn = document.getElementById(`submit-btn-${exerciseId}`);
+            submitBtn.innerHTML = '<i class="fas fa-edit me-2"></i>Запази промените';
+
+            // Показваме полето за редактиране
+            document.getElementById(`comment-${exerciseId}`).value = commentElement.textContent;
+            document.getElementById(`ex-check-${exerciseId}`).checked = true;
+            document.getElementById(`comment-section-${exerciseId}`).classList.add('active');
+            document.getElementById(`disagree-text-${exerciseId}`).style.display = 'block';
+            document.getElementById(`posted-comment-section-${exerciseId}`).style.display = 'none';
+
+            commentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Функция за изтриване на коментар
+        async function deleteComment(exerciseId) {
+            if (!confirm('Сигурни ли сте, че искате да изтриете коментара?')) return;
+
+            const commentId = document.getElementById(`posted-comment-${exerciseId}`).dataset.commentId;
+
+            try {
+                const response = await fetch('/ExerciseFeedback/DeleteComment', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('#__RequestVerificationToken').value
+                    },
+                    body: JSON.stringify({
+                        exerciseId: exerciseId,
+                        trainingPlanId: @Model.Id  // Трябва да го замениш със стойността на ID от модел
+                        })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) throw new Error(data.error || 'Неизвестна грешка');
+
+                if (data.success) {
+                    document.getElementById(`posted-comment-section-${exerciseId}`).style.display = 'none';
+                    document.getElementById(`ex-check-${exerciseId}`).checked = false;
+                    toggleComment(exerciseId);
+                }
+            } catch (err) {
+                console.error('Delete error:', err);
+                alert('Грешка при изтриване: ' + err.message);
             }
         }
     </script>
+
 </body>
 </html>

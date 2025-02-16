@@ -9,7 +9,7 @@ namespace AIFitnessProject.Core.Contracts
 {
     public interface IExerciseService
     {
-        Task<ExerciseViewModel> GetModelForDetails(int id);
+        Task<ExerciseViewModel> GetModelForDetails(int id, string userId);
         Task<EditExerciseViewModel> GetModelForEdit(int id);
         Task<EditExerciseFromWorkoutViewModel> GetModelFromWorkoutForEdit(int id);
         Task<DetailsExerciseViewModel> GetModelForDetailsFromWorkouts(int id);
