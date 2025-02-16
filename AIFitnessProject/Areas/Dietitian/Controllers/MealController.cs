@@ -1,6 +1,9 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
+using AIFitnessProject.Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AIFitnessProject.Areas.Dietitian.Controllers
 {
@@ -13,6 +16,25 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             mealService = _mealService;
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> Add(int id)
+        {
+            var model = new CreateMealViewModel();
+            model.DietId = id;
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Add(CreateMealViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            await mealService.AddMeal(model, GetUserId());
+
+            return RedirectToAction("Add", "DailyDietPlan", new { dietId = model.DietId });
+        }
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
@@ -53,6 +75,11 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             await mealService.EditAsync(id, model);
 
             return RedirectToAction(nameof(Details), new { id = model.Id });
+        }
+
+        private string GetUserId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

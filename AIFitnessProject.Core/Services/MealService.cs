@@ -18,6 +18,45 @@ namespace AIFitnessProject.Core.Services
             this.repository = _repository;
         }
 
+        public async Task AddMeal(CreateMealViewModel model, string userId)
+        {
+            var dietitian = await repository.AllAsReadOnly<Dietitian>()
+                 .Where(x => x.UserId == userId)
+                  .FirstAsync();
+
+            var meal = new Meal()
+            {
+                CreatedById = dietitian.Id,
+                Recipe = model.Recipe,
+                DificultyLevel = model.DificultyLevel,
+                MealTime = model.MealTime,
+                Name = model.Name,
+                Calories = model.Calories,
+                VideoUrl = model.VideoUrl,
+            };
+
+            if (model.ImageUrl != null)
+            {
+                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "img/meal");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ImageUrl.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.ImageUrl.CopyToAsync(fileStream);
+                }
+                meal.ImageUrl = "/img/meal/" + uniqueFileName;
+            }
+            await repository.AddAsync(meal);
+            await repository.SaveChangesAsync();
+        }
+
         public async Task EditAsync(int id, EditMealViewModel model)
         {
             var meal = await repository.All<Meal>()
