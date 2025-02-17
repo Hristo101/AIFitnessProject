@@ -1,6 +1,7 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.Document;
 using AIFitnessProject.Core.Models.Exercise;
+using AIFitnessProject.Core.Models.ExerciseFeedback;
 using AIFitnessProject.Core.Models.TrainingPlan;
 using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
@@ -349,6 +350,54 @@ namespace AIFitnessProject.Core.Services
                 .ToListAsync();
             
             return models;
+        }
+
+        public async Task<RejectedTrainingPlanDetails> GetRejectedTrainingPlanAsync(int id,string userId)
+        {
+            var trainer = await repository.All<Trainer>().Where(x => x.UserId == userId).FirstAsync();
+
+            var trainingPlan = await repository.AllAsReadOnly<TrainingPlan>()
+                .Where(x =>x.CreatedById ==trainer.Id)
+                .Where(x =>x.IsActive == false)
+       .Include(tp => tp.TrainingPlanWorkouts)
+           .ThenInclude(tpw => tpw.Workout)
+               .ThenInclude(w => w.WorkoutsExercises)
+                   .ThenInclude(we => we.Exercise)
+       .Include(tp => tp.ExerciseFeedbacks)
+           .ThenInclude(ef => ef.Exercise)
+       .FirstOrDefaultAsync(tp => tp.Id == id);
+
+
+            var viewModel = new RejectedTrainingPlanDetails
+            {
+                Id = id,
+                Name = trainingPlan.Name,
+                Description = trainingPlan.Description,
+                Workouts = trainingPlan.TrainingPlanWorkouts.Select(tpw => new WorkoutViewModelForRejectedTrainingPlan
+                {
+                    Title = tpw.Workout.Title,
+                    ImageUrl = tpw.Workout.ImageUrl,
+                    DayOfWeek = tpw.Workout.DayOfWeek,
+                    DifficultyLevel = tpw.Workout.DificultyLevel,
+                    MuscleGroup = tpw.Workout.MuscleGroup,
+                    Exercises = tpw.Workout.WorkoutsExercises.Select(we =>
+                    {
+                        var feedback = trainingPlan.ExerciseFeedbacks.FirstOrDefault(ef => ef.ExerciseId == we.ExcersiceId);
+                        return new ExerciseFeedbackViewModel
+                        {
+                            Name = we.Exercise.Name,
+                            Description = we.Exercise.Description,
+                            ImageUrl = we.Exercise.ImageUrl,
+                            VideoUrl = we.Exercise.VideoUrl,
+                            Series = we.Exercise.Series,
+                            Repetitions = we.Exercise.Repetitions,
+                            Feedback = feedback?.Feedback ?? string.Empty,
+                        };
+                    }).ToList()
+                }).ToList()
+            };
+
+            return viewModel;
         }
     }
 
