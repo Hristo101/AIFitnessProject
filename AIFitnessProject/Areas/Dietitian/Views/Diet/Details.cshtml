@@ -257,7 +257,7 @@
                                                     <a href="@meal.VideoUrl" target="_blank" class="btn btn-custom btn-primary btn-sm">
                                                         <i class="fas fa-play-circle mr-2"></i> Видео
                                                     </a>
-                                                    <a asp-action="DetailsDiet" asp-controller="Meal" asp-route-id="@meal.Id" class="btn btn-custom btn-info btn-sm">
+                                                    <a asp-action="DetailsDiet" asp-controller="Meal" asp-route-id="@meal.Id" asp-route-dietId="@Model.Id" class="btn btn-custom btn-info btn-sm">
                                                         <i class="fas fa-info-circle mr-2"></i> Подробности
                                                     </a>
                                                 </div>

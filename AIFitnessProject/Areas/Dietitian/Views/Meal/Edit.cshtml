@@ -2,7 +2,7 @@
 @model EditMealViewModel
 
 <div class="edit-container">
-    <form asp-action="Edit" method="post" asp-route-id="@Model.Id" asp-controller="Meal" enctype="multipart/form-data" class="edit-form">
+    <form asp-action="Edit" method="post" asp-route-id="@Model.Id" asp-route-dietId="@Model.DietId" asp-controller="Meal" enctype="multipart/form-data" class="edit-form">
         <div class="form-header">
             <h2>Редактиране на хранене</h2>
             <div class="header-decoration"></div>

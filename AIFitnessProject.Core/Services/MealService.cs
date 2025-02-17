@@ -151,7 +151,7 @@ namespace AIFitnessProject.Core.Services
             return meal;
         }
 
-        public async Task<MealViewModel> GetModelForDetails(int id)
+        public async Task<MealViewModel> GetModelForDetails(int id,int dietId)
         {
             var mealDailyDietPlan = await repository.AllAsReadOnly<MealsDailyDietPlan>()
                 .Where(x => x.MealId == id)
@@ -164,10 +164,10 @@ namespace AIFitnessProject.Core.Services
                 return null;
             }
 
-            var dietId = mealDailyDietPlan.DailyDietPlans.DietDailyDietPlans
-              .Select(tp => tp.DietId)
+            var dietDailyDietPlan = mealDailyDietPlan.DailyDietPlans.DietDailyDietPlans
+              .Where(x=>x.DietId == dietId)
               .FirstOrDefault();
-
+        
             var meal = await repository.AllAsReadOnly<Meal>()
                  .Where(x => x.Id == id)
                  .Select(x => new MealViewModel()
@@ -180,17 +180,17 @@ namespace AIFitnessProject.Core.Services
                      Name = x.Name,
                      Recipe = x.Recipe,
                      VideoUrl = x.VideoUrl,
-                     DietId = dietId,
+                     DietId = dietDailyDietPlan.DietId,
 
                  }).FirstAsync();
 
             return meal;
         }
 
-        public async Task<MealDetailViewModel> GetModelForDetailsFromDailyDietPlan(int id)
+        public async Task<MealDetailViewModel> GetModelForDetailsFromDailyDietPlan(int id, int dailyDietPlanId)
         {
             var mealsDailyDietPlan = await repository.AllAsReadOnly<MealsDailyDietPlan>()
-               .Where(x => x.MealId == id)
+               .Where(x => x.MealId == id && x.DailyDietPlansId == dailyDietPlanId)
                .Include(x => x.DailyDietPlans)
                    .ThenInclude(w => w.DietDailyDietPlans)
                        .ThenInclude(tpw => tpw.Diet)
@@ -227,7 +227,7 @@ namespace AIFitnessProject.Core.Services
             return viewModel;
         }
 
-        public async Task<EditMealViewModel> GetModelForEdit(int id)
+        public async Task<EditMealViewModel> GetModelForEdit(int id, int dietId)
         {
             var meal = await repository.AllAsReadOnly<Meal>()
                 .Where(x => x.Id == id)
@@ -240,40 +240,37 @@ namespace AIFitnessProject.Core.Services
                     MealTime = x.MealTime,
                     Recipe = x.Recipe,
                     VideoUrl = x.VideoUrl,
-                    ExistingImageUrl = x.ImageUrl
+                    ExistingImageUrl = x.ImageUrl,
+                    DietId = dietId
                 })
                 .FirstAsync();
 
             return meal;
         }
 
-        public async Task<EditMealFromDailyDietPlanViewModel> GetModelFromDailyDiePlanForEdit(int id)
+        public async Task<EditMealFromDailyDietPlanViewModel> GetModelFromDailyDiePlanForEdit(int id, int dailyDietPlanId)
         {
-            var dailyDietPlan = await repository.AllAsReadOnly<MealsDailyDietPlan>()
-                 .Where(x => x.MealId == id)
-                 .Include(x => x.DailyDietPlans)
-                 .FirstAsync();
-
-
-            var exercise = await repository.AllAsReadOnly<Meal>()
+        
+            var meal = await repository.AllAsReadOnly<Meal>()
                 .Where(x => x.Id == id)
                 .Include(x => x.MealsDailyDietPlans)
                 .ThenInclude(x => x.DailyDietPlans)
                 .Select(x => new EditMealFromDailyDietPlanViewModel()
                 {
                     Id = x.Id,
-                    DailyDietPlanId = dailyDietPlan.DailyDietPlansId,
+                    DailyDietPlanId = dailyDietPlanId,
                     Name = x.Name,
                     DificultyLevel = x.DificultyLevel,
                     Calories = x.Calories,
                     MealTime = x.MealTime,
                     Recipe = x.Recipe,
                     VideoUrl = x.VideoUrl,
-                    ExistingImageUrl = x.ImageUrl
+                    ExistingImageUrl = x.ImageUrl,
+                    
                 })
                 .FirstAsync();
 
-            return exercise;
+            return meal;
         }
     }
 }

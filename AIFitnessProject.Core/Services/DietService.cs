@@ -167,7 +167,7 @@ namespace AIFitnessProject.Core.Services
                     ImageUrl = dailyDietPlan.DailyDietPlan.ImageUrl,
                     Meals = dailyDietPlan.DailyDietPlan.MealsDailyDietPlans.Select(mddp => new MealViewModel
                     {
-                        Id = mddp.Id,
+                        Id = mddp.MealId,
                         Name = mddp.Meal.Name,
                         Recipe = mddp.Meal.Recipe,
                         ImageUrl = mddp.Meal.ImageUrl,

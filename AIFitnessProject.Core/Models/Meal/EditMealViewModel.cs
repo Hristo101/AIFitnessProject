@@ -8,6 +8,8 @@ namespace AIFitnessProject.Core.Models.Meal
     {
         public int Id { get; set; }
 
+        public int DietId { get; set; }
+
         [Required(ErrorMessage = "Името е задължително.")]
         [StringLength(MaxNameLength, MinimumLength = MinNameLength,ErrorMessage = "Името трябва да е между {2} и {1} символа.")]
         public string Name { get; set; } = string.Empty;
