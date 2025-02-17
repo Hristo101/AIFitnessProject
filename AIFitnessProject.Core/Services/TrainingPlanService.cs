@@ -259,6 +259,7 @@ namespace AIFitnessProject.Core.Services
         public async Task<AllTrainingPlanViewModel> GetAllTrainingPlanForUserAsync(string userId)
         {
             var model = await repository.AllAsReadOnly<TrainingPlan>()
+                .Where(x =>x.IsActive == true)
                  .Where(x => x.UserId == userId)
                  .Select(x => new AllTrainingPlanViewModel()
                  {
@@ -314,6 +315,40 @@ namespace AIFitnessProject.Core.Services
             };
 
             return viewModel;
+        }
+
+        public async Task SendEditTrainingPlanAsync(int id,string userId)
+        {
+            var trainingPlan = await repository.All<TrainingPlan>()
+                .Where(x =>x.Id == id)
+                .Where(x =>x.UserId == userId)
+                .FirstAsync();
+
+            trainingPlan.IsActive = false;
+            await repository.SaveChangesAsync();
+        }
+
+        public async Task<ICollection<RejectedTrainingPlanViewModel>> GetModelsForAllTrainingPlanAsync(string userId)
+        {
+            var trainer = await repository.All<Trainer>().Where(x => x.UserId == userId).FirstAsync();
+            var models = await repository.AllAsReadOnly<TrainingPlan>().Include(x => x.User)
+                .Where(x => x.Trainer.Id == trainer.Id)
+                .Where(x => x.IsActive == false)
+                .Include(x =>x.User)
+                .Select(x => new RejectedTrainingPlanViewModel()
+                {
+                   TrainingPlanId = x.Id,
+                   TrainingPlanDescription = x.Description,
+                   Email = x.User.Email,
+                   UserFirstName = x.User.FirstName,
+                   UserLastName = x.User.LastName,
+                   TrainingPlanImageUrl = x.ImageUrl,
+                   UserImageUrl = x.User.ProfilePicture,
+                   TrainingPlanTitle = x.Name
+                })
+                .ToListAsync();
+            
+            return models;
         }
     }
 

@@ -1,0 +1,266 @@
+﻿@model IEnumerable<RejectedTrainingPlanViewModel>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejected Training Plans</title>
+    <!-- AOS Library for Animations -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f7f7ff, #eaeaff);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+            .navbar h1 {
+                font-size: 24px;
+                margin: 0;
+                font-weight: 600;
+            }
+
+            .navbar a {
+                color: white;
+                text-decoration: none;
+                font-size: 16px;
+                margin-left: 20px;
+                transition: color 0.3s ease-in-out;
+            }
+
+                .navbar a:hover {
+                    color: #ffffffdd;
+                }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .training-plans-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .training-plan-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .training-plan-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            }
+
+        /* Plan Header */
+        .plan-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff, #f0f8ff);
+        }
+
+        .plan-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 4px solid #007bff;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .training-plan-card:hover .plan-image {
+            transform: scale(1.1);
+        }
+
+        .plan-title {
+            font-size: 20px;
+            color: #333;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+
+        .plan-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* User Section */
+        .user-section {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #f7f7ff, #eaeaff);
+        }
+
+        .user-avatar {
+            margin-right: 15px;
+        }
+
+        .user-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ffffff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-name {
+            font-size: 16px;
+            color: #333;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Details Button */
+        .details-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 0 0 20px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .details-button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.2);
+                transform: skewX(-45deg);
+                transition: left 0.5s ease-in-out;
+            }
+
+            .details-button:hover::before {
+                left: 0;
+            }
+
+            .details-button:hover {
+                background: linear-gradient(135deg, #0056b3, #007bff);
+                transform: scale(1.05);
+            }
+
+            .details-button svg {
+                margin-left: 10px;
+                width: 20px;
+                height: 20px;
+                fill: white;
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .details-button:hover svg {
+                transform: translateX(5px);
+            }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <h1>Training Plans</h1>
+        <div>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="training-plans-container">
+            @foreach (var plan in Model)
+            {
+                <div class="training-plan-card" data-aos="fade-up" data-aos-duration="1000">
+                    <!-- Training Plan Section -->
+                    <div class="plan-header">
+                        <img src="@plan.TrainingPlanImageUrl" alt="Training Plan Image" class="plan-image" />
+                        <div class="plan-info">
+                            <h2 class="plan-title">@plan.TrainingPlanTitle</h2>
+                            <p class="plan-description">@plan.TrainingPlanDescription</p>
+                        </div>
+                    </div>
+
+                    <!-- User Section -->
+                    <div class="user-section">
+                        <div class="user-avatar">
+                            <img src="@plan.UserImageUrl" alt="User Avatar" class="user-image" />
+                        </div>
+                        <div class="user-details">
+                            <h3 class="user-name">@plan.UserFirstName @plan.UserLastName</h3>
+                            <p class="user-email">@plan.Email</p>
+                        </div>
+                    </div>
+
+                    <!-- Details Button -->
+                    <a href="/TrainingPlan/Details/@plan.TrainingPlanId" class="details-button">
+                        <span>View Details</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             width="24"
+                             height="24">
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+                            <path fill="currentColor"
+                                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.414-1.414L10 14.172V4h2v10.172l2.586-2.586L14 10l-5 5z"></path>
+                        </svg>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- AOS Initialization -->
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>

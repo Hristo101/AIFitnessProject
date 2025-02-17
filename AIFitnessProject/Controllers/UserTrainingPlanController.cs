@@ -38,7 +38,17 @@ namespace AIFitnessProject.Controllers
 
             return View(model);
         }
+        [HttpPost]
+        public async Task<IActionResult> SendEditTrainingPlan(int id)
+        {
+            if (await trainingPlanService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
 
+            await trainingPlanService.SendEditTrainingPlanAsync(id,GetUserId());
+            return RedirectToAction("AllMyTrainingPlans");
+        }
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);

@@ -273,7 +273,7 @@ body {
     padding: 8px 20px;
     border-radius: 8px;
     border: none;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     transition: all 0.3s ease;
     font-size: 14px;
@@ -517,14 +517,17 @@ body {
             </button>
         </div>
 
-        <!-- Action Buttons -->
-        <div class="text-center mt-6" data-aos="fade-up">
-            <button class="btn-gradient me-3">
-                <i class="fas fa-check-circle me-2"></i>Приеми плана
-            </button>
-            <button class="btn btn-outline-dark px-4">
-                <i class="fas fa-times-circle me-2"></i>Откажи
-            </button>
+        <div class="text-center mt-6 d-flex justify-content-center gap-3" data-aos="fade-up">
+            <form method="post" asp-action="SendEditTrainingPlan" asp-controller="UserTrainingPlan">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn-gradient">
+                    <i class="fas fa-check-circle me-2"></i>Изпрати плана
+                </button>
+            </form>
+
+            <a asp-action="Details" asp-controller="UserTrainingPlan" asp-route-id="@Model.Id" class="btn btn-outline-dark px-4">
+                <i class="fas fa-times-circle me-2"></i>Отказ
+            </a>
         </div>
     </div>
 
