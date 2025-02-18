@@ -20,21 +20,24 @@ namespace AIFitnessProject.Controllers
 
             return View(models);
         }
-        //[HttpGet]
-        //public async Task<IActionResult> Details(int id)
-        //{
-        //    var model = await trainingPlanService.GetTrainingPlanModelsForUserForDetails(id, GetUserId());
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            if(await dietService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
 
-        //    return View(model);
-        //}
-        //[HttpGet]
-        //public async Task<IActionResult> RejectedTrainingPlan(int id)
-        //{
-        //    var model = await trainingPlanService.GetTrainingPlanModelsForUserForDetails(id, GetUserId());
+            var userId = GetUserId();
+            if(await dietService.UserHasDietAsync(id ,userId) == false)
+            {
+                return Unauthorized();
+            }
+            var model = await dietService.GetDietModelForUserForDetails(id, userId);
 
-        //    return View(model);
-        //}
-
+            return View(model);
+        }
+       
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
