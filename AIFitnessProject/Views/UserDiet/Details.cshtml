@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #6366f1;
-            --secondary-color: #3b82f6;
+            --primary-color: #28b765;
+            --secondary-color: #2ecc71;
             --accent-color: #f59e0b;
             --dark-color: #1e293b;
             --light-color: #f8fafc;
@@ -154,12 +154,12 @@
 
         .fw-bold {
             font-weight: 700 !important;
-            color: #000a31;
+            color: #3CB371;
         }
 
         .mb-5 {
             margin-bottom: 3rem !important;
-            color: #000a31;
+            color: black;
         }
 
         .btn-gradient:hover {
@@ -201,6 +201,11 @@
             font-weight: bold;
             border: 1px solid #d97706;
         }
+
+        .day {
+            --bs-bg-opacity: 1;
+            background-color: #1e6b38 !important;
+        }
     </style>
 </head>
 <body>
@@ -236,7 +241,7 @@
                             <div>
                                 <h2 class="h1 fw-bold mb-2">@dailyDietPlan.Title</h2>
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="badge bg-primary">@dailyDietPlan.DayOfWeek</span>
+                                    <span class="badge day">@dailyDietPlan.DayOfWeek</span>
                                     <span class="text-muted">@dailyDietPlan.Meals.Count хранения</span>
                                 </div>
                             </div>
@@ -257,7 +262,7 @@
                             {
                                 <div class="col-md-6 col-lg-4">
                                     <div class="exercise-card">
-                                       @*  <span class="difficulty-badge @meal.DificultyLevel.ToLower()">@meal.DificultyLevel</span> *@
+                                       
 
                                         <div class="hover-zoom mb-3">
 
