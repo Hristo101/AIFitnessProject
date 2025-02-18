@@ -117,6 +117,26 @@ namespace AIFitnessProject.Core.Services
             
         }
 
+        public async Task<DietForUserViewModel?> GetDietForUserAsync(string userId)
+        {
+            var diet = await repository.AllAsReadOnly<Diet>()
+                .Where(x => x.UserId == userId && x.IsActive == true)
+                .Select(x => new DietForUserViewModel()
+                {
+                    DietDescription = x.Description,
+                    DietName = x.Name,
+                    ImageUrl = x.ImageUrl,
+                    Id = x.Id
+                    
+                })
+                .FirstOrDefaultAsync();
+
+          
+
+            return diet;
+           
+        }
+
         public async Task<SendDietViewModel> GetDietModelForSendView(int id)
         {
             var countOfDailyDietPlan = await repository.AllAsReadOnly<DietDailyDietPlan>()
