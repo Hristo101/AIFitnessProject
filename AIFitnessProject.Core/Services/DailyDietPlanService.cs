@@ -23,16 +23,24 @@ namespace AIFitnessProject.Core.Services
         {
             var ids = selectedIds.Split(',').Select(int.Parse).ToList();
 
-            for (int i = 0; i < ids.Count; i++)
+            foreach (var id in ids)
             {
-                var dailyDietPlan = await repository
-                .All<DailyDietPlan>()
-                .Where(x => x.Id == ids[i])
-                .FirstAsync();
+                var dailyDietPlan = await repository.All<DailyDietPlan>()
+                    .Where(d => d.Id == id)
+                    .FirstOrDefaultAsync();
+                if(dailyDietPlan != null)
+                {
+                    var dietDailyDietPlan = new DietDailyDietPlan
+                    {
+                        DailyDietPlanId = dailyDietPlan.Id,
+                        DietId = dietId
+                    };
 
-                dailyDietPlan.DietId = dietId;
-                await repository.SaveChangesAsync();
+                    await repository.AddAsync(dietDailyDietPlan);
+                }
             }
+
+            await repository.SaveChangesAsync();
         }
 
         public async Task<int> CreateDailyDietPlan(AddDailyDietPlanViewModel model, string userId)
@@ -47,7 +55,6 @@ namespace AIFitnessProject.Core.Services
                 DayOfWeel = model.DayOfWeek,
                 DificultyLevel = model.DificultyLevel,
                 Title = model.Title,
-                DietId = null,
             };
 
             List<int> mealsIds = model.SelectedMealIds.Split(",").Select(int.Parse).ToList();
@@ -150,7 +157,7 @@ namespace AIFitnessProject.Core.Services
                      ImageUrl = x.ImageUrl,
                      Meals = x.MealsDailyDietPlans.Select(mddp => new MealViewModel
                      {
-                         Id = mddp.Id,
+                         Id = mddp.MealId,
                          Name = mddp.Meal.Name,
                          Recipe = mddp.Meal.Recipe,
                          ImageUrl = mddp.Meal.ImageUrl,

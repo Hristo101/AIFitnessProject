@@ -1,6 +1,9 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
+using AIFitnessProject.Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AIFitnessProject.Areas.Dietitian.Controllers
 {
@@ -13,30 +16,50 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             mealService = _mealService;
         }
 
+
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Add(int id)
         {
-            var model = await mealService.GetModelForDetails(id);
+            var model = new CreateMealViewModel();
+            model.DietId = id;
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Add(CreateMealViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            await mealService.AddMeal(model, GetUserId());
+
+            return RedirectToAction("Add", "DailyDietPlan", new { dietId = model.DietId });
+        }
+        [HttpGet]
+        public async Task<IActionResult> Details(int id,int dailyDietPlanId)
+        {
+            var model = await mealService.GetModelForDetailsFromDailyDietPlan(id, dailyDietPlanId);
 
             return View(model);
         }
 
         [HttpGet]
-        public async Task<IActionResult> DetailsDiet(int id)
+        public async Task<IActionResult> DetailsDiet(int id, int dietId)
         {
-            var model = await mealService.GetModelForDetails(id);
+
+            var model = await mealService.GetModelForDetails(id,dietId);
 
             return View(model);
         }
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id,int dietId)
         {
-            var model = await mealService.GetModelForEdit(id);
+            var model = await mealService.GetModelForEdit(id,dietId);
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditMealViewModel model, int id)
+        public async Task<IActionResult> Edit(EditMealViewModel model, int id,int dietId)
         {
             if (await mealService.ExistAsync(id) == false)
             {
@@ -52,7 +75,36 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             await mealService.EditAsync(id, model);
 
-            return RedirectToAction(nameof(Details), new { id = model.Id });
+            return RedirectToAction(nameof(DetailsDiet), new { id = model.Id , dietId = dietId});
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditFromDailyDietPlan(int id, int dailyDietPlanId)
+        {
+            var model = await mealService.GetModelFromDailyDiePlanForEdit(id, dailyDietPlanId);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditFromDailyDietPlan(EditMealFromDailyDietPlanViewModel model, int id, int dailyDietPlanId)
+        {
+            if (await mealService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await mealService.EditAsyncFromDailyDietPlan(id, model);
+
+            return RedirectToAction(nameof(Details), new { id = model.Id , dailyDietPlanId = dailyDietPlanId });
+        }
+        private string GetUserId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

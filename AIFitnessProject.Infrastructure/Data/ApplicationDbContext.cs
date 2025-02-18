@@ -47,6 +47,17 @@ namespace AIFitnessProject.Infrastructure.Data
                 .WithMany(x => x.TrainingPlanWorkouts)
                  .HasForeignKey(x => x.TrainingPlanId);
 
+            builder.Entity<DietDailyDietPlan>()
+               .HasOne(x => x.DailyDietPlan)
+               .WithMany(x => x.DietDailyDietPlans)
+               .HasForeignKey(x => x.DailyDietPlanId);
+
+
+            builder.Entity<DietDailyDietPlan>()
+                .HasOne(x => x.Diet)
+                .WithMany(x => x.DietDailyDietPlans)
+                .HasForeignKey(x => x.DietId);
+
             builder.Entity<MealsDailyDietPlan>()
             .HasOne(x => x.Meal)
             .WithMany(x => x.MealsDailyDietPlans)
@@ -117,6 +128,7 @@ namespace AIFitnessProject.Infrastructure.Data
             builder.ApplyConfiguration(new DailyDietPlanConfiguration());
             builder.ApplyConfiguration(new MealConfiguration());
             builder.ApplyConfiguration(new MealDailyDietPlanConfiguration());
+            builder.ApplyConfiguration(new DietDailyDietPlanConfiguration());
 
             base.OnModelCreating(builder);
         }
@@ -124,8 +136,8 @@ namespace AIFitnessProject.Infrastructure.Data
             public DbSet<Calendar> Calendars { get; set; }
             public DbSet<DailyDietPlan> DailyDietPlans { get; set; }
             public DbSet<RequestsToCoach> RequestsToCoaches { get; set; }
-        public DbSet<TrainingPlanWorkout> TrainingPlanWorkouts { get; set; }
-        public DbSet<MealsDailyDietPlan> MealsDailyDietPlans { get; set; }
+            public DbSet<TrainingPlanWorkout> TrainingPlanWorkouts { get; set; }
+            public DbSet<MealsDailyDietPlan> MealsDailyDietPlans { get; set; }
             public DbSet<WorkoutsExercise> WorkoutsExercises { get; set; }
             public DbSet<RequestToDietitian> RequestToDietitians { get; set; }
             public DbSet<Exercise> Exercises { get; set; }
@@ -139,6 +151,7 @@ namespace AIFitnessProject.Infrastructure.Data
             public DbSet<UserComment> UserComments { get; set; }
             public DbSet<Notification> Notifications { get; set; }
             public DbSet<Document> Documents { get; set; }
+            public DbSet<DietDailyDietPlan> DietDailyDietPlans { get; set; }
 
 
 

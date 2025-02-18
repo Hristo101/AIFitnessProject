@@ -117,12 +117,40 @@ namespace AIFitnessProject.Core.Services
             
         }
 
+        public async Task<SendDietViewModel> GetDietModelForSendView(int id)
+        {
+            var countOfDailyDietPlan = await repository.AllAsReadOnly<DietDailyDietPlan>()
+                .Where(x => x.DietId == id)
+                .ToListAsync();
+
+            var dietModel = await repository.AllAsReadOnly<Diet>()
+                .Include(x => x.User)
+                .Where(x => x.Id == id)
+                .Select(x => new SendDietViewModel()
+                {
+                    Id = id,
+                    DescriptionDiet = x.Description,
+                    ImageUrlDiet = x.ImageUrl,
+                    UserProfilePicture = x.User.ProfilePicture,
+                    Name = x.Name,
+                    UserEmail = x.User.Email,
+                    UserFirstName = x.User.FirstName,
+                    UserLastName = x.User.LastName,
+                    DailyDietPlanCount = countOfDailyDietPlan.Count(),
+                }).FirstAsync();
+
+            return dietModel;
+        }
+
         public async Task<DietDetailsViewModel> GetDietModelsForDetails(int id)
         {
+
+           
             var diet = await repository.AllAsReadOnly<Diet>()
-            .Include(tp => tp.DailyDietPlans)
-                .ThenInclude(w => w.MealsDailyDietPlans)
-                    .ThenInclude(we => we.Meal)
+            .Include(tp => tp.DietDailyDietPlans)
+                .ThenInclude(w => w.DailyDietPlan)
+                    .ThenInclude(we => we.MealsDailyDietPlans)
+                        .ThenInclude(x=>x.Meal)
             .FirstOrDefaultAsync(tp => tp.Id == id);
 
             var viewModel = new DietDetailsViewModel
@@ -131,15 +159,15 @@ namespace AIFitnessProject.Core.Services
                 Name = diet.Name,
                 Description = diet.Description,
                 ImageUrl = diet.ImageUrl,
-                DailyDietPlans = diet.DailyDietPlans.Select(dailyDietPlan => new DailyDietPlanViewModel
+                DailyDietPlans = diet.DietDailyDietPlans.Select(dailyDietPlan => new DailyDietPlanViewModel
                 {
-                    Title = dailyDietPlan.Title,
-                    DayOfWeek = dailyDietPlan.DayOfWeel,
-                    DificultyLevel = dailyDietPlan.DificultyLevel,
-                    ImageUrl = dailyDietPlan.ImageUrl,
-                    Meals = dailyDietPlan.MealsDailyDietPlans.Select(mddp => new MealViewModel
+                    Title = dailyDietPlan.DailyDietPlan.Title,
+                    DayOfWeek = dailyDietPlan.DailyDietPlan.DayOfWeel,
+                    DificultyLevel = dailyDietPlan.DailyDietPlan.DificultyLevel,
+                    ImageUrl = dailyDietPlan.DailyDietPlan.ImageUrl,
+                    Meals = dailyDietPlan.DailyDietPlan.MealsDailyDietPlans.Select(mddp => new MealViewModel
                     {
-                        Id = mddp.Id,
+                        Id = mddp.MealId,
                         Name = mddp.Meal.Name,
                         Recipe = mddp.Meal.Recipe,
                         ImageUrl = mddp.Meal.ImageUrl,
@@ -169,6 +197,16 @@ namespace AIFitnessProject.Core.Services
                .FirstAsync();
 
             return diet;
+        }
+
+        public async Task SendToUserAsync(int id)
+        {
+            var diet = await repository.All<Diet>()
+                .Where(x => x.Id == id)
+                .FirstAsync();
+
+            diet.IsActive = true;
+            await repository.SaveChangesAsync();
         }
     }
 }

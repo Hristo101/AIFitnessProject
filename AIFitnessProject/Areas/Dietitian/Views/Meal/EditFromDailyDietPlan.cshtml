@@ -1,8 +1,8 @@
 ﻿@using AIFitnessProject.Core.Models.Meal
-@model EditMealViewModel
+@model EditMealFromDailyDietPlanViewModel
 
 <div class="edit-container">
-    <form asp-action="Edit" method="post" asp-route-id="@Model.Id" asp-route-dietId="@Model.DietId" asp-controller="Meal" enctype="multipart/form-data" class="edit-form">
+    <form asp-action="EditFromDailyDietPlan" method="post" asp-route-id="@Model.Id" asp-route-dailyDietPlanId="@Model.DailyDietPlanId" asp-controller="Meal" enctype="multipart/form-data" class="edit-form">
         <div class="form-header">
             <h2>Редактиране на хранене</h2>
             <div class="header-decoration"></div>
@@ -119,7 +119,7 @@
         var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
         return query.AllKeys.Contains("v") ? query["v"] : uri.Segments.Last();
     }
-}  
+}
 <script>
     document.getElementById('imageUpload').addEventListener('change', function (event) {
         const file = event.target.files[0];
