@@ -117,9 +117,9 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             return View(models);
         }
         [HttpGet]
-        public async Task<IActionResult> DetailsRejectedTrainingPlan(int trainingPlanId)
+        public async Task<IActionResult> DetailsRejectedTrainingPlan(int id)
         {
-            var model = await trainingPlanService.GetRejectedTrainingPlanAsync(trainingPlanId,GetUserId());
+            var model = await trainingPlanService.GetRejectedTrainingPlanAsync(id, GetUserId());
 
             return View(model);
         }

@@ -365,6 +365,7 @@ namespace AIFitnessProject.Core.Services
                    .ThenInclude(we => we.Exercise)
        .Include(tp => tp.ExerciseFeedbacks)
            .ThenInclude(ef => ef.Exercise)
+           .Include(x =>x.User)
        .FirstOrDefaultAsync(tp => tp.Id == id);
 
 
@@ -372,6 +373,10 @@ namespace AIFitnessProject.Core.Services
             {
                 Id = id,
                 Name = trainingPlan.Name,
+                FirstName = trainingPlan.User.FirstName,
+                LastName = trainingPlan.User.LastName,
+                UserEmail = trainingPlan.User.Email,
+                UserProfilePicture = trainingPlan.User.ProfilePicture,
                 Description = trainingPlan.Description,
                 Workouts = trainingPlan.TrainingPlanWorkouts.Select(tpw => new WorkoutViewModelForRejectedTrainingPlan
                 {
