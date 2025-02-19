@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using AIFitnessProject.Core.DTOs;
 
 namespace AIFitnessProject.Core.Services
 {
@@ -196,6 +197,59 @@ namespace AIFitnessProject.Core.Services
                 }).FirstOrDefaultAsync();
 
             return exercise;
+        }
+        public async Task<bool> SwapExerciseInWorkoutAsync(SwapExerciseRequest request)
+        {
+            var trainingPlan = await repository.All<TrainingPlan>()
+                .Include(tp => tp.TrainingPlanWorkouts)
+                    .ThenInclude(tpw => tpw.Workout)
+                        .ThenInclude(w => w.WorkoutsExercises)
+                            .ThenInclude(we => we.Exercise)
+                                .ThenInclude(e => e.ExerciseFeedbacks)
+                .FirstOrDefaultAsync(tp => tp.Id == request.TrainingPlanId);
+
+            if (trainingPlan == null)
+            {
+                return false;
+            }
+
+            var workoutExercises = trainingPlan.TrainingPlanWorkouts
+                .Where(tpw => tpw.Workout.WorkoutsExercises
+                    .Any(we => we.Exercise.Id == request.ExerciseId))
+                .ToList();
+
+            if (workoutExercises.Count == 0)
+            {
+                return false;
+            }
+
+            var newExercise = await repository.GetByIdAsync<Exercise>(request.NewExerciseId);
+            if (newExercise == null)
+            {
+                return false;
+            }
+
+            foreach (var workoutExercise in workoutExercises)
+            {
+                var exerciseToReplace = workoutExercise.Workout.WorkoutsExercises
+                    .FirstOrDefault(we => we.Exercise.Id == request.ExerciseId);
+
+                if (exerciseToReplace != null)
+                {
+                    exerciseToReplace.ExcersiceId = newExercise.Id;
+                    exerciseToReplace.Exercise = newExercise;
+
+                    var feedbackToDelete = exerciseToReplace.Exercise.ExerciseFeedbacks
+                        .FirstOrDefault(ef => ef.TrainingPlanId == request.TrainingPlanId);
+                    if (feedbackToDelete != null)
+                    {
+                        repository.Delete(feedbackToDelete);
+                    }
+                }
+            }
+
+            var changes = await repository.SaveChangesAsync();
+            return changes > 0;
         }
 
         public async Task<EditExerciseFromWorkoutViewModel> GetModelFromWorkoutForEdit(int id)

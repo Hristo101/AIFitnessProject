@@ -1,0 +1,145 @@
+﻿@using AIFitnessProject.Core.Models.TrainingPlan
+@model SendTrainingPlanViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Потвърждение на изпращане</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        nav.navbar {
+            background-color: #343a40 !important;
+            width: 100%;
+            padding: 10px 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: absolute;
+            top: 0;
+            z-index: 1000;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .confirmation-container {
+            max-width: 800px;
+            margin: 5em auto;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+            }
+
+        .training-plan-image {
+            height: 413px;
+            object-fit: cover;
+            border-radius: 15px 15px 0 0;
+            transition: transform 0.3s ease;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 10px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .profile-picture {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            border: 3px solid #e9ecef;
+        }
+
+        .btn-confirm {
+            background: #2a9d8f;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+            .btn-confirm:hover {
+                transform: scale(1.05);
+                box-shadow: 0 5px 15px rgba(42,157,143,0.3);
+            }
+
+        .btn-cancel {
+            background: #e9ecef;
+            color: #495057;
+            padding: 12px 30px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .highlight-text {
+            color: #2a9d8f;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <form asp-action="SendConfrimed" method="post" asp-route-id="@Model.Id" class="needs-validation" enctype="multipart/form-data" novalidate>
+        <div class="container confirmation-container">
+            <div class="card">
+                <img src="@Model.ImageUrlTrainingPlan" class="training-plan-image" alt="Training Plan">
+
+                <div class="card-body p-4">
+                    <h3 class="mb-4 text-center">Сигурни ли сте, че искате да изпратите този тренировъчен план?</h3>
+
+                    <div class="mb-4">
+                        <h4 class="highlight-text">@Model.Name</h4>
+                        <p class="text-muted">@Model.DescriptionTrainingPlan</p>
+                        <div class="d-flex justify-content-between">
+                            <span>Брой тренировки: <strong>@Model.WorkoutsCount</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="user-profile">
+                        <img src="data:image/jpeg;base64,@Url.Content(@Model.UserProfilePicture)" class="profile-picture" alt="User Profile">
+                        <div>
+                            <h5 class="mb-1">@Model.UserFirstName @Model.UserLastName</h5>
+                            <small class="text-muted">@Model.UserEmail</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a asp-action="AllRejectedTrainingPlan" asp-controller="TrainingPlan" asp-area="Trainer" class="btn btn-cancel">Отказ</a>
+                        <button class="btn btn-confirm">Изпрати</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

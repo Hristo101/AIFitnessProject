@@ -1,6 +1,8 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.DTOs;
 using AIFitnessProject.Core.Models.Exercise;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace AIFitnessProject.Areas.Trainer.Controllers
@@ -26,6 +28,50 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             model.TrainingPlanId = id;
             return View(model);
         }
+        [HttpGet]
+        public async Task<IActionResult> AddFromRejectedPlan(int id)
+        {
+            var model = new CreateExerciseViewModel();
+            model.TrainingPlanId = id;
+           
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddFromRejectedPlan(CreateExerciseViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            await exerciseService.AddExercise(model, GetUserId());
+
+            return RedirectToAction("DetailsRejectedTrainingPlan", "TrainingPlan", new { id = model.TrainingPlanId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SwapExerciseInWorkout([FromBody] SwapExerciseRequest request)
+        {
+            if (request == null ||
+                request.TrainingPlanId <= 0 ||
+                request.WorkoutId <= 0 ||
+                request.ExerciseId <= 0 ||
+                request.NewExerciseId <= 0)
+            {
+                return Json(new { success = false, message = "Невалидни данни." });
+            }
+
+            var result = await exerciseService.SwapExerciseInWorkoutAsync(request);
+            if (result)
+            {
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Възникна грешка при смяната на упражнението." });
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Add(CreateExerciseViewModel model)
         {

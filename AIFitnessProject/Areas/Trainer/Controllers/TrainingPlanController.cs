@@ -117,6 +117,20 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             return View(models);
         }
         [HttpGet]
+        public async Task<IActionResult> SendEditedPlan(int id)
+        {
+            var model = await trainingPlanService.GetTrainingPlanModelForSendView(id);
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SendEditTrainingPlanConfrimed(int id)
+        {
+            await trainingPlanService.SendToUserAsync(id);
+
+            return RedirectToAction("AllRejectedTrainingPlan");
+        }
+        [HttpGet]
         public async Task<IActionResult> DetailsRejectedTrainingPlan(int id)
         {
             var model = await trainingPlanService.GetRejectedTrainingPlanAsync(id, GetUserId());

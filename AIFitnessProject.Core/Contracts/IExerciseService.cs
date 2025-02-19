@@ -1,4 +1,5 @@
-﻿using AIFitnessProject.Core.Models.Exercise;
+﻿using AIFitnessProject.Core.DTOs;
+using AIFitnessProject.Core.Models.Exercise;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace AIFitnessProject.Core.Contracts
         Task<EditExerciseViewModel> GetModelForEdit(int id);
         Task<EditExerciseFromWorkoutViewModel> GetModelFromWorkoutForEdit(int id);
         Task<DetailsExerciseViewModel> GetModelForDetailsFromWorkouts(int id);
+        Task<bool> SwapExerciseInWorkoutAsync(SwapExerciseRequest request);
         Task EditAsync(int id, EditExerciseViewModel model);
         Task EditAsyncFromWorkout(int id, EditExerciseFromWorkoutViewModel model);
         Task AddExercise(CreateExerciseViewModel model, string userId);

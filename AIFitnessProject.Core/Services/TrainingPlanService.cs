@@ -379,9 +379,9 @@ namespace AIFitnessProject.Core.Services
                 UserEmail = trainingPlan.User.Email,
                 UserProfilePicture = trainingPlan.User.ProfilePicture,
                 Description = trainingPlan.Description,
-                Workouts = trainingPlan.TrainingPlanWorkouts.Select(tpw => new WorkoutViewModelForRejectedTrainingPlan
+                Workouts = trainingPlan.TrainingPlanWorkouts.Where(x =>x.TrainingPlanId == trainingPlan.Id ).Select(tpw => new WorkoutViewModelForRejectedTrainingPlan
                 {
-                    Id = tpw.Id,
+                    Id = tpw.WorkoutId,
                     Title = tpw.Workout.Title,
                     ImageUrl = tpw.Workout.ImageUrl,
                     DayOfWeek = tpw.Workout.DayOfWeek,
@@ -397,6 +397,7 @@ namespace AIFitnessProject.Core.Services
                             Name = we.Exercise.Name,
                             Description = we.Exercise.Description,
                             ImageUrl = we.Exercise.ImageUrl,
+                            MuscleGroup = we.Exercise.MuscleGroup,
                             VideoUrl = we.Exercise.VideoUrl,
                             Series = we.Exercise.Series,
                             Repetitions = we.Exercise.Repetitions,

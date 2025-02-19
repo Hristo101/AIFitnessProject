@@ -11,257 +11,236 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <style>
-        /* General Styles */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f7f7ff, #eaeaff);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* Navigation Bar */
+        /* Обновени стилове за навигацията */
         .navbar {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background: #2c3e50;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
             .navbar h1 {
-                font-size: 24px;
-                margin: 0;
+                font-size: 1.8rem;
                 font-weight: 600;
+                color: #ffffff;
+                margin: 0;
+                letter-spacing: 1px;
             }
 
-            .navbar a {
-                color: white;
-                text-decoration: none;
-                font-size: 16px;
-                margin-left: 20px;
-                transition: color 0.3s ease-in-out;
-            }
-
-                .navbar a:hover {
-                    color: #ffffffdd;
-                }
-
-        /* Main Content Area */
+        /* Основно съдържание */
         .main-content {
+            padding: 2rem;
             flex: 1;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .training-plans-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 1200px;
+            gap: 2rem;
+            margin-top: 2rem;
         }
 
         .training-plan-card {
-            background: white;
-            border-radius: 20px;
+            background: #ffffff;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
             .training-plan-card:hover {
-                transform: translateY(-10px);
-                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+                transform: translateY(-5px);
+                box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
             }
-
-        /* Plan Header */
-        .plan-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            text-align: center;
-            background: linear-gradient(135deg, #ffffff, #f0f8ff);
-        }
 
         .plan-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            border-bottom: 4px solid #007bff;
-            transition: transform 0.3s ease-in-out;
+            border-bottom: 3px solid #3498db;
         }
 
-        .training-plan-card:hover .plan-image {
-            transform: scale(1.1);
+        .plan-header {
+            padding: 1.5rem;
         }
 
         .plan-title {
-            font-size: 20px;
-            color: #333;
-            margin: 10px 0;
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
             font-weight: 600;
         }
 
         .plan-description {
-            font-size: 14px;
-            color: #666;
+            color: #7f8c8d;
+            font-size: 0.9rem;
             line-height: 1.5;
         }
 
-        /* User Section */
         .user-section {
             display: flex;
             align-items: center;
-            padding: 15px;
-            background: linear-gradient(135deg, #f7f7ff, #eaeaff);
-        }
-
-        .user-avatar {
-            margin-right: 15px;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
         }
 
         .user-image {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
+            margin-right: 1rem;
             object-fit: cover;
-            border: 3px solid #ffffff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-details {
+            flex: 1;
         }
 
         .user-name {
-            font-size: 16px;
-            color: #333;
+            font-size: 1rem;
+            color: #2c3e50;
             margin: 0;
-            font-weight: 500;
         }
 
         .user-email {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-top: 0.3rem;
         }
 
-        /* Details Button */
+        /* Стилове за бутоните */
+        .button-container {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-top: 1px solid #eee;
+        }
+
         .details-button {
+            flex: 1;
+            background: #3498db;
+            color: white;
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 0 0 20px 20px;
-            font-size: 16px;
-            font-weight: 500;
-            transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
-            position: relative;
-            overflow: hidden;
         }
 
-            .details-button::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: rgba(255, 255, 255, 0.2);
-                transform: skewX(-45deg);
-                transition: left 0.5s ease-in-out;
-            }
-
-            .details-button:hover::before {
-                left: 0;
-            }
-
             .details-button:hover {
-                background: linear-gradient(135deg, #0056b3, #007bff);
-                transform: scale(1.05);
+                background: #2980b9;
+                transform: translateY(-2px);
             }
 
-            .details-button svg {
-                margin-left: 10px;
-                width: 20px;
-                height: 20px;
-                fill: white;
-                transition: transform 0.3s ease-in-out;
+        .send-button {
+            background: #27ae60;
+            color: white;
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .send-button:hover {
+                background: #219a52;
+                transform: translateY(-2px);
             }
 
-            .details-button:hover svg {
-                transform: translateX(5px);
+        /* Анимации */
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <div class="navbar">
+    <!-- Навигация -->
+    <nav class="navbar">
         <h1>Training Plans</h1>
-        <div>
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-        </div>
-    </div>
+    </nav>
 
-    <!-- Main Content -->
+    <!-- Основно съдържание -->
     <div class="main-content">
         <div class="training-plans-container">
             @foreach (var plan in Model)
             {
-                <div class="training-plan-card" data-aos="fade-up" data-aos-duration="1000">
-                    <!-- Training Plan Section -->
+                <div class="training-plan-card" data-aos="fade-up">
+                    <!-- Снимка и заглавие -->
+                    @if (plan.TrainingPlanImageUrl.StartsWith("http") || plan.TrainingPlanImageUrl.StartsWith("/img"))
+                    {
+                        <img src="@plan.TrainingPlanImageUrl" class="plan-image" alt="@plan.TrainingPlanImageUrl">
+                    }
+                    else
+                    {
+                        <img src="data:image/jpeg;base64,@plan.TrainingPlanImageUrl" class="plan-image" alt="@plan.TrainingPlanImageUrl">
+                    }
                     <div class="plan-header">
-                        <img src="@plan.TrainingPlanImageUrl" alt="Training Plan Image" class="plan-image" />
-                        <div class="plan-info">
-                            <h2 class="plan-title">@plan.TrainingPlanTitle</h2>
-                            <p class="plan-description">@plan.TrainingPlanDescription</p>
-                        </div>
+                        <h3 class="plan-title">@plan.TrainingPlanTitle</h3>
+                        <p class="plan-description">@plan.TrainingPlanDescription</p>
                     </div>
 
-                    <!-- User Section -->
+                    <!-- Потребителска информация -->
                     <div class="user-section">
-                        <div class="user-avatar">
-                            <img src="@plan.UserImageUrl" alt="User Avatar" class="user-image" />
-                        </div>
+                        @if (plan.UserImageUrl.StartsWith("http") || plan.UserImageUrl.StartsWith("/img"))
+                        {
+                            <img src="@plan.UserImageUrl" class="user-image" alt="@plan.UserImageUrl">
+                        }
+                        else
+                        {
+                            <img src="data:image/jpeg;base64,@plan.UserImageUrl" class="user-image" alt="@plan.TrainingPlanImageUrl">
+                        }
                         <div class="user-details">
-                            <h3 class="user-name">@plan.UserFirstName @plan.UserLastName</h3>
+                            <h4 class="user-name">@plan.UserFirstName @plan.UserLastName</h4>
                             <p class="user-email">@plan.Email</p>
                         </div>
                     </div>
 
-                    <!-- Details Button -->
-                    <a asp-action="DetailsRejectedTrainingPlan" asp-controller="TrainingPlan" asp-route-id="@plan.TrainingPlanId" class="details-button">
-                        <span>View Details</span>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             viewBox="0 0 24 24"
-                             width="24"
-                             height="24">
-                            <path fill="none" d="M0 0h24v24H0z"></path>
-                            <path fill="currentColor"
-                                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.414-1.414L10 14.172V4h2v10.172l2.586-2.586L14 10l-5 5z"></path>
-                        </svg>
-                    </a>
+                    <!-- Бутони за действие -->
+                    <div class="button-container">
+                        <a asp-action="DetailsRejectedTrainingPlan"
+                           asp-controller="TrainingPlan"
+                           asp-route-id="@plan.TrainingPlanId"
+                           class="details-button">
+                            Детайли
+                        </a>
+                        <button type="button"
+                                class="send-button"
+                                onclick="location.href='@Url.Action("SendEditedPlan", "TrainingPlan", new { id = plan.TrainingPlanId })'">
+                            Изпрати редактирания план
+                        </button>
+                    </div>
                 </div>
             }
         </div>
     </div>
 
-    <!-- AOS Initialization -->
+    <!-- Инициализация на AOS -->
     <script>
-        AOS.init();
+        AOS.init({
+            duration: 800,
+            once: true
+        });
     </script>
 </body>
 </html>
