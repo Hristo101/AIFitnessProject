@@ -1,44 +1,120 @@
 ﻿@using AIFitnessProject.Core.Models.TrainingPlan
 @model RejectedTrainingPlanDetails
 
+@{
+    // Сериализираме наличните упражнения за използване в JavaScript.
+    var availableExercisesJson = System.Text.Json.JsonSerializer.Serialize(Model.AvailableExercises);
+}
 <style>
+@@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
     :root {
-        /* Актуализирани променливи за светъл фон */
-        --main-bg: #f8f9fa;
-        --card-bg: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+        /* Основна цветова схема */
+        --main-bg: linear-gradient(120deg, #f5f7fa, #c3cfe2); /* Лек градиент за background */
+        --card-bg: #ffffff;
         --accent: #007bff;
         --text: #343a40;
+
+        /* Допълнителни за ефекти */
+        --shadow-color: rgba(0, 0, 0, 0.2);
+        --panel-bg: rgba(255, 255, 255, 0.7);
     }
 
     body {
         background: var(--main-bg);
         color: var(--text);
-        font-family: 'Segoe UI', sans-serif;
+        font-family: 'Open Sans', sans-serif;
         padding: 2rem;
+        margin: 0;
     }
 
+    /* Training plan header */
+    .training-plan-header {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: var(--panel-bg);
+        border-radius: 15px;
+        box-shadow: 0 6px 20px var(--shadow-color);
+        backdrop-filter: blur(6px); /* за "glassmorphism" ефект */
+    }
+
+    .training-plan-header img {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--accent);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .user-info {
+        margin-left: 1.5rem;
+    }
+
+    .user-info h2 {
+        margin: 0;
+        font-size: 2rem;
+        color: var(--accent);
+        font-weight: 600;
+    }
+
+    .user-info p {
+        margin: 0.3rem 0;
+    }
+
+    /* Main exercise grid & cards */
     .exercise-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
         gap: 2rem;
-        perspective: 1000px;
     }
 
     .exercise-card {
         background: var(--card-bg);
         border-radius: 20px;
         padding: 1.5rem;
-        transform-style: preserve-3d;
-        transform: rotateX(5deg) rotateY(-5deg) translateZ(0);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        transition: all 0.3s ease;
-        animation: cardEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 6px 16px var(--shadow-color);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        perspective: 1000px;
+        position: relative;
+        overflow: hidden; /* За да не изпъкват елементи при анимация */
     }
 
-        .exercise-card:hover {
-            transform: rotateX(0) rotateY(0) translateZ(20px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-        }
+    .exercise-card::before {
+        /* Светещ акцент фон зад картата (по избор) */
+        content: "";
+        position: absolute;
+        top: -10%;
+        left: -10%;
+        width: 120%;
+        height: 120%;
+        background: radial-gradient(rgba(0, 123, 255, 0.15), transparent 70%);
+        transform: rotate(45deg);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+    }
+
+    .exercise-card:hover::before {
+        opacity: 1;
+    }
+
+    .exercise-card-inner {
+        transform-style: preserve-3d;
+        transition: transform 0.6s;
+    }
+
+    .exercise-card:hover {
+        box-shadow: 0 10px 30px var(--shadow-color);
+        transform: translateY(-5px);
+    }
+
+    .exercise-card:hover .exercise-card-inner {
+        transform: rotateY(5deg) rotateX(2deg);
+    }
 
     .exercise-header {
         border-bottom: 2px solid var(--accent);
@@ -50,7 +126,7 @@
         color: var(--accent);
         font-size: 1.5rem;
         margin: 0;
-        text-shadow: 0 0 10px rgba(0,123,255,0.3);
+        font-weight: 600;
     }
 
     .exercise-detail {
@@ -58,116 +134,219 @@
         justify-content: space-between;
         margin: 0.5rem 0;
         padding: 0.5rem;
-        background: rgba(255,255,255,0.05);
+        background: rgba(255,255,255,0.1);
         border-radius: 8px;
+        font-size: 0.95rem;
     }
 
     .user-feedback {
-        background: rgba(0,123,255,0.1);
+        background: rgba(0,123,255,0.08);
         border-left: 4px solid var(--accent);
         padding: 1rem;
         margin-top: 1rem;
         border-radius: 8px;
-        animation: pulse 2s infinite;
+        font-size: 0.95rem;
     }
 
-    @@keyframes cardEntrance {
-        from {
-            opacity: 0;
-            transform: translateY(50px) rotateX(15deg);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0) rotateX(5deg) rotateY(-5deg);
-        }
-    }
-
-    @@keyframes pulse {
-        0% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(1.02);
-        }
-
-        100% {
-            transform: scale(1);
-        }
-    }
-
-    @@media (max-width: 768px) {
-        .exercise-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    /* Стилове за потребителските данни и тренировъчния план */
-    .training-plan-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 2rem;
-        padding: 1rem;
-        background: var(--card-bg);
-        border: 1px solid rgba(0,0,0,0.1);
-        border-radius: 10px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
-
-        .training-plan-header img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--accent);
-        }
-
-    .user-info {
-        margin-left: 1rem;
-    }
-
-        .user-info h2 {
-            margin: 0;
-            font-size: 1.8rem;
-            color: var(--accent);
-        }
-
-        .user-info p {
-            margin: 0.3rem 0;
-        }
-
-    /* Стил за снимката на упражнението */
     .exercise-image {
         width: 100%;
         max-height: 200px;
         object-fit: cover;
         border-radius: 10px;
         margin-bottom: 1rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
-    /* Стил за бутона за редактиране */
+    /* Бутон за редактиране в основната карта */
     .edit-button {
         display: inline-block;
         margin-top: 1rem;
-        padding: 0.5rem 1rem;
+        padding: 0.6rem 1.2rem;
         background: var(--accent);
         color: #fff;
         border: none;
         border-radius: 8px;
         cursor: pointer;
         font-size: 1rem;
-        transition: background 0.3s ease;
+        transition: background 0.3s ease, transform 0.2s;
+        margin-right: 0.5rem;
+        font-weight: 600;
     }
 
-        .edit-button:hover {
-            background: #0069d9;
-        }
+    .edit-button:hover {
+        background: #005dc1;
+        transform: scale(1.03);
+    }
+
+    /* Панел за редакция */
+    #edit-panel {
+        display: none;
+        margin-top: 2rem;
+        padding: 1rem 1.5rem;
+        background: var(--panel-bg);
+        border-radius: 15px;
+        box-shadow: 0 6px 20px var(--shadow-color);
+        backdrop-filter: blur(6px);
+        position: relative;
+    }
+
+    #edit-panel .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    #edit-panel .panel-header h4 {
+        margin: 0;
+        font-size: 1.4rem;
+        color: var(--accent);
+        font-weight: 600;
+    }
+
+    /* Toggle button (стрелка) за панела */
+    .toggle-panel-button {
+        background: transparent;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        color: var(--accent);
+    }
+
+    .toggle-panel-button:hover {
+        color: #005dc1;
+    }
+
+    .toggle-panel-button.open {
+        transform: rotate(180deg);
+    }
+
+    /* Съдържание на панела */
+    #edit-panel .panel-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    /* Карти за наличните упражнения в панела */
+    .available-exercise-card {
+        background: linear-gradient(145deg, #ffffff, #f0f0f0);
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+    }
+
+    .available-exercise-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .available-exercise-card.selected {
+        background: linear-gradient(145deg, #e0f0ff, #cce0ff);
+    }
+
+    .available-exercise-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .available-exercise-info {
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .available-exercise-info strong {
+        display: block;
+        margin-bottom: 0.3rem;
+        color: var(--accent);
+        font-weight: 600;
+    }
+
+    /* Видео бутон за наличните упражнения */
+    .video-button-panel {
+        display: inline-block;
+        padding: 0.3rem 0.6rem;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background 0.3s ease, transform 0.2s;
+        margin-top: 0.3rem;
+        font-weight: 600;
+    }
+
+    .video-button-panel:hover {
+        background: #005dc1;
+        transform: scale(1.05);
+    }
+
+    /* Стилове за чекбокса (скрит, но все още използван) */
+    .available-exercise-card input.exercise-checkbox {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        transform: scale(1.2);
+        cursor: pointer;
+    }
+
+    /* Panel actions */
+    .panel-actions {
+        margin-top: 1rem;
+        text-align: right;
+    }
+
+    .swap-exercise-button,
+    .add-exercise-button {
+        margin-top: 1rem;
+        padding: 0.6rem 1rem;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background 0.3s ease, transform 0.2s;
+        margin-right: 0.5rem;
+        font-weight: 600;
+    }
+
+    .swap-exercise-button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .swap-exercise-button:hover:not(:disabled),
+    .add-exercise-button:hover {
+        background: #005dc1;
+        transform: scale(1.05);
+    }
 </style>
 
-<!-- Потребителски данни и информация за тренировъчния план -->
+&lt;!-- Training plan header --&gt;
 <div class="training-plan-header">
-    <img src="@Model.UserProfilePicture" alt="@Model.FirstName @Model.LastName" />
+    @if (Model.UserProfilePicture.StartsWith("http") || Model.UserProfilePicture.StartsWith("/img"))
+    {
+        <img src="@Model.UserProfilePicture" alt="Profile Picture" />
+    }
+    else
+    {
+        <img alt="Profile Picture" />
+    }
     <div class="user-info">
         <h2>@Model.Name</h2>
         <p>От: @Model.FirstName @Model.LastName (@Model.UserEmail)</p>
@@ -175,7 +354,7 @@
     </div>
 </div>
 
-<!-- Упражненията (за всяка тренировка и упражнение) -->
+&lt;!-- Main exercise grid --&gt;
 <div class="exercise-grid">
     @foreach (var workout in Model.Workouts)
     {
@@ -184,43 +363,176 @@
             if (!string.IsNullOrEmpty(exercise.Feedback))
             {
                 <div class="exercise-card">
-                    <div class="exercise-header">
-                        <h3 class="exercise-name">@exercise.Name</h3>
-                        <!-- Показваме към коя тренировка принадлежи упражнението -->
-                        <div class="exercise-detail">
-                            <span>Тренировка:</span>
-                            <span>@workout.Title</span>
+                    <div class="exercise-card-inner">
+                        <div class="exercise-header">
+                            <h3 class="exercise-name">@exercise.Name</h3>
+                            <div class="exercise-detail">
+                                <span>Тренировка:</span>
+                                <span>@workout.Title</span>
+                            </div>
+                            <div class="exercise-detail">
+                                <span>Серии:</span>
+                                <span>@exercise.Series</span>
+                            </div>
+                            <div class="exercise-detail">
+                                <span>Повторения:</span>
+                                <span>@exercise.Repetitions</span>
+                            </div>
                         </div>
-                        <div class="exercise-detail">
-                            <span>Серии:</span>
-                            <span>@exercise.Series</span>
+
+                        @if (!string.IsNullOrEmpty(exercise.ImageUrl))
+                        {
+                            <img class="exercise-image" src="@exercise.ImageUrl" alt="@exercise.Name" />
+                        }
+
+                        @if (!string.IsNullOrEmpty(exercise.Description))
+                        {
+                            <p>@exercise.Description</p>
+                        }
+
+                        <div class="user-feedback">
+                            <strong>Отзив на потребителя:</strong>
+                            <p>@exercise.Feedback</p>
                         </div>
-                        <div class="exercise-detail">
-                            <span>Повторения:</span>
-                            <span>@exercise.Repetitions</span>
-                        </div>
+
+                        &lt;!-- Бутон за редактиране, който отваря панела за избиране на упражнения --&gt;
+                        <button class="edit-button" data-musclegroup="@workout.MuscleGroup">Редактирай</button>
                     </div>
-
-                    @* Ако има снимка на упражнението *@
-                    @if (!string.IsNullOrEmpty(exercise.ImageUrl))
-                    {
-                        <img class="exercise-image" src="@exercise.ImageUrl" alt="@exercise.Name" />
-                    }
-
-                    @if (!string.IsNullOrEmpty(exercise.Description))
-                    {
-                        <p>@exercise.Description</p>
-                    }
-
-                    <div class="user-feedback">
-                        <strong>Отзив на потребителя:</strong>
-                        <p>@exercise.Feedback</p>
-                    </div>
-
-                    <!-- Бутон за редактиране на упражнението -->
-                    <button class="edit-button">Редактирай</button>
                 </div>
             }
         }
     }
 </div>
+
+&lt;!-- Панел за редакция --&gt;
+<div id="edit-panel">
+    <div class="panel-header">
+        <h4>Избери упражнения за <span id="panel-muscle-group"></span></h4>
+        &lt;!-- Toggle бутон със стрелка --&gt;
+        <button id="close-panel-button" class="toggle-panel-button">&#9660;</button>
+    </div>
+    <div id="panel-content" class="panel-content">
+        &lt;!-- Тук ще се генерират наличните упражнения динамично --&gt;
+    </div>
+    <div class="panel-actions">
+        <button id="swap-exercise-button" class="swap-exercise-button" disabled>Смени упражнението</button>
+        <button id="add-exercise-button" class="add-exercise-button">Добави упражнение</button>
+    </div>
+</div>
+
+<script>
+    var availableExercises = @Html.Raw(availableExercisesJson);
+
+    // Функция за създаване на карта за упражнение в панела
+    function createExerciseCard(exercise) {
+        var card = document.createElement('div');
+        card.className = 'available-exercise-card';
+        card.dataset.id = exercise.Id;
+
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'exercise-checkbox';
+        checkbox.value = exercise.Id;
+
+        if (exercise.ImageUrl && exercise.ImageUrl.trim() !== '') {
+            var img = document.createElement('img');
+            img.src = exercise.ImageUrl;
+            img.alt = exercise.Name;
+            card.appendChild(img);
+        }
+
+        var infoDiv = document.createElement('div');
+        infoDiv.className = 'available-exercise-info';
+        var nameElem = document.createElement('strong');
+        nameElem.textContent = exercise.Name;
+        var seriesElem = document.createElement('span');
+        seriesElem.textContent = 'Серии: ' + exercise.Series;
+        var repsElem = document.createElement('span');
+        repsElem.textContent = 'Повторения: ' + exercise.Repetitions;
+        infoDiv.appendChild(nameElem);
+        infoDiv.appendChild(seriesElem);
+        infoDiv.appendChild(repsElem);
+        card.appendChild(infoDiv);
+
+        // Ако упражнението има видео, добавяме бутон
+        if (exercise.VideoUrl && exercise.VideoUrl.trim() !== '') {
+            var videoBtn = document.createElement('button');
+            videoBtn.className = 'video-button-panel';
+            videoBtn.textContent = 'Видео';
+            videoBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                window.open(exercise.VideoUrl, '_blank');
+            });
+            card.appendChild(videoBtn);
+        }
+
+        card.appendChild(checkbox);
+
+        card.addEventListener('click', function (e) {
+            if (e.target.tagName.toLowerCase() !== 'input' && !e.target.classList.contains('video-button-panel')) {
+                checkbox.checked = !checkbox.checked;
+            }
+            card.classList.toggle('selected', checkbox.checked);
+            updateSwapButtonState();
+        });
+
+        checkbox.addEventListener('change', function () {
+            card.classList.toggle('selected', checkbox.checked);
+            updateSwapButtonState();
+        });
+
+        return card;
+    }
+
+    function updateSwapButtonState() {
+        var panel = document.getElementById('edit-panel');
+        var checkboxes = panel.querySelectorAll('.exercise-checkbox');
+        var anyChecked = Array.from(checkboxes).some(chk => chk.checked);
+        document.getElementById('swap-exercise-button').disabled = !anyChecked;
+    }
+
+    var editButtons = document.querySelectorAll('.edit-button');
+    editButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var muscleGroup = button.getAttribute('data-musclegroup');
+            document.getElementById('panel-muscle-group').textContent = muscleGroup;
+            var filtered = availableExercises.filter(function (ex) {
+                return ex.MuscleGroup === muscleGroup;
+            });
+            var panelContent = document.getElementById('panel-content');
+            panelContent[removed] = '';
+            filtered.forEach(function (ex) {
+                var card = createExerciseCard(ex);
+                panelContent.appendChild(card);
+            });
+            var panelEl = document.getElementById('edit-panel');
+            panelEl.style.display = 'block';
+            panelEl.scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('close-panel-button').classList.add('open');
+        });
+    });
+
+    document.getElementById('close-panel-button').addEventListener('click', function () {
+        var panelEl = document.getElementById('edit-panel');
+        panelEl.style.display = 'none';
+        document.getElementById('close-panel-button').classList.remove('open');
+    });
+
+    document.getElementById('swap-exercise-button').addEventListener('click', function () {
+        var panel = document.getElementById('edit-panel');
+        var selected = Array.from(panel.querySelectorAll('.exercise-checkbox'))
+            .filter(chk => chk.checked)
+            .map(chk => chk.value);
+        console.log("Смяна на упражнението с ID-та:", selected);
+        // Тук можеш да добавиш логика за AJAX или друг тип сървърна комуникация
+    });
+
+    document.getElementById('add-exercise-button').addEventListener('click', function () {
+        var panel = document.getElementById('edit-panel');
+        var selected = Array.from(panel.querySelectorAll('.exercise-checkbox'))
+            .filter(chk => chk.checked)
+            .map(chk => chk.value);
+        console.log("Добавяне на упражнение с ID-та:", selected);
+        // Тук можеш да добавиш логика за AJAX или друг тип сървърна комуникация
+    });
+</script>

@@ -1,4 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Models.TrainingPlan;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -20,7 +21,7 @@ namespace AIFitnessProject.Controllers
         [HttpGet]
         public async Task<IActionResult> AllMyTrainingPlans()
         {
-            var models = await trainingPlanService.GetAllTrainingPlanForUserAsync(GetUserId());
+          var models = await trainingPlanService.GetAllTrainingPlanForUserAsync(GetUserId());
 
             return View(models);
         }

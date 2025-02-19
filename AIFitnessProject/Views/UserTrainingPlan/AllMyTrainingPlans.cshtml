@@ -2,11 +2,27 @@
 @model AllTrainingPlanViewModel
 <!DOCTYPE html>
 <html lang="bg">
+@if (Model == null)
+{
+    <h1 style="color:black" class= "text-center text-white mb-5 display-4 fw-bold animate__animated animate__fadeInDown">
+        Все още нямате изготвен Тренировъчен режим!
+    </h1>
+    <style>
+        .text-white {
+            --bs-text-opacity: 1;
+            color: #212529 !important;
+        }
+    </style>
+}
+else
+{
+    
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@Model.TitleOfTriningPlan</title>
     <style>
+            
         body {
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
@@ -62,11 +78,21 @@
     </style>
 </head>
 <body>
+       
     <div class="card">
-        <img src="@Model.ImageUrl" alt="@Model.TitleOfTriningPlan" />
+            @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("/img"))
+            {
+                <img src="@Model.ImageUrl" class="card-image w-100" alt="alt=" @Model.TitleOfTriningPlan"">
+            }
+            else
+            {
+                <img src="data:image/jpeg;base64,@Model.ImageUrl" class="card-image w-100" alt="alt=" @Model.TitleOfTriningPlan"">
+            }
         <h3>@Model.TitleOfTriningPlan</h3>
         <p>@Model.DescriptionOfTriningPlan</p>
         <a asp-action="Details" asp-asp-controller="UserTrainingPlanController" asp-route-id="@Model.Id" class="btn">Детайли</a>
     </div>
+    
 </body>
+}
 </html>

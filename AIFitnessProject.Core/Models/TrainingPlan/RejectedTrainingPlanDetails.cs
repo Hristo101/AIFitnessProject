@@ -1,4 +1,5 @@
-﻿using AIFitnessProject.Core.Models.Workout;
+﻿using AIFitnessProject.Core.Models.Exercise;
+using AIFitnessProject.Core.Models.Workout;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace AIFitnessProject.Core.Models.TrainingPlan
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public List<WorkoutViewModelForRejectedTrainingPlan> Workouts { get; set; } = new List<WorkoutViewModelForRejectedTrainingPlan>();
+        public List<ExerciseViewModel> AvailableExercises { get; set; } = new List<ExerciseViewModel>();
     }
 
 }

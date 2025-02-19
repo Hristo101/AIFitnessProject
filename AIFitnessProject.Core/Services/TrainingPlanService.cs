@@ -259,7 +259,7 @@ namespace AIFitnessProject.Core.Services
 
         public async Task<AllTrainingPlanViewModel> GetAllTrainingPlanForUserAsync(string userId)
         {
-            var model = await repository.AllAsReadOnly<TrainingPlan>()
+        var model = await repository.AllAsReadOnly<TrainingPlan>()
                 .Where(x =>x.IsActive == true)
                  .Where(x => x.UserId == userId)
                  .Select(x => new AllTrainingPlanViewModel()
@@ -268,7 +268,7 @@ namespace AIFitnessProject.Core.Services
                      DescriptionOfTriningPlan = x.Description,
                      ImageUrl = x.ImageUrl,
                      TitleOfTriningPlan = x.Name,
-                 }).FirstAsync();
+                 }).FirstOrDefaultAsync();
 
             return model;
         }
@@ -352,22 +352,23 @@ namespace AIFitnessProject.Core.Services
             return models;
         }
 
-        public async Task<RejectedTrainingPlanDetails> GetRejectedTrainingPlanAsync(int id,string userId)
+        public async Task<RejectedTrainingPlanDetails> GetRejectedTrainingPlanAsync(int id, string userId)
         {
-            var trainer = await repository.All<Trainer>().Where(x => x.UserId == userId).FirstAsync();
+            var trainer = await repository.All<Trainer>()
+                                          .Where(x => x.UserId == userId)
+                                          .FirstOrDefaultAsync();
 
             var trainingPlan = await repository.AllAsReadOnly<TrainingPlan>()
-                .Where(x =>x.CreatedById ==trainer.Id)
-                .Where(x =>x.IsActive == false)
-       .Include(tp => tp.TrainingPlanWorkouts)
-           .ThenInclude(tpw => tpw.Workout)
-               .ThenInclude(w => w.WorkoutsExercises)
-                   .ThenInclude(we => we.Exercise)
-       .Include(tp => tp.ExerciseFeedbacks)
-           .ThenInclude(ef => ef.Exercise)
-           .Include(x =>x.User)
-       .FirstOrDefaultAsync(tp => tp.Id == id);
-
+                .Where(x => x.CreatedById == trainer.Id)
+                .Where(x => x.IsActive == false)
+                .Include(tp => tp.TrainingPlanWorkouts)
+                    .ThenInclude(tpw => tpw.Workout)
+                        .ThenInclude(w => w.WorkoutsExercises)
+                            .ThenInclude(we => we.Exercise)
+                .Include(tp => tp.ExerciseFeedbacks)
+                    .ThenInclude(ef => ef.Exercise)
+                .Include(x => x.User)
+                .FirstOrDefaultAsync(tp => tp.Id == id);
 
             var viewModel = new RejectedTrainingPlanDetails
             {
@@ -380,6 +381,7 @@ namespace AIFitnessProject.Core.Services
                 Description = trainingPlan.Description,
                 Workouts = trainingPlan.TrainingPlanWorkouts.Select(tpw => new WorkoutViewModelForRejectedTrainingPlan
                 {
+                    Id = tpw.Id,
                     Title = tpw.Workout.Title,
                     ImageUrl = tpw.Workout.ImageUrl,
                     DayOfWeek = tpw.Workout.DayOfWeek,
@@ -387,9 +389,11 @@ namespace AIFitnessProject.Core.Services
                     MuscleGroup = tpw.Workout.MuscleGroup,
                     Exercises = tpw.Workout.WorkoutsExercises.Select(we =>
                     {
-                        var feedback = trainingPlan.ExerciseFeedbacks.FirstOrDefault(ef => ef.ExerciseId == we.ExcersiceId);
+                        var feedback = trainingPlan.ExerciseFeedbacks
+                                        .FirstOrDefault(ef => ef.ExerciseId == we.ExcersiceId);
                         return new ExerciseFeedbackViewModel
                         {
+                            Id = we.ExcersiceId,
                             Name = we.Exercise.Name,
                             Description = we.Exercise.Description,
                             ImageUrl = we.Exercise.ImageUrl,
@@ -401,6 +405,23 @@ namespace AIFitnessProject.Core.Services
                     }).ToList()
                 }).ToList()
             };
+
+            var availableExercises = await repository.AllAsReadOnly<Exercise>()
+                .Select(e => new ExerciseViewModel
+                {
+                    Id = e.Id, 
+                    Name = e.Name,
+                    Description = e.Description,
+                    ImageUrl = e.ImageUrl,
+                    VideoUrl = e.VideoUrl,
+                    MuscleGroup = e.MuscleGroup,
+                    Series = e.Series,
+                    Repetitions = e.Repetitions,
+                    DifficultyLevel = e.DifficultyLevel
+                })
+                .ToListAsync();
+
+            viewModel.AvailableExercises = availableExercises;
 
             return viewModel;
         }
