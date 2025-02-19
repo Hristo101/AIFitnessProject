@@ -26,6 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IDailyDietPlanService, DailyDietPlanService>();
             services.AddScoped<IMealService, MealService>();
             services.AddScoped<IExerciseFeedbackService, ExerciseFeedbackService>();
+            services.AddScoped<IMealFeedbackService, MealFeedbackService>();
 
             return services;
         }

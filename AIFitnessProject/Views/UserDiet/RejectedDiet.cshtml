@@ -648,8 +648,8 @@
         }
 
         let editingCommentId = null;
-        async function submitComment(exerciseId) {
-            const commentInput = document.getElementById(`comment-${exerciseId}`);
+        async function submitComment(mealId) {
+            const commentInput = document.getElementById(`comment-${mealId}`);
             const comment = commentInput.value.trim();
 
             if (!comment) {
@@ -658,12 +658,12 @@
             }
 
             const isEditing = editingCommentId !== null;
-            const url = isEditing ? '/ExerciseFeedback/UpdateComment' : '/ExerciseFeedback/SubmitComment';
+            const url = isEditing ? '/MealFeedback/UpdateComment' : '/MealFeedback/SubmitComment';
             const method = isEditing ? 'PUT' : 'POST';
 
             const requestData = {
-                exerciseId: exerciseId,
-                trainingPlanId: @Model.Id,  // Трябва да го замениш със стойността на ID от модел
+                mealId: mealId,
+                dietId: @Model.Id,  // Трябва да го замениш със стойността на ID от модел
                 content: comment
             };
 
@@ -687,16 +687,16 @@
 
                 if (data.success) {
 
-                    document.getElementById(`posted-comment-${exerciseId}`).textContent = comment;
-                    document.getElementById(`posted-comment-section-${exerciseId}`).style.display = 'block';
+                    document.getElementById(`posted-comment-${mealId}`).textContent = comment;
+                    document.getElementById(`posted-comment-section-${mealId}`).style.display = 'block';
 
                     commentInput.value = '';
                     editingCommentId = null;
 
-                    document.getElementById(`comment-section-${exerciseId}`).classList.remove('active');
-                    document.getElementById(`disagree-text-${exerciseId}`).style.display = 'none';
+                    document.getElementById(`comment-section-${mealId}`).classList.remove('active');
+                    document.getElementById(`disagree-text-${mealId}`).style.display = 'none';
 
-                    const submitBtn = document.getElementById(`submit-btn-${exerciseId}`);
+                    const submitBtn = document.getElementById(`submit-btn-${mealId}`);
                     submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Изпрати забележка';
                 }
             } catch (err) {
