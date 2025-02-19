@@ -705,19 +705,19 @@
             }
         }
 
-        async function editComment(exerciseId) {
-            const commentElement = document.getElementById(`posted-comment-${exerciseId}`);
+        async function editComment(mealId) {
+            const commentElement = document.getElementById(`posted-comment-${mealId}`);
             editingCommentId = commentElement.dataset.commentId;
 
-            const submitBtn = document.getElementById(`submit-btn-${exerciseId}`);
+            const submitBtn = document.getElementById(`submit-btn-${mealId}`);
             submitBtn.innerHTML = '<i class="fas fa-edit me-2"></i>Запази промените';
 
             // Показваме полето за редактиране
-            document.getElementById(`comment-${exerciseId}`).value = commentElement.textContent;
-            document.getElementById(`ex-check-${exerciseId}`).checked = true;
-            document.getElementById(`comment-section-${exerciseId}`).classList.add('active');
-            document.getElementById(`disagree-text-${exerciseId}`).style.display = 'block';
-            document.getElementById(`posted-comment-section-${exerciseId}`).style.display = 'none';
+            document.getElementById(`comment-${mealId}`).value = commentElement.textContent;
+            document.getElementById(`ex-check-${mealId}`).checked = true;
+            document.getElementById(`comment-section-${mealId}`).classList.add('active');
+            document.getElementById(`disagree-text-${mealId}`).style.display = 'block';
+            document.getElementById(`posted-comment-section-${mealId}`).style.display = 'none';
 
             commentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }

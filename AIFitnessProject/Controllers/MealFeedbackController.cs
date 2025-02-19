@@ -33,5 +33,23 @@ namespace AIFitnessProject.Controllers
                 return Json(new { success = false, error = ex.Message });
             }
         }
+        [HttpPut]
+        public async Task<IActionResult> UpdateComment([FromBody] SubmitCommentRequestDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false, error = "Невалидни данни" });
+            }
+
+            try
+            {
+                await mealFeedbackService.EditMealFeedbackAsync(model);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, error = ex.Message });
+            }
+        }
     }
 }

@@ -3,11 +3,6 @@ using AIFitnessProject.Core.DTOs.MealFeedback;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AIFitnessProject.Core.Services
 {
@@ -32,6 +27,20 @@ namespace AIFitnessProject.Core.Services
             };
 
             await repository.AddAsync(mealFeedback);
+            await repository.SaveChangesAsync();
+        }
+
+        public async Task EditMealFeedbackAsync(SubmitCommentRequestDTO request)
+        {
+            var mealFeedback = await repository.All<MealFeedback>()
+               .Where(x => x.DietId == request.DietId && x.MealId == request.MealId)
+               .FirstAsync();
+
+            if (mealFeedback == null)
+            {
+                throw new ArgumentException("Въведени са невалинни данни!");
+            }
+            mealFeedback.Feedback = request.Content;
             await repository.SaveChangesAsync();
         }
     }
