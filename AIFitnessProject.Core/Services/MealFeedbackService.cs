@@ -30,6 +30,21 @@ namespace AIFitnessProject.Core.Services
             await repository.SaveChangesAsync();
         }
 
+        public async Task DeleteMealFeedbackAsync(DeleteCommentModelDTO model)
+        {
+            var mealFeedback = await repository.All<MealFeedback>()
+           .Where(x => x.DietId == model.DietId && x.MealId == model.MealId)
+           .FirstAsync();
+
+            if (mealFeedback == null)
+            {
+                throw new ArgumentException("Въведени са невалинни данни!");
+            }
+
+            repository.Delete(mealFeedback);
+            await repository.SaveChangesAsync();
+        }
+
         public async Task EditMealFeedbackAsync(SubmitCommentRequestDTO request)
         {
             var mealFeedback = await repository.All<MealFeedback>()

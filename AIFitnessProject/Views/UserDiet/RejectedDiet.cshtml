@@ -633,10 +633,10 @@
         });
 
         // Функция за показване/скриване на коментарите
-        function toggleComment(exerciseId) {
-            const commentSection = document.getElementById(`comment-section-${exerciseId}`);
-            const disagreeText = document.getElementById(`disagree-text-${exerciseId}`);
-            const checkbox = document.getElementById(`ex-check-${exerciseId}`);
+        function toggleComment(mealId) {
+            const commentSection = document.getElementById(`comment-section-${mealId}`);
+            const disagreeText = document.getElementById(`disagree-text-${mealId}`);
+            const checkbox = document.getElementById(`ex-check-${mealId}`);
 
             if (checkbox.checked) {
                 commentSection.classList.add('active');
@@ -723,21 +723,21 @@
         }
 
         // Функция за изтриване на коментар
-        async function deleteComment(exerciseId) {
+        async function deleteComment(mealId) {
             if (!confirm('Сигурни ли сте, че искате да изтриете коментара?')) return;
 
-            const commentId = document.getElementById(`posted-comment-${exerciseId}`).dataset.commentId;
+            const commentId = document.getElementById(`posted-comment-${mealId}`).dataset.commentId;
 
             try {
-                const response = await fetch('/ExerciseFeedback/DeleteComment', {
+                const response = await fetch('/MealFeedback/DeleteComment', {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
                         'RequestVerificationToken': document.querySelector('#__RequestVerificationToken').value
                     },
                     body: JSON.stringify({
-                        exerciseId: exerciseId,
-                        trainingPlanId: @Model.Id  // Трябва да го замениш със стойността на ID от модел
+                        mealId: mealId,
+                        dietId: @Model.Id  // Трябва да го замениш със стойността на ID от модел
                                         })
                 });
 
@@ -746,9 +746,9 @@
                 if (!response.ok) throw new Error(data.error || 'Неизвестна грешка');
 
                 if (data.success) {
-                    document.getElementById(`posted-comment-section-${exerciseId}`).style.display = 'none';
-                    document.getElementById(`ex-check-${exerciseId}`).checked = false;
-                    toggleComment(exerciseId);
+                    document.getElementById(`posted-comment-section-${mealId}`).style.display = 'none';
+                    document.getElementById(`ex-check-${mealId}`).checked = false;
+                    toggleComment(mealId);
                 }
             } catch (err) {
                 console.error('Delete error:', err);

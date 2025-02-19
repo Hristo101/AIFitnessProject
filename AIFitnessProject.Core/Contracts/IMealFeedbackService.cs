@@ -6,5 +6,6 @@ namespace AIFitnessProject.Core.Contracts
     {
         Task AddMealFeedbackAsync(SubmitCommentRequestDTO request);
         Task EditMealFeedbackAsync(SubmitCommentRequestDTO request);
+        Task DeleteMealFeedbackAsync(DeleteCommentModelDTO model);
     }
 }
