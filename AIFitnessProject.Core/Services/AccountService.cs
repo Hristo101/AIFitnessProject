@@ -97,6 +97,30 @@ namespace AIFitnessProject.Core.Services
             return model;
         }
 
+        public async Task<ICollection<AllUsersViewModel>> GetAllUsers(string userId)
+        {
+            var trainer = await repository.AllAsReadOnly<Trainer>()
+                 .Where(x => x.UserId == userId)
+                 .FirstOrDefaultAsync();
+
+            var usersViewModel = await repository.AllAsReadOnly<TrainingPlan>()
+                .Include(x =>x.User)
+                .Where(x =>x.CreatedById == trainer.Id)
+                .Select(x => new AllUsersViewModel()
+                {
+                    Aim = x.User.Aim,
+                    Email = x.User.Email,
+                    ExperienceLevel = x.User.ExperienceLevel,
+                    FirsName = x.User.FirstName,
+                    LastName = x.User.LastName,
+                    ProfilePicture = x.User.ProfilePicture
+                })
+                .ToListAsync();
+
+            return usersViewModel;
+                
+        }
+
         public async Task<MyProfileViewModel> GetMoldelForMyProfile(string id,bool isInRole)
         {
             var model = new MyProfileViewModel();
