@@ -102,6 +102,20 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             return View(models);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DetailsRejectedDiet(int id)
+        {
+
+            if (await dietService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            var model = await dietService.GetRejectedDietAsync(id, GetUserId());
+
+            return View(model);
+        }
+
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);

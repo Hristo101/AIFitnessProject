@@ -1,0 +1,619 @@
+﻿@using AIFitnessProject.Core.Models.Diet
+@model RejectedDietDetails
+
+@{
+    // Сериализираме наличните упражнения за използване в JavaScript.
+    var availableExercisesJson = System.Text.Json.JsonSerializer.Serialize(Model.AvailableMeals);
+
+    // Проверяваме дали има поне един feedback в някое от упражненията
+    var hasFeedback = Model.DailyDietPlans.Any(w => w.Meals.Any(e => !string.IsNullOrEmpty(e.Feedback)));
+}
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+    :root {
+        /* Основна цветова схема */
+        --main-bg: linear-gradient(120deg, #f5f7fa, #c3cfe2);
+        --card-bg: #ffffff;
+        --accent: #007bff;
+        --text: #343a40;
+        /* Допълнителни за ефекти */
+        --shadow-color: rgba(0, 0, 0, 0.2);
+        --panel-bg: rgba(255, 255, 255, 0.7);
+    }
+
+    body {
+        background: var(--main-bg);
+        color: var(--text);
+        font-family: 'Open Sans', sans-serif;
+        padding: 2rem;
+        margin: 0;
+    }
+
+    /* Training plan header */
+    .training-plan-header {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: var(--panel-bg);
+        border-radius: 15px;
+        box-shadow: 0 6px 20px var(--shadow-color);
+        backdrop-filter: blur(6px);
+    }
+
+        .training-plan-header img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+    .user-info {
+        margin-left: 1.5rem;
+    }
+
+        .user-info h2 {
+            margin: 0;
+            font-size: 2rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .user-info p {
+            margin: 0.3rem 0;
+        }
+
+    /* Main exercise grid & cards */
+    .exercise-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
+    }
+
+    .exercise-card {
+        background: var(--card-bg);
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 6px 16px var(--shadow-color);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        perspective: 1000px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .exercise-card::before {
+            content: "";
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(rgba(0, 123, 255, 0.15), transparent 70%);
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .exercise-card:hover::before {
+            opacity: 1;
+        }
+
+    .exercise-card-inner {
+        transform-style: preserve-3d;
+        transition: transform 0.6s;
+    }
+
+    .exercise-card:hover {
+        box-shadow: 0 10px 30px var(--shadow-color);
+        transform: translateY(-5px);
+    }
+
+        .exercise-card:hover .exercise-card-inner {
+            transform: rotateY(5deg) rotateX(2deg);
+        }
+
+    .exercise-header {
+        border-bottom: 2px solid var(--accent);
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .exercise-name {
+        color: var(--accent);
+        font-size: 1.5rem;
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .exercise-detail {
+        display: flex;
+        justify-content: space-between;
+        margin: 0.5rem 0;
+        padding: 0.5rem;
+        background: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        font-size: 0.95rem;
+    }
+
+    .user-feedback {
+        background: rgba(0,123,255,0.08);
+        border-left: 4px solid var(--accent);
+        padding: 1rem;
+        margin-top: 1rem;
+        border-radius: 8px;
+        font-size: 0.95rem;
+    }
+
+    .exercise-image {
+        width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    /* Бутон за редактиране */
+    .edit-button {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.6rem 1.2rem;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background 0.3s ease, transform 0.2s;
+        margin-right: 0.5rem;
+        font-weight: 600;
+    }
+
+        .edit-button:hover {
+            background: #005dc1;
+            transform: scale(1.03);
+        }
+
+    /* Панел за редакция */
+    #edit-panel {
+        display: none;
+        margin-top: 2rem;
+        padding: 1rem 1.5rem;
+        background: var(--panel-bg);
+        border-radius: 15px;
+        box-shadow: 0 6px 20px var(--shadow-color);
+        backdrop-filter: blur(6px);
+        position: relative;
+    }
+
+        #edit-panel .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+            #edit-panel .panel-header h4 {
+                margin: 0;
+                font-size: 1.4rem;
+                color: var(--accent);
+                font-weight: 600;
+            }
+
+    /* Toggle бутон за панела */
+    .toggle-panel-button {
+        background: transparent;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        color: var(--accent);
+    }
+
+        .toggle-panel-button:hover {
+            color: #005dc1;
+        }
+
+        .toggle-panel-button.open {
+            transform: rotate(180deg);
+        }
+
+    /* Съдържание на панела */
+    #edit-panel .panel-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    /* Карти за наличните упражнения */
+    .available-exercise-card {
+        background: linear-gradient(145deg, #ffffff, #f0f0f0);
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+    }
+
+        .available-exercise-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .available-exercise-card.selected {
+            background: linear-gradient(145deg, #e0f0ff, #cce0ff);
+        }
+
+        .available-exercise-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+    .available-exercise-info {
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+
+        .available-exercise-info strong {
+            display: block;
+            margin-bottom: 0.3rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+    /* Видео бутон за упражнения */
+    .video-button-panel {
+        display: inline-block;
+        padding: 0.3rem 0.6rem;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background 0.3s ease, transform 0.2s;
+        margin-top: 0.3rem;
+        font-weight: 600;
+    }
+
+        .video-button-panel:hover {
+            background: #005dc1;
+            transform: scale(1.05);
+        }
+
+    /* Стилове за чекбокса */
+    .available-exercise-card input.exercise-checkbox {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        transform: scale(1.2);
+        cursor: pointer;
+    }
+
+    /* Panel actions */
+    .panel-actions {
+        margin-top: 1rem;
+        text-align: right;
+    }
+
+    .swap-exercise-button,
+    .add-exercise-button {
+        margin-top: 1rem;
+        padding: 0.6rem 1rem;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background 0.3s ease, transform 0.2s;
+        margin-right: 0.5rem;
+        font-weight: 600;
+    }
+
+        .swap-exercise-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .swap-exercise-button:hover:not(:disabled),
+        .add-exercise-button:hover {
+            background: #005dc1;
+            transform: scale(1.05);
+        }
+
+    /* Back button */
+    .back-button-container {
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .back-button {
+        display: inline-block;
+        padding: 0.6rem 1.2rem;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: background 0.3s ease, transform 0.2s;
+        font-weight: 600;
+    }
+
+        .back-button:hover {
+            background: #005dc1;
+            transform: scale(1.05);
+        }
+
+    /* No feedback message */
+    .no-feedback-message {
+        text-align: center;
+        font-size: 1.2rem;
+        color: #555;
+        margin-top: 2rem;
+    }
+</style>
+
+<div class="training-plan-header">
+    @if (Model.UserProfilePicture.StartsWith("http") || Model.UserProfilePicture.StartsWith("/img"))
+    {
+        <img src="@Model.UserProfilePicture" class="existing-image animate__animated animate__fadeIn" alt="@Model.UserProfilePicture">
+    }
+    else
+    {
+        <img src="data:image/jpeg;base64,@Model.UserProfilePicture" class="existing-image animate__animated animate__fadeIn" alt="@Model.UserProfilePicture">
+    }
+    <div class="user-info">
+        <h2>@Model.Name</h2>
+        <p>От: @Model.FirstName @Model.LastName (@Model.UserEmail)</p>
+        <p>@Model.Description</p>
+    </div>
+</div>
+
+@if (hasFeedback)
+{
+    <div class="exercise-grid">
+        @foreach (var dailyDietPlan in Model.DailyDietPlans)
+        {
+            foreach (var meal in dailyDietPlan.Meals)
+            {
+                if (!string.IsNullOrEmpty(meal.Feedback))
+                {
+                    <div class="exercise-card" data-workoutid="@dailyDietPlan.Id" data-exerciseid="@meal.Id">
+                        <div class="exercise-card-inner">
+                            <div class="exercise-header">
+                                <h3 class="exercise-name">@meal.Name</h3>
+                                <div class="exercise-detail">
+                                    <span>Дневен хранителен режим:</span>
+                                    <span>@dailyDietPlan.Title</span>
+                                </div>
+                                <div class="exercise-detail">
+                                    <span>Калории:</span>
+                                    <span>@meal.Calories</span>
+                                </div>
+                                <div class="exercise-detail">
+                                    <span>Тип хранене:</span>
+                                    <span>@meal.MealTime</span>
+                                </div>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(meal.ImageUrl))
+                            {
+                                <img class="exercise-image" src="@meal.ImageUrl" alt="@meal.Name" />
+                            }
+
+                            @if (!string.IsNullOrEmpty(meal.Recipe))
+                            {
+                                <p>@meal.Recipe</p>
+                           @*      <div class="description-wrapper">
+                                    <div class="description-text">@meal.Recipe</div>
+                                    <button class="expand-button" onclick="toggleDescription(this)">
+                                        <i class="fas fa-chevron-down text-muted"></i>
+                                    </button>
+                                </div> *@
+                            }
+
+                            <div class="user-feedback">
+                                <strong>Отзив на потребителя:</strong>
+                                <p>@meal.Feedback</p>
+                            </div>
+
+                            <button class="edit-button" data-musclegroup="@meal.MealTime">Редактирай</button>
+                        </div>
+                    </div>
+                }
+            }
+        }
+    </div>
+}
+else
+{
+    <div class="no-feedback-message">
+        <p>Редактира ли сте всички упражнения?</p>
+    </div>
+}
+
+<div class="back-button-container">
+    <a href="@Url.Action("AllRejectedDiet", "Diet", new { area = "Dietitian" })" class="back-button">Назад към всички отказани хранителни режими</a>
+</div>
+
+<div id="edit-panel">
+    <div class="panel-header">
+        <h4>Избери упражнения за <span id="panel-muscle-group"></span></h4>
+        <button id="close-panel-button" class="toggle-panel-button">&#9660;</button>
+    </div>
+    <div id="panel-content" class="panel-content"></div>
+    <div class="panel-actions">
+        <button id="swap-exercise-button" class="swap-exercise-button" disabled>Смени упражнението</button>
+        <button id="add-exercise-button" class="add-exercise-button">Добави упражнение</button>
+    </div>
+</div>
+
+<script>
+    var availableExercises = @Html.Raw(availableExercisesJson);
+
+    // Глобални променливи за запомняне на избраната тренировка и упражнение
+    var currentWorkoutId = null;
+    var currentExerciseId = null;
+
+    // Функция за създаване на карта за упражнение в панела
+    function createExerciseCard(exercise) {
+        var card = document.createElement('div');
+        card.className = 'available-exercise-card';
+        card.dataset.id = exercise.Id;
+
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'exercise-checkbox';
+        checkbox.value = exercise.Id;
+
+        if (exercise.ImageUrl && exercise.ImageUrl.trim() !== '') {
+            var img = document.createElement('img');
+            img.src = exercise.ImageUrl;
+            img.alt = exercise.Name;
+            card.appendChild(img);
+        }
+
+        var infoDiv = document.createElement('div');
+        infoDiv.className = 'available-exercise-info';
+        var nameElem = document.createElement('strong');
+        nameElem.textContent = exercise.Name;
+        var seriesElem = document.createElement('span');
+        seriesElem.textContent = 'Серии: ' + exercise.Series;
+        var repsElem = document.createElement('span');
+        repsElem.textContent = 'Повторения: ' + exercise.Repetitions;
+        infoDiv.appendChild(nameElem);
+        infoDiv.appendChild(seriesElem);
+        infoDiv.appendChild(repsElem);
+        card.appendChild(infoDiv);
+
+        if (exercise.VideoUrl && exercise.VideoUrl.trim() !== '') {
+            var videoBtn = document.createElement('button');
+            videoBtn.className = 'video-button-panel';
+            videoBtn.textContent = 'Видео';
+            videoBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                window.open(exercise.VideoUrl, '_blank');
+            });
+            card.appendChild(videoBtn);
+        }
+
+        card.appendChild(checkbox);
+
+        card.addEventListener('click', function (e) {
+            if (e.target.tagName.toLowerCase() !== 'input' && !e.target.classList.contains('video-button-panel')) {
+                checkbox.checked = !checkbox.checked;
+            }
+            card.classList.toggle('selected', checkbox.checked);
+            updateSwapButtonState();
+        });
+
+        checkbox.addEventListener('change', function () {
+            card.classList.toggle('selected', checkbox.checked);
+            updateSwapButtonState();
+        });
+
+        return card;
+    }
+
+    function updateSwapButtonState() {
+        var panel = document.getElementById('edit-panel');
+        var checkboxes = panel.querySelectorAll('.exercise-checkbox');
+        var anyChecked = Array.from(checkboxes).some(chk => chk.checked);
+        document.getElementById('swap-exercise-button').disabled = !anyChecked;
+    }
+
+    // Когато потребителят кликне "Редактирай", запомняме към коя карта се отнася
+    var editButtons = document.querySelectorAll('.edit-button');
+    editButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            // Запаметяваме workoutId и exerciseId от родителската карта на бутона
+            var exerciseCard = button.closest('.exercise-card');
+            currentWorkoutId = exerciseCard.dataset.workoutid;
+            currentExerciseId = exerciseCard.dataset.exerciseid;
+
+            var muscleGroup = button.getAttribute('data-musclegroup');
+            document.getElementById('panel-muscle-group').textContent = muscleGroup;
+            var filtered = availableExercises.filter(function (ex) {
+                return ex.MuscleGroup === muscleGroup;
+            });
+            var panelContent = document.getElementById('panel-content');
+            panelContent.innerHTML = '';
+
+            filtered.forEach(function (ex) {
+                var card = createExerciseCard(ex);
+                panelContent.appendChild(card);
+            });
+            var panelEl = document.getElementById('edit-panel');
+            panelEl.style.display = 'block';
+            panelEl.scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('close-panel-button').classList.add('open');
+        });
+    });
+
+    document.getElementById('close-panel-button').addEventListener('click', function () {
+        var panelEl = document.getElementById('edit-panel');
+        panelEl.style.display = 'none';
+        document.getElementById('close-panel-button').classList.remove('open');
+    });
+
+    document.getElementById('swap-exercise-button').addEventListener('click', function () {
+        var selectedExercise = document.querySelector('.exercise-checkbox:checked');
+        if (!selectedExercise) {
+            alert("Моля, изберете упражнение за замяна.");
+            return;
+        }
+        var newExerciseId = selectedExercise.value; // ID на избраното ново упражнение
+
+        // Използваме запаметените currentWorkoutId и currentExerciseId
+        fetch('/Trainer/ExerciseTrainer/SwapExerciseInWorkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+                trainingPlanId: @Model.Id,
+                workoutId: currentWorkoutId,
+                exerciseId: currentExerciseId,
+                newExerciseId: newExerciseId
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Грешка при смяната на упражнението.");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert("Упражнението беше успешно заменено!");
+                    location.reload();
+                } else {
+                    alert("Възникна грешка: " + data.message);
+                }
+            })
+            .catch(error => console.error("Грешка:", error));
+    });
+
+    document.getElementById('add-exercise-button').addEventListener('click', function () {
+        var exerciseId = @Model.Id; // ID-то от модела
+        window.location.href = `/Trainer/ExerciseTrainer/AddFromRejectedPlan?id=${exerciseId}`;
+    });
+</script>

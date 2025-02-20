@@ -1,8 +1,12 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.DailyDietPlan;
 using AIFitnessProject.Core.Models.Diet;
+using AIFitnessProject.Core.Models.Exercise;
+using AIFitnessProject.Core.Models.ExerciseFeedback;
 using AIFitnessProject.Core.Models.Meal;
+using AIFitnessProject.Core.Models.MealFeedback;
 using AIFitnessProject.Core.Models.TrainingPlan;
+using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -283,6 +287,80 @@ namespace AIFitnessProject.Core.Services
                 .ToListAsync();
 
             return models;
+        }
+
+        public async Task<RejectedDietDetails> GetRejectedDietAsync(int id, string userId)
+        {
+
+            var dietitian = await repository.All<Dietitian>()
+                                           .Where(x => x.UserId == userId)
+                                           .FirstOrDefaultAsync();
+
+            var diet = await repository.AllAsReadOnly<Diet>()
+                .Where(x => x.CreatedById == dietitian.Id)
+                .Where(x => x.IsActive == false)
+                .Include(tp => tp.DietDailyDietPlans)
+                    .ThenInclude(tpw => tpw.DailyDietPlan)
+                        .ThenInclude(w => w.MealsDailyDietPlans)
+                            .ThenInclude(we => we.Meal)
+                .Include(tp => tp.MealFeedbacks)
+                    .ThenInclude(ef => ef.Meal)
+                .Include(x => x.User)
+                .FirstOrDefaultAsync(tp => tp.Id == id);
+
+            var viewModel = new RejectedDietDetails
+            {
+                Id = id,
+                Name = diet.Name,
+                FirstName = diet.User.FirstName,
+                LastName = diet.User.LastName,
+                UserEmail = diet.User.Email,
+                UserProfilePicture = diet.User.ProfilePicture,
+                Description = diet.Description,
+                DailyDietPlans = diet.DietDailyDietPlans.Where(x => x.DietId == diet.Id).Select(tpw => new DailyDietPlanViewModelForRejectedDiet
+                {
+                    Id = tpw.DailyDietPlanId,
+                    Title = tpw.DailyDietPlan.Title,
+                    ImageUrl = tpw.DailyDietPlan.ImageUrl,
+                    DayOfWeek = tpw.DailyDietPlan.DayOfWeel,
+                    DifficultyLevel = tpw.DailyDietPlan.DificultyLevel,
+                    Meals = tpw.DailyDietPlan.MealsDailyDietPlans.Select(we =>
+                    {
+                        var feedback = diet.MealFeedbacks
+                                        .FirstOrDefault(ef => ef.MealId == we.MealId);
+
+                        return new MealFeedbackViewModel
+                        {
+                            Id = we.MealId,
+                            Name = we.Meal.Name,
+                            Recipe = we.Meal.Recipe,
+                            ImageUrl = we.Meal.ImageUrl,
+                            MealTime = we.Meal.MealTime,
+                            VideoUrl = we.Meal.VideoUrl,
+                            Calories = we.Meal.Calories,
+                            Feedback = feedback?.Feedback ?? string.Empty,
+                        };
+                    }).ToList()
+                }).ToList()
+            };
+
+            var availableMeal = await repository.AllAsReadOnly<Meal>()
+                .Select(e => new MealViewModel
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    Recipe = e.Recipe,
+                    ImageUrl = e.ImageUrl,
+                    VideoUrl = e.VideoUrl,
+                    MealTime = e.MealTime,
+                    Calories = e.Calories,
+                    DificultyLevel = e.DificultyLevel
+                })
+                .ToListAsync();
+
+            viewModel.AvailableMeals = availableMeal;
+
+            return viewModel;
         }
 
         public async Task SendEditDietAsync(int id, string userId)

@@ -1,4 +1,5 @@
 ﻿using AIFitnessProject.Core.Models.Diet;
+using AIFitnessProject.Core.Models.TrainingPlan;
 using AIFitnessProject.Infrastructure.Data.Models;
 
 namespace AIFitnessProject.Core.Contracts
@@ -19,5 +20,6 @@ namespace AIFitnessProject.Core.Contracts
         Task<bool> UserHasDietAsync(int id ,string userId);
         Task SendEditDietAsync(int id, string userId);
         Task<ICollection<RejectedDietViewModel>> GetModelsForAllRejectedDietAsync(string userId);
+        Task<RejectedDietDetails> GetRejectedDietAsync(int id, string userId);
     }
 }
