@@ -15,7 +15,7 @@
         /* Основна цветова схема */
         --main-bg: linear-gradient(120deg, #f5f7fa, #c3cfe2);
         --card-bg: #ffffff;
-        --accent: #007bff;
+        --accent: #3CB371;
         --text: #343a40;
         /* Допълнителни за ефекти */
         --shadow-color: rgba(0, 0, 0, 0.2);
@@ -25,8 +25,6 @@
     body {
         background: var(--main-bg);
         color: var(--text);
-        font-family: 'Open Sans', sans-serif;
-        padding: 2rem;
         margin: 0;
     }
 
@@ -175,7 +173,8 @@
     }
 
         .edit-button:hover {
-            background: #005dc1;
+            background: #3CB371;
+            color: black;
             transform: scale(1.03);
         }
 
@@ -357,7 +356,8 @@
     }
 
         .back-button:hover {
-            background: #005dc1;
+            background: #3CB371;
+            color : black;
             transform: scale(1.05);
         }
 
@@ -367,6 +367,42 @@
         font-size: 1.2rem;
         color: #555;
         margin-top: 2rem;
+    }
+
+    .description-wrapper {
+        position: relative;
+        margin: 1.5rem 0;
+        padding-right: 30px;
+    }
+
+    .description-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        line-height: 1.6;
+        color: #495057;
+    }
+
+    .expand-button {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        transition: transform 0.3s ease;
+    }
+
+        .expand-button:hover {
+            transform: translateY(2px);
+        }
+
+    .expanded {
+        -webkit-line-clamp: unset;
+        overflow: visible;
     }
 </style>
 
@@ -420,13 +456,13 @@
 
                             @if (!string.IsNullOrEmpty(meal.Recipe))
                             {
-                                <p>@meal.Recipe</p>
-                           @*      <div class="description-wrapper">
+                              @*   <p>@meal.Recipe</p> *@
+                                <div class="description-wrapper">
                                     <div class="description-text">@meal.Recipe</div>
                                     <button class="expand-button" onclick="toggleDescription(this)">
                                         <i class="fas fa-chevron-down text-muted"></i>
                                     </button>
-                                </div> *@
+                                </div>
                             }
 
                             <div class="user-feedback">
@@ -466,6 +502,23 @@ else
 </div>
 
 <script>
+
+    function toggleDescription(button) {
+        const wrapper = button.closest('.description-wrapper');
+        const text = wrapper.querySelector('.description-text');
+        const icon = button.querySelector('i');
+
+        text.classList.toggle('expanded');
+        icon.classList.toggle('fa-chevron-down');
+        icon.classList.toggle('fa-chevron-up');
+
+        if (text.classList.contains('expanded')) {
+            const card = wrapper.closest('.exercise-grid');
+            const cardTop = card.getBoundingClientRect().top;
+            const offset = window.pageYOffset + cardTop - 20;
+            window.scrollTo({ top: offset, behavior: 'smooth' });
+        }
+    }
     var availableExercises = @Html.Raw(availableExercisesJson);
 
     // Глобални променливи за запомняне на избраната тренировка и упражнение
