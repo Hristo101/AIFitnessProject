@@ -2,6 +2,7 @@
 using AIFitnessProject.Core.Models.DailyDietPlan;
 using AIFitnessProject.Core.Models.Diet;
 using AIFitnessProject.Core.Models.Meal;
+using AIFitnessProject.Core.Models.TrainingPlan;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -257,6 +258,31 @@ namespace AIFitnessProject.Core.Services
                .FirstAsync();
 
             return diet;
+        }
+
+        public async Task<ICollection<RejectedDietViewModel>> GetModelsForAllRejectedDietAsync(string userId)
+        {
+            var dietitian = await repository.All<Dietitian>().Where(x => x.UserId == userId).FirstAsync();
+
+            var models = await repository.AllAsReadOnly<Diet>()
+                .Include(x => x.User)
+                .Where(x => x.Dietitian.Id == dietitian.Id)
+                .Where(x => x.IsActive == false)
+                .Include(x => x.User)
+                .Select(x => new RejectedDietViewModel()
+                {
+                    DietId = x.Id,
+                    DietDescription = x.Description,
+                    Email = x.User.Email,
+                    UserFirstName = x.User.FirstName,
+                    UserLastName = x.User.LastName,
+                    DietImageUrl = x.ImageUrl,
+                    UserImageUrl = x.User.ProfilePicture,
+                    DietTitle = x.Name
+                })
+                .ToListAsync();
+
+            return models;
         }
 
         public async Task SendEditDietAsync(int id, string userId)

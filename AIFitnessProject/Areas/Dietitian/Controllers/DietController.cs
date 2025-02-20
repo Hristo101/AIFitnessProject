@@ -66,13 +66,7 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             await dietService.SendToUserAsync(id);
             return RedirectToAction(nameof(All));
         }
-        //[HttpGet]
-        //public async Task<IActionResult> DetailsFromMeal(int id)
-        //{
-        //    var model = await trainingPlanService.GetTrainingPlanModelsForDetailsFromExercise(id);
-
-        //    return View(model);
-        //}
+  
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -98,6 +92,14 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             await dietService.EditAsync(id, model);
 
             return RedirectToAction(nameof(Details), new { id = model.Id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AllRejectedDiet()
+        {
+            var models = await dietService.GetModelsForAllRejectedDietAsync(GetUserId());
+
+            return View(models);
         }
 
         private string GetUserId()

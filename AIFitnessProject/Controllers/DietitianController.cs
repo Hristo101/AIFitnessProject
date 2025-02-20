@@ -42,10 +42,6 @@ namespace AIFitnessProject.Controllers
            
         }
 
-        //public async Task<IActionResult> SignUp()
-        //{
-
-        //}
     }
 }
 
