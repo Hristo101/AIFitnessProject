@@ -254,6 +254,7 @@ namespace AIFitnessProject.Core.Services
                 .FirstAsync();
 
             trainingPlan.IsActive = true;
+            trainingPlan.IsEdit = false;
             await repository.SaveChangesAsync();
         }
 
@@ -261,6 +262,7 @@ namespace AIFitnessProject.Core.Services
         {
         var model = await repository.AllAsReadOnly<TrainingPlan>()
                 .Where(x =>x.IsActive == true)
+                .Where(x =>x.IsEdit == false)
                  .Where(x => x.UserId == userId)
                  .Select(x => new AllTrainingPlanViewModel()
                  {
@@ -295,6 +297,7 @@ namespace AIFitnessProject.Core.Services
                 Name = trainingPlan.Name,
                 Description = trainingPlan.Description,
                 ImageUrl = trainingPlan.ImageUrl,
+                isInCalendar = trainingPlan.IsInCalendar,
                 Workouts = trainingPlan.TrainingPlanWorkouts.Select(tpWorkout => new WorkoutViewModel
                 {
                     Title = tpWorkout.Workout.Title,
@@ -326,6 +329,7 @@ namespace AIFitnessProject.Core.Services
                 .FirstAsync();
 
             trainingPlan.IsActive = false;
+            trainingPlan.IsEdit = true;
             await repository.SaveChangesAsync();
         }
 
@@ -361,6 +365,7 @@ namespace AIFitnessProject.Core.Services
             var trainingPlan = await repository.AllAsReadOnly<TrainingPlan>()
                 .Where(x => x.CreatedById == trainer.Id)
                 .Where(x => x.IsActive == false)
+                .Where(x =>x.IsEdit == true)
                 .Include(tp => tp.TrainingPlanWorkouts)
                     .ThenInclude(tpw => tpw.Workout)
                         .ThenInclude(w => w.WorkoutsExercises)

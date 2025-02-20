@@ -36,6 +36,8 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public Trainer Trainer { get; set; } = null!;
 
         public bool IsActive { get; set; } = false;
+        public bool IsEdit { get; set; } = false;
+        public bool IsInCalendar { get; set; } = false;
 
         public ICollection<PlanAssignment> PlanAssignments { get; set; } = new List<PlanAssignment>();
         public ICollection<TrainingPlanWorkout> TrainingPlanWorkouts { get; set; } = new List<TrainingPlanWorkout>();
