@@ -15,6 +15,7 @@ namespace AIFitnessProject.Core.Contracts
         Task<ICollection<RejectedTrainingPlanViewModel>> GetModelsForAllTrainingPlanAsync(string userId);
         Task<TrainingPlanDetailsViewModel> GetTrainingPlanModelsForDetailsFromExercise(int exerciseId);
         Task<SendTrainingPlanViewModel> GetTrainingPlanModelForSendView(int id);
+        Task AcceptTrainingPlanAsync(int id, string UserId);
         Task<AllTrainingPlanViewModel> GetAllTrainingPlanForUserAsync(string userId);
         Task<EditTrainingPlanViewModel> GetTrainingPlanForEditAsync(int id);
         Task<RejectedTrainingPlanDetails> GetRejectedTrainingPlanAsync(int id,string userId);

@@ -50,6 +50,13 @@ namespace AIFitnessProject.Controllers
             await trainingPlanService.SendEditTrainingPlanAsync(id,GetUserId());
             return RedirectToAction("AllMyTrainingPlans");
         }
+        public async Task<IActionResult> AcceptPlan(int id)
+        {
+            await trainingPlanService.AcceptTrainingPlanAsync(id,GetUserId());
+
+            return RedirectToAction("AllMyTrainingPlans");
+        }
+
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);

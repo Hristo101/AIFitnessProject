@@ -296,6 +296,7 @@ namespace AIFitnessProject.Core.Services
                 Id = trainingPlan.Id,
                 Name = trainingPlan.Name,
                 Description = trainingPlan.Description,
+                UserId = trainingPlan.UserId,
                 ImageUrl = trainingPlan.ImageUrl,
                 isInCalendar = trainingPlan.IsInCalendar,
                 Workouts = trainingPlan.TrainingPlanWorkouts.Select(tpWorkout => new WorkoutViewModel
@@ -430,6 +431,29 @@ namespace AIFitnessProject.Core.Services
             viewModel.AvailableExercises = availableExercises;
 
             return viewModel;
+        }
+
+        public async Task AcceptTrainingPlanAsync(int id,string UserId)
+        {
+            var trainingPlan = await repository.All<TrainingPlan>()
+               .Where(x => x.Id == id)
+               .Where(x => x.UserId == UserId)
+               .Include(x =>x.Trainer)
+               .Include(x =>x.User)
+               .FirstOrDefaultAsync();
+
+            trainingPlan.IsInCalendar = true;
+            await repository.SaveChangesAsync();
+
+
+            Calendar calendar = new Calendar()
+            {
+                TrainerId = trainingPlan.CreatedById,
+                UserId = trainingPlan.UserId,
+            };
+
+            await repository.AddAsync(calendar);
+            await repository.SaveChangesAsync();
         }
     }
 

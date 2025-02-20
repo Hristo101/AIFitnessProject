@@ -19,6 +19,18 @@ namespace AIFitnessProject.Infrastructure.Data
             //builder.Entity<RequestsToCoach>
             //    ().HasKey(x => new { x.TrainerId, x.UserId });
 
+            builder.Entity<CalendarWorkout>()
+                .HasKey(x => new { x.CalendarId, x.WorkoutId });
+
+            builder.Entity<CalendarWorkout>()
+            .HasOne(x => x.Workout)
+            .WithMany(x => x.CalendarWorkouts)
+            .HasForeignKey(x => x.WorkoutId);
+
+            builder.Entity<CalendarWorkout>()
+        .HasOne(x => x.Calendar)
+        .WithMany(x => x.CalendarWorkouts)
+        .HasForeignKey(x => x.CalendarId);
 
             builder.Entity<ExerciseFeedback>()
          .HasOne(x => x.TrainingPlan)
@@ -137,6 +149,7 @@ namespace AIFitnessProject.Infrastructure.Data
             public DbSet<DailyDietPlan> DailyDietPlans { get; set; }
             public DbSet<RequestsToCoach> RequestsToCoaches { get; set; }
             public DbSet<TrainingPlanWorkout> TrainingPlanWorkouts { get; set; }
+            public DbSet<TrainingPlan> TrainingPlans { get; set; }
             public DbSet<MealsDailyDietPlan> MealsDailyDietPlans { get; set; }
             public DbSet<WorkoutsExercise> WorkoutsExercises { get; set; }
             public DbSet<RequestToDietitian> RequestToDietitians { get; set; }
@@ -153,7 +166,7 @@ namespace AIFitnessProject.Infrastructure.Data
             public DbSet<Document> Documents { get; set; }
             public DbSet<DietDailyDietPlan> DietDailyDietPlans { get; set; }
             public DbSet<MealFeedback> MealFeedbacks { get; set; }
-
+            public DbSet<CalendarWorkout> CalendarWorkouts { get; set; }
 
     }
 }
