@@ -1,0 +1,761 @@
+﻿@using AIFitnessProject.Core.Models.Diet
+@model DietDetailsViewModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@{
+    ViewData["Title"] = Model.Name;
+    var requestToken = Xsrf.GetAndStoreTokens(Context).RequestToken;
+}
+
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.Name - AI Fitness</title>
+
+    <!-- Стилове и ресурси -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #28b765;
+            --secondary-color: #2ecc71;
+            --accent-color: #f59e0b;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --glass-effect: rgba(255, 255, 255, 0.95);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+
+        .fw-bold {
+            color: #3CB371;
+            font-weight: 700 !important;
+        }
+
+        .mb-5 {
+            margin-bottom: 3rem !important;
+            color: black;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .training-image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        #particles-below,
+        #particles-above {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        #particles-below {
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .plan-image {
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            transition: transform 0.3s ease;
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border: 3px solid #fff;
+            position: relative;
+            z-index: 2;
+        }
+
+        #particles-above {
+            top: 0;
+            left: 0;
+            z-index: 3;
+        }
+
+        .workout-card {
+            background: var(--glass-effect);
+            backdrop-filter: blur(16px);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .exercise-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+            .exercise-card:hover {
+                transform: translateY(-5px) scale(1.02);
+                box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+                border-color: var(--primary-color);
+            }
+
+        .difficulty-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
+            .difficulty-badge.lesen {
+                background: #d1fae5;
+                color: #065f46;
+            }
+
+            .difficulty-badge.sreden {
+                background: #fef3c7;
+                color: #92400e;
+            }
+
+            .difficulty-badge.truden {
+                background: #fee2e2;
+                color: #b91c1c;
+            }
+
+        .hover-zoom {
+            overflow: hidden;
+            border-radius: 0.75rem;
+        }
+
+            .hover-zoom img {
+                transition: transform 0.4s ease;
+            }
+
+            .hover-zoom:hover img {
+                transform: scale(1.05);
+            }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-badge {
+            background-color: #ffedcc;
+            color: #d97706;
+            font-weight: bold;
+            border: 1px solid #d97706;
+        }
+
+        .comment-section {
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+        }
+
+            .comment-section.active {
+                display: block !important;
+                opacity: 1 !important;
+                height: auto !important;
+                margin-top: 15px;
+                padding: 15px;
+                background: rgba(255, 255, 255, 0.9);
+                border-radius: 8px;
+            }
+
+        .disagree-text {
+            font-size: 0.9em;
+            color: #ff4444;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .submit-comment-btn {
+            margin-top: 15px;
+            background: linear-gradient(135deg, #ff6b6b, #ff4444);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .submit-comment-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            }
+
+        .container.input-container {
+            position: relative;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+            .container.input-container .inp {
+                width: 100%;
+                padding: 10px;
+                border: 1.5px solid rgba(0, 167, 161, 0.272);
+                outline: none;
+                margin-top: 20px;
+                border-radius: 5px;
+                color: white;
+                background: rgba(41, 41, 41);
+                font-size: 1em;
+            }
+
+            .container.input-container .content {
+                position: absolute;
+                left: 0;
+                margin-top: 20px;
+                padding: 10px;
+                text-transform: uppercase;
+                font-size: 1em;
+                pointer-events: none;
+                color: rgba(0, 167, 161, 0.272);
+                transition: 0.5s;
+            }
+
+            .container.input-container input:valid ~ span,
+            .container.input-container input:focus ~ span {
+                color: rgb(10, 164, 159);
+                transform: translateX(10px) translateY(-7px);
+                font-size: 0.9em;
+                padding: 0 10px;
+                background: rgb(41, 41, 41);
+                border-left: 2px solid rgba(0, 167, 161, 0.272);
+                border-right: 2px solid rgba(0, 167, 161, 0.272);
+            }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+            gap: 15px;
+        }
+
+        /* Стилове за бутоните редактиране/изтриване */
+        #posted-comment-section {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            align-items: center;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 8px 20px;
+            border-radius: 8px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn-edit {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+        }
+
+        .btn-edit svg, .btn-delete svg {
+            width: 18px;
+            height: 18px;
+            margin-right: 6px;
+        }
+
+        /* Стилове за анимации */
+        @@keyframes buttonHover {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-2px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .button-3d {
+            -webkit-appearance: none;
+            appearance: none;
+            position: relative;
+            border-width: 0;
+            padding: 0 8px;
+            min-width: 4em;
+            min-height: 4em;
+            box-sizing: border-box;
+            background: transparent;
+            font: inherit;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 20px;
+        }
+
+        .button-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            padding: 8px 16px;
+            transform: translateY(0);
+            color: #fff;
+            background-image: linear-gradient(145deg, #2ecc71, #28b765);
+            text-shadow: 0 -1px rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+            transition: transform 0.3s, border-radius 0.3s, background 10s;
+        }
+
+        .button-3d:active .button-top {
+            border-radius: 10px 10px 8px 8px / 8px;
+            transform: translateY(2px);
+            background-image: linear-gradient(145deg, #28b765, #2ecc71);
+        }
+
+        .button-bottom {
+            position: absolute;
+            z-index: 1;
+            bottom: 4px;
+            left: 4px;
+            border-radius: 20px;
+            padding-top: 6px;
+            width: calc(100% - 8px);
+            height: calc(100% - 10px);
+            background-image: linear-gradient(145deg, #28b765, #2ecc71);
+            box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
+            transition: border-radius 0.2s, padding-top 0.2s;
+        }
+
+        .button-base {
+            position: absolute;
+            z-index: 0;
+            top: 4px;
+            left: 0;
+            border-radius: 20px;
+            width: 100%;
+            height: calc(100% - 4px);
+            background-color: rgba(0, 0, 0, 0.15);
+            box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.35);
+            transition: transform 0.2s;
+        }
+
+        .day {
+            --bs-bg-opacity: 1;
+            background-color: #1e6b38 !important;
+        }
+
+        .alert-info {
+            --bs-alert-color: var(--bs-info-text-emphasis);
+            --bs-alert-bg: rgba(40, 167, 69, 0.1) !important;
+            --bs-alert-border-color: #28a745;
+            --bs-alert-link-color: var(--bs-info-text-emphasis);
+        }
+    </style>
+</head>
+<body>
+    <!-- Anti-Forgery Token -->
+    <input type="hidden" id="__RequestVerificationToken" name="__RequestVerificationToken" value="@requestToken">
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center text-white" data-aos="zoom-in">
+            <h1 class="display-3 fw-bold mb-4">@Model.Name</h1>
+            <p class="lead mb-5 opacity-90">@Model.Description</p>
+            <div class="training-image-container">
+                <div id="particles-below"></div>
+                <img src="@Model.ImageUrl" alt="Training Plan" class="plan-image img-fluid" data-aos="fade-up">
+                <div id="particles-above"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workouts Section -->
+    <div class="container py-6">
+        <div class="alert alert-info mb-5" role="alert">
+            🚨 Ако не сте съгласни с някое от храненията, моля маркирайте го и напишете вашите забележки в полето за коментар.
+        </div>
+        <div id="workouts-container" class="row g-4">
+            @foreach (var dailyDietPlan in Model.DailyDietPlans)
+            {
+                <div class="col-12 workout-card-container" data-aos="fade-up">
+                    <div class="workout-card p-5">
+                        <div class="d-flex justify-content-between align-items-center mb-5">
+                            <div>
+                                <h2 class="h1 fw-bold mb-2">@dailyDietPlan.Title</h2>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge day">@dailyDietPlan.DayOfWeek</span>
+                                    <span class="text-muted">@dailyDietPlan.Meals.Count хранения</span>
+                                </div>
+                            </div>
+
+                            @if (dailyDietPlan.ImageUrl.StartsWith("http") || dailyDietPlan.ImageUrl.StartsWith("/img"))
+                            {
+                                <img src="@dailyDietPlan.ImageUrl" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 10px rgba(0,0,0,0.2);" alt="@dailyDietPlan.Title">
+                            }
+                            else
+                            {
+                                <img src="data:image/jpeg;base64,@dailyDietPlan.ImageUrl" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 10px rgba(0,0,0,0.2);" alt="@dailyDietPlan.Title">
+                            }
+
+                        </div>
+
+                        <div class="row g-4">
+                            @foreach (var meal in dailyDietPlan.Meals)
+                            {
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="exercise-card">
+                                        <input type="checkbox" class="exercise-checkbox"
+                                               id="ex-check-@meal.Id"
+                                               onchange="toggleComment(@meal.Id)">
+
+                                        <div class="hover-zoom mb-3">
+
+                                            @if (meal.ImageUrl.StartsWith("http") || meal.ImageUrl.StartsWith("/img"))
+                                            {
+                                                <img src="@meal.ImageUrl" class="img-fluid" alt="@meal.Name">
+                                            }
+                                            else
+                                            {
+                                                <img src="data:image/jpeg;base64,@meal.ImageUrl" class="img-fluid" alt="@meal.Name">
+                                            }
+                                        </div>
+
+                                        <h5 class="fw-bold mb-2">@meal.Name</h5>
+                                        <p class="text-muted mb-3">@meal.MealTime</p>
+
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div>
+                                                <span class="badge highlight-badge me-2">
+                                                    <i class="fas fa-redo me-1"></i>@meal.Calories колории
+                                                </span>
+                                                <span class="badge highlight-badge me-2">@meal.DificultyLevel</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex gap-2">
+                                            <a href="@meal.VideoUrl" target="_blank" class="btn btn-gradient flex-grow-1">
+                                                <i class="fas fa-play me-2"></i>Видео
+                                            </a>
+                                            <a href="/Meal/Details/@meal.Id" class="btn btn-outline-dark flex-grow-1">
+                                                <i class="fas fa-info-circle me-2"></i>Детайли
+                                            </a>
+                                        </div>
+
+                                        <!-- Секция за коментари -->
+                                        <div class="comment-section" id="comment-section-@meal.Id">
+                                            <div class="container input-container">
+                                                <input required="required"
+                                                       class="inp"
+                                                       id="comment-@meal.Id"
+                                                       placeholder=" ">
+                                                <span class="content">Коментар</span>
+                                            </div>
+                                            <button class="submit-comment-btn"
+                                                    id="submit-btn-@meal.Id"
+                                                    onclick="submitComment(@meal.Id)">
+                                                <i class="fas fa-paper-plane me-2"></i>Изпрати забележка
+                                            </button>
+                                        </div>
+                                        <div class="disagree-text" id="disagree-text-@meal.Id">
+                                            ⚠️ Маркирахте, че не сте съгласни с това упражнение
+                                        </div>
+                                        <div id="posted-comment-section-@meal.Id" style="display: none; margin-top:10px;">
+                                            <div id="posted-comment-@meal.Id" style="font-weight: bold; margin-bottom: 10px;"></div>
+                                            <button class="btn-edit" onclick="editComment(@meal.Id)">
+                                                <div class="svg-wrapper">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                                        <path fill="none" d="M0 0h24v24H0z" />
+                                                        <path fill="currentColor" d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z" />
+                                                    </svg>
+                                                </div>
+                                                <span>Редактирай</span>
+                                            </button>
+
+                                            <button class="btn-delete" onclick="deleteComment(@meal.Id)">
+                                                <div class="svg-wrapper">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                                        <path fill="none" d="M0 0h24v24H0z" />
+                                                        <path fill="currentColor" d="M16 9v10H8V9h8zm-1 1H9v8h6V10zM18 4v2H6V4h2.5l1-2h5l1 2H18z" />
+                                                    </svg>
+                                                </div>
+                                                <span>Изтрий</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+
+
+
+        <!-- Pagination -->
+        <div class="button-container">
+            <button class="button-3d" id="prev-btn" disabled>
+                <div class="button-top">
+                    <span>❮</span>
+                </div>
+                <div class="button-bottom"></div>
+                <div class="button-base"></div>
+            </button>
+            <button class="button-3d" id="next-btn">
+                <div class="button-top">
+                    <span>❯</span>
+                </div>
+                <div class="button-bottom"></div>
+                <div class="button-base"></div>
+            </button>
+        </div>
+
+        <div class="text-center mt-6 d-flex justify-content-center gap-3" data-aos="fade-up">
+            <form method="post" asp-action="SendEditDiet" asp-controller="UserDiet">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn-gradient">
+                    <i class="fas fa-check-circle me-2"></i>Изпрати плана
+                </button>
+            </form>
+
+            <a asp-action="Details" asp-controller="UserDiet" asp-route-id="@Model.Id" class="btn btn-outline-dark px-4">
+                <i class="fas fa-times-circle me-2"></i>Отказ
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            easing: 'ease-out-quart'
+        });
+
+        // Пагинация
+        const workoutsPerPage = 1;
+        let currentPage = 1;
+        const workouts = document.querySelectorAll('.workout-card-container');
+        const totalPages = Math.ceil(workouts.length / workoutsPerPage);
+
+        function showPage(page) {
+            workouts.forEach((workout, index) => {
+                workout.style.display = (index >= (page - 1) * workoutsPerPage && index < page * workoutsPerPage) ? 'block' : 'none';
+            });
+            document.getElementById('prev-btn').disabled = page === 1;
+            document.getElementById('next-btn').disabled = page === totalPages;
+        }
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        });
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        });
+        showPage(currentPage);
+
+        // Particles инициализация
+        document.addEventListener("DOMContentLoaded", function () {
+            var particlesConfig = {
+                "particles": {
+                    "number": {
+                        "value": 30,
+                        "density": { "enable": true, "value_area": 800 }
+                    },
+                    "color": { "value": "#ffffff" },
+                    "opacity": { "value": 0.3 },
+                    "size": { "value": 3 },
+                    "line_linked": { "enable": false },
+                    "move": { "enable": true, "speed": 2 }
+                },
+                "interactivity": {
+                    "events": { "onhover": { "enable": false }, "onclick": { "enable": false } }
+                },
+                "retina_detect": true
+            };
+            particlesJS("particles-below", particlesConfig);
+            particlesJS("particles-above", particlesConfig);
+        });
+
+        // Функция за показване/скриване на коментарите
+        function toggleComment(mealId) {
+            const commentSection = document.getElementById(`comment-section-${mealId}`);
+            const disagreeText = document.getElementById(`disagree-text-${mealId}`);
+            const checkbox = document.getElementById(`ex-check-${mealId}`);
+
+            if (checkbox.checked) {
+                commentSection.classList.add('active');
+                disagreeText.style.display = 'block';
+            } else {
+                commentSection.classList.remove('active');
+                disagreeText.style.display = 'none';
+            }
+        }
+
+        let editingCommentId = null;
+        async function submitComment(mealId) {
+            const commentInput = document.getElementById(`comment-${mealId}`);
+            const comment = commentInput.value.trim();
+
+            if (!comment) {
+                alert('Моля въведете коментар преди изпращане!');
+                return;
+            }
+
+            const isEditing = editingCommentId !== null;
+            const url = isEditing ? '/MealFeedback/UpdateComment' : '/MealFeedback/SubmitComment';
+            const method = isEditing ? 'PUT' : 'POST';
+
+            const requestData = {
+                mealId: mealId,
+                dietId: @Model.Id,  // Трябва да го замениш със стойността на ID от модел
+                content: comment
+            };
+
+            if (isEditing) {
+                requestData.commentId = editingCommentId;
+            }
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('#__RequestVerificationToken').value
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) throw new Error(data.error || 'Неизвестна грешка');
+
+                if (data.success) {
+
+                    document.getElementById(`posted-comment-${mealId}`).textContent = comment;
+                    document.getElementById(`posted-comment-section-${mealId}`).style.display = 'block';
+
+                    commentInput.value = '';
+                    editingCommentId = null;
+
+                    document.getElementById(`comment-section-${mealId}`).classList.remove('active');
+                    document.getElementById(`disagree-text-${mealId}`).style.display = 'none';
+
+                    const submitBtn = document.getElementById(`submit-btn-${mealId}`);
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Изпрати забележка';
+                }
+            } catch (err) {
+                console.error('Fetch error:', err);
+                alert('Грешка при изпращане: ' + err.message);
+            }
+        }
+
+        async function editComment(mealId) {
+            const commentElement = document.getElementById(`posted-comment-${mealId}`);
+            editingCommentId = commentElement.dataset.commentId;
+
+            const submitBtn = document.getElementById(`submit-btn-${mealId}`);
+            submitBtn.innerHTML = '<i class="fas fa-edit me-2"></i>Запази промените';
+
+            // Показваме полето за редактиране
+            document.getElementById(`comment-${mealId}`).value = commentElement.textContent;
+            document.getElementById(`ex-check-${mealId}`).checked = true;
+            document.getElementById(`comment-section-${mealId}`).classList.add('active');
+            document.getElementById(`disagree-text-${mealId}`).style.display = 'block';
+            document.getElementById(`posted-comment-section-${mealId}`).style.display = 'none';
+
+            commentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Функция за изтриване на коментар
+        async function deleteComment(mealId) {
+            if (!confirm('Сигурни ли сте, че искате да изтриете коментара?')) return;
+
+            const commentId = document.getElementById(`posted-comment-${mealId}`).dataset.commentId;
+
+            try {
+                const response = await fetch('/MealFeedback/DeleteComment', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('#__RequestVerificationToken').value
+                    },
+                    body: JSON.stringify({
+                        mealId: mealId,
+                        dietId: @Model.Id  // Трябва да го замениш със стойността на ID от модел
+                                        })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) throw new Error(data.error || 'Неизвестна грешка');
+
+                if (data.success) {
+                    document.getElementById(`posted-comment-section-${mealId}`).style.display = 'none';
+                    document.getElementById(`ex-check-${mealId}`).checked = false;
+                    toggleComment(mealId);
+                }
+            } catch (err) {
+                console.error('Delete error:', err);
+                alert('Грешка при изтриване: ' + err.message);
+            }
+        }
+    </script>
+
+</body>
+</html>

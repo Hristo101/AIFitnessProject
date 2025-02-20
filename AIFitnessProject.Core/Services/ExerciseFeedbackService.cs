@@ -23,12 +23,7 @@ namespace AIFitnessProject.Core.Services
 
         public async Task AddExerciseFeedbackAsync(SubmitCommentRequest request)
         {
-            var trainingPlan = await repository.AllAsReadOnly<TrainingPlan>()
-                .Where(x =>x.Id == request.TrainingPlanId)
-                .Include(x =>x.Trainer)
-                .ThenInclude(x => x.User)
-                .FirstAsync();
-
+           
             ExerciseFeedback exerciseFeedback = new ExerciseFeedback()
             {
                 CreatedAt = DateTime.Now,

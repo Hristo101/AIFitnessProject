@@ -152,7 +152,7 @@ namespace AIFitnessProject.Infrastructure.Data
             public DbSet<Notification> Notifications { get; set; }
             public DbSet<Document> Documents { get; set; }
             public DbSet<DietDailyDietPlan> DietDailyDietPlans { get; set; }
-
+            public DbSet<MealFeedback> MealFeedbacks { get; set; }
 
 
     }

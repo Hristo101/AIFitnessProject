@@ -259,6 +259,17 @@ namespace AIFitnessProject.Core.Services
             return diet;
         }
 
+        public async Task SendEditDietAsync(int id, string userId)
+        {
+            var diet = await repository.All<Diet>()
+                .Where(x => x.Id == id)
+                .Where(x => x.UserId == userId)
+                .FirstAsync();
+
+            diet.IsActive = false;
+            await repository.SaveChangesAsync();
+        }
+
         public async Task SendToUserAsync(int id)
         {
             var diet = await repository.All<Diet>()
