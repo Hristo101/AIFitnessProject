@@ -36,7 +36,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public double Weight { get; set; }
 
         [Required]
-        [MaxLength(200)]
+        [MaxLength(2200)]
         [Comment("ApplicationUser Aim")]
         public string Aim { get; set; } = string.Empty;
 

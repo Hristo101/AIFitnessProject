@@ -254,6 +254,7 @@ namespace AIFitnessProject.Core.Services
                 .FirstAsync();
 
             trainingPlan.IsActive = true;
+            trainingPlan.IsEdit = false;
             await repository.SaveChangesAsync();
         }
 
@@ -261,6 +262,7 @@ namespace AIFitnessProject.Core.Services
         {
         var model = await repository.AllAsReadOnly<TrainingPlan>()
                 .Where(x =>x.IsActive == true)
+                .Where(x =>x.IsEdit == false)
                  .Where(x => x.UserId == userId)
                  .Select(x => new AllTrainingPlanViewModel()
                  {
@@ -294,7 +296,9 @@ namespace AIFitnessProject.Core.Services
                 Id = trainingPlan.Id,
                 Name = trainingPlan.Name,
                 Description = trainingPlan.Description,
+                UserId = trainingPlan.UserId,
                 ImageUrl = trainingPlan.ImageUrl,
+                isInCalendar = trainingPlan.IsInCalendar,
                 Workouts = trainingPlan.TrainingPlanWorkouts.Select(tpWorkout => new WorkoutViewModel
                 {
                     Title = tpWorkout.Workout.Title,
@@ -326,6 +330,7 @@ namespace AIFitnessProject.Core.Services
                 .FirstAsync();
 
             trainingPlan.IsActive = false;
+            trainingPlan.IsEdit = true;
             await repository.SaveChangesAsync();
         }
 
@@ -361,6 +366,7 @@ namespace AIFitnessProject.Core.Services
             var trainingPlan = await repository.AllAsReadOnly<TrainingPlan>()
                 .Where(x => x.CreatedById == trainer.Id)
                 .Where(x => x.IsActive == false)
+                .Where(x =>x.IsEdit == true)
                 .Include(tp => tp.TrainingPlanWorkouts)
                     .ThenInclude(tpw => tpw.Workout)
                         .ThenInclude(w => w.WorkoutsExercises)
@@ -425,6 +431,29 @@ namespace AIFitnessProject.Core.Services
             viewModel.AvailableExercises = availableExercises;
 
             return viewModel;
+        }
+
+        public async Task AcceptTrainingPlanAsync(int id,string UserId)
+        {
+            var trainingPlan = await repository.All<TrainingPlan>()
+               .Where(x => x.Id == id)
+               .Where(x => x.UserId == UserId)
+               .Include(x =>x.Trainer)
+               .Include(x =>x.User)
+               .FirstOrDefaultAsync();
+
+            trainingPlan.IsInCalendar = true;
+            await repository.SaveChangesAsync();
+
+
+            Calendar calendar = new Calendar()
+            {
+                TrainerId = trainingPlan.CreatedById,
+                UserId = trainingPlan.UserId,
+            };
+
+            await repository.AddAsync(calendar);
+            await repository.SaveChangesAsync();
         }
     }
 

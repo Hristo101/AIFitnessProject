@@ -136,6 +136,6 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             var model = await trainingPlanService.GetRejectedTrainingPlanAsync(id, GetUserId());
 
             return View(model);
-        }
+        }   
     }
 }

@@ -33,6 +33,8 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public string DificultyLevel { get; set; }
         [Required]
         public string MuscleGroup { get; set; }
+
+        public ICollection<CalendarWorkout> CalendarWorkouts { get; set; }
         public ICollection<WorkoutsExercise> WorkoutsExercises { get; set; } = new List<WorkoutsExercise>();
         public ICollection<TrainingPlanWorkout> TrainingPlanWorkouts { get; set; } = new List<TrainingPlanWorkout>();
     }
