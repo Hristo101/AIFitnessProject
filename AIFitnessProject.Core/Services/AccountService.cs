@@ -108,6 +108,7 @@ namespace AIFitnessProject.Core.Services
                 .Where(x =>x.CreatedById == trainer.Id)
                 .Select(x => new AllUsersViewModel()
                 {
+                    UserId = x.UserId,
                     Aim = x.User.Aim,
                     Email = x.User.Email,
                     ExperienceLevel = x.User.ExperienceLevel,

@@ -10,6 +10,7 @@ namespace AIFitnessProject.Core.Models.Calendar
     {
         public string ProfilePictureUrl { get; set; }
         public string FullName { get; set; }
+        public List<WorkoutCalendarViewModel> Workouts { get; set; }
         public string Email { get; set; }
     }
 }

@@ -20,18 +20,40 @@ namespace AIFitnessProject.Core.Services
             this.repository = _repository;
         }
 
-        public async  Task<UserCalendarViewModel> GetModeForUserCalendar(string userId)
+        public async Task<UserCalendarViewModel> GetModeForUserCalendar(string userId)
         {
-           var model = await repository.AllAsReadOnly<ApplicationUser>()
-                .Where(x =>x.Id == userId)
+
+            var plan = await repository.AllAsReadOnly<TrainingPlan>()
+                .Include(tp => tp.TrainingPlanWorkouts)
+                .ThenInclude(tpw => tpw.Workout)
+                .FirstOrDefaultAsync(tp => tp.UserId == userId && tp.IsActive && tp.IsInCalendar);
+
+            if (plan == null)
+            {
+                return null;
+            }
+
+            var model = await repository.AllAsReadOnly<ApplicationUser>()
+                .Where(x => x.Id == userId)
                 .Select(x => new UserCalendarViewModel()
                 {
                     Email = x.Email,
                     FullName = x.FirstName + " " + x.LastName,
                     ProfilePictureUrl = x.ProfilePicture,
+
+                    Workouts = plan.TrainingPlanWorkouts.Select(tpw => new WorkoutCalendarViewModel()
+                    {
+                        Id = tpw.WorkoutId,
+                        Name = tpw.Workout.Title,
+                        ImageUrl = tpw.Workout.ImageUrl,
+                        ExerciseCount = tpw.Workout.WorkoutsExercises.Count(),
+                        MuscleGroup = tpw.Workout.MuscleGroup
+                    }).ToList()
                 }).FirstOrDefaultAsync();
 
             return model;
         }
+
+       
     }
 }
