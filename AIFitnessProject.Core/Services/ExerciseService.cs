@@ -239,8 +239,10 @@ namespace AIFitnessProject.Core.Services
                     exerciseToReplace.ExcersiceId = newExercise.Id;
                     exerciseToReplace.Exercise = newExercise;
 
-                    var feedbackToDelete = exerciseToReplace.Exercise.ExerciseFeedbacks
-                        .FirstOrDefault(ef => ef.TrainingPlanId == request.TrainingPlanId);
+                    var exerciseFeedback = await repository.All<ExerciseFeedback>
+                        ().Where(x => x.TrainingPlanId == request.TrainingPlanId).ToListAsync();
+
+                    var feedbackToDelete = exerciseFeedback.Where(x => x.ExerciseId == request.ExerciseId).FirstOrDefault();
                     if (feedbackToDelete != null)
                     {
                         repository.Delete(feedbackToDelete);
