@@ -301,6 +301,7 @@ namespace AIFitnessProject.Core.Services
                 isInCalendar = trainingPlan.IsInCalendar,
                 Workouts = trainingPlan.TrainingPlanWorkouts.Select(tpWorkout => new WorkoutViewModel
                 {
+                    Id = tpWorkout.Id,
                     Title = tpWorkout.Workout.Title,
                     DayOfWeek = tpWorkout.Workout.DayOfWeek,
                     ImageUrl = tpWorkout.Workout.ImageUrl,

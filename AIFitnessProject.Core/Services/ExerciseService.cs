@@ -25,7 +25,7 @@ namespace AIFitnessProject.Core.Services
             this.repository = _repository;
         }
 
-        public async Task AddExercise(CreateExerciseViewModel model,string userId)
+        public async Task AddExercise(CreateExerciseViewModel model, string userId)
         {
             var trainer = await repository.AllAsReadOnly<Infrastructure.Data.Models.Trainer>()
                 .Where(x => x.UserId == userId)
@@ -160,13 +160,13 @@ namespace AIFitnessProject.Core.Services
                 .Where(x => x.UserId == userId)
                 .FirstAsync();
 
-            
+
 
             var workoutExercise = await repository.AllAsReadOnly<WorkoutsExercise>()
                 .Where(x => x.ExcersiceId == id)
                 .Include(x => x.Workout)
                     .ThenInclude(w => w.TrainingPlanWorkouts)
-                    .ThenInclude(w =>w.TrainingPlan)
+                    .ThenInclude(w => w.TrainingPlan)
                 .FirstOrDefaultAsync();
 
             if (workoutExercise == null)
@@ -175,8 +175,8 @@ namespace AIFitnessProject.Core.Services
             }
 
             var trainingPlanId = workoutExercise.Workout.TrainingPlanWorkouts
-                .Where(x =>x.TrainingPlan.IsActive == false)
-                .Where(x =>x.TrainingPlan.UserId == userId)
+                .Where(x => x.TrainingPlan.IsActive == false)
+                .Where(x => x.TrainingPlan.UserId == userId)
                 .Select(tp => tp.TrainingPlanId)
                 .FirstOrDefault();
 
@@ -213,12 +213,13 @@ namespace AIFitnessProject.Core.Services
                 return false;
             }
 
-            var workoutExercises = trainingPlan.TrainingPlanWorkouts
+            var workoutExercise = trainingPlan.TrainingPlanWorkouts
                 .Where(tpw => tpw.Workout.WorkoutsExercises
-                    .Any(we => we.Exercise.Id == request.ExerciseId))
-                .ToList();
+                    .Any(we => we.Exercise.Id == request.ExerciseId && we.Workout.Id == request.WorkoutId))
+                .FirstOrDefault();
 
-            if (workoutExercises.Count == 0)
+
+            if (workoutExercise == null)
             {
                 return false;
             }
@@ -229,18 +230,24 @@ namespace AIFitnessProject.Core.Services
                 return false;
             }
 
-            foreach (var workoutExercise in workoutExercises)
+            //foreach (var workoutExercise in workoutExercises)
+            //{
+            var exerciseToReplace = workoutExercise.Workout.WorkoutsExercises
+                .FirstOrDefault(we => we.Exercise.Id == request.ExerciseId && we.WorkoutId == request.WorkoutId);
+
+            if (exerciseToReplace != null)
             {
-                var exerciseToReplace = workoutExercise.Workout.WorkoutsExercises
-                    .FirstOrDefault(we => we.Exercise.Id == request.ExerciseId);
+                exerciseToReplace.ExcersiceId = newExercise.Id;
+                exerciseToReplace.Exercise = newExercise;
 
-                if (exerciseToReplace != null)
+                        var x = trainingPlan.TrainingPlanWorkouts
+                 .Where(tpw => tpw.Workout.WorkoutsExercises
+                     .Any(we => we.Exercise.Id == request.ExerciseId)).ToList();
+
+                if (x.Count == 0)
                 {
-                    exerciseToReplace.ExcersiceId = newExercise.Id;
-                    exerciseToReplace.Exercise = newExercise;
-
                     var exerciseFeedback = await repository.All<ExerciseFeedback>
-                        ().Where(x => x.TrainingPlanId == request.TrainingPlanId).ToListAsync();
+                      ().Where(x => x.TrainingPlanId == request.TrainingPlanId).ToListAsync();
 
                     var feedbackToDelete = exerciseFeedback.Where(x => x.ExerciseId == request.ExerciseId).FirstOrDefault();
                     if (feedbackToDelete != null)
@@ -248,7 +255,12 @@ namespace AIFitnessProject.Core.Services
                         repository.Delete(feedbackToDelete);
                     }
                 }
+                     
+                 
+
+              
             }
+            //}
 
             var changes = await repository.SaveChangesAsync();
             return changes > 0;

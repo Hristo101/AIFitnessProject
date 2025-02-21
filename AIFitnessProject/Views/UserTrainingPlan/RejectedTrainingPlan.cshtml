@@ -422,8 +422,8 @@ body {
                                 <div class="col-md-6 col-lg-4">
                                     <div class="exercise-card">
                                         <input type="checkbox" class="exercise-checkbox"
-                                               id="ex-check-@exercise.Id"
-                                               onchange="toggleComment(@exercise.Id)">
+                                               id="ex-check-@exercise.Id-@workout.Id"
+                                               onchange="toggleComment(@exercise.Id,@workout.Id)">
                                         <span class="difficulty-badge @exercise.DifficultyLevel.ToLower()">
                                             @exercise.DifficultyLevel
                                         </span>
@@ -451,26 +451,26 @@ body {
                                             </a>
                                         </div>
                                         <!-- Секция за коментари -->
-                                        <div class="comment-section" id="comment-section-@exercise.Id">
+                                        <div class="comment-section" id="comment-section-@exercise.Id-@workout.Id">
                                             <div class="container input-container">
                                                 <input required="required"
                                                        class="inp"
-                                                       id="comment-@exercise.Id"
+                                                       id="comment-@exercise.Id-@workout.Id"
                                                        placeholder=" ">
                                                 <span class="content">Коментар</span>
                                             </div>
                                             <button class="submit-comment-btn"
-                                                    id="submit-btn-@exercise.Id"
-                                                    onclick="submitComment(@exercise.Id)">
+                                                    id="submit-btn-@exercise.Id-@workout.Id"
+                                                    onclick="submitComment(@exercise.Id,@workout.Id)">
                                                 <i class="fas fa-paper-plane me-2"></i>Изпрати забележка
                                             </button>
                                         </div>
-                                        <div class="disagree-text" id="disagree-text-@exercise.Id">
+                                        <div class="disagree-text" id="disagree-text-@exercise.Id-@workout.Id">
                                             ⚠️ Маркирахте, че не сте съгласни с това упражнение
                                         </div>
-                                        <div id="posted-comment-section-@exercise.Id" style="display: none; margin-top:10px;">
-                                            <div id="posted-comment-@exercise.Id" style="font-weight: bold; margin-bottom: 10px;"></div>
-                                            <button class="btn-edit" onclick="editComment(@exercise.Id)">
+                                        <div id="posted-comment-section-@exercise.Id-@workout.Id" style="display: none; margin-top:10px;">
+                                            <div id="posted-comment-@exercise.Id-@workout.Id" style="font-weight: bold; margin-bottom: 10px;"></div>
+                                            <button class="btn-edit" onclick="editComment(@exercise.Id,@workout.Id)">
                                                 <div class="svg-wrapper">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                                                         <path fill="none" d="M0 0h24v24H0z" />
@@ -480,7 +480,7 @@ body {
                                                 <span>Редактирай</span>
                                             </button>
 
-                                            <button class="btn-delete" onclick="deleteComment(@exercise.Id)">
+                                            <button class="btn-delete" onclick="deleteComment(@exercise.Id,@workout.Id)">
                                                 <div class="svg-wrapper">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                                                         <path fill="none" d="M0 0h24v24H0z" />
@@ -594,10 +594,10 @@ body {
         });
 
         // Функция за показване/скриване на коментарите
-        function toggleComment(exerciseId) {
-            const commentSection = document.getElementById(`comment-section-${exerciseId}`);
-            const disagreeText = document.getElementById(`disagree-text-${exerciseId}`);
-            const checkbox = document.getElementById(`ex-check-${exerciseId}`);
+        function toggleComment(exerciseId,workoutId) {
+            const commentSection = document.getElementById(`comment-section-${exerciseId}-${workoutId}`);
+            const disagreeText = document.getElementById(`disagree-text-${exerciseId}-${workoutId}`);
+            const checkbox = document.getElementById(`ex-check-${exerciseId}-${workoutId}`);
 
             if (checkbox.checked) {
                 commentSection.classList.add('active');
@@ -609,8 +609,8 @@ body {
         }
 
         let editingCommentId = null;
-        async function submitComment(exerciseId) {
-            const commentInput = document.getElementById(`comment-${exerciseId}`);
+        async function submitComment(exerciseId, workoutId) {
+            const commentInput = document.getElementById(`comment-${exerciseId}-${workoutId}`);
             const comment = commentInput.value.trim();
 
             if (!comment) {
@@ -648,16 +648,16 @@ body {
 
                 if (data.success) {
 
-                    document.getElementById(`posted-comment-${exerciseId}`).textContent = comment;
-                    document.getElementById(`posted-comment-section-${exerciseId}`).style.display = 'block';
+                    document.getElementById(`posted-comment-${exerciseId}-${workoutId}`).textContent = comment;
+                    document.getElementById(`posted-comment-section-${exerciseId}-${workoutId}`).style.display = 'block';
 
                     commentInput.value = '';
                     editingCommentId = null;  
 
-                    document.getElementById(`comment-section-${exerciseId}`).classList.remove('active');
-                    document.getElementById(`disagree-text-${exerciseId}`).style.display = 'none';
+                    document.getElementById(`comment-section-${exerciseId}-${workoutId}`).classList.remove('active');
+                    document.getElementById(`disagree-text-${exerciseId}-${workoutId}`).style.display = 'none';
 
-                    const submitBtn = document.getElementById(`submit-btn-${exerciseId}`);
+                    const submitBtn = document.getElementById(`submit-btn-${exerciseId}-${workoutId}`);
                     submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Изпрати забележка';
                 }
             } catch (err) {
@@ -666,28 +666,28 @@ body {
             }
         }
 
-        async function editComment(exerciseId) {
-            const commentElement = document.getElementById(`posted-comment-${exerciseId}`);
+        async function editComment(exerciseId,workoutId) {
+            const commentElement = document.getElementById(`posted-comment-${exerciseId}-${workoutId}`);
             editingCommentId = commentElement.dataset.commentId;
 
-            const submitBtn = document.getElementById(`submit-btn-${exerciseId}`);
+            const submitBtn = document.getElementById(`submit-btn-${exerciseId}-${workoutId}`);
             submitBtn.innerHTML = '<i class="fas fa-edit me-2"></i>Запази промените';
 
             // Показваме полето за редактиране
-            document.getElementById(`comment-${exerciseId}`).value = commentElement.textContent;
-            document.getElementById(`ex-check-${exerciseId}`).checked = true;
-            document.getElementById(`comment-section-${exerciseId}`).classList.add('active');
-            document.getElementById(`disagree-text-${exerciseId}`).style.display = 'block';
-            document.getElementById(`posted-comment-section-${exerciseId}`).style.display = 'none';
+            document.getElementById(`comment-${exerciseId}-${workoutId}`).value = commentElement.textContent;
+            document.getElementById(`ex-check-${exerciseId}-${workoutId}`).checked = true;
+            document.getElementById(`comment-section-${exerciseId}-${workoutId}`).classList.add('active');
+            document.getElementById(`disagree-text-${exerciseId}-${workoutId}`).style.display = 'block';
+            document.getElementById(`posted-comment-section-${exerciseId}-${workoutId}`).style.display = 'none';
 
             commentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         // Функция за изтриване на коментар
-        async function deleteComment(exerciseId) {
+        async function deleteComment(exerciseId,workoutId) {
             if (!confirm('Сигурни ли сте, че искате да изтриете коментара?')) return;
 
-            const commentId = document.getElementById(`posted-comment-${exerciseId}`).dataset.commentId;
+            const commentId = document.getElementById(`posted-comment-${exerciseId}-${workoutId}`).dataset.commentId;
 
             try {
                 const response = await fetch('/ExerciseFeedback/DeleteComment', {
@@ -707,9 +707,9 @@ body {
                 if (!response.ok) throw new Error(data.error || 'Неизвестна грешка');
 
                 if (data.success) {
-                    document.getElementById(`posted-comment-section-${exerciseId}`).style.display = 'none';
-                    document.getElementById(`ex-check-${exerciseId}`).checked = false;
-                    toggleComment(exerciseId);
+                    document.getElementById(`posted-comment-section-${exerciseId}-${workoutId}`).style.display = 'none';
+                    document.getElementById(`ex-check-${exerciseId}-${workoutId}`).checked = false;
+                    toggleComment(exerciseId,workoutId);
                 }
             } catch (err) {
                 console.error('Delete error:', err);
