@@ -81,7 +81,11 @@
                                     <div class="workout-stats">
                                         <span><i class="fas fa-dumbbell"></i> @workout.MuscleGroup</span>
                                     </div>
-                                    <button class="details-btn">Details</button>
+                                    <a asp-area="Trainer" 
+                                       asp-controller="Workout" 
+                                       asp-action="WorkoutDetailsFromCalendar" 
+                                       asp-route-id="@workout.Id" 
+                                       class="details-btn">Details</a>
                                 </div>
                             </div>
                         }
@@ -202,15 +206,15 @@
             transition: transform 0.3s ease;
         }
 
-            .profile-picture img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-            .profile-picture:hover {
-                transform: scale(1.05);
-            }
+        .profile-picture:hover {
+            transform: scale(1.05);
+        }
 
         .user-info {
             text-align: center;
@@ -252,58 +256,58 @@
             background-color: #fff;
         }
 
-            .calendar::before,
-            .calendar::after {
-                content: "";
-                position: absolute;
-                top: 50%;
-                left: 100%;
-                width: 12px;
-                height: 97%;
-                border-radius: 0 5px 5px 0;
-                background-color: #d3d4d6d7;
-                transform: translateY(-50%);
-            }
+        .calendar::before,
+        .calendar::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            width: 12px;
+            height: 97%;
+            border-radius: 0 5px 5px 0;
+            background-color: #d3d4d6d7;
+            transform: translateY(-50%);
+        }
 
-            .calendar::before {
-                height: 94%;
-                left: calc(100% + 12px);
-                background-color: rgb(153, 153, 153);
-            }
+        .calendar::before {
+            height: 94%;
+            left: calc(100% + 12px);
+            background-color: rgb(153, 153, 153);
+        }
 
-            .calendar .month {
-                width: 100%;
-                height: 150px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0 50px;
-                font-size: 1.2rem;
-                font-weight: 500;
-                text-transform: capitalize;
-            }
+        .calendar .month {
+            width: 100%;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
 
-                .calendar .month .prev,
-                .calendar .month .next {
-                    cursor: pointer;
-                }
+        .calendar .month .prev,
+        .calendar .month .next {
+            cursor: pointer;
+        }
 
-                    .calendar .month .prev:hover,
-                    .calendar .month .next:hover {
-                        color: var(--primary-clr);
-                    }
+        .calendar .month .prev:hover,
+        .calendar .month .next:hover {
+            color: var(--primary-clr);
+        }
 
-            .calendar .weekdays {
-                width: 100%;
-                height: 100px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0 20px;
-                font-size: 1rem;
-                font-weight: 500;
-                text-transform: capitalize;
-            }
+        .calendar .weekdays {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
 
         .weekdays div {
             width: 14.28%;
@@ -324,92 +328,92 @@
             margin-bottom: 20px;
         }
 
-            .calendar .days .day {
-                width: 14.28%;
-                height: 90px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                color: var(--primary-clr);
-                border: 1px solid #f5f5f5;
-            }
+        .calendar .days .day {
+            width: 14.28%;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--primary-clr);
+            border: 1px solid #f5f5f5;
+        }
 
-                .calendar .days .day:nth-child(7n + 1) {
-                    border-left: 2px solid #f5f5f5;
-                }
+        .calendar .days .day:nth-child(7n + 1) {
+            border-left: 2px solid #f5f5f5;
+        }
 
-                .calendar .days .day:nth-child(7n) {
-                    border-right: 2px solid #f5f5f5;
-                }
+        .calendar .days .day:nth-child(7n) {
+            border-right: 2px solid #f5f5f5;
+        }
 
-                .calendar .days .day:nth-child(-n + 7) {
-                    border-top: 2px solid #f5f5f5;
-                }
+        .calendar .days .day:nth-child(-n + 7) {
+            border-top: 2px solid #f5f5f5;
+        }
 
-                .calendar .days .day:nth-child(n + 29) {
-                    border-bottom: 2px solid #f5f5f5;
-                }
+        .calendar .days .day:nth-child(n + 29) {
+            border-bottom: 2px solid #f5f5f5;
+        }
 
-                .calendar .days .day:not(.prev-date, .next-date):hover {
-                    color: #fff;
-                    background-color: var(--primary-clr);
-                }
+        .calendar .days .day:not(.prev-date, .next-date):hover {
+            color: #fff;
+            background-color: var(--primary-clr);
+        }
 
-            .calendar .days .prev-date,
-            .calendar .days .next-date {
-                color: #b3b3b3;
-            }
+        .calendar .days .prev-date,
+        .calendar .days .next-date {
+            color: #b3b3b3;
+        }
 
-            .calendar .days .active {
-                position: relative;
-                font-size: 2rem;
-                color: #fff;
-                background-color: var(--primary-clr);
-            }
+        .calendar .days .active {
+            position: relative;
+            font-size: 2rem;
+            color: #fff;
+            background-color: var(--primary-clr);
+        }
 
-                .calendar .days .active::before {
-                    content: "";
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    box-shadow: 0 0 10px 2px var(--primary-clr);
-                }
+        .calendar .days .active::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 0 10px 2px var(--primary-clr);
+        }
 
-            .calendar .days .today {
-                font-size: 2rem;
-            }
+        .calendar .days .today {
+            font-size: 2rem;
+        }
 
-            .calendar .days .event {
-                position: relative;
-            }
+        .calendar .days .event {
+            position: relative;
+        }
 
-                .calendar .days .event::after {
-                    content: "";
-                    position: absolute;
-                    bottom: 10%;
-                    left: 50%;
-                    width: 75%;
-                    height: 6px;
-                    border-radius: 30px;
-                    transform: translateX(-50%);
-                    background-color: var(--primary-clr);
-                }
+        .calendar .days .event::after {
+            content: "";
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            width: 75%;
+            height: 6px;
+            border-radius: 30px;
+            transform: translateX(-50%);
+            background-color: var(--primary-clr);
+        }
 
-            .calendar .days .day:hover.event::after {
-                background-color: #fff;
-            }
+        .calendar .days .day:hover.event::after {
+            background-color: #fff;
+        }
 
-            .calendar .days .active.event::after {
-                background-color: #fff;
-                bottom: 20%;
-            }
+        .calendar .days .active.event::after {
+            background-color: #fff;
+            bottom: 20%;
+        }
 
-            .calendar .days .active.event {
-                padding-bottom: 10px;
-            }
+        .calendar .days .active.event {
+            padding-bottom: 10px;
+        }
 
         .calendar .goto-today {
             width: 100%;
@@ -423,44 +427,44 @@
             color: var(--primary-clr);
         }
 
-            .calendar .goto-today .goto {
-                display: flex;
-                align-items: center;
-                border-radius: 5px;
-                overflow: hidden;
-                border: 1px solid var(--primary-clr);
-            }
+        .calendar .goto-today .goto {
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid var(--primary-clr);
+        }
 
-                .calendar .goto-today .goto input {
-                    width: 100%;
-                    height: 30px;
-                    outline: none;
-                    border: none;
-                    border-radius: 5px;
-                    padding: 0 20px;
-                    color: var(--primary-clr);
-                    border-radius: 5px;
-                }
+        .calendar .goto-today .goto input {
+            width: 100%;
+            height: 30px;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+            padding: 0 20px;
+            color: var(--primary-clr);
+            border-radius: 5px;
+        }
 
-            .calendar .goto-today button {
-                padding: 5px 10px;
-                border: 1px solid var(--primary-clr);
-                border-radius: 5px;
-                background-color: transparent;
-                cursor: pointer;
-                color: var(--primary-clr);
-            }
+        .calendar .goto-today button {
+            padding: 5px 10px;
+            border: 1px solid var(--primary-clr);
+            border-radius: 5px;
+            background-color: transparent;
+            cursor: pointer;
+            color: var(--primary-clr);
+        }
 
-                .calendar .goto-today button:hover {
-                    color: #fff;
-                    background-color: var(--primary-clr);
-                }
+        .calendar .goto-today button:hover {
+            color: #fff;
+            background-color: var(--primary-clr);
+        }
 
-            .calendar .goto-today .goto button {
-                border: none;
-                border-left: 1px solid var(--primary-clr);
-                border-radius: 0;
-            }
+        .calendar .goto-today .goto button {
+            border: none;
+            border-left: 1px solid var(--primary-clr);
+            border-radius: 0;
+        }
 
         .container .right {
             position: relative;
@@ -484,16 +488,16 @@
             text-transform: capitalize;
         }
 
-            .right .today-date .event-day {
-                font-size: 2rem;
-                font-weight: 500;
-            }
+        .right .today-date .event-day {
+            font-size: 2rem;
+            font-weight: 500;
+        }
 
-            .right .today-date .event-date {
-                font-size: 1rem;
-                font-weight: 400;
-                color: #878895;
-            }
+        .right .today-date .event-date {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #878895;
+        }
 
         .events {
             width: 100%;
@@ -506,80 +510,80 @@
             padding-left: 4px;
         }
 
-            .events .event {
-                position: relative;
-                width: 95%;
-                min-height: 70px;
-                display: flex;
-                justify-content: center;
-                flex-direction: column;
-                gap: 5px;
-                padding: 0 20px;
-                padding-left: 50px;
-                color: #fff;
-                background: linear-gradient(90deg, #3f4458, transparent);
-                cursor: pointer;
-            }
+        .events .event {
+            position: relative;
+            width: 95%;
+            min-height: 70px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+            padding: 0 20px;
+            padding-left: 50px;
+            color: #fff;
+            background: linear-gradient(90deg, #3f4458, transparent);
+            cursor: pointer;
+        }
 
-                .events .event:nth-child(even) {
-                    background: transparent;
-                }
+        .events .event:nth-child(even) {
+            background: transparent;
+        }
 
-                .events .event:hover {
-                    background: linear-gradient(90deg, var(--primary-clr), transparent);
-                }
+        .events .event:hover {
+            background: linear-gradient(90deg, var(--primary-clr), transparent);
+        }
 
-                .events .event .title {
-                    display: flex;
-                    align-items: center;
-                    pointer-events: none;
-                }
+        .events .event .title {
+            display: flex;
+            align-items: center;
+            pointer-events: none;
+        }
 
-                    .events .event .title .event-title {
-                        font-size: 1rem;
-                        font-weight: 400;
-                        margin-left: 20px;
-                    }
+        .events .event .title .event-title {
+            font-size: 1rem;
+            font-weight: 400;
+            margin-left: 20px;
+        }
 
-                .events .event i {
-                    color: var(--primary-clr);
-                    font-size: 0.5rem;
-                }
+        .events .event i {
+            color: var(--primary-clr);
+            font-size: 0.5rem;
+        }
 
-                .events .event:hover i {
-                    color: #fff;
-                }
+        .events .event:hover i {
+            color: #fff;
+        }
 
-                .events .event .event-time {
-                    font-size: 0.8rem;
-                    font-weight: 400;
-                    color: #878895;
-                    margin-left: 15px;
-                    pointer-events: none;
-                }
+        .events .event .event-time {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #878895;
+            margin-left: 15px;
+            pointer-events: none;
+        }
 
-                .events .event:hover .event-time {
-                    color: #fff;
-                }
+        .events .event:hover .event-time {
+            color: #fff;
+        }
 
-                .events .event::after {
-                    content: "✓";
-                    position: absolute;
-                    top: 50%;
-                    right: 0;
-                    font-size: 3rem;
-                    line-height: 1;
-                    display: none;
-                    align-items: center;
-                    justify-content: center;
-                    opacity: 0.3;
-                    color: var(--primary-clr);
-                    transform: translateY(-50%);
-                }
+        .events .event::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            right: 0;
+            font-size: 3rem;
+            line-height: 1;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.3;
+            color: var(--primary-clr);
+            transform: translateY(-50%);
+        }
 
-                .events .event:hover::after {
-                    display: flex;
-                }
+        .events .event:hover::after {
+            display: flex;
+        }
 
         .add-event {
             position: absolute;
@@ -599,13 +603,13 @@
             cursor: pointer;
         }
 
-            .add-event:hover {
-                opacity: 1;
-            }
+        .add-event:hover {
+            opacity: 1;
+        }
 
-            .add-event i {
-                pointer-events: none;
-            }
+        .add-event i {
+            pointer-events: none;
+        }
 
         .events .no-event {
             width: 100%;
@@ -631,9 +635,9 @@
             transition: max-height 0.5s ease;
         }
 
-            .add-event-wrapper.active {
-                max-height: 450px;
-            }
+        .add-event-wrapper.active {
+            max-height: 450px;
+        }
 
         .add-event-header {
             width: 100%;
@@ -646,19 +650,19 @@
             border-bottom: 1px solid #f5f5f5;
         }
 
-            .add-event-header .close {
-                font-size: 1.5rem;
-                cursor: pointer;
-            }
+        .add-event-header .close {
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
 
-                .add-event-header .close:hover {
-                    color: var(--primary-clr);
-                }
+        .add-event-header .close:hover {
+            color: var(--primary-clr);
+        }
 
-            .add-event-header .title {
-                font-size: 1.2rem;
-                font-weight: 500;
-            }
+        .add-event-header .title {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
 
         .add-event-body {
             width: 100%;
@@ -669,37 +673,37 @@
             padding: 20px;
         }
 
-            .add-event-body .add-event-input {
-                width: 100%;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
+        .add-event-body .add-event-input {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-                .add-event-body .add-event-input input {
-                    width: 100%;
-                    height: 100%;
-                    outline: none;
-                    border: none;
-                    border-bottom: 1px solid #f5f5f5;
-                    padding: 0 10px;
-                    font-size: 1rem;
-                    font-weight: 400;
-                    color: #373c4f;
-                }
+        .add-event-body .add-event-input input {
+            width: 100%;
+            height: 100%;
+            outline: none;
+            border: none;
+            border-bottom: 1px solid #f5f5f5;
+            padding: 0 10px;
+            font-size: 1rem;
+            font-weight: 400;
+            color: #373c4f;
+        }
 
-                    .add-event-body .add-event-input input::placeholder {
-                        color: #a5a5a5;
-                    }
+        .add-event-body .add-event-input input::placeholder {
+            color: #a5a5a5;
+        }
 
-                    .add-event-body .add-event-input input:focus {
-                        border-bottom: 1px solid var(--primary-clr);
-                    }
+        .add-event-body .add-event-input input:focus {
+            border-bottom: 1px solid var(--primary-clr);
+        }
 
-                        .add-event-body .add-event-input input:focus::placeholder {
-                            color: var(--primary-clr);
-                        }
+        .add-event-body .add-event-input input:focus::placeholder {
+            color: var(--primary-clr);
+        }
 
         .workout-input {
             height: 50px;
@@ -728,43 +732,43 @@
             box-shadow: 0 4px 15px var(--shadow-clr);
         }
 
-            .attach-workout-btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px var(--shadow-clr);
-                background: linear-gradient(135deg, var(--hover-clr), var(--primary-clr));
-            }
+        .attach-workout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--shadow-clr);
+            background: linear-gradient(135deg, var(--hover-clr), var(--primary-clr));
+        }
 
-            .attach-workout-btn:active {
-                transform: translateY(1px);
-                box-shadow: 0 2px 10px var(--shadow-clr);
-            }
+        .attach-workout-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px var(--shadow-clr);
+        }
 
-            .attach-workout-btn i {
-                font-size: 1.2rem;
-                transition: transform 0.3s ease;
-            }
+        .attach-workout-btn i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
 
-            .attach-workout-btn:hover i {
-                transform: rotate(20deg);
-            }
+        .attach-workout-btn:hover i {
+            transform: rotate(20deg);
+        }
 
-            .attach-workout-btn::before {
-                content: '';
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 0;
-                height: 0;
-                background: rgba(255, 255, 255, 0.2);
-                border-radius: 50%;
-                transform: translate(-50%, -50%);
-                transition: width 0.6s ease, height 0.6s ease;
-            }
+        .attach-workout-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
 
-            .attach-workout-btn:hover::before {
-                width: 200%;
-                height: 200%;
-            }
+        .attach-workout-btn:hover::before {
+            width: 200%;
+            height: 200%;
+        }
 
         .selected-workout-info {
             margin-left: 10px;
@@ -783,25 +787,25 @@
             padding: 20px;
         }
 
-            .add-event-footer .add-event-btn {
-                height: 40px;
-                font-size: 1rem;
-                font-weight: 500;
-                outline: none;
-                border: none;
-                color: #fff;
-                background-color: var(--primary-clr);
-                border-radius: 5px;
-                cursor: pointer;
-                padding: 5px 20px;
-                border: 1px solid var(--primary-clr);
-                transition: all 0.3s ease;
-            }
+        .add-event-footer .add-event-btn {
+            height: 40px;
+            font-size: 1rem;
+            font-weight: 500;
+            outline: none;
+            border: none;
+            color: #fff;
+            background-color: var(--primary-clr);
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 5px 20px;
+            border: 1px solid var(--primary-clr);
+            transition: all 0.3s ease;
+        }
 
-                .add-event-footer .add-event-btn:hover {
-                    background-color: transparent;
-                    color: var(--primary-clr);
-                }
+        .add-event-footer .add-event-btn:hover {
+            background-color: transparent;
+            color: var(--primary-clr);
+        }
 
         .workouts-list {
             display: none;
@@ -816,9 +820,9 @@
             border: 1px solid var(--primary-clr);
         }
 
-            .workouts-list.active {
-                display: block;
-            }
+        .workouts-list.active {
+            display: block;
+        }
 
         .workouts-container {
             min-height: 300px;
@@ -839,21 +843,21 @@
             border: 2px solid transparent;
         }
 
-            .workout-item.hidden {
-                display: none;
-            }
+        .workout-item.hidden {
+            display: none;
+        }
 
-            .workout-item:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 8px 25px var(--shadow-clr);
-                border: 2px solid var(--primary-clr);
-            }
+        .workout-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow-clr);
+            border: 2px solid var(--primary-clr);
+        }
 
-            .workout-item.selected {
-                background: linear-gradient(145deg, #f7f2ff, #f0eaff);
-                border: 2px solid var(--primary-clr);
-                box-shadow: 0 8px 25px var(--shadow-clr);
-            }
+        .workout-item.selected {
+            background: linear-gradient(145deg, #f7f2ff, #f0eaff);
+            border: 2px solid var(--primary-clr);
+            box-shadow: 0 8px 25px var(--shadow-clr);
+        }
 
         .workout-image {
             width: 100%;
@@ -930,32 +934,33 @@
             flex-wrap: wrap;
         }
 
-            .workout-stats span {
-                display: flex;
-                align-items: center;
-                gap: 5px;
-                color: #555;
-                font-size: 0.9rem;
-                background: #f5f5f5;
-                padding: 4px 10px;
-                border-radius: 15px;
-                transition: all 0.3s ease;
-            }
+        .workout-stats span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #555;
+            font-size: 0.9rem;
+            background: #f5f5f5;
+            padding: 4px 10px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
 
-                .workout-stats span i {
-                    color: var(--primary-clr);
-                }
+        .workout-stats span i {
+            color: var(--primary-clr);
+        }
 
         .workout-item:hover .workout-stats span {
             background: var(--primary-clr);
             color: #fff;
         }
 
-            .workout-item:hover .workout-stats span i {
-                color: #fff;
-            }
+        .workout-item:hover .workout-stats span i {
+            color: #fff;
+        }
 
         .details-btn {
+            display: inline-block;
             padding: 10px 25px;
             background: var(--primary-clr);
             color: #fff;
@@ -967,14 +972,15 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
+            text-decoration: none;
         }
 
-            .details-btn:hover {
-                background: transparent;
-                color: var(--primary-clr);
-                border: 2px solid var(--primary-clr);
-                transform: translateY(-2px);
-            }
+        .details-btn:hover {
+            background: transparent;
+            color: var(--primary-clr);
+            border: 2px solid var(--primary-clr);
+            transform: translateY(-2px);
+        }
 
         .pagination {
             display: flex;
@@ -1000,17 +1006,17 @@
             box-shadow: 0 4px 15px var(--shadow-clr);
         }
 
-            .prev-page-btn:hover, .next-page-btn:hover {
-                background: var(--hover-clr);
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px var(--shadow-clr);
-            }
+        .prev-page-btn:hover, .next-page-btn:hover {
+            background: var(--hover-clr);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--shadow-clr);
+        }
 
-            .prev-page-btn.disabled, .next-page-btn.disabled {
-                background-color: #ccc;
-                cursor: not-allowed;
-                box-shadow: none;
-            }
+        .prev-page-btn.disabled, .next-page-btn.disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
 
         .page-info {
             font-size: 1rem;
@@ -1030,17 +1036,17 @@
                 border-radius: 0;
             }
 
-                .container .left {
-                    width: 100%;
-                    height: 100%;
-                    padding: 20px 0;
-                }
+            .container .left {
+                width: 100%;
+                height: 100%;
+                padding: 20px 0;
+            }
 
-                .container .right {
-                    width: 100%;
-                    height: 100%;
-                    padding: 20px 0;
-                }
+            .container .right {
+                width: 100%;
+                height: 100%;
+                padding: 20px 0;
+            }
 
             .calendar::before,
             .calendar::after {
@@ -1104,10 +1110,10 @@
                 font-size: 0.8rem;
             }
 
-                .calendar .days .day.active,
-                .calendar .days .day.today {
-                    font-size: 1rem;
-                }
+            .calendar .days .day.active,
+            .calendar .days .day.today {
+                font-size: 1rem;
+            }
 
             .right .today-date {
                 padding: 20px;
@@ -1391,15 +1397,15 @@
                 ) {
                     event.events.forEach((event) => {
                         events += `<div class="event">
-                                    <div class="title">
-                                        <i class="fas fa-circle"></i>
-                                        <h3 class="event-title">${event.title}</h3>
-                                    </div>
-                                    <div class="event-time">
-                                        <span class="event-time">${event.time}</span>
-                                    </div>
-                                    ${event.workoutId ? `<div class="event-workout">Workout ID: ${event.workoutId}</div>` : ''}
-                                </div>`;
+                            <div class="title">
+                                <i class="fas fa-circle"></i>
+                                <h3 class="event-title">${event.title}</h3>
+                            </div>
+                            <div class="event-time">
+                                <span class="event-time">${event.time}</span>
+                            </div>
+                            ${event.workoutId ? `<div class="event-workout">Workout ID: ${event.workoutId}</div>` : ''}
+                        </div>`;
                     });
                 }
             });
@@ -1423,9 +1429,9 @@
         });
 
         document.addEventListener("click", (e) => {
-            if (e.target !== addEventBtn &&
+            if (e.target !== addEventBtn && 
                 e.target !== attachWorkoutBtn &&
-                !addEventWrapper.contains(e.target) &&
+                !addEventWrapper.contains(e.target) && 
                 !workoutsList.contains(e.target)) {
                 addEventWrapper.classList.remove("active");
                 workoutsList.classList.remove("active");
@@ -1465,19 +1471,19 @@
         workoutItems.forEach(workout => {
             workout.addEventListener("click", (e) => {
                 e.stopPropagation();
+                // Премахваме старата логика за alert при клик на "Details"
                 if (e.target.classList.contains("details-btn")) {
-                    const workoutId = workout.dataset.workoutId;
-                    alert(`Details for workout ID: ${workoutId}`);
+                    // Няма нужда от допълнителна логика тук, <a> тагът ще се погрижи за пренасочването
                     return;
                 }
 
                 workoutItems.forEach(w => w.classList.remove("selected"));
                 workout.classList.add("selected");
                 selectedWorkoutId = workout.dataset.workoutId;
-
+                
                 const workoutName = workout.querySelector(".workout-name").textContent;
                 selectedWorkoutInfo.textContent = `Selected: ${workoutName}`;
-
+                
                 setTimeout(() => {
                     workoutsList.classList.remove("active");
                 }, 300);

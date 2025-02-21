@@ -60,6 +60,14 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             return RedirectToAction("Details", "TrainingPlan", new { id = trainingPlanId });
         }
+        [HttpGet]
+        public async Task<IActionResult> WorkoutDetailsFromCalendar(int id)
+        {
+            var model = await workoutService.GetModelForDetails(id);
+
+            return View(model);
+        }
+
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
