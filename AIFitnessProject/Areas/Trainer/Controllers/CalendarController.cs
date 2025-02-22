@@ -1,5 +1,8 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.DTOs.Calendar;
+using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AIFitnessProject.Areas.Trainer.Controllers
 {
@@ -22,6 +25,36 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             var model = await calendarService.GetModeForUserCalendar(id);
 
             return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddEvent([FromBody] AddEventViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return Json(new { success = false, message = "Invalid data provided" });
+                }
+
+                var success = await calendarService.AddCalendarEventAsync(model);
+
+                if (success)
+                {
+                    return Json(new { success = true, message = "Event added successfully" });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Failed to add event" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Error: {ex.Message}" });
+            }
+        }
+        public async Task<IActionResult> Delete(int calendarId,int workoutId)
+        {
+            return View();
         }
     }
 }
