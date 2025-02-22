@@ -6,15 +6,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description"
-          content="Stay organized with our user-friendly Calendar featuring events, reminders, and a customizable interface. Built with HTML, CSS, and JavaScript. Start scheduling today!" />
-    <meta name="keywords"
-          content="calendar, events, reminders, javascript, html, css, open source coding" />
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-          integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer" />
+    <meta name="description" content="Stay organized with our user-friendly Calendar featuring events, reminders, and a customizable interface." />
+    <meta name="keywords" content="calendar, events, reminders, javascript, html, css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="~/css/Calendar/CalendarUserStyles.css" />
     <title>Enhanced Calendar with Events</title>
 </head>
@@ -66,9 +60,13 @@
                 </div>
                 <div class="workouts-list">
                     <div class="workouts-container">
-                        @foreach (var workout in Model.Workouts)
+                        @foreach (var workout in Model.TrainingPlanWorkouts)
                         {
-                            <div class="workout-item" data-workout-id="@workout.Id">
+                            <div class="workout-item" data-workout-id="@workout.Id" 
+                                 data-workout-name="@workout.Name" 
+                                 data-workout-image="@workout.ImageUrl" 
+                                 data-workout-exercises="@workout.ExerciseCount" 
+                                 data-workout-muscle="@workout.MuscleGroup">
                                 <div class="workout-image">
                                     <img src="@workout.ImageUrl" alt="@workout.Name" class="workout-img" />
                                     <div class="workout-overlay">
@@ -81,7 +79,11 @@
                                     <div class="workout-stats">
                                         <span><i class="fas fa-dumbbell"></i> @workout.MuscleGroup</span>
                                     </div>
-                                    <button class="details-btn">Details</button>
+                                    <a asp-area="Trainer" 
+                                       asp-controller="Workout" 
+                                       asp-action="WorkoutDetailsFromCalendar" 
+                                       asp-route-id="@workout.Id" 
+                                       class="details-btn">Details</a>
                                 </div>
                             </div>
                         }
@@ -202,15 +204,15 @@
             transition: transform 0.3s ease;
         }
 
-            .profile-picture img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-            .profile-picture:hover {
-                transform: scale(1.05);
-            }
+        .profile-picture:hover {
+            transform: scale(1.05);
+        }
 
         .user-info {
             text-align: center;
@@ -252,58 +254,58 @@
             background-color: #fff;
         }
 
-            .calendar::before,
-            .calendar::after {
-                content: "";
-                position: absolute;
-                top: 50%;
-                left: 100%;
-                width: 12px;
-                height: 97%;
-                border-radius: 0 5px 5px 0;
-                background-color: #d3d4d6d7;
-                transform: translateY(-50%);
-            }
+        .calendar::before,
+        .calendar::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            width: 12px;
+            height: 97%;
+            border-radius: 0 5px 5px 0;
+            background-color: #d3d4d6d7;
+            transform: translateY(-50%);
+        }
 
-            .calendar::before {
-                height: 94%;
-                left: calc(100% + 12px);
-                background-color: rgb(153, 153, 153);
-            }
+        .calendar::before {
+            height: 94%;
+            left: calc(100% + 12px);
+            background-color: rgb(153, 153, 153);
+        }
 
-            .calendar .month {
-                width: 100%;
-                height: 150px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0 50px;
-                font-size: 1.2rem;
-                font-weight: 500;
-                text-transform: capitalize;
-            }
+        .calendar .month {
+            width: 100%;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
 
-                .calendar .month .prev,
-                .calendar .month .next {
-                    cursor: pointer;
-                }
+        .calendar .month .prev,
+        .calendar .month .next {
+            cursor: pointer;
+        }
 
-                    .calendar .month .prev:hover,
-                    .calendar .month .next:hover {
-                        color: var(--primary-clr);
-                    }
+        .calendar .month .prev:hover,
+        .calendar .month .next:hover {
+            color: var(--primary-clr);
+        }
 
-            .calendar .weekdays {
-                width: 100%;
-                height: 100px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0 20px;
-                font-size: 1rem;
-                font-weight: 500;
-                text-transform: capitalize;
-            }
+        .calendar .weekdays {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
 
         .weekdays div {
             width: 14.28%;
@@ -324,92 +326,91 @@
             margin-bottom: 20px;
         }
 
-            .calendar .days .day {
-                width: 14.28%;
-                height: 90px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                color: var(--primary-clr);
-                border: 1px solid #f5f5f5;
-            }
+        .calendar .days .day {
+            width: 14.28%;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--primary-clr);
+            border: 1px solid #f5f5f5;
+        }
 
-                .calendar .days .day:nth-child(7n + 1) {
-                    border-left: 2px solid #f5f5f5;
-                }
+        .calendar .days .day:nth-child(7n + 1) {
+            border-left: 2px solid #f5f5f5;
+        }
 
-                .calendar .days .day:nth-child(7n) {
-                    border-right: 2px solid #f5f5f5;
-                }
+        .calendar .days .day:nth-child(7n) {
+            border-right: 2px solid #f5f5f5;
+        }
 
-                .calendar .days .day:nth-child(-n + 7) {
-                    border-top: 2px solid #f5f5f5;
-                }
+        .calendar .days .day:nth-child(-n + 7) {
+            border-top: 2px solid #f5f5f5;
+        }
 
-                .calendar .days .day:nth-child(n + 29) {
-                    border-bottom: 2px solid #f5f5f5;
-                }
+        .calendar .days .day:nth-child(n + 29) {
+            border-bottom: 2px solid #f5f5f5;
+        }
 
-                .calendar .days .day:not(.prev-date, .next-date):hover {
-                    color: #fff;
-                    background-color: var(--primary-clr);
-                }
+        .calendar .days .day:not(.prev-date, .next-date):hover {
+            color: #fff;
+            background-color: var(--primary-clr);
+        }
 
-            .calendar .days .prev-date,
-            .calendar .days .next-date {
-                color: #b3b3b3;
-            }
+        .calendar .days .prev-date,
+        .calendar .days .next-date {
+            color: #b3b3b3;
+        }
 
-            .calendar .days .active {
-                position: relative;
-                font-size: 2rem;
-                color: #fff;
-                background-color: var(--primary-clr);
-            }
+        .calendar .days .active {
+            position: relative;
+            font-size: 2rem;
+            color: #fff;
+            background-color: var(--primary-clr);
+        }
 
-                .calendar .days .active::before {
-                    content: "";
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    box-shadow: 0 0 10px 2px var(--primary-clr);
-                }
+        .calendar .days .active::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 0 10px 2px var(--primary-clr);
+        }
 
-            .calendar .days .today {
-                font-size: 2rem;
-            }
+        .calendar .days .today {
+            font-size: 2rem;
+        }
 
-            .calendar .days .event {
-                position: relative;
-            }
+        .calendar .days .event {
+            position: relative;
+        }
 
-                .calendar .days .event::after {
-                    content: "";
-                    position: absolute;
-                    bottom: 10%;
-                    left: 50%;
-                    width: 75%;
-                    height: 6px;
-                    border-radius: 30px;
-                    transform: translateX(-50%);
-                    background-color: var(--primary-clr);
-                }
+        .calendar .days .event::after {
+            content: "";
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            width: 75%;
+            height: 2px;
+            transform: translateX(-50%);
+            background-color: var(--primary-clr);
+        }
 
-            .calendar .days .day:hover.event::after {
-                background-color: #fff;
-            }
+        .calendar .days .day:hover.event::after {
+            background-color: #fff;
+        }
 
-            .calendar .days .active.event::after {
-                background-color: #fff;
-                bottom: 20%;
-            }
+        .calendar .days .active.event::after {
+            background-color: #fff;
+            bottom: 20%;
+        }
 
-            .calendar .days .active.event {
-                padding-bottom: 10px;
-            }
+        .calendar .days .active.event {
+            padding-bottom: 10px;
+        }
 
         .calendar .goto-today {
             width: 100%;
@@ -423,44 +424,44 @@
             color: var(--primary-clr);
         }
 
-            .calendar .goto-today .goto {
-                display: flex;
-                align-items: center;
-                border-radius: 5px;
-                overflow: hidden;
-                border: 1px solid var(--primary-clr);
-            }
+        .calendar .goto-today .goto {
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid var(--primary-clr);
+        }
 
-                .calendar .goto-today .goto input {
-                    width: 100%;
-                    height: 30px;
-                    outline: none;
-                    border: none;
-                    border-radius: 5px;
-                    padding: 0 20px;
-                    color: var(--primary-clr);
-                    border-radius: 5px;
-                }
+        .calendar .goto-today .goto input {
+            width: 100%;
+            height: 30px;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+            padding: 0 20px;
+            color: var(--primary-clr);
+            border-radius: 5px;
+        }
 
-            .calendar .goto-today button {
-                padding: 5px 10px;
-                border: 1px solid var(--primary-clr);
-                border-radius: 5px;
-                background-color: transparent;
-                cursor: pointer;
-                color: var(--primary-clr);
-            }
+        .calendar .goto-today button {
+            padding: 5px 10px;
+            border: 1px solid var(--primary-clr);
+            border-radius: 5px;
+            background-color: transparent;
+            cursor: pointer;
+            color: var(--primary-clr);
+        }
 
-                .calendar .goto-today button:hover {
-                    color: #fff;
-                    background-color: var(--primary-clr);
-                }
+        .calendar .goto-today button:hover {
+            color: #fff;
+            background-color: var(--primary-clr);
+        }
 
-            .calendar .goto-today .goto button {
-                border: none;
-                border-left: 1px solid var(--primary-clr);
-                border-radius: 0;
-            }
+        .calendar .goto-today .goto button {
+            border: none;
+            border-left: 1px solid var(--primary-clr);
+            border-radius: 0;
+        }
 
         .container .right {
             position: relative;
@@ -484,16 +485,16 @@
             text-transform: capitalize;
         }
 
-            .right .today-date .event-day {
-                font-size: 2rem;
-                font-weight: 500;
-            }
+        .right .today-date .event-day {
+            font-size: 2rem;
+            font-weight: 500;
+        }
 
-            .right .today-date .event-date {
-                font-size: 1rem;
-                font-weight: 400;
-                color: #878895;
-            }
+        .right .today-date .event-date {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #878895;
+        }
 
         .events {
             width: 100%;
@@ -503,83 +504,148 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            padding-left: 4px;
+            padding: 0 20px;
         }
 
-            .events .event {
-                position: relative;
-                width: 95%;
-                min-height: 70px;
-                display: flex;
-                justify-content: center;
-                flex-direction: column;
-                gap: 5px;
-                padding: 0 20px;
-                padding-left: 50px;
-                color: #fff;
-                background: linear-gradient(90deg, #3f4458, transparent);
-                cursor: pointer;
-            }
+        .event {
+            position: relative;
+            width: 100%;
+            margin: 10px 0;
+            padding: 15px;
+            background: rgba(63, 68, 88, 0.9);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
 
-                .events .event:nth-child(even) {
-                    background: transparent;
-                }
+        .event:nth-child(even) {
+            background: rgba(63, 68, 88, 0.7);
+        }
 
-                .events .event:hover {
-                    background: linear-gradient(90deg, var(--primary-clr), transparent);
-                }
+        .event:hover {
+            background: linear-gradient(90deg, var(--primary-clr), rgba(63, 68, 88, 0.9));
+            box-shadow: 0 4px 15px var(--shadow-clr);
+            transform: translateY(-2px);
+        }
 
-                .events .event .title {
-                    display: flex;
-                    align-items: center;
-                    pointer-events: none;
-                }
+        .event .title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
 
-                    .events .event .title .event-title {
-                        font-size: 1rem;
-                        font-weight: 400;
-                        margin-left: 20px;
-                    }
+        .event .title i {
+            color: var(--primary-clr);
+            font-size: 0.5rem;
+        }
 
-                .events .event i {
-                    color: var(--primary-clr);
-                    font-size: 0.5rem;
-                }
+        .event:hover .title i {
+            color: #fff;
+        }
 
-                .events .event:hover i {
-                    color: #fff;
-                }
+        .event .title .event-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-left: 15px;
+            color: #fff;
+        }
 
-                .events .event .event-time {
-                    font-size: 0.8rem;
-                    font-weight: 400;
-                    color: #878895;
-                    margin-left: 15px;
-                    pointer-events: none;
-                }
+        .event .event-time {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-left: 15px;
+            margin-bottom: 10px;
+        }
 
-                .events .event:hover .event-time {
-                    color: #fff;
-                }
+        .event:hover .event-time {
+            color: #fff;
+        }
 
-                .events .event::after {
-                    content: "✓";
-                    position: absolute;
-                    top: 50%;
-                    right: 0;
-                    font-size: 3rem;
-                    line-height: 1;
-                    display: none;
-                    align-items: center;
-                    justify-content: center;
-                    opacity: 0.3;
-                    color: var(--primary-clr);
-                    transform: translateY(-50%);
-                }
+        .event-workout {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid var(--primary-clr);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
 
-                .events .event:hover::after {
-                    display: flex;
-                }
+        .event-workout:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px var(--shadow-clr);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .event-workout img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+            border: 2px solid var(--secondary-clr);
+            transition: transform 0.3s ease;
+        }
+
+        .event-workout:hover img {
+            transform: scale(1.05);
+        }
+
+        .event-workout .workout-details {
+            flex: 1;
+        }
+
+        .event-workout .workout-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+        }
+
+        .event-workout .workout-info {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .event-workout .workout-info i {
+            color: var(--primary-clr);
+            font-size: 0.9rem;
+        }
+
+        .event-workout:hover .workout-info i {
+            color: #fff;
+        }
+
+        .event .delete-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            display: block;
+            margin-left: auto;
+        }
+
+        .event .delete-btn:hover {
+            background: var(--primary-clr);
+            color: #fff;
+            border-color: var(--primary-clr);
+            box-shadow: 0 2px 8px var(--shadow-clr);
+        }
+
+        .event .delete-btn:active {
+            transform: scale(0.95);
+        }
 
         .add-event {
             position: absolute;
@@ -599,13 +665,13 @@
             cursor: pointer;
         }
 
-            .add-event:hover {
-                opacity: 1;
-            }
+        .add-event:hover {
+            opacity: 1;
+        }
 
-            .add-event i {
-                pointer-events: none;
-            }
+        .add-event i {
+            pointer-events: none;
+        }
 
         .events .no-event {
             width: 100%;
@@ -631,9 +697,9 @@
             transition: max-height 0.5s ease;
         }
 
-            .add-event-wrapper.active {
-                max-height: 450px;
-            }
+        .add-event-wrapper.active {
+            max-height: 450px;
+        }
 
         .add-event-header {
             width: 100%;
@@ -646,19 +712,19 @@
             border-bottom: 1px solid #f5f5f5;
         }
 
-            .add-event-header .close {
-                font-size: 1.5rem;
-                cursor: pointer;
-            }
+        .add-event-header .close {
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
 
-                .add-event-header .close:hover {
-                    color: var(--primary-clr);
-                }
+        .add-event-header .close:hover {
+            color: var(--primary-clr);
+        }
 
-            .add-event-header .title {
-                font-size: 1.2rem;
-                font-weight: 500;
-            }
+        .add-event-header .title {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
 
         .add-event-body {
             width: 100%;
@@ -669,37 +735,37 @@
             padding: 20px;
         }
 
-            .add-event-body .add-event-input {
-                width: 100%;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
+        .add-event-body .add-event-input {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-                .add-event-body .add-event-input input {
-                    width: 100%;
-                    height: 100%;
-                    outline: none;
-                    border: none;
-                    border-bottom: 1px solid #f5f5f5;
-                    padding: 0 10px;
-                    font-size: 1rem;
-                    font-weight: 400;
-                    color: #373c4f;
-                }
+        .add-event-body .add-event-input input {
+            width: 100%;
+            height: 100%;
+            outline: none;
+            border: none;
+            border-bottom: 1px solid #f5f5f5;
+            padding: 0 10px;
+            font-size: 1rem;
+            font-weight: 400;
+            color: #373c4f;
+        }
 
-                    .add-event-body .add-event-input input::placeholder {
-                        color: #a5a5a5;
-                    }
+        .add-event-body .add-event-input input::placeholder {
+            color: #a5a5a5;
+        }
 
-                    .add-event-body .add-event-input input:focus {
-                        border-bottom: 1px solid var(--primary-clr);
-                    }
+        .add-event-body .add-event-input input:focus {
+            border-bottom: 1px solid var(--primary-clr);
+        }
 
-                        .add-event-body .add-event-input input:focus::placeholder {
-                            color: var(--primary-clr);
-                        }
+        .add-event-body .add-event-input input:focus::placeholder {
+            color: var(--primary-clr);
+        }
 
         .workout-input {
             height: 50px;
@@ -728,43 +794,43 @@
             box-shadow: 0 4px 15px var(--shadow-clr);
         }
 
-            .attach-workout-btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px var(--shadow-clr);
-                background: linear-gradient(135deg, var(--hover-clr), var(--primary-clr));
-            }
+        .attach-workout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--shadow-clr);
+            background: linear-gradient(135deg, var(--hover-clr), var(--primary-clr));
+        }
 
-            .attach-workout-btn:active {
-                transform: translateY(1px);
-                box-shadow: 0 2px 10px var(--shadow-clr);
-            }
+        .attach-workout-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px var(--shadow-clr);
+        }
 
-            .attach-workout-btn i {
-                font-size: 1.2rem;
-                transition: transform 0.3s ease;
-            }
+        .attach-workout-btn i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
 
-            .attach-workout-btn:hover i {
-                transform: rotate(20deg);
-            }
+        .attach-workout-btn:hover i {
+            transform: rotate(20deg);
+        }
 
-            .attach-workout-btn::before {
-                content: '';
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 0;
-                height: 0;
-                background: rgba(255, 255, 255, 0.2);
-                border-radius: 50%;
-                transform: translate(-50%, -50%);
-                transition: width 0.6s ease, height 0.6s ease;
-            }
+        .attach-workout-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
 
-            .attach-workout-btn:hover::before {
-                width: 200%;
-                height: 200%;
-            }
+        .attach-workout-btn:hover::before {
+            width: 200%;
+            height: 200%;
+        }
 
         .selected-workout-info {
             margin-left: 10px;
@@ -783,25 +849,25 @@
             padding: 20px;
         }
 
-            .add-event-footer .add-event-btn {
-                height: 40px;
-                font-size: 1rem;
-                font-weight: 500;
-                outline: none;
-                border: none;
-                color: #fff;
-                background-color: var(--primary-clr);
-                border-radius: 5px;
-                cursor: pointer;
-                padding: 5px 20px;
-                border: 1px solid var(--primary-clr);
-                transition: all 0.3s ease;
-            }
+        .add-event-footer .add-event-btn {
+            height: 40px;
+            font-size: 1rem;
+            font-weight: 500;
+            outline: none;
+            border: none;
+            color: #fff;
+            background-color: var(--primary-clr);
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 5px 20px;
+            border: 1px solid var(--primary-clr);
+            transition: all 0.3s ease;
+        }
 
-                .add-event-footer .add-event-btn:hover {
-                    background-color: transparent;
-                    color: var(--primary-clr);
-                }
+        .add-event-footer .add-event-btn:hover {
+            background-color: transparent;
+            color: var(--primary-clr);
+        }
 
         .workouts-list {
             display: none;
@@ -816,9 +882,9 @@
             border: 1px solid var(--primary-clr);
         }
 
-            .workouts-list.active {
-                display: block;
-            }
+        .workouts-list.active {
+            display: block;
+        }
 
         .workouts-container {
             min-height: 300px;
@@ -839,21 +905,21 @@
             border: 2px solid transparent;
         }
 
-            .workout-item.hidden {
-                display: none;
-            }
+        .workout-item.hidden {
+            display: none;
+        }
 
-            .workout-item:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 8px 25px var(--shadow-clr);
-                border: 2px solid var(--primary-clr);
-            }
+        .workout-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow-clr);
+            border: 2px solid var(--primary-clr);
+        }
 
-            .workout-item.selected {
-                background: linear-gradient(145deg, #f7f2ff, #f0eaff);
-                border: 2px solid var(--primary-clr);
-                box-shadow: 0 8px 25px var(--shadow-clr);
-            }
+        .workout-item.selected {
+            background: linear-gradient(145deg, #f7f2ff, #f0eaff);
+            border: 2px solid var(--primary-clr);
+            box-shadow: 0 8px 25px var(--shadow-clr);
+        }
 
         .workout-image {
             width: 100%;
@@ -930,32 +996,33 @@
             flex-wrap: wrap;
         }
 
-            .workout-stats span {
-                display: flex;
-                align-items: center;
-                gap: 5px;
-                color: #555;
-                font-size: 0.9rem;
-                background: #f5f5f5;
-                padding: 4px 10px;
-                border-radius: 15px;
-                transition: all 0.3s ease;
-            }
+        .workout-stats span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #555;
+            font-size: 0.9rem;
+            background: #f5f5f5;
+            padding: 4px 10px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
 
-                .workout-stats span i {
-                    color: var(--primary-clr);
-                }
+        .workout-stats span i {
+            color: var(--primary-clr);
+        }
 
         .workout-item:hover .workout-stats span {
             background: var(--primary-clr);
             color: #fff;
         }
 
-            .workout-item:hover .workout-stats span i {
-                color: #fff;
-            }
+        .workout-item:hover .workout-stats span i {
+            color: #fff;
+        }
 
         .details-btn {
+            display: inline-block;
             padding: 10px 25px;
             background: var(--primary-clr);
             color: #fff;
@@ -967,14 +1034,15 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
+            text-decoration: none;
         }
 
-            .details-btn:hover {
-                background: transparent;
-                color: var(--primary-clr);
-                border: 2px solid var(--primary-clr);
-                transform: translateY(-2px);
-            }
+        .details-btn:hover {
+            background: transparent;
+            color: var(--primary-clr);
+            border: 2px solid var(--primary-clr);
+            transform: translateY(-2px);
+        }
 
         .pagination {
             display: flex;
@@ -1000,17 +1068,17 @@
             box-shadow: 0 4px 15px var(--shadow-clr);
         }
 
-            .prev-page-btn:hover, .next-page-btn:hover {
-                background: var(--hover-clr);
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px var(--shadow-clr);
-            }
+        .prev-page-btn:hover, .next-page-btn:hover {
+            background: var(--hover-clr);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--shadow-clr);
+        }
 
-            .prev-page-btn.disabled, .next-page-btn.disabled {
-                background-color: #ccc;
-                cursor: not-allowed;
-                box-shadow: none;
-            }
+        .prev-page-btn.disabled, .next-page-btn.disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
 
         .page-info {
             font-size: 1rem;
@@ -1030,17 +1098,17 @@
                 border-radius: 0;
             }
 
-                .container .left {
-                    width: 100%;
-                    height: 100%;
-                    padding: 20px 0;
-                }
+            .container .left {
+                width: 100%;
+                height: 100%;
+                padding: 20px 0;
+            }
 
-                .container .right {
-                    width: 100%;
-                    height: 100%;
-                    padding: 20px 0;
-                }
+            .container .right {
+                width: 100%;
+                height: 100%;
+                padding: 20px 0;
+            }
 
             .calendar::before,
             .calendar::after {
@@ -1104,10 +1172,10 @@
                 font-size: 0.8rem;
             }
 
-                .calendar .days .day.active,
-                .calendar .days .day.today {
-                    font-size: 1rem;
-                }
+            .calendar .days .day.active,
+            .calendar .days .day.today {
+                font-size: 1rem;
+            }
 
             .right .today-date {
                 padding: 20px;
@@ -1162,6 +1230,7 @@
             pageInfo = document.querySelector(".page-info"),
             selectedWorkoutInfo = document.querySelector(".selected-workout-info");
 
+        const calendarId = @Model.CalendarId;
         let today = new Date();
         let activeDay;
         let month = today.getMonth();
@@ -1180,6 +1249,7 @@
         const totalPages = Math.ceil(workoutItems.length / itemsPerPage);
 
         getEvents();
+        initCalendar();
 
         function initCalendar() {
             const firstDay = new Date(year, month, 1);
@@ -1193,7 +1263,6 @@
             date.innerHTML = months[month] + " " + year;
 
             let days = "";
-
             for (let x = day; x > 0; x--) {
                 days += `<div class="day prev-date">${prevDays - x + 1}</div>`;
             }
@@ -1217,17 +1286,9 @@
                     activeDay = i;
                     getActiveDay(i);
                     updateEvents(i);
-                    if (event) {
-                        days += `<div class="day today active event">${i}</div>`;
-                    } else {
-                        days += `<div class="day today active">${i}</div>`;
-                    }
+                    days += event ? `<div class="day today active event">${i}</div>` : `<div class="day today active">${i}</div>`;
                 } else {
-                    if (event) {
-                        days += `<div class="day event">${i}</div>`;
-                    } else {
-                        days += `<div class="day">${i}</div>`;
-                    }
+                    days += event ? `<div class="day event">${i}</div>` : `<div class="day">${i}</div>`;
                 }
             }
 
@@ -1240,37 +1301,25 @@
 
         function prevMonth() {
             month--;
-            if (month < 0) {
-                month = 11;
-                year--;
-            }
+            if (month < 0) { month = 11; year--; }
             initCalendar();
         }
 
         function nextMonth() {
             month++;
-            if (month > 11) {
-                month = 0;
-                year++;
-            }
+            if (month > 11) { month = 0; year++; }
             initCalendar();
         }
 
         prev.addEventListener("click", prevMonth);
         next.addEventListener("click", nextMonth);
 
-        initCalendar();
-
         function updatePagination() {
             const startIndex = (currentPage - 1) * itemsPerPage;
             const endIndex = startIndex + itemsPerPage;
 
             workoutItems.forEach((item, index) => {
-                if (index >= startIndex && index < endIndex) {
-                    item.classList.remove("hidden");
-                } else {
-                    item.classList.add("hidden");
-                }
+                item.classList.toggle("hidden", index < startIndex || index >= endIndex);
             });
 
             pageInfo.textContent = `Workout ${currentPage} of ${totalPages}`;
@@ -1281,17 +1330,11 @@
         updatePagination();
 
         prevPageBtn.addEventListener("click", () => {
-            if (currentPage > 1) {
-                currentPage--;
-                updatePagination();
-            }
+            if (currentPage > 1) { currentPage--; updatePagination(); }
         });
 
         nextPageBtn.addEventListener("click", () => {
-            if (currentPage < totalPages) {
-                currentPage++;
-                updatePagination();
-            }
+            if (currentPage < totalPages) { currentPage++; updatePagination(); }
         });
 
         function addListner() {
@@ -1301,18 +1344,14 @@
                     getActiveDay(e.target.innerHTML);
                     updateEvents(Number(e.target.innerHTML));
                     activeDay = Number(e.target.innerHTML);
-                    days.forEach((day) => {
-                        day.classList.remove("active");
-                    });
+                    days.forEach((day) => day.classList.remove("active"));
+                    
                     if (e.target.classList.contains("prev-date")) {
                         prevMonth();
                         setTimeout(() => {
                             const days = document.querySelectorAll(".day");
                             days.forEach((day) => {
-                                if (
-                                    !day.classList.contains("prev-date") &&
-                                    day.innerHTML === e.target.innerHTML
-                                ) {
+                                if (!day.classList.contains("prev-date") && day.innerHTML === e.target.innerHTML) {
                                     day.classList.add("active");
                                 }
                             });
@@ -1322,10 +1361,7 @@
                         setTimeout(() => {
                             const days = document.querySelectorAll(".day");
                             days.forEach((day) => {
-                                if (
-                                    !day.classList.contains("next-date") &&
-                                    day.innerHTML === e.target.innerHTML
-                                ) {
+                                if (!day.classList.contains("next-date") && day.innerHTML === e.target.innerHTML) {
                                     day.classList.add("active");
                                 }
                             });
@@ -1346,16 +1382,10 @@
 
         dateInput.addEventListener("input", (e) => {
             dateInput.value = dateInput.value.replace(/[^0-9/]/g, "");
-            if (dateInput.value.length === 2) {
-                dateInput.value += "/";
-            }
-            if (dateInput.value.length > 7) {
-                dateInput.value = dateInput.value.slice(0, 7);
-            }
-            if (e.inputType === "deleteContentBackward") {
-                if (dateInput.value.length === 3) {
-                    dateInput.value = dateInput.value.slice(0, 2);
-                }
+            if (dateInput.value.length === 2) dateInput.value += "/";
+            if (dateInput.value.length > 7) dateInput.value = dateInput.value.slice(0, 7);
+            if (e.inputType === "deleteContentBackward" && dateInput.value.length === 3) {
+                dateInput.value = dateInput.value.slice(0, 2);
             }
         });
 
@@ -1363,13 +1393,11 @@
 
         function gotoDate() {
             const dateArr = dateInput.value.split("/");
-            if (dateArr.length === 2) {
-                if (dateArr[0] > 0 && dateArr[0] < 13 && dateArr[1].length === 4) {
-                    month = dateArr[0] - 1;
-                    year = dateArr[1];
-                    initCalendar();
-                    return;
-                }
+            if (dateArr.length === 2 && dateArr[0] > 0 && dateArr[0] < 13 && dateArr[1].length === 4) {
+                month = dateArr[0] - 1;
+                year = dateArr[1];
+                initCalendar();
+                return;
             }
             alert("Invalid Date");
         }
@@ -1383,31 +1411,55 @@
 
         function updateEvents(date) {
             let events = "";
-            eventsArr.forEach((event) => {
-                if (
-                    date === event.day &&
-                    month + 1 === event.month &&
-                    year === event.year
-                ) {
-                    event.events.forEach((event) => {
-                        events += `<div class="event">
-                                    <div class="title">
-                                        <i class="fas fa-circle"></i>
-                                        <h3 class="event-title">${event.title}</h3>
+            eventsArr.forEach((eventObj) => {
+                if (date === eventObj.day && month + 1 === eventObj.month && year === eventObj.year) {
+                    eventObj.events.forEach((event, index) => {
+                        events += `<div class="event" data-day="${eventObj.day}" data-month="${eventObj.month}" data-year="${eventObj.year}" data-index="${index}" data-workout-id="${event.workout ? event.workout.id : ''}">
+                            <div class="title">
+                                <i class="fas fa-circle"></i>
+                                <h3 class="event-title">${event.title}</h3>
+                            </div>
+                            <div class="event-time">
+                                <span class="event-time">${event.time}</span>
+                            </div>
+                            ${event.workout ? `
+                                <div class="event-workout">
+                                    <img src="${event.workout.imageUrl}" alt="${event.workout.name}" />
+                                    <div class="workout-details">
+                                        <p class="workout-name">${event.workout.name}</p>
+                                        <p class="workout-info"><i class="fas fa-dumbbell"></i> ${event.workout.muscleGroup} - ${event.workout.exerciseCount} Exercises</p>
                                     </div>
-                                    <div class="event-time">
-                                        <span class="event-time">${event.time}</span>
-                                    </div>
-                                    ${event.workoutId ? `<div class="event-workout">Workout ID: ${event.workoutId}</div>` : ''}
-                                </div>`;
+                                </div>
+                            ` : ''}
+                            <button class="delete-btn" onclick="confirmDelete(${calendarId}, '${event.workout ? event.workout.id : ''}', ${eventObj.day}, ${eventObj.month}, ${eventObj.year}, ${index})">Delete</button>
+                        </div>`;
                     });
                 }
             });
-            if (events === "") {
-                events = `<div class="no-event"><h3>No Events</h3></div>`;
+            eventsContainer.innerHTML = events || `<div class="no-event"><h3>No Events</h3></div>`;
+        }
+
+        function confirmDelete(calendarId, workoutId, day, month, year, index) {
+            if (confirm("Сигурни ли сте, че искате да изтриете това събитие?")) {
+                if (workoutId) {
+                    window.location.href = `/Trainer/Calendar/Delete?calendarId=${calendarId}&workoutId=${workoutId}`;
+                }
+                const eventObj = eventsArr.find(e => 
+                    e.day === day && e.month === month && e.year === year
+                );
+                if (eventObj) {
+                    eventObj.events.splice(index, 1);
+                    if (eventObj.events.length === 0) {
+                        const arrIndex = eventsArr.indexOf(eventObj);
+                        eventsArr.splice(arrIndex, 1);
+                    }
+                    updateEvents(activeDay);
+                    const activeDayEl = document.querySelector(".day.active");
+                    if (activeDayEl && eventsArr.every(e => e.day !== day || e.month !== month || e.year !== year)) {
+                        activeDayEl.classList.remove("event");
+                    }
+                }
             }
-            eventsContainer.innerHTML = events;
-            saveEvents();
         }
 
         addEventBtn.addEventListener("click", () => {
@@ -1423,9 +1475,9 @@
         });
 
         document.addEventListener("click", (e) => {
-            if (e.target !== addEventBtn &&
+            if (e.target !== addEventBtn && 
                 e.target !== attachWorkoutBtn &&
-                !addEventWrapper.contains(e.target) &&
+                !addEventWrapper.contains(e.target) && 
                 !workoutsList.contains(e.target)) {
                 addEventWrapper.classList.remove("active");
                 workoutsList.classList.remove("active");
@@ -1438,22 +1490,14 @@
 
         addEventFrom.addEventListener("input", (e) => {
             addEventFrom.value = addEventFrom.value.replace(/[^0-9:]/g, "");
-            if (addEventFrom.value.length === 2) {
-                addEventFrom.value += ":";
-            }
-            if (addEventFrom.value.length > 5) {
-                addEventFrom.value = addEventFrom.value.slice(0, 5);
-            }
+            if (addEventFrom.value.length === 2) addEventFrom.value += ":";
+            if (addEventFrom.value.length > 5) addEventFrom.value = addEventFrom.value.slice(0, 5);
         });
 
         addEventTo.addEventListener("input", (e) => {
             addEventTo.value = addEventTo.value.replace(/[^0-9:]/g, "");
-            if (addEventTo.value.length === 2) {
-                addEventTo.value += ":";
-            }
-            if (addEventTo.value.length > 5) {
-                addEventTo.value = addEventTo.value.slice(0, 5);
-            }
+            if (addEventTo.value.length === 2) addEventTo.value += ":";
+            if (addEventTo.value.length > 5) addEventTo.value = addEventFrom.value.slice(0, 5);
         });
 
         attachWorkoutBtn.addEventListener("click", (e) => {
@@ -1465,31 +1509,27 @@
         workoutItems.forEach(workout => {
             workout.addEventListener("click", (e) => {
                 e.stopPropagation();
-                if (e.target.classList.contains("details-btn")) {
-                    const workoutId = workout.dataset.workoutId;
-                    alert(`Details for workout ID: ${workoutId}`);
-                    return;
-                }
+                if (e.target.classList.contains("details-btn")) return;
 
                 workoutItems.forEach(w => w.classList.remove("selected"));
                 workout.classList.add("selected");
-                selectedWorkoutId = workout.dataset.workoutId;
-
-                const workoutName = workout.querySelector(".workout-name").textContent;
+                selectedWorkoutId = parseInt(workout.dataset.workoutId) || null;
+                
+                const workoutName = workout.dataset.workoutName;
                 selectedWorkoutInfo.textContent = `Selected: ${workoutName}`;
-
+                
                 setTimeout(() => {
                     workoutsList.classList.remove("active");
                 }, 300);
             });
         });
 
-        addEventSubmit.addEventListener("click", () => {
-            const eventTitle = addEventTitle.value;
-            const eventTimeFrom = addEventFrom.value;
-            const eventTimeTo = addEventTo.value;
+        addEventSubmit.addEventListener("click", async () => {
+            const eventTitle = addEventTitle.value.trim();
+            const eventTimeFrom = addEventFrom.value.trim();
+            const eventTimeTo = addEventTo.value.trim();
 
-            if (eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "") {
+            if (!eventTitle || !eventTimeFrom || !eventTimeTo) {
                 alert("Please fill all the fields");
                 return;
             }
@@ -1499,130 +1539,148 @@
             if (
                 timeFromArr.length !== 2 ||
                 timeToArr.length !== 2 ||
-                timeFromArr[0] > 23 ||
-                timeFromArr[1] > 59 ||
-                timeToArr[0] > 23 ||
-                timeToArr[1] > 59
+                isNaN(timeFromArr[0]) || isNaN(timeFromArr[1]) ||
+                isNaN(timeToArr[0]) || isNaN(timeToArr[1]) ||
+                timeFromArr[0] > 23 || timeFromArr[1] > 59 ||
+                timeToArr[0] > 23 || timeToArr[1] > 59
             ) {
-                alert("Invalid Time Format");
+                alert("Invalid Time Format (use HH:MM, 24-hour)");
                 return;
             }
 
-            const timeFrom = convertTime(eventTimeFrom);
-            const timeTo = convertTime(eventTimeTo);
-
-            let eventExist = false;
-            eventsArr.forEach((event) => {
-                if (
-                    event.day === activeDay &&
-                    event.month === month + 1 &&
-                    event.year === year
-                ) {
-                    event.events.forEach((event) => {
-                        if (event.title === eventTitle) {
-                            eventExist = true;
-                        }
-                    });
-                }
-            });
-            if (eventExist) {
-                alert("Event already added");
+            if (!activeDay) {
+                alert("Please select a day in the calendar");
                 return;
             }
 
-            const newEvent = {
+            const eventData = {
+                calendarId: calendarId,
+                workoutId: selectedWorkoutId,
                 title: eventTitle,
-                time: timeFrom + " - " + timeTo,
-                workoutId: selectedWorkoutId
+                startTime: eventTimeFrom,
+                endTime: eventTimeTo,
+                day: activeDay,
+                month: month + 1,
+                year: year
             };
 
-            let eventAdded = false;
-            if (eventsArr.length > 0) {
-                eventsArr.forEach((item) => {
-                    if (
-                        item.day === activeDay &&
-                        item.month === month + 1 &&
-                        item.year === year
-                    ) {
-                        item.events.push(newEvent);
-                        eventAdded = true;
+            console.log("Sending event data:", eventData);
+
+            try {
+                const response = await fetch('/Trainer/Calendar/AddEvent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify(eventData)
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    const timeFrom = convertTime(eventTimeFrom);
+                    const timeTo = convertTime(eventTimeTo);
+
+                    let workoutDetails = null;
+                    if (selectedWorkoutId) {
+                        const selectedWorkout = Array.from(workoutItems).find(w => 
+                            parseInt(w.dataset.workoutId) === selectedWorkoutId);
+                        workoutDetails = {
+                            id: selectedWorkoutId,
+                            name: selectedWorkout.dataset.workoutName,
+                            imageUrl: selectedWorkout.dataset.workoutImage,
+                            exerciseCount: selectedWorkout.dataset.workoutExercises,
+                            muscleGroup: selectedWorkout.dataset.workoutMuscle
+                        };
                     }
-                });
-            }
 
-            if (!eventAdded) {
-                eventsArr.push({
-                    day: activeDay,
-                    month: month + 1,
-                    year: year,
-                    events: [newEvent],
-                });
-            }
+                    const newEvent = {
+                        title: eventTitle,
+                        time: `${timeFrom} - ${timeTo}`,
+                        workout: workoutDetails
+                    };
 
-            addEventWrapper.classList.remove("active");
-            workoutsList.classList.remove("active");
-            addEventTitle.value = "";
-            addEventFrom.value = "";
-            addEventTo.value = "";
-            selectedWorkoutId = null;
-            selectedWorkoutInfo.textContent = "";
-            workoutItems.forEach(w => w.classList.remove("selected"));
-            updateEvents(activeDay);
-
-            const activeDayEl = document.querySelector(".day.active");
-            if (!activeDayEl.classList.contains("event")) {
-                activeDayEl.classList.add("event");
-            }
-        });
-
-        eventsContainer.addEventListener("click", (e) => {
-            if (e.target.classList.contains("event")) {
-                if (confirm("Are you sure you want to delete this event?")) {
-                    const eventTitle = e.target.children[0].children[1].innerHTML;
-                    eventsArr.forEach((event) => {
+                    let eventAdded = false;
+                    eventsArr.forEach((item) => {
                         if (
-                            event.day === activeDay &&
-                            event.month === month + 1 &&
-                            event.year === year
+                            item.day === activeDay &&
+                            item.month === month + 1 &&
+                            item.year === year
                         ) {
-                            event.events.forEach((item, index) => {
-                                if (item.title === eventTitle) {
-                                    event.events.splice(index, 1);
-                                }
-                            });
-                            if (event.events.length === 0) {
-                                eventsArr.splice(eventsArr.indexOf(event), 1);
-                                const activeDayEl = document.querySelector(".day.active");
-                                if (activeDayEl.classList.contains("event")) {
-                                    activeDayEl.classList.remove("event");
-                                }
-                            }
+                            item.events.push(newEvent);
+                            eventAdded = true;
                         }
                     });
+
+                    if (!eventAdded) {
+                        eventsArr.push({
+                            day: activeDay,
+                            month: month + 1,
+                            year: year,
+                            events: [newEvent],
+                        });
+                    }
+
+                    addEventWrapper.classList.remove("active");
+                    workoutsList.classList.remove("active");
+                    addEventTitle.value = "";
+                    addEventFrom.value = "";
+                    addEventTo.value = "";
+                    selectedWorkoutInfo.textContent = "";
+                    workoutItems.forEach(w => w.classList.remove("selected"));
+                    selectedWorkoutId = null;
+
                     updateEvents(activeDay);
+                    const activeDayEl = document.querySelector(".day.active");
+                    if (!activeDayEl.classList.contains("event")) {
+                        activeDayEl.classList.add("event");
+                    }
+
+                    alert("Event added successfully!");
+                } else {
+                    alert(result.message || "Failed to add event");
                 }
+            } catch (error) {
+                console.error("Error adding event:", error);
+                alert("Error adding event: " + error.message);
             }
         });
 
-        function saveEvents() {
-            localStorage.setItem("events", JSON.stringify(eventsArr));
-        }
-
         function getEvents() {
-            if (localStorage.getItem("events") === null) {
-                return;
-            }
-            eventsArr.push(...JSON.parse(localStorage.getItem("events")));
+            const serverEvents = @Html.Raw(Json.Serialize(Model.Workouts.Select(w => new
+            {
+                day = w.Date.Day,
+                month = w.Date.Month,
+                year = w.Date.Year,
+                events = new[] {
+                    new {
+                        title = w.Name,
+                        time = (w.StartEventTime != null && w.EndEventTime != null) 
+                            ? $"{w.StartEventTime:hh\\:mm} - {w.EndEventTime:hh\\:mm}"
+                            : "Time not set",
+                        workout = new {
+                            id = w.Id,
+                            name = w.Name,
+                            imageUrl = w.ImageUrl,
+                            exerciseCount = w.ExerciseCount,
+                            muscleGroup = w.MuscleGroup
+                        }
+                    }
+                }
+            })));
+            
+            eventsArr.length = 0;
+            eventsArr.push(...serverEvents);
         }
 
         function convertTime(time) {
             let timeArr = time.split(":");
-            let timeHour = timeArr[0];
+            let timeHour = parseInt(timeArr[0]);
             let timeMin = timeArr[1];
             let timeFormat = timeHour >= 12 ? "PM" : "AM";
             timeHour = timeHour % 12 || 12;
-            time = timeHour + ":" + timeMin + " " + timeFormat;
-            return time;
+            return timeHour + ":" + timeMin + " " + timeFormat;
         }
     </script>
 </body>

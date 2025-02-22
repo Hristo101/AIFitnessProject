@@ -71,6 +71,12 @@
             color: #ecf0f1; /* Светъл текст */
         }
 
+        .header-style{
+            top:0;
+            position:sticky;
+            width:100%;
+            z-index:1;
+        }
         /* Контейнер за съдържанието */
         .container {
             background-color: #f8f9fa;
@@ -81,7 +87,7 @@
     </style>
 </head>
 <body>
-    <header>
+    <header class="header-style">
         <nav class="navbar navbar-expand-sm">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AIFitnessProject</a>

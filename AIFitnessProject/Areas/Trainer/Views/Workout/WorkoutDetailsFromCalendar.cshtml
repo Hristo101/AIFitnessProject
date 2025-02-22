@@ -1,0 +1,273 @@
+﻿@using AIFitnessProject.Core.Models.Workout
+@model WorkoutViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Model.Title - Workout</title>
+    <style>
+        :root {
+            --primary-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #2d3436;
+            --shadow-color: rgba(0, 0, 0, 0.15);
+            --easy-color: #2ecc71; /* Зелено за лесно */
+            --medium-color: #f39c12; /* Оранжево за средно */
+            --hard-color: #e74c3c; /* Червено за трудно */
+            --button-color: #6c5ce7; /* Лилаво за бутони */
+            --hover-shadow: rgba(108, 92, 231, 0.2);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-bg), #dfe4ea);
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            color: var(--text-color);
+        }
+
+        .workout-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            perspective: 1500px;
+        }
+
+        .workout-header {
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: 25px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            transform: translateZ(25px);
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .workout-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, var(--easy-color), var(--hard-color));
+        }
+
+        .workout-header:hover {
+            transform: translateZ(50px) scale(1.03);
+            box-shadow: 0 15px 40px var(--shadow-color);
+        }
+
+        .workout-title {
+            color: var(--text-color);
+            font-size: 3em;
+            margin: 0;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .day-of-week {
+            color: #636e72;
+            font-size: 1.5em;
+            margin: 15px 0;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        .workout-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px var(--shadow-color);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .workout-image:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px;
+        }
+
+        .exercise-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            transition: all 0.5s ease;
+            transform: translateZ(0);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exercise-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--button-color);
+            transition: height 0.3s ease;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-20px) translateZ(40px);
+            box-shadow: 0 12px 35px var(--hover-shadow);
+        }
+
+        .exercise-card:hover::before {
+            height: 10px;
+        }
+
+        .exercise-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            transition: transform 0.4s ease;
+        }
+
+        .exercise-image:hover {
+            transform: scale(1.06);
+        }
+
+        .exercise-name {
+            color: var(--text-color);
+            font-size: 1.7em;
+            margin: 0 0 20px 0;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .exercise-details {
+            font-size: 1em;
+            line-height: 1.7;
+        }
+
+        .exercise-details p {
+            margin: 8px 0;
+        }
+
+        .difficulty-easy { color: var(--easy-color); font-weight: 600; }
+        .difficulty-medium { color: var(--medium-color); font-weight: 600; }
+        .difficulty-hard { color: var(--hard-color); font-weight: 600; }
+
+        .video-button {
+            display: inline-block;
+            padding: 10px 25px;
+            background: var(--button-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+        }
+
+        .video-button:hover {
+            background: #8974f0;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(108, 92, 231, 0.4);
+        }
+
+        .back-button {
+            display: block;
+            margin: 50px auto 30px;
+            padding: 16px 50px;
+            background: var(--button-color);
+            color: white;
+            border: none;
+            border-radius: 35px;
+            font-size: 1.3em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            transform: translateZ(0);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.3);
+        }
+
+        .back-button:hover {
+            transform: translateY(-8px) translateZ(30px);
+            background: #8974f0;
+            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.4);
+        }
+
+        @@keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @@keyframes glow {
+            0% { box-shadow: 0 6px 20px var(--shadow-color); }
+            50% { box-shadow: 0 8px 25px var(--hover-shadow); }
+            100% { box-shadow: 0 6px 20px var(--shadow-color); }
+        }
+
+        .workout-header {
+            animation: fadeInUp 0.7s ease-out forwards;
+        }
+
+        .exercise-card {
+            animation: fadeInUp 0.7s ease-out forwards;
+        }
+
+        .exercise-card:nth-child(2) { animation-delay: 0.2s; }
+        .exercise-card:nth-child(3) { animation-delay: 0.4s; }
+        .exercise-card:nth-child(4) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <div class="workout-container">
+        <div class="workout-header">
+            <h1 class="workout-title">@Model.Title</h1>
+            <p class="day-of-week">@Model.DayOfWeek</p>
+            <img src="@Model.ImageUrl" alt="Workout Image" class="workout-image">
+        </div>
+
+        <div class="exercise-grid">
+            @foreach (var exercise in Model.Exercises)
+            {
+                <div class="exercise-card">
+                    <img src="@exercise.ImageUrl" alt="@exercise.Name" class="exercise-image">
+                    <h3 class="exercise-name">@exercise.Name</h3>
+                    <div class="exercise-details">
+                        <p><strong>Description:</strong> @exercise.Description</p>
+                        <p><strong>Muscle Group:</strong> @exercise.MuscleGroup</p>
+                        <p><strong>Series:</strong> @exercise.Series</p>
+                        <p><strong>Repetitions:</strong> @exercise.Repetitions</p>
+                        <p><strong>Difficulty:</strong> 
+                            <span class="@(exercise.DifficultyLevel?.ToLower() switch 
+                            { 
+                                "easy" => "difficulty-easy",
+                                "medium" => "difficulty-medium",
+                                "hard" => "difficulty-hard",
+                                _ => ""
+                            })">@exercise.DifficultyLevel</span>
+                        </p>
+                        @if (!string.IsNullOrEmpty(exercise.VideoUrl))
+                        {
+                            <a href="@exercise.VideoUrl" class="video-button" target="_blank">Watch Video</a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+        <button class="back-button" onclick="history.back()">Back</button>
+    </div>
+</body>
+</html>
