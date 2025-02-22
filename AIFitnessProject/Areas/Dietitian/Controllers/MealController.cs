@@ -1,7 +1,6 @@
 ﻿using AIFitnessProject.Core.Contracts;
-using AIFitnessProject.Core.Models.Exercise;
+using AIFitnessProject.Core.DTOs.MealFeedback;
 using AIFitnessProject.Core.Models.Meal;
-using AIFitnessProject.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -101,6 +100,28 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             await mealService.EditAsyncFromDailyDietPlan(id, model);
 
             return RedirectToAction(nameof(Details), new { id = model.Id , dailyDietPlanId = dailyDietPlanId });
+        }
+        [HttpPost]
+        public async Task<IActionResult> SwapMealInDailyDietPlan([FromBody] SwapMealRequest request)
+        {
+            if (request == null ||
+                request.DietId <= 0 ||
+                request.DailyDietPlanId <= 0 ||
+                request.MealId<= 0 ||
+                request.NewMealId <= 0)
+            {
+                return Json(new { success = false, message = "Невалидни данни." });
+            }
+
+            var result = await mealService.SwapMealInDailyDietPlan(request);
+            if (result)
+            {
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Възникна грешка при смяната на упражнението." });
+            }
         }
         private string GetUserId()
         {

@@ -1,12 +1,8 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.DailyDietPlan;
 using AIFitnessProject.Core.Models.Diet;
-using AIFitnessProject.Core.Models.Exercise;
-using AIFitnessProject.Core.Models.ExerciseFeedback;
 using AIFitnessProject.Core.Models.Meal;
 using AIFitnessProject.Core.Models.MealFeedback;
-using AIFitnessProject.Core.Models.TrainingPlan;
-using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -24,6 +20,30 @@ namespace AIFitnessProject.Core.Services
             _hostingEnvironment = hostingEnvironment;
             this.repository = _repository;
         }
+
+        //public async Task AcceptDietAsync(int id, string UserId)
+        //{
+        //    var diet = await repository.All<Diet>()
+        //      .Where(x => x.Id == id)
+        //      .Where(x => x.UserId == UserId)
+        //      .Include(x => x.Dietitian)
+        //      .Include(x => x.User)
+        //      .FirstOrDefaultAsync();
+
+        //    diet.IsInCalendar = true;
+        //    await repository.SaveChangesAsync();
+
+        //    var model = await repository.All<Calendar>()
+
+        //    Calendar calendar = new Calendar()
+        //    {
+        //        TrainerId = trainingPlan.CreatedById,
+        //        UserId = trainingPlan.UserId,
+        //    };
+
+        //    await repository.AddAsync(calendar);
+        //    await repository.SaveChangesAsync();
+        //}
 
         public async Task CreateDiet(string id, string dietitianId, CreateDietViewModel model)
         {
@@ -126,6 +146,7 @@ namespace AIFitnessProject.Core.Services
         {
             var diet = await repository.AllAsReadOnly<Diet>()
                 .Where(x => x.UserId == userId && x.IsActive == true)
+                .Where(x=>x.IsEdit == false)
                 .Select(x => new DietForUserViewModel()
                 {
                     DietDescription = x.Description,
@@ -184,8 +205,10 @@ namespace AIFitnessProject.Core.Services
                 Name = diet.Name,
                 Description = diet.Description,
                 ImageUrl = diet.ImageUrl,
+                IsInCalendar = diet.IsInCalendar,
                 DailyDietPlans = diet.DietDailyDietPlans.Select(dailyDietPlan => new DailyDietPlanViewModel
                 {
+                    Id = dailyDietPlan.Id,
                     Title = dailyDietPlan.DailyDietPlan.Title,
                     DayOfWeek = dailyDietPlan.DailyDietPlan.DayOfWeel,
                     DificultyLevel = dailyDietPlan.DailyDietPlan.DificultyLevel,
@@ -272,6 +295,7 @@ namespace AIFitnessProject.Core.Services
                 .Include(x => x.User)
                 .Where(x => x.Dietitian.Id == dietitian.Id)
                 .Where(x => x.IsActive == false)
+                .Where(x=>x.IsEdit == true)
                 .Include(x => x.User)
                 .Select(x => new RejectedDietViewModel()
                 {
@@ -371,6 +395,7 @@ namespace AIFitnessProject.Core.Services
                 .FirstAsync();
 
             diet.IsActive = false;
+            diet.IsEdit = true;
             await repository.SaveChangesAsync();
         }
 
@@ -381,6 +406,7 @@ namespace AIFitnessProject.Core.Services
                 .FirstAsync();
 
             diet.IsActive = true;
+            diet.IsEdit = false;
             await repository.SaveChangesAsync();
         }
 

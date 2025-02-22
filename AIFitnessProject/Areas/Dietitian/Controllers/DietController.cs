@@ -116,6 +116,20 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> SendEditDiet(int id)
+        {
+            var model = await dietService.GetDietModelForSendView(id);
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SendEditDietConfirmed(int id)
+        {
+            await dietService.SendToUserAsync(id);
+
+            return RedirectToAction(nameof(AllRejectedDiet));
+        }
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);

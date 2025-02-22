@@ -217,7 +217,8 @@
     }
 
         .toggle-panel-button:hover {
-            color: #005dc1;
+            color: #3CB371;
+           
         }
 
         .toggle-panel-button.open {
@@ -251,7 +252,7 @@
         }
 
         .available-exercise-card.selected {
-            background: linear-gradient(145deg, #e0f0ff, #cce0ff);
+            background: linear-gradient(145deg, #e0ffe0, #cce0cc);
         }
 
         .available-exercise-card img {
@@ -290,7 +291,8 @@
     }
 
         .video-button-panel:hover {
-            background: #005dc1;
+            background: #3CB371;
+            color: black;
             transform: scale(1.05);
         }
 
@@ -332,7 +334,8 @@
 
         .swap-exercise-button:hover:not(:disabled),
         .add-exercise-button:hover {
-            background: #005dc1;
+            background: #3CB371;
+            color: black;
             transform: scale(1.05);
         }
 
@@ -481,7 +484,7 @@
 else
 {
     <div class="no-feedback-message">
-        <p>Редактира ли сте всички упражнения?</p>
+        <p>Редактирали сте всички храни?</p>
     </div>
 }
 
@@ -491,13 +494,13 @@ else
 
 <div id="edit-panel">
     <div class="panel-header">
-        <h4>Избери упражнения за <span id="panel-muscle-group"></span></h4>
+        <h4>Избери храна за <span id="panel-muscle-group"></span></h4>
         <button id="close-panel-button" class="toggle-panel-button">&#9660;</button>
     </div>
     <div id="panel-content" class="panel-content"></div>
     <div class="panel-actions">
-        <button id="swap-exercise-button" class="swap-exercise-button" disabled>Смени упражнението</button>
-        <button id="add-exercise-button" class="add-exercise-button">Добави упражнение</button>
+        <button id="swap-exercise-button" class="swap-exercise-button" disabled>Смени храната</button>
+        <button id="add-exercise-button" class="add-exercise-button">Добави храна</button>
     </div>
 </div>
 
@@ -547,10 +550,10 @@ else
         infoDiv.className = 'available-exercise-info';
         var nameElem = document.createElement('strong');
         nameElem.textContent = exercise.Name;
-        var seriesElem = document.createElement('span');
-        seriesElem.textContent = 'Серии: ' + exercise.Series;
-        var repsElem = document.createElement('span');
-        repsElem.textContent = 'Повторения: ' + exercise.Repetitions;
+        var seriesElem = document.createElement('div');
+        seriesElem.textContent = 'Калории: ' + exercise.Calories;
+        var repsElem = document.createElement('div');
+        repsElem.textContent = 'Ниво на трудност: ' + exercise.DificultyLevel;
         infoDiv.appendChild(nameElem);
         infoDiv.appendChild(seriesElem);
         infoDiv.appendChild(repsElem);
@@ -604,7 +607,7 @@ else
             var muscleGroup = button.getAttribute('data-musclegroup');
             document.getElementById('panel-muscle-group').textContent = muscleGroup;
             var filtered = availableExercises.filter(function (ex) {
-                return ex.MuscleGroup === muscleGroup;
+                return ex.MealTime === muscleGroup;
             });
             var panelContent = document.getElementById('panel-content');
             panelContent.innerHTML = '';
@@ -629,34 +632,34 @@ else
     document.getElementById('swap-exercise-button').addEventListener('click', function () {
         var selectedExercise = document.querySelector('.exercise-checkbox:checked');
         if (!selectedExercise) {
-            alert("Моля, изберете упражнение за замяна.");
+            alert("Моля, изберете храна за замяна.");
             return;
         }
         var newExerciseId = selectedExercise.value; // ID на избраното ново упражнение
 
         // Използваме запаметените currentWorkoutId и currentExerciseId
-        fetch('/Trainer/ExerciseTrainer/SwapExerciseInWorkout', {
+        fetch('/Dietitian/Meal/SwapMealInDailyDietPlan', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest'
             },
             body: JSON.stringify({
-                trainingPlanId: @Model.Id,
-                workoutId: currentWorkoutId,
-                exerciseId: currentExerciseId,
-                newExerciseId: newExerciseId
+                dietId: @Model.Id,
+                dailyDietPlanId: currentWorkoutId,
+                mealId: currentExerciseId,
+                newMealId: newExerciseId
             })
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error("Грешка при смяната на упражнението.");
+                    throw new Error("Грешка при смяната на храната.");
                 }
                 return response.json();
             })
             .then(data => {
                 if (data.success) {
-                    alert("Упражнението беше успешно заменено!");
+                    alert("Храната беше успешно заменена!");
                     location.reload();
                 } else {
                     alert("Възникна грешка: " + data.message);
