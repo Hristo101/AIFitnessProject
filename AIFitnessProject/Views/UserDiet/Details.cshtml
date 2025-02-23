@@ -313,12 +313,29 @@
 
         <!-- Action Buttons -->
         <div class="text-center mt-6" data-aos="fade-up">
-            <button class="btn-gradient me-3">
-                <i class="fas fa-check-circle me-2"></i>Приеми плана
-            </button>
-            <a asp-action="RejectedDiet" asp-controller="UserDiet" asp-route-id="@Model.Id" class="btn btn-outline-dark px-4">
-                <i class="fas fa-times-circle me-2"></i>Откажи
-            </a>
+
+            @if (!Model.IsInCalendar)
+            {
+                <a asp-action="AcceptDiet" asp-controller="UserDiet" asp-route-id="@Model.Id" class="btn-gradient me-3">
+                    <i class="fas fa-check-circle me-2"></i>Приеми плана
+                </a>
+                <a asp-action="RejectedDiet" asp-controller="UserDiet" asp-route-id="@Model.Id" class="btn btn-outline-dark px-4">
+                    <i class="fas fa-times-circle me-2"></i>Откажи
+                </a>
+                <a asp-action="MyDiet" asp-controller="UserDiet" class="btn btn-outline-dark px-4">
+                    <i class="fas fa-times-circle me-2"></i>Назад
+                </a>
+            }
+            else
+            {
+                <a asp-action="RejectedDiet" asp-controller="UserDiet" asp-route-id="@Model.Id" class="btn btn-outline-dark px-4">
+                    <i class="fas fa-times-circle me-2"></i>Откажи
+                </a>
+                <a asp-action="MyDiet" asp-controller="UserDiet" class="btn btn-outline-dark px-4">
+                    <i class="fas fa-times-circle me-2"></i>Назад
+                </a>
+            }
+         
         </div>
     </div>
 

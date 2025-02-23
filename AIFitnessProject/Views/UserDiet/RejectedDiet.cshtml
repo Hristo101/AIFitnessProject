@@ -450,8 +450,8 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="exercise-card">
                                         <input type="checkbox" class="exercise-checkbox"
-                                               id="ex-check-@meal.Id"
-                                               onchange="toggleComment(@meal.Id)">
+                                               id="ex-check-@meal.Id-@dailyDietPlan.Id"
+                                               onchange="toggleComment(@meal.Id,@dailyDietPlan.Id)">
 
                                         <div class="hover-zoom mb-3">
 
@@ -487,26 +487,26 @@
                                         </div>
 
                                         <!-- Секция за коментари -->
-                                        <div class="comment-section" id="comment-section-@meal.Id">
+                                        <div class="comment-section" id="comment-section-@meal.Id-@dailyDietPlan.Id">
                                             <div class="container input-container">
                                                 <input required="required"
                                                        class="inp"
-                                                       id="comment-@meal.Id"
+                                                       id="comment-@meal.Id-@dailyDietPlan.Id"
                                                        placeholder=" ">
                                                 <span class="content">Коментар</span>
                                             </div>
                                             <button class="submit-comment-btn"
-                                                    id="submit-btn-@meal.Id"
-                                                    onclick="submitComment(@meal.Id)">
+                                                    id="submit-btn-@meal.Id-@dailyDietPlan.Id"
+                                                    onclick="submitComment(@meal.Id,@dailyDietPlan.Id)">
                                                 <i class="fas fa-paper-plane me-2"></i>Изпрати забележка
                                             </button>
                                         </div>
-                                        <div class="disagree-text" id="disagree-text-@meal.Id">
+                                        <div class="disagree-text" id="disagree-text-@meal.Id-@dailyDietPlan.Id">
                                             ⚠️ Маркирахте, че не сте съгласни с това упражнение
                                         </div>
-                                        <div id="posted-comment-section-@meal.Id" style="display: none; margin-top:10px;">
-                                            <div id="posted-comment-@meal.Id" style="font-weight: bold; margin-bottom: 10px;"></div>
-                                            <button class="btn-edit" onclick="editComment(@meal.Id)">
+                                        <div id="posted-comment-section-@meal.Id-@dailyDietPlan.Id" style="display: none; margin-top:10px;">
+                                            <div id="posted-comment-@meal.Id-@dailyDietPlan.Id" style="font-weight: bold; margin-bottom: 10px;"></div>
+                                            <button class="btn-edit" onclick="editComment(@meal.Id,@dailyDietPlan.Id)">
                                                 <div class="svg-wrapper">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                                                         <path fill="none" d="M0 0h24v24H0z" />
@@ -516,7 +516,7 @@
                                                 <span>Редактирай</span>
                                             </button>
 
-                                            <button class="btn-delete" onclick="deleteComment(@meal.Id)">
+                                            <button class="btn-delete" onclick="deleteComment(@meal.Id,@dailyDietPlan.Id)">
                                                 <div class="svg-wrapper">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                                                         <path fill="none" d="M0 0h24v24H0z" />
@@ -633,10 +633,10 @@
         });
 
         // Функция за показване/скриване на коментарите
-        function toggleComment(mealId) {
-            const commentSection = document.getElementById(`comment-section-${mealId}`);
-            const disagreeText = document.getElementById(`disagree-text-${mealId}`);
-            const checkbox = document.getElementById(`ex-check-${mealId}`);
+        function toggleComment(mealId,dailyDietPlanId) {
+            const commentSection = document.getElementById(`comment-section-${mealId}-${dailyDietPlanId}`);
+            const disagreeText = document.getElementById(`disagree-text-${mealId}-${dailyDietPlanId}`);
+            const checkbox = document.getElementById(`ex-check-${mealId}-${dailyDietPlanId}`);
 
             if (checkbox.checked) {
                 commentSection.classList.add('active');
@@ -648,8 +648,8 @@
         }
 
         let editingCommentId = null;
-        async function submitComment(mealId) {
-            const commentInput = document.getElementById(`comment-${mealId}`);
+        async function submitComment(mealId,dailyDietPlanId) {
+            const commentInput = document.getElementById(`comment-${mealId}-${dailyDietPlanId}`);
             const comment = commentInput.value.trim();
 
             if (!comment) {
@@ -687,16 +687,16 @@
 
                 if (data.success) {
 
-                    document.getElementById(`posted-comment-${mealId}`).textContent = comment;
-                    document.getElementById(`posted-comment-section-${mealId}`).style.display = 'block';
+                    document.getElementById(`posted-comment-${mealId}-${dailyDietPlanId}`).textContent = comment;
+                    document.getElementById(`posted-comment-section-${mealId}-${dailyDietPlanId}`).style.display = 'block';
 
                     commentInput.value = '';
                     editingCommentId = null;
 
-                    document.getElementById(`comment-section-${mealId}`).classList.remove('active');
-                    document.getElementById(`disagree-text-${mealId}`).style.display = 'none';
+                    document.getElementById(`comment-section-${mealId}-${dailyDietPlanId}`).classList.remove('active');
+                    document.getElementById(`disagree-text-${mealId}-${dailyDietPlanId}`).style.display = 'none';
 
-                    const submitBtn = document.getElementById(`submit-btn-${mealId}`);
+                    const submitBtn = document.getElementById(`submit-btn-${mealId}-${dailyDietPlanId}`);
                     submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Изпрати забележка';
                 }
             } catch (err) {
@@ -705,28 +705,28 @@
             }
         }
 
-        async function editComment(mealId) {
-            const commentElement = document.getElementById(`posted-comment-${mealId}`);
+        async function editComment(mealId,dailyDietPlanId) {
+            const commentElement = document.getElementById(`posted-comment-${mealId}-${dailyDietPlanId}`);
             editingCommentId = commentElement.dataset.commentId;
 
-            const submitBtn = document.getElementById(`submit-btn-${mealId}`);
+            const submitBtn = document.getElementById(`submit-btn-${mealId}-${dailyDietPlanId}`);
             submitBtn.innerHTML = '<i class="fas fa-edit me-2"></i>Запази промените';
 
             // Показваме полето за редактиране
-            document.getElementById(`comment-${mealId}`).value = commentElement.textContent;
-            document.getElementById(`ex-check-${mealId}`).checked = true;
-            document.getElementById(`comment-section-${mealId}`).classList.add('active');
-            document.getElementById(`disagree-text-${mealId}`).style.display = 'block';
-            document.getElementById(`posted-comment-section-${mealId}`).style.display = 'none';
+            document.getElementById(`comment-${mealId}-${dailyDietPlanId}`).value = commentElement.textContent;
+            document.getElementById(`ex-check-${mealId}-${dailyDietPlanId}`).checked = true;
+            document.getElementById(`comment-section-${mealId}-${dailyDietPlanId}`).classList.add('active');
+            document.getElementById(`disagree-text-${mealId}-${dailyDietPlanId}`).style.display = 'block';
+            document.getElementById(`posted-comment-section-${mealId}-${dailyDietPlanId}`).style.display = 'none';
 
             commentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         // Функция за изтриване на коментар
-        async function deleteComment(mealId) {
+        async function deleteComment(mealId,dailyDietPlanId) {
             if (!confirm('Сигурни ли сте, че искате да изтриете коментара?')) return;
 
-            const commentId = document.getElementById(`posted-comment-${mealId}`).dataset.commentId;
+            const commentId = document.getElementById(`posted-comment-${mealId}-${dailyDietPlanId}`).dataset.commentId;
 
             try {
                 const response = await fetch('/MealFeedback/DeleteComment', {
@@ -746,9 +746,9 @@
                 if (!response.ok) throw new Error(data.error || 'Неизвестна грешка');
 
                 if (data.success) {
-                    document.getElementById(`posted-comment-section-${mealId}`).style.display = 'none';
-                    document.getElementById(`ex-check-${mealId}`).checked = false;
-                    toggleComment(mealId);
+                    document.getElementById(`posted-comment-section-${mealId}-${dailyDietPlanId}`).style.display = 'none';
+                    document.getElementById(`ex-check-${mealId}-${dailyDietPlanId}`).checked = false;
+                    toggleComment(mealId,dailyDietPlanId);
                 }
             } catch (err) {
                 console.error('Delete error:', err);

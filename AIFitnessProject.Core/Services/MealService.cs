@@ -1,5 +1,6 @@
 ﻿using AIFitnessProject.Core.Contracts;
-using AIFitnessProject.Core.Models.Exercise;
+using AIFitnessProject.Core.DTOs;
+using AIFitnessProject.Core.DTOs.MealFeedback;
 using AIFitnessProject.Core.Models.Meal;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
@@ -271,6 +272,73 @@ namespace AIFitnessProject.Core.Services
                 .FirstAsync();
 
             return meal;
+        }
+
+        public async Task<bool> SwapMealInDailyDietPlan(SwapMealRequest request)
+        {
+            var diet = await repository.All<Diet>()
+                 .Include(tp => tp.DietDailyDietPlans)
+                     .ThenInclude(tpw => tpw.DailyDietPlan)
+                         .ThenInclude(w => w.MealsDailyDietPlans)
+                             .ThenInclude(we => we.Meal)
+                                 .ThenInclude(e => e.MealFeedbacks)
+                 .FirstOrDefaultAsync(tp => tp.Id == request.DietId);
+
+            if (diet == null)
+            {
+                return false;
+            }
+
+            var mealDailyDietPlan = diet.DietDailyDietPlans
+                .Where(tpw => tpw.DailyDietPlan.MealsDailyDietPlans
+                    .Any(we => we.Meal.Id == request.MealId && we.DailyDietPlans.Id == request.DailyDietPlanId))
+                .FirstOrDefault();
+
+
+            if (mealDailyDietPlan == null)
+            {
+                return false;
+            }
+
+            var newMeal = await repository.GetByIdAsync<Meal>(request.NewMealId);
+            if (newMeal == null)
+            {
+                return false;
+            }
+
+         
+            var exerciseToReplace = mealDailyDietPlan.DailyDietPlan.MealsDailyDietPlans
+                .FirstOrDefault(we => we.Meal.Id == request.MealId && we.DailyDietPlansId == request.DailyDietPlanId);
+
+            if (exerciseToReplace != null)
+            {
+                exerciseToReplace.MealId = newMeal.Id;
+                exerciseToReplace.Meal = newMeal;
+
+                var x = diet.DietDailyDietPlans
+                .Where(tpw => tpw.DailyDietPlan.MealsDailyDietPlans
+                .Any(we => we.Meal.Id == request.MealId)).ToList();
+
+                if (x.Count == 0)
+                {
+                    var mealFeedback = await repository.All<MealFeedback>
+                      ().Where(x => x.DietId == request.DietId).ToListAsync();
+
+                    var feedbackToDelete = mealFeedback.Where(x => x.MealId == request.MealId).FirstOrDefault();
+                    if (feedbackToDelete != null)
+                    {
+                        repository.Delete(feedbackToDelete);
+                    }
+                }
+
+
+
+
+            }
+ 
+
+            var changes = await repository.SaveChangesAsync();
+            return changes > 0;
         }
     }
 }

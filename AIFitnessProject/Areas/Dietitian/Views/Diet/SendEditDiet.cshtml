@@ -108,7 +108,7 @@
     </style>
 </head>
 <body>
-    <form asp-action="SendConfirmed" method="post" asp-route-id="@Model.Id" class="needs-validation" enctype="multipart/form-data" novalidate>
+    <form asp-action="SendEditDietConfirmed" method="post" asp-route-id="@Model.Id" class="needs-validation" enctype="multipart/form-data" novalidate>
         <div class="container confirmation-container">
             <div class="card">
                 @if (Model.ImageUrlDiet.StartsWith("http") || Model.ImageUrlDiet.StartsWith("/img"))
@@ -140,7 +140,7 @@
                     </div>
 
                     <div class="d-flex justify-content-between mt-4">
-                        <a asp-action="All" asp-controller="Diet" asp-area="Dietitian" class="btn btn-cancel">Отказ</a>
+                        <a asp-action="AllRejectedDiet" asp-controller="Diet" asp-area="Dietitian" class="btn btn-cancel">Отказ</a>
                         <button class="btn btn-confirm">Изпрати</button>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
-﻿using AIFitnessProject.Core.Models.Meal;
+﻿using AIFitnessProject.Core.DTOs.MealFeedback;
+using AIFitnessProject.Core.Models.Meal;
 using AIFitnessProject.Infrastructure.Data.Models;
 
 namespace AIFitnessProject.Core.Contracts
@@ -14,6 +15,7 @@ namespace AIFitnessProject.Core.Contracts
         Task<Meal> GetMealById(int id);
         Task AddMeal(CreateMealViewModel model, string userId);
         Task<EditMealFromDailyDietPlanViewModel> GetModelFromDailyDiePlanForEdit(int id ,int dailyDietPlanId);
+        Task<bool> SwapMealInDailyDietPlan(SwapMealRequest request);
 
     }
 }

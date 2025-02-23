@@ -21,5 +21,6 @@ namespace AIFitnessProject.Core.Contracts
         Task SendEditDietAsync(int id, string userId);
         Task<ICollection<RejectedDietViewModel>> GetModelsForAllRejectedDietAsync(string userId);
         Task<RejectedDietDetails> GetRejectedDietAsync(int id, string userId);
+        //Task AcceptDietAsync(int id, string UserId);
     }
 }

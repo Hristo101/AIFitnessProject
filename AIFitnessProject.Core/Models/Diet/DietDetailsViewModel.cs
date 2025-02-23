@@ -12,6 +12,8 @@ namespace AIFitnessProject.Core.Models.Diet
 
         public string ImageUrl { get; set; }
 
+        public bool IsInCalendar { get; set; }
+
         public List<DailyDietPlanViewModel> DailyDietPlans { get; set; } = new List<DailyDietPlanViewModel>();
     }
 }
