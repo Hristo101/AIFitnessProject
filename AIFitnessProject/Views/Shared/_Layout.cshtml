@@ -19,7 +19,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AIFitnessProject</title>
+    <title>@ViewData["Title"] - Фитнес Интелект</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
@@ -106,7 +106,7 @@
     <header class="header-styles">
         <nav class="navbar navbar-expand-sm">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AIFitnessProject</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Фитнес Интелект</a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -120,13 +120,13 @@
                             {
                                 <!-- Опции за гости -->
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i> Home</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i>Начало</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="AboutUs"><i class="fa fa-user-shield"></i> About Us</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="AboutUs"><i class="fa fa-user-shield"></i>За Нас</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact"><i class="fa fa-envelope"></i> Contact</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact"><i class="fa fa-envelope"></i>Контаки</a>
                                 </li>
                             }
                             @if (User.Identity.IsAuthenticated)
@@ -155,7 +155,7 @@
                                     </ul>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="MyProfile"><i class="fa fa-envelope"></i>My Profile</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="MyProfile"><i class="fa fa-envelope"></i>Моят Профил</a>
                                 </li>
                             @if (hasCalendar)
                             {

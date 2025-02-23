@@ -6,29 +6,19 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description"
-          content="Stay organized with our user-friendly Calendar featuring events, reminders, and a customizable interface. Built with HTML, CSS, and JavaScript. Start scheduling today!" />
-    <meta name="keywords"
-          content="calendar, events, reminders, javascript, html, css, open source coding" />
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-          integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="~/css/Calendar/CalendarUserStyles.css" />
-    <title>Calendar with Events</title>
+    <meta name="description" content="View your scheduled events and workouts in this sleek calendar interface." />
+    <meta name="keywords" content="calendar, events, workouts, fitness, schedule" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Your Fitness Calendar</title>
 </head>
 <body>
-
     <div class="container">
         <div class="left">
             <div class="user-profile">
-
                 <div class="profile-picture">
                     @if (Model.ProfilePictureUrl.StartsWith("http") || Model.ProfilePictureUrl.StartsWith("/img"))
                     {
                         <img src="@Model.ProfilePictureUrl" alt="Profile Picture" class="profile-img" />
-
                     }
                     else
                     {
@@ -42,7 +32,6 @@
                 <hr class="user-divider" />
             </div>
 
-            <!-- Календар -->
             <div class="calendar-container">
                 <div class="calendar">
                     <div class="month">
@@ -76,32 +65,802 @@
                 <div class="event-date">12th December 2022</div>
             </div>
             <div class="events"></div>
-            <div class="add-event-wrapper">
-                <div class="add-event-header">
-                    <div class="title">Add Event</div>
-                    <i class="fas fa-times close"></i>
-                </div>
-                <div class="add-event-body">
-                    <div class="add-event-input">
-                        <input type="text" placeholder="Event Name" class="event-name" />
-                    </div>
-                    <div class="add-event-input">
-                        <input type="text" placeholder="Event Time From" class="event-time-from" />
-                    </div>
-                    <div class="add-event-input">
-                        <input type="text" placeholder="Event Time To" class="event-time-to" />
-                    </div>
-                </div>
-                <div class="add-event-footer">
-                    <button class="add-event-btn">Add Event</button>
-                </div>
-            </div>
         </div>
-        <button class="add-event">
-            <i class="fas fa-plus"></i>
-        </button>
     </div>
 
-    <script src="~/js/script.js"></script>
+    <style>
+        :root {
+            --primary-clr: #b38add;
+            --secondary-clr: #8a54c5;
+            --hover-clr: #9c6cd9;
+            --shadow-clr: rgba(179, 138, 221, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f5f5f5;
+            border-radius: 50px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-clr);
+            border-radius: 50px;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(135deg, #e2e1dc, #f0f0f0);
+        }
+
+        .container {
+            width: 1200px;
+            min-height: 850px;
+            margin: 20px auto;
+            padding: 15px;
+            color: #fff;
+            display: flex;
+            border-radius: 15px;
+            background: linear-gradient(145deg, #373c4f, #2a2e3b);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .user-profile {
+            width: 100%;
+            padding: 25px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .user-profile:hover {
+            transform: translateY(-5px);
+        }
+
+        .profile-picture {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 50%;
+            border: 3px solid var(--primary-clr);
+            transition: all 0.3s ease;
+        }
+
+        .profile-picture:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px var(--shadow-clr);
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-info {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .user-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #373c4f;
+            margin-top: 10px;
+        }
+
+        .user-email {
+            font-size: 1rem;
+            color: #878895;
+            margin-top: 5px;
+        }
+
+        .user-divider {
+            margin: 25px 0;
+            border-top: 2px solid #f5f5f5;
+        }
+
+        .left {
+            width: 60%;
+            padding: 20px;
+        }
+
+        .calendar {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+            color: #878895;
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .calendar .month {
+            width: 100%;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-transform: capitalize;
+            background: var(--primary-clr);
+            color: #fff;
+        }
+
+        .calendar .month .prev,
+        .calendar .month .next {
+            cursor: pointer;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .calendar .month .prev:hover,
+        .calendar .month .next:hover {
+            transform: scale(1.2);
+            color: #fff;
+        }
+
+        .calendar .weekdays {
+            width: 100%;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            background: #f9f9f9;
+        }
+
+        .weekdays div {
+            width: 14.28%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .calendar .days {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            background: #fff;
+        }
+
+        .calendar .days .day {
+            width: 14.28%;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #373c4f;
+            border: 1px solid #f5f5f5;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .calendar .days .day:hover {
+            background: var(--primary-clr);
+            color: #fff;
+        }
+
+        .calendar .days .prev-date,
+        .calendar .days .next-date {
+            color: #b3b3b3;
+            opacity: 0.5;
+        }
+
+        .calendar .days .active {
+            position: relative;
+            font-size: 1.5rem;
+            color: #fff;
+            background: var(--secondary-clr);
+            border-radius: 50%;
+        }
+
+        .calendar .days .today {
+            font-size: 1.5rem;
+            background: rgba(179, 138, 221, 0.2);
+            border-radius: 50%;
+        }
+
+        .calendar .goto-today {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            margin-bottom: 20px;
+            color: var(--primary-clr);
+        }
+
+        .calendar .goto-today .goto {
+            display: flex;
+            align-items: center;
+            border-radius: 25px;
+            overflow: hidden;
+            border: 2px solid var(--primary-clr);
+            transition: all 0.3s ease;
+        }
+
+        .calendar .goto-today .goto:hover {
+            box-shadow: 0 0 10px var(--shadow-clr);
+        }
+
+        .calendar .goto-today .goto input {
+            width: 100px;
+            height: 40px;
+            outline: none;
+            border: none;
+            padding: 0 15px;
+            color: var(--primary-clr);
+            background: #fff;
+        }
+
+        .calendar .goto-today button {
+            padding: 10px 20px;
+            border: 2px solid var(--primary-clr);
+            border-radius: 25px;
+            background: transparent;
+            cursor: pointer;
+            color: var(--primary-clr);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .calendar .goto-today button:hover {
+            background: var(--primary-clr);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow-clr);
+        }
+
+        .right {
+            width: 40%;
+            padding: 20px;
+        }
+
+        .right .today-date {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @@keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .right .today-date .event-day {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .right .today-date .event-date {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .events {
+            width: 100%;
+            max-height: 700px;
+            overflow-y: auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .event {
+            width: 100%;
+            margin: 15px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease;
+            position: relative;
+        }
+
+        @@keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow-clr);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .event::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--primary-clr);
+            transition: width 0.3s ease;
+        }
+
+        .event:hover::before {
+            width: 100%;
+            opacity: 0.2;
+        }
+
+        .event .checkmark-btn {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 2px solid var(--primary-clr);
+            border-radius: 50%;
+            color: var(--primary-clr);
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateY(-50%);
+            opacity: 0.7;
+            z-index: 1;
+        }
+
+        .event .checkmark-btn:hover {
+            background: var(--primary-clr);
+            color: #fff;
+            transform: translateY(-50%) scale(1.1);
+            opacity: 1;
+            box-shadow: 0 0 15px var(--shadow-clr);
+        }
+
+        .event .checkmark-btn:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .event .title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .event .title i {
+            color: var(--primary-clr);
+            font-size: 0.8rem;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .event:hover .title i {
+            color: #fff;
+            transform: scale(1.2);
+        }
+
+        .event .title .event-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .event .event-time {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+            margin-left: 25px;
+        }
+
+        .event .event-workout {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .event .event-workout:hover {
+            transform: scale(1.02);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-workout img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+            border: 2px solid var(--primary-clr);
+            transition: all 0.3s ease;
+        }
+
+        .event-workout:hover img {
+            transform: scale(1.05);
+        }
+
+        .event-workout .workout-details {
+            flex: 1;
+        }
+
+        .event-workout .workout-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .event-workout .workout-info {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .event-workout .workout-info i {
+            color: var(--primary-clr);
+        }
+
+        .event .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+
+        .event .details-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            background: var(--primary-clr);
+            border: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .event .details-btn:hover {
+            background: var(--hover-clr);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow-clr);
+        }
+
+        .events .no-event {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @@media screen and (max-width: 1000px) {
+            .container {
+                flex-direction: column;
+                width: 100%;
+                margin: 0;
+                border-radius: 0;
+            }
+
+            .left, .right {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+
+        @@media screen and (max-width: 500px) {
+            .calendar .month {
+                height: 80px;
+                padding: 0 20px;
+                font-size: 1.2rem;
+            }
+
+            .calendar .days .day {
+                height: 60px;
+                font-size: 0.9rem;
+            }
+
+            .event .title .event-title {
+                font-size: 1.2rem;
+            }
+
+            .event .buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .event .details-btn {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .event .checkmark-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+                right: 15px;
+            }
+
+            .event .checkmark-btn:hover {
+                transform: translateY(-50%) scale(1.1);
+            }
+
+            .event .checkmark-btn:active {
+                transform: translateY(-50%) scale(0.95);
+            }
+        }
+    </style>
+
+    <script>
+        const calendar = document.querySelector(".calendar"),
+            date = document.querySelector(".date"),
+            daysContainer = document.querySelector(".days"),
+            prev = document.querySelector(".prev"),
+            next = document.querySelector(".next"),
+            todayBtn = document.querySelector(".today-btn"),
+            gotoBtn = document.querySelector(".goto-btn"),
+            dateInput = document.querySelector(".date-input"),
+            eventDay = document.querySelector(".event-day"),
+            eventDate = document.querySelector(".event-date"),
+            eventsContainer = document.querySelector(".events");
+
+        const calendarId = @Model.CalendarId;
+        let today = new Date();
+        let activeDay;
+        let month = today.getMonth();
+        let year = today.getFullYear();
+
+        const months = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        const eventsArr = [];
+        getEvents();
+        initCalendar();
+
+        function initCalendar() {
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const prevLastDay = new Date(year, month, 0);
+            const prevDays = prevLastDay.getDate();
+            const lastDate = lastDay.getDate();
+            const day = firstDay.getDay();
+            const nextDays = 7 - lastDay.getDay() - 1;
+
+            date.innerHTML = months[month] + " " + year;
+
+            let days = "";
+            for (let x = day; x > 0; x--) {
+                days += `<div class="day prev-date">${prevDays - x + 1}</div>`;
+            }
+
+            for (let i = 1; i <= lastDate; i++) {
+                let event = false;
+                eventsArr.forEach((eventObj) => {
+                    if (
+                        eventObj.day === i &&
+                        eventObj.month === month + 1 &&
+                        eventObj.year === year
+                    ) {
+                        event = true;
+                    }
+                });
+                if (
+                    i === new Date().getDate() &&
+                    year === new Date().getFullYear() &&
+                    month === new Date().getMonth()
+                ) {
+                    activeDay = i;
+                    getActiveDay(i);
+                    updateEvents(i);
+                    days += event ? `<div class="day today active event">${i}</div>` : `<div class="day today active">${i}</div>`;
+                } else {
+                    days += event ? `<div class="day event">${i}</div>` : `<div class="day">${i}</div>`;
+                }
+            }
+
+            for (let j = 1; j <= nextDays; j++) {
+                days += `<div class="day next-date">${j}</div>`;
+            }
+            daysContainer.innerHTML = days;
+            addListeners();
+        }
+
+        function prevMonth() {
+            month--;
+            if (month < 0) { month = 11; year--; }
+            initCalendar();
+        }
+
+        function nextMonth() {
+            month++;
+            if (month > 11) { month = 0; year++; }
+            initCalendar();
+        }
+
+        prev.addEventListener("click", prevMonth);
+        next.addEventListener("click", nextMonth);
+
+        function addListeners() {
+            const days = document.querySelectorAll(".day");
+            days.forEach((day) => {
+                day.addEventListener("click", (e) => {
+                    getActiveDay(e.target.innerHTML);
+                    updateEvents(Number(e.target.innerHTML));
+                    activeDay = Number(e.target.innerHTML);
+                    days.forEach((day) => day.classList.remove("active"));
+                    
+                    if (e.target.classList.contains("prev-date")) {
+                        prevMonth();
+                        setTimeout(() => {
+                            const days = document.querySelectorAll(".day");
+                            days.forEach((day) => {
+                                if (!day.classList.contains("prev-date") && day.innerHTML === e.target.innerHTML) {
+                                    day.classList.add("active");
+                                }
+                            });
+                        }, 100);
+                    } else if (e.target.classList.contains("next-date")) {
+                        nextMonth();
+                        setTimeout(() => {
+                            const days = document.querySelectorAll(".day");
+                            days.forEach((day) => {
+                                if (!day.classList.contains("next-date") && day.innerHTML === e.target.innerHTML) {
+                                    day.classList.add("active");
+                                }
+                            });
+                        }, 100);
+                    } else {
+                        e.target.classList.add("active");
+                    }
+                });
+            });
+        }
+
+        todayBtn.addEventListener("click", () => {
+            today = new Date();
+            month = today.getMonth();
+            year = today.getFullYear();
+            initCalendar();
+        });
+
+        dateInput.addEventListener("input", (e) => {
+            dateInput.value = dateInput.value.replace(/[^0-9/]/g, "");
+            if (dateInput.value.length === 2) dateInput.value += "/";
+            if (dateInput.value.length > 7) dateInput.value = dateInput.value.slice(0, 7);
+            if (e.inputType === "deleteContentBackward" && dateInput.value.length === 3) {
+                dateInput.value = dateInput.value.slice(0, 2);
+            }
+        });
+
+        gotoBtn.addEventListener("click", gotoDate);
+
+        function gotoDate() {
+            const dateArr = dateInput.value.split("/");
+            if (dateArr.length === 2 && dateArr[0] > 0 && dateArr[0] < 13 && dateArr[1].length === 4) {
+                month = dateArr[0] - 1;
+                year = dateArr[1];
+                initCalendar();
+                return;
+            }
+            alert("Invalid Date");
+        }
+
+        function getActiveDay(date) {
+            const day = new Date(year, month, date);
+            const dayName = day.toString().split(" ")[0];
+            eventDay.innerHTML = dayName;
+            eventDate.innerHTML = date + " " + months[month] + " " + year;
+        }
+
+        function updateEvents(date) {
+            let events = "";
+            eventsArr.forEach((eventObj) => {
+                if (date === eventObj.day && month + 1 === eventObj.month && year === eventObj.year) {
+                    eventObj.events.forEach((event, index) => {
+                        events += `<div class="event" data-day="${eventObj.day}" data-month="${eventObj.month}" data-year="${eventObj.year}" data-index="${index}" data-workout-id="${event.workout ? event.workout.id : ''}">
+                            <div class="title">
+                                <i class="fas fa-circle"></i>
+                                <h3 class="event-title">${event.title}</h3>
+                            </div>
+                            <div class="event-time">
+                                <span class="event-time">${event.time}</span>
+                            </div>
+                            ${event.workout ? `
+                                <div class="event-workout">
+                                    <img src="${event.workout.imageUrl}" alt="${event.workout.name}" />
+                                    <div class="workout-details">
+                                        <p class="workout-name">${event.workout.name}</p>
+                                        <p class="workout-info"><i class="fas fa-dumbbell"></i> ${event.workout.muscleGroup} - ${event.workout.exerciseCount} Exercises</p>
+                                    </div>
+                                </div>
+                            ` : ''}
+                            <div class="buttons">
+                                ${event.workout ? `
+                                    <a href="/Trainer/Workout/WorkoutDetailsFromCalendar/${event.workout.id}" class="details-btn">📋 Детайли</a>
+                                ` : ''}
+                            </div>
+                            <button class="checkmark-btn" onclick="window.location.href='/Trainer/Calendar/MarkEventCompleted?calendarId=${calendarId}&workoutId=${event.workout ? event.workout.id : ''}'">✓</button>
+                        </div>`;
+                    });
+                }
+            });
+            eventsContainer.innerHTML = events || `<div class="no-event"><h3>Няма планирани събития</h3></div>`;
+        }
+
+        function getEvents() {
+            const serverEvents = @Html.Raw(Json.Serialize(Model.Workouts.Select(w => new
+            {
+                day = w.Date.Day,
+                month = w.Date.Month,
+                year = w.Date.Year,
+                events = new[] {
+                    new {
+                        title = w.Name,
+                        time = (w.StartEventTime != null && w.EndEventTime != null) 
+                            ? $"{w.StartEventTime:hh\\:mm} - {w.EndEventTime:hh\\:mm}"
+                            : "Time not set",
+                        workout = new {
+                            id = w.Id,
+                            name = w.Name,
+                            imageUrl = w.ImageUrl,
+                            exerciseCount = w.ExerciseCount,
+                            muscleGroup = w.MuscleGroup
+                        }
+                    }
+                }
+            })));
+            
+            eventsArr.length = 0;
+            eventsArr.push(...serverEvents);
+        }
+    </script>
 </body>
 </html>

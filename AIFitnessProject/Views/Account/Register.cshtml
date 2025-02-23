@@ -7,7 +7,7 @@
         <p>Присъединете се към нашата фитнес общност!</p>
     </header>
 
-    <form id="registerForm" asp-action="Register" method="post">
+    <form id="registerForm" asp-controller="Account" asp-action="Register" method="post">
         <h2>Създайте нов акаунт </h2>
 
         <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
