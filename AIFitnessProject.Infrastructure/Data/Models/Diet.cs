@@ -38,7 +38,6 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public Dietitian Dietitian { get; set; } = null!;
         public bool IsActive { get; set; } = false;
 
-        public ICollection<PlanAssignment> PlanAssignments { get; set; } = new List<PlanAssignment>();
         public ICollection<DietDailyDietPlan> DietDailyDietPlans { get; set; } = new List<DietDailyDietPlan>();
         public ICollection<MealFeedback> MealFeedbacks { get; set; } = new List<MealFeedback>();
     }

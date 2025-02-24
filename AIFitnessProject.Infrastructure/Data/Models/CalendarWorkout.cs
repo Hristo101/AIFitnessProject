@@ -9,6 +9,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 {
     public class CalendarWorkout
     {
+        public int EventId { get; set; }
         public int WorkoutId { get; set; }
         [ForeignKey("WorkoutId")]
         public Workout Workout { get; set; }
