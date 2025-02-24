@@ -4,7 +4,7 @@
 <div class="edit-container">
     <form asp-action="Edit" method="post" asp-route-id="@Model.Id" asp-controller="Diet" enctype="multipart/form-data" class="edit-form">
         <div class="form-header">
-            <h2>Редактиране на хранитерния режим</h2>
+            <h2>Редактиране на хранителния режим</h2>
             <div class="header-decoration"></div>
         </div>
 
@@ -17,12 +17,12 @@
                 {
                     @if (Model.ExistingImageUrl.StartsWith("http") || Model.ExistingImageUrl.StartsWith("/img"))
                     {
-                       
+                       @*  <label class="section-label">Снимка на хранителния режим</label> *@
                         <img src="@Model.ExistingImageUrl" class="existing-image animate__animated animate__fadeIn" alt="Training">
                     }
                     else
                     {
-                        <label class="section-label">Снимка на хранителния режим</label>
+                        @* <label class="section-label">снимка на хранителния режим</label> *@
                         <img src="data:image/jpeg;base64,@Model.ExistingImageUrl" class="existing-image animate__animated animate__fadeIn" alt="Training">
                     }
                 }
