@@ -8,14 +8,13 @@ using System.Threading.Tasks;
 
 namespace AIFitnessProject.Infrastructure.Data.Models
 {
-    public class CalendarWorkout
+    public class CalendarDiet
     {
-
         [Key]
         public int EventId { get; set; }
-        public int WorkoutId { get; set; }
+        public int DietId { get; set; }
         [ForeignKey("WorkoutId")]
-        public Workout Workout { get; set; }
+        public Diet Diet { get; set; }
 
         public int CalendarId { get; set; }
         [ForeignKey("CalendarId")]

@@ -24,6 +24,7 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [ForeignKey(nameof(DietitianId))]
         public Dietitian Dietitian { get; set; }
 
-        public ICollection<CalendarWorkout> CalendarWorkouts { get; set; }
+        public ICollection<CalendarWorkout> CalendarWorkouts { get; set; } = new List<CalendarWorkout>();
+        public ICollection<CalendarDiet> CalendarDiet { get; set; } = new List<CalendarDiet>();
     }
 }
