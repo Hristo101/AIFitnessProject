@@ -4,11 +4,142 @@
 @{
     ViewData["Title"] = "Добавяне на храна";
 }
-
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
 <style>
+    /* ========== ПОПРАВЕН СТИЛ ЗА "FOLDER" ========== */
+    .container {
+        --transition: 350ms;
+        --folder-W: 120px;
+        --folder-H: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        /* Премахваме фиксираната височина и позволяваме съдържанието да излиза */
+        /* height: calc(var(--folder-H) * 1.7); */
+        min-height: 150px; /* или повече, ако искаш по-висок контейнер */
+        overflow: visible; /* за да не се реже папката */
+        position: relative;
+        padding: 10px;
+        background: linear-gradient(135deg, #90e0a9, #5ecb7b);
+        border-radius: 15px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        margin-bottom: 1rem;
+    }
+
+
+    .folder {
+        position: absolute;
+        /* Вместо top: -20px, може да е 0 или малко положителен, за да се вижда цялото */
+        top: 0;
+        left: calc(50% - 60px);
+        animation: float 2.5s infinite ease-in-out;
+        transition: transform var(--transition) ease;
+    }
+
+        .folder:hover {
+            transform: scale(1.05);
+        }
+
+        .folder .front-side,
+        .folder .back-side {
+            position: absolute;
+            transition: transform var(--transition);
+            transform-origin: bottom center;
+        }
+
+            .folder .back-side::before,
+            .folder .back-side::after {
+                content: "";
+                display: block;
+                background-color: white;
+                opacity: 0.5;
+                width: var(--folder-W);
+                height: var(--folder-H);
+                position: absolute;
+                transform-origin: bottom center;
+                border-radius: 15px;
+                transition: transform 350ms;
+            }
+
+    .container:hover .back-side::before {
+        transform: rotateX(-5deg) skewX(5deg);
+    }
+
+    .container:hover .back-side::after {
+        transform: rotateX(-15deg) skewX(12deg);
+    }
+
+    .folder .front-side {
+        z-index: 1;
+    }
+
+    .container:hover .front-side {
+        transform: rotateX(-40deg) skewX(15deg);
+    }
+
+    .folder .tip {
+        background: linear-gradient(135deg, #ff9a56, #ff6f56);
+        width: 80px;
+        height: 20px;
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        top: -10px;
+        z-index: 2;
+    }
+
+    .folder .cover {
+        background: linear-gradient(135deg, #ffe563, #ffc663);
+        width: var(--folder-W);
+        height: var(--folder-H);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+    }
+
+    .custom-file-upload {
+        font-size: 1.1em;
+        color: #ffffff;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: background var(--transition) ease;
+        display: inline-block;
+        width: 100%;
+        padding: 10px 35px;
+        position: relative;
+    }
+
+        .custom-file-upload:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .custom-file-upload input[type="file"] {
+            display: none;
+        }
+
+    @@keyframes float {
+        0% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    /* ========== СТИЛОВЕ НА ФОРМАТА ========== */
     .form-container {
         max-width: 900px;
+        width: 750px;
         margin: 3rem auto;
         padding: 2.5rem;
         background: linear-gradient(145deg, #f8f9fa 0%, #ffffff 100%);
@@ -16,11 +147,6 @@
         box-shadow: 0 12px 35px rgba(0,0,0,0.1);
         animation: slideIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         border: 1px solid rgba(255,255,255,0.3);
-    }
-
-    .col-lg-3 {
-        flex: 0 0 auto;
-        width: 51%;
     }
 
     @@keyframes slideIn {
@@ -62,7 +188,7 @@
 
     .card-img-top {
         height: 215px;
-        object-fit: cover;
+        object-fit: scale-down;
         border-radius: 8px 8px 0 0;
         transition: transform 0.3s ease, filter 0.3s ease;
     }
@@ -73,7 +199,7 @@
     }
 
     .submit-btn {
-        background: linear-gradient(135deg, #4a90e2 0%, #2c6cd4 100%);
+        background: linear-gradient(135deg, #5ecb7b 0%, #3CB371 100%);
         border: none;
         border-radius: 10px;
         padding: 15px 40px;
@@ -154,63 +280,78 @@
         background: #dc3545;
     }
 
-    .training-stats {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
-        margin-bottom: 2rem;
+    .col-md-6 {
+        flex: 0 0 auto;
+        width: 33%;
     }
 
-    .file-upload-wrapper{
-        text-align: center;
-    }
-   /*  i{
-        color: #3CB371;
-    } */
 </style>
 
 <div class="form-container">
-    <h2 class="text-center mb-4" style="color: #2c3e50; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <i class="fas fa-dumbbell me-2"></i>@ViewData["Title"]
+    <h2 class="text-center mb-4" style="color: #3CB371; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        @ViewData["Title"]
     </h2>
 
-    <form asp-action="Add" asp-controller="Meal" asp-area="Dietitian" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+    <form asp-action="AddFromRejectedDiet" asp-controller="Meal" asp-area="Dietitian"
+          method="post" enctype="multipart/form-data"
+          class="needs-validation" novalidate>
+
         <input type="hidden" name="DietId" value="@Model.DietId" />
 
+        <!-- Име -->
+        <div class="mb-4">
+            <label asp-for="Name" class="form-label">
+                <i class="fas fa-tag"></i>Име на храната
+            </label>
+            <input asp-for="Name" class="form-control" placeholder="Пример: Пиле с ориз" />
+            <span asp-validation-for="Name" class="text-danger mt-1 d-block"></span>
+        </div>
+
+        <!-- Описание -->
         <div class="mb-4">
             <label asp-for="Recipe" class="form-label">
                 <i class="fas fa-align-left"></i>Рецепта
             </label>
             <textarea asp-for="Recipe" class="form-control" rows="4"
-                      placeholder="Детайлно описание на техниката и изпълнението"></textarea>
+                      placeholder="Детайлно описание за изготвянето на храната"></textarea>
             <span asp-validation-for="Recipe" class="text-danger mt-1 d-block"></span>
         </div>
 
-        <div class="mb-4">
-            <label asp-for="Name" class="form-label">
-                <i class="fas fa-tag"></i>Име на храната
-            </label>
-            <input asp-for="Name" class="form-control" placeholder="Пример: Лицеви опори" />
-            <span asp-validation-for="Name" class="text-danger mt-1 d-block"></span>
-        </div>
 
+        <!-- Качване на изображение -->
         <div class="mb-4">
+            <label class="form-label">
+                <i class="fas fa-image"></i> Качване на изображение
+            </label>
+
             <div class="file-upload-wrapper">
-                <input asp-for="ImageUrl" type="file" id="imageInput"
-                       class="form-control visually-hidden" accept="image/*">
-                <label for="imageInput" class="file-upload-label">
-                    <div class="d-flex flex-column align-items-center p-5">
-                        <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
-                        <h5 class="mb-2">Провлачете снимка или кликнете за избор</h5>
-                        <p class="text-muted mb-0">Максимален размер: 5MB</p>
-                        <p class="text-muted">Формати: .jpg, .jpeg, .png</p>
+                <!-- Тук е анимираната "folder" -->
+                <div class="container">
+                    <div class="folder">
+                        <div class="front-side">
+                            <div class="tip"></div>
+                            <div class="cover"></div>
+                        </div>
+                        <div class="back-side cover"></div>
                     </div>
-                </label>
+
+                    <!-- Етикет, който отваря File Dialog-а -->
+                    <label class="custom-file-upload">
+                        <input asp-for="ImageUrl" type="file" id="imageInput"
+                               class="title" accept="image/*">
+                        <!-- Текст, който се показва в бутона -->
+                        Провлачете снимка или кликнете тук
+                    </label>
+                </div>
+
                 <span asp-validation-for="ImageUrl" class="text-danger mt-1 d-block"></span>
+
+                <!-- Превю на качените изображения -->
                 <div id="imagePreview" class="row g-3 mt-3"></div>
             </div>
         </div>
 
+        <!-- Видео URL -->
         <div class="mb-4">
             <label asp-for="VideoUrl" class="form-label">
                 <i class="fab fa-youtube"></i>Видео URL
@@ -219,57 +360,63 @@
             <span asp-validation-for="VideoUrl" class="text-danger mt-1 d-block"></span>
         </div>
 
-        <div class="training-stats">
-            <div class="position-relative">
+        <!-- Мускулна група / Трудност -->
+        <div class="row g-4">
+            <div class="col-md-6">
                 <div class="mb-4">
                     <label asp-for="MealTime" class="form-label">
-                        <i class="fas fa-dumbbell"></i>Време за хранене
+                        <i class="fas fa-dumbbell"></i>Тип хранене
                     </label>
                     <select asp-for="MealTime" class="form-select">
-                        <option value="">Изберете време за хранене</option>
+                        <option value="">Изберете тип хранене</option>
                         <option value="Закуска">Закуска</option>
                         <option value="Обяд">Обяд</option>
                         <option value="Вечеря">Вечеря</option>
-                        <option value="Межденно хранене">Межденно хранене</option>
+                        <option value="Междинно хранене">Междинно хранене</option>
+
                     </select>
                     <span asp-validation-for="MealTime" class="text-danger mt-1 d-block"></span>
                 </div>
             </div>
 
-
-            <div class="position-relative">
-                <label asp-for="DificultyLevel" class="form-label">
-                    <i class="fas fa-tachometer-alt"></i>Трудност
-                </label>
-                <select asp-for="DificultyLevel" class="form-select">
-                    <option value="">Изберете ниво</option>
-                    <option value="Лесно">
-                        <span class="difficulty-indicator easy"></span>Лесно
-                    </option>
-                    <option value="Средно">
-                        <span class="difficulty-indicator medium"></span>Средно
-                    </option>
-                    <option value="Трудно">
-                        <span class="difficulty-indicator hard"></span>Трудно
-                    </option>
-                </select>
-                <span asp-validation-for="DificultyLevel" class="text-danger mt-1 d-block"></span>
-            </div>
-
-            <div class="position-relative">
-                <label asp-for="Calories" class="form-label">
-                    <i class="fas fa-list-ol"></i>Калории
-                </label>
-                <div class="input-group">
-                    <input asp-for="Calories" type="number" class="form-control ps-4"
-                           placeholder="3" min="1" max="3000">
+            <div class="col-md-6">
+                <div class="mb-4">
+                    <label asp-for="DificultyLevel" class="form-label">
+                        <i class="fas fa-tachometer-alt"></i>Трудност
+                    </label>
+                    <select asp-for="DificultyLevel" class="form-select">
+                        <option value="">Изберете ниво</option>
+                        <option value="Лесно">
+                            <span class="difficulty-indicator easy"></span>Лесно
+                        </option>
+                        <option value="Средно">
+                            <span class="difficulty-indicator medium"></span>Средно
+                        </option>
+                        <option value="Трудно">
+                            <span class="difficulty-indicator hard"></span>Трудно
+                        </option>
+                    </select>
+                    <span asp-validation-for="DificultyLevel" class="text-danger mt-1 d-block"></span>
                 </div>
-                <span asp-validation-for="Calories" class="text-danger mt-1 d-block"></span>
             </div>
 
+            <div class="col-md-6">
+                <div class="mb-4">
+                    <label asp-for="Calories" class="form-label">
+                        <i class="fas fa-list-ol"></i>Калории
+                    </label>
+                    <div class="input-group">
+                      
+                        <input asp-for="Calories" type="number" class="form-control ps-4"
+                               placeholder="350" min="1" max="3000">
+                    </div>
+                    <span asp-validation-for="Calories" class="text-danger mt-1 d-block"></span>
+                </div>
+            </div>
 
         </div>
 
+        <!-- Бутон за събмит -->
         <div class="d-grid gap-2 mt-5">
             <button type="submit" class="btn btn-primary submit-btn">
                 <i class="fas fa-plus-circle me-2"></i>Добави храна
@@ -280,9 +427,10 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
     <script>
-        // Enhanced Image Preview with File Validation
-        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+        // Максимален размер: 5MB
+        const MAX_FILE_SIZE = 5 * 1024 * 1024;
         const imageInput = document.getElementById('imageInput');
         const previewContainer = document.getElementById('imagePreview');
 
@@ -304,34 +452,34 @@
                     const col = document.createElement('div');
                     col.className = 'col-6 col-md-4 col-lg-3 position-relative mb-3';
                     col.innerHTML = `
-                                                <div class="card shadow-sm overflow-hidden">
-                                                    <div class="preview-badge">${(file.size / 1024 / 1024).toFixed(2)}MB</div>
-                                                    <img src="${event.target.result}" class="card-img-top" alt="Preview">
-                                                    <div class="card-footer py-2">
-                                                        <small class="text-muted d-block text-truncate">${file.name}</small>
-                                                        <button type="button" class="btn btn-danger btn-sm float-end"
-                                                            onclick="this.closest('.col-6').remove()">
-                                                            <i class="fas fa-times"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            `;
+                                        <div class="card shadow-sm overflow-hidden">
+                                            <div class="preview-badge">${(file.size / 1024 / 1024).toFixed(2)}MB</div>
+                                            <img src="${event.target.result}" class="card-img-top" alt="Preview">
+                                            <div class="card-footer py-2">
+                                                <small class="text-muted d-block text-truncate">${file.name}</small>
+                                                <button type="button" class="btn btn-danger btn-sm float-end"
+                                                    onclick="this.closest('.col-6').remove()">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    `;
                     previewContainer.appendChild(col);
                 };
                 reader.readAsDataURL(file);
             });
         });
 
-        // Dynamic Difficulty Level Indicators
+        // Динамични индикатори за трудност
         document.querySelectorAll('.form-select option').forEach(option => {
             const indicator = document.createElement('span');
             indicator.className = 'difficulty-indicator ' +
                 (option.value === 'Лесно' ? 'easy' :
-                    option.value === 'Средно' ? 'medium' : 'hard');
+                    option.value === 'Средно' || option.value === 'Средно-напреднал' ? 'medium' : 'hard');
             option.prepend(indicator);
         });
 
-        // Input Number Validation
+        // Валидация за числови входове
         document.querySelectorAll('input[type="number"]').forEach(input => {
             input.addEventListener('input', function () {
                 if (this.validity.rangeUnderflow) {

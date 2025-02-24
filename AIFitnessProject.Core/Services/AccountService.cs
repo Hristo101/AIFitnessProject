@@ -3,12 +3,6 @@ using AIFitnessProject.Core.Models.Account;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AIFitnessProject.Core.Services
 {
@@ -95,6 +89,30 @@ namespace AIFitnessProject.Core.Services
            .FirstOrDefaultAsync();
 
             return model;
+        }
+
+        public async Task<ICollection<AllUsersViewModel>> GetAllDietitianClients(string userId)
+        {
+            var dietitian = await repository.AllAsReadOnly<Dietitian>()
+                .Where(x => x.UserId == userId)
+                .FirstOrDefaultAsync();
+
+            var usersViewModel = await repository.AllAsReadOnly<Diet>()
+                .Include(x => x.User)
+                .Where(x => x.CreatedById == dietitian.Id)
+                .Select(x => new AllUsersViewModel()
+                {
+                    UserId = x.UserId,
+                    Aim = x.User.Aim,
+                    Email = x.User.Email,
+                    ExperienceLevel = x.User.ExperienceLevel,
+                    FirsName = x.User.FirstName,
+                    LastName = x.User.LastName,
+                    ProfilePicture = x.User.ProfilePicture
+                })
+                .ToListAsync();
+
+            return usersViewModel;
         }
 
         public async Task<ICollection<AllUsersViewModel>> GetAllUsers(string userId)
