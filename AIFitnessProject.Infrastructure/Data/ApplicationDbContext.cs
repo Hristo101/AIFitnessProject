@@ -156,7 +156,6 @@ namespace AIFitnessProject.Infrastructure.Data
             public DbSet<Exercise> Exercises { get; set; }
             public DbSet<Meal> Meals { get; set; }
             public DbSet<Opinion> Opinions { get; set; }
-            public DbSet<PlanAssignment> PlanAssignments { get; set; }
             public DbSet<ExerciseFeedback> ExerciseFeedbacks { get; set; }
             public DbSet<Workout> Workouts { get; set; }
             public DbSet<Trainer> Trainers { get; set; }

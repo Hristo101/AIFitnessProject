@@ -4,6 +4,7 @@ using AIFitnessProject.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AIFitnessProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250224071056_DeleteTable")]
+    partial class DeleteTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -439,12 +442,6 @@ namespace AIFitnessProject.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsEdit")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsInCalendar")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -475,8 +472,6 @@ namespace AIFitnessProject.Infrastructure.Migrations
                             Description = "Този режим е създаден за ефективно топене на мазнини, без загуба на енергия и мускулна маса. Включва балансирани макронутриенти, богати на протеин храни и здравословни мазнини, които подпомагат метаболизма и засищат. Подходящ е за всеки, който иска видими резултати още в първите седмици!",
                             ImageUrl = "https://www.fitterfly.com/blog/wp-content/uploads/2024/05/Get-Results-with-This-Step-by-Step-Diet-Plan-for-Weight-Loss-1200x675.webp",
                             IsActive = false,
-                            IsEdit = false,
-                            IsInCalendar = false,
                             Name = "Хранителен режим за отслабване и изгаряне на мазнини",
                             UserId = "cd87d0e2-4047-473e-924a-3e10406c5583"
                         });

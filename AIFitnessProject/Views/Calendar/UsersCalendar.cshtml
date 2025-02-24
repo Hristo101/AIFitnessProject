@@ -824,7 +824,7 @@
                             ` : ''}
                             <div class="buttons">
                                 ${event.workout ? `
-                                    <a href="/Trainer/Workout/WorkoutDetailsFromCalendar/${event.workout.id}" class="details-btn">📋 Детайли</a>
+                                    <a href="/Calendar/DetailsEvent/${event.workout.id}" class="details-btn">📋 Детайли</a>
                                 ` : ''}
                             </div>
                             <button class="checkmark-btn" onclick="window.location.href='/Trainer/Calendar/MarkEventCompleted?calendarId=${calendarId}&workoutId=${event.workout ? event.workout.id : ''}'">✓</button>

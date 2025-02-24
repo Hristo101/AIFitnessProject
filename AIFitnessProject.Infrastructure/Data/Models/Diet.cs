@@ -39,11 +39,13 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 
         public bool IsActive { get; set; } = false;
 
+
         public bool IsEdit { get; set; } = false;
 
         public bool IsInCalendar { get; set; } = false;
 
         public ICollection<PlanAssignment> PlanAssignments { get; set; } = new List<PlanAssignment>();
+
         public ICollection<DietDailyDietPlan> DietDailyDietPlans { get; set; } = new List<DietDailyDietPlan>();
         public ICollection<MealFeedback> MealFeedbacks { get; set; } = new List<MealFeedback>();
     }

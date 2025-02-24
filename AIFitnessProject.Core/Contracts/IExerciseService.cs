@@ -12,6 +12,7 @@ namespace AIFitnessProject.Core.Contracts
     {
         Task<ExerciseViewModel> GetModelForDetails(int id, string userId);
         Task<EditExerciseViewModel> GetModelForEdit(int id);
+        Task<ExerciseViewModel> GetModelForDetailsForUser(int id, string userId);
         Task<EditExerciseFromWorkoutViewModel> GetModelFromWorkoutForEdit(int id);
         Task<DetailsExerciseViewModel> GetModelForDetailsFromWorkouts(int id);
         Task<bool> SwapExerciseInWorkoutAsync(SwapExerciseRequest request);

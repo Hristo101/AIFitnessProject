@@ -198,6 +198,52 @@ namespace AIFitnessProject.Core.Services
 
             return exercise;
         }
+        public async Task<ExerciseViewModel> GetModelForDetailsForUser(int id, string userId)
+        {
+            var trainer = await repository.AllAsReadOnly<TrainingPlan>()
+                .Include(x => x.User)
+                .Where(x => x.UserId == userId)
+                .FirstAsync();
+
+
+
+            var workoutExercise = await repository.AllAsReadOnly<WorkoutsExercise>()
+                .Where(x => x.ExcersiceId == id)
+                .Include(x => x.Workout)
+                    .ThenInclude(w => w.TrainingPlanWorkouts)
+                    .ThenInclude(w => w.TrainingPlan)
+                .FirstOrDefaultAsync();
+
+            if (workoutExercise == null)
+            {
+                return null;
+            }
+
+            var trainingPlanId = workoutExercise.Workout.TrainingPlanWorkouts
+                .Where(x => x.TrainingPlan.IsActive == false)
+                .Where(x => x.TrainingPlan.UserId == userId)
+                .Select(tp => tp.TrainingPlanId)
+                .FirstOrDefault();
+
+            var exercise = await repository.AllAsReadOnly<Exercise>()
+                .Where(x => x.Id == id)
+                .Select(x => new ExerciseViewModel()
+                {
+                    Id = x.Id,
+                    TrainingPlanId = trainer.Id,
+                    Description = x.Description,
+                    DifficultyLevel = x.DifficultyLevel,
+                    ImageUrl = x.ImageUrl,
+                    VideoUrl = x.VideoUrl,
+                    MuscleGroup = x.MuscleGroup,
+                    Name = x.Name,
+                    Repetitions = x.Repetitions,
+                    Series = x.Series,
+                }).FirstOrDefaultAsync();
+
+            return exercise;
+        }
+
         public async Task<bool> SwapExerciseInWorkoutAsync(SwapExerciseRequest request)
         {
             var trainingPlan = await repository.All<TrainingPlan>()
