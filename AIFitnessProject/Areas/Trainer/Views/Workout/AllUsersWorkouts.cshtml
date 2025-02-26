@@ -1,0 +1,345 @@
+﻿@using AIFitnessProject.Core.Models.Workout
+@model IEnumerable<WorkoutViewModelForTrainer>
+
+<script>
+@functions {
+    private string GetDifficultyClass(string difficulty)
+    {
+        return difficulty switch
+        {
+            "Лесно" => "difficulty-easy",
+            "Средно" => "difficulty-medium",
+            "Средно-Напреднал" => "difficulty-medium", 
+            "Трудно" => "difficulty-hard",
+            _ => "difficulty-easy"
+        };
+    }
+}
+    </script>
+<style>
+    @@keyframes gradientFlow {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @@keyframes shine {
+        0% {
+            left: -100%;
+        }
+
+        100% {
+            left: 100%;
+        }
+    }
+
+    .pb-3 {
+        padding-bottom: 1rem !important;
+        padding: 2em;
+    }
+
+    .workout-card {
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 196, 204, 0.1);
+        animation: cardFadeIn 0.8s ease forwards;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        border: none;
+        max-width: 850px;
+    }
+
+        .workout-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0, 196, 204, 0) 25%, rgba(0, 196, 204, 0.1) 50%, rgba(0, 196, 204, 0) 75%);
+            animation: shine 3s infinite;
+        }
+
+        .workout-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 196, 204, 0.2);
+        }
+
+    /* Difficulty Levels */
+    .difficulty-easy {
+        background: linear-gradient(135deg, #4ade80 0%, #16a34a 100%);
+        box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
+    }
+
+    .difficulty-medium {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    }
+
+    .difficulty-hard {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+    }
+
+    /* Общ стил за значките */
+    .day-badge, .difficulty-badge, .muscle-group {
+        padding: 8px 20px;
+        border-radius: 25px;
+        color: white;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: transform 0.3s ease;
+    }
+
+        .day-badge:hover, .difficulty-badge:hover, .muscle-group:hover {
+            transform: translateY(-2px);
+        }
+
+    /* Дни от седмицата */
+    .day-badge {
+        background: linear-gradient(135deg, #00c4cc 0%, #0077b6 100%);
+    }
+
+    /* Ниво на трудност */
+    .difficulty-badge {
+        font-size: 1.1em;
+    }
+
+    /* Мускулна група */
+    .muscle-group {
+        background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
+    }
+
+        .muscle-group::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+        }
+
+        .muscle-group:hover::after {
+            left: 50%;
+            top: 50%;
+        }
+
+    /* Брой упражнения */
+    .exercises-counter {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+        padding: 10px 25px;
+        border-radius: 20px;
+        color: white;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        font-size: 1.5em;
+    }
+
+        .exercises-counter .emoji-3d {
+            font-size: 1.4em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.5);
+            transform: translateZ(10px);
+        }
+
+    /* Изображение */
+    .workout-image {
+        width: 180px;
+        height: 180px;
+        border-radius: 20px;
+        object-fit: cover;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+        border: 3px solid transparent;
+    }
+
+        .workout-image:hover {
+            transform: rotate(3deg) scale(1.05);
+            border-color: #00c4cc;
+        }
+
+    /* Заглавие */
+    .workout-title {
+        font-size: 2.2em;
+        font-weight: 700;
+        background: linear-gradient(135deg, #00c4cc 0%, #0077b6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 2px 2px 4px rgba(0, 196, 204, 0.1);
+    }
+
+    /* Бутони */
+    .button-group {
+        display: flex;
+        gap: 25px;
+        margin-top: 30px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .button {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        border: none;
+        font-weight: 700;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: all 0.4s ease;
+        overflow: hidden;
+        position: relative;
+        color: white;
+    }
+
+        .button:hover {
+            width: 160px;
+            border-radius: 50px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+        }
+
+    .button-label {
+        position: absolute;
+        top: -30px;
+        font-size: 15px;
+        opacity: 0;
+        transition: all 0.4s ease;
+    }
+
+    .button:hover .button-label {
+        opacity: 1;
+        transform: translateY(35px);
+    }
+
+    .button-icon, .svgIcon {
+        width: 28px;
+        height: 28px;
+        transition: all 0.4s ease;
+    }
+
+        .button-icon path, .svgIcon path {
+            fill: white;
+        }
+
+    .button:hover .button-icon, .button:hover .svgIcon {
+        transform: translateY(15px);
+        width: 32px;
+    }
+
+    .edit-button {
+        background: linear-gradient(45deg, #00b4db, #0083b0);
+    }
+
+        .edit-button:hover {
+            background: linear-gradient(45deg, #0083b0, #006d8a);
+        }
+
+    .details-button {
+        background: linear-gradient(45deg, #00cc99, #009973);
+    }
+
+        .details-button:hover {
+            background: linear-gradient(45deg, #009973, #007a5e);
+        }
+
+    .delete-button {
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    }
+
+        .delete-button:hover {
+            background: linear-gradient(45deg, #ff4b2b, #d7381f);
+        }
+
+    .container {
+        max-width: 1403px;
+        margin: 4em auto;
+        padding: 20px;
+    }
+</style>
+
+<div class="container">
+    @foreach (var workout in Model)
+    {
+        <div class="workout-card">
+            <div class="d-flex justify-content-between align-items-start">
+                <div class="flex-grow-1 me-4">
+                    <h3 class="workout-title mb-3">@workout.Title</h3>
+                    <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
+                        <div class="day-badge">
+                            <i class="fas fa-calendar-day"></i>@workout.DayOfWeek
+                        </div>
+                        <div class="difficulty-badge @GetDifficultyClass(workout.DifficultyLevel)">
+                            <i class="fas fa-signal me-2"></i>@workout.DifficultyLevel
+                        </div>
+                        <div class="muscle-group">
+                            <i class="fas fa-dumbbell me-2"></i>@workout.MuscleGroup
+                        </div>
+                    </div>
+                    <div class="exercises-counter mt-2">
+                        <span class="emoji-3d">🏋️‍♂️</span> Упражнения: @workout.ExerciseCount
+                    </div>
+                </div>
+                @if (!string.IsNullOrEmpty(workout.ImageUrl))
+                {
+                    <img src="@workout.ImageUrl" class="workout-image" alt="Workout image">
+                }
+            </div>
+
+            <div class="button-group">
+                @if (!workout.IsEdit) 
+                {
+                    <form asp-action="Edit" method="get">
+                        <input type="hidden" name="id" value="@workout.Id" />
+                        <button type="submit" class="button edit-button">
+                            <span class="button-label">Edit</span>
+                            <svg class="button-icon" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+                            </svg>
+                        </button>
+                    </form>
+
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" name="id" value="@workout.Id" />
+                        <button type="submit" class="button delete-button">
+                            <span class="button-label">Delete</span>
+                            <svg class="svgIcon" viewBox="0 0 448 512">
+                                <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path>
+                            </svg>
+                        </button>
+                    </form>
+                }
+
+                <form asp-action="Details" method="get">
+                    <input type="hidden" name="id" value="@workout.Id" />
+                    <button type="submit" class="button details-button">
+                        <span class="button-label">Details</span>
+                        <svg class="button-icon" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    }
+</div>

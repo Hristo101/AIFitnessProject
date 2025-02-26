@@ -80,6 +80,36 @@ namespace AIFitnessProject.Core.Services
             return model;
         }
 
+        public async Task<ICollection<WorkoutViewModelForTrainer>> AllWorkousForTrainer(string userId)
+        {
+            var trainingPlan = await repository.AllAsReadOnly<TrainingPlan>()
+                .Where(x =>x.UserId == userId)
+                .FirstOrDefaultAsync();
+
+
+                      var trainingPlanWorkouts = await repository.AllAsReadOnly<TrainingPlanWorkout>()
+               .Include(x => x.TrainingPlan)
+               .Include(x => x.Workout)
+                   .ThenInclude(x => x.WorkoutsExercises)
+                   .ThenInclude(x => x.Exercise)
+               .Where(x => x.TrainingPlanId == trainingPlan.Id)
+               .Select(x => new WorkoutViewModelForTrainer
+               {
+                   Id = x.WorkoutId,
+                   TrainingPlanId = x.TrainingPlanId,
+                   DayOfWeek = x.Workout.DayOfWeek,
+                   DifficultyLevel = x.Workout.DificultyLevel,
+                   ImageUrl = x.Workout.ImageUrl,
+                   MuscleGroup = x.Workout.MuscleGroup,
+                   Title = x.Workout.Title,
+                   IsEdit = x.TrainingPlan.IsInCalendar,
+                   ExerciseCount = x.Workout.WorkoutsExercises.Count
+               }).ToListAsync();
+             
+            return trainingPlanWorkouts;
+
+        }
+
         public async Task<int> CreateWorkout(AddWorkoutViewModel model,string userId)
         {
             var trainer = await repository.AllAsReadOnly<Infrastructure.Data.Models.Trainer>()

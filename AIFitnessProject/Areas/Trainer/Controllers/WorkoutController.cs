@@ -19,7 +19,13 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public async Task<IActionResult> AllUsersWorkouts(string id)
+        {
+            var model = await workoutService.AllWorkousForTrainer(id);
 
+            return View(model);
+        }
         [HttpGet]
         public async Task<IActionResult> All(int id)
         {
