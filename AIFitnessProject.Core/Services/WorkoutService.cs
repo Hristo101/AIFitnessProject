@@ -96,6 +96,7 @@ namespace AIFitnessProject.Core.Services
                .Select(x => new WorkoutViewModelForTrainer
                {
                    Id = x.WorkoutId,
+                   UserId = userId,
                    TrainingPlanId = x.TrainingPlanId,
                    DayOfWeek = x.Workout.DayOfWeek,
                    DifficultyLevel = x.Workout.DificultyLevel,
@@ -162,6 +163,46 @@ namespace AIFitnessProject.Core.Services
                 await repository.SaveChangesAsync();
             }
             return model.TrainingPlanId;
+        }
+
+        public async Task<DetailsWorkoutViewModelForTrainer> GetDetailsWorkoutViewModelForTrainer(int id,string userId)
+        {
+           var user = await repository.AllAsReadOnly<ApplicationUser>()
+                .Where(x =>x.Id == userId)
+                .FirstOrDefaultAsync();
+
+            var model = await repository.AllAsReadOnly<Workout>()
+                .Include(x =>x.WorkoutsExercises)
+                .ThenInclude(x =>x.Exercise)
+                .Where(x =>x.Id == id)
+                .Select(x => new DetailsWorkoutViewModelForTrainer
+                {
+                    Id = x.Id,
+                    DayOfWeek = x.DayOfWeek,
+                    DifficultyLevel = x.DificultyLevel,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    ProfilePicture = user.ProfilePicture,
+                    ImageUrl = x.ImageUrl,
+                    MuscleGroup = x.MuscleGroup,
+                    Title = x.Title,
+                    Exercises = x.WorkoutsExercises.Select(x => new ExerciseViewModel
+                    {
+                        Id = x.Exercise.Id,
+                        Name = x.Exercise.Name,
+                        Description = x.Exercise.Description,
+                        ImageUrl = x.Exercise.ImageUrl,
+                        VideoUrl = x.Exercise.VideoUrl,
+                        Repetitions = x.Exercise.Repetitions,
+                        Series = x.Exercise.Series,
+                        DifficultyLevel = x.Exercise.DifficultyLevel,
+                        MuscleGroup = x.Exercise.MuscleGroup
+                    }).ToList(),
+                    ExerciseCount = x.WorkoutsExercises.Count,
+                }).FirstOrDefaultAsync();
+
+            return model;
         }
 
         public async Task<AddWorkoutViewModel> GetModelForAdd(int trainingPlanId)
@@ -240,5 +281,6 @@ namespace AIFitnessProject.Core.Services
 
             return models;
         }
+
     }
 }

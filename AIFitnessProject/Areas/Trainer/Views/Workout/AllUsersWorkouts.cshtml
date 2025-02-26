@@ -330,8 +330,9 @@
                     </form>
                 }
 
-                <form asp-action="Details" method="get">
+                <form asp-action="DetailsWorkoutForTrainer" asp-controller="Workout" asp-route-id="@workout.Id" asp-route-id="@workout.UserId" method="get">
                     <input type="hidden" name="id" value="@workout.Id" />
+                    <input type="hidden" name="userId" value="@workout.UserId" />
                     <button type="submit" class="button details-button">
                         <span class="button-label">Details</span>
                         <svg class="button-icon" viewBox="0 0 24 24">
