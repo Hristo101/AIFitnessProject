@@ -594,8 +594,15 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="background: #f9fbff; border-radius: 0 0 20px 20px;">
-                    <button type="button" class="action-btn" style="background: linear-gradient(45deg, #2A2D72, #434190);" onclick="createNewExercise()">Създай упражнение</button>
-                    <button type="button" class="action-btn" id="attachBtn" style="background: linear-gradient(45deg, #4FD1C5, #38B2AC);" disabled onclick="attachExercises()">Прикачи упражнения</button>
+                    <form asp-action="AddFromEditWorkout" asp-area="Trainer" asp-controller="ExerciseTrainer" method="get">
+                        <button type="submit" class="action-btn" style="background: linear-gradient(45deg, #2A2D72, #434190);">Създай упражнение</button>
+                    </form>
+                    <form id="attachExercisesForm" asp-action="AddNewExercisesToWorkout" asp-area="Trainer" asp-controller="Workout" method="post">
+                        <input type="hidden" name="workoutId" value="@Model.Id" />
+                        <input type="hidden" name="exerciseIds" id="exerciseIds" />
+                        <input type="hidden" name="userId" value="@Model.UserId" />
+                        <button type="submit" class="action-btn" id="attachBtn" style="background: linear-gradient(45deg, #4FD1C5, #38B2AC);" disabled onclick="attachExercises()">Прикачи упражнения</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -708,23 +715,21 @@
         }
 
         function attachExercises() {
-            const selected = allExercises.filter(ex => selectedExercises.includes(ex.id));
-            console.log('Прикрепени упражнения:', selected);
+            if (selectedExercises.length === 0) {
+                alert('Моля, изберете поне едно упражнение за прикачване.');
+                return false;
+            }
+            $('#exerciseIds').val(selectedExercises.join(','));
             $('#exerciseListModal').modal('hide');
-        }
-
-        function createNewExercise() {
-            alert('Създаване на ново упражнение - да се имплементира!');
+            return true;
         }
 
         function editExercise(id) {
             alert(`Редактиране на упражнение с ID: ${id}`);
         }
 
-        function deleteExercise(id) {
-            if (confirm('Сигурни ли сте, че искате да изтриете това упражнение?')) {
-                $(`#exercise-${id}`).remove();
-            }
+        function confirmDelete() {
+            return confirm('Сигурни ли сте, че искате да изтриете това упражнение?');
         }
     </script>
 </body>

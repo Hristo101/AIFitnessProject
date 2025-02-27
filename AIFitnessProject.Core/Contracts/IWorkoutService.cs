@@ -11,6 +11,7 @@ namespace AIFitnessProject.Core.Contracts
     public interface IWorkoutService 
     {
         Task<ICollection<WorkoutViewModel>> All(string userId,int id);
+        Task AttachNewExerciseToWorkoutAsync(int workoutId, string exerciseIds);
         Task<ICollection<WorkoutViewModelForTrainer>> AllWorkousForTrainer(string userId);
         Task<DetailsWorkoutViewModelForTrainer> GetDetailsWorkoutViewModelForTrainer(int id,string userId);
         Task<EditWorkoutViewModelForTrainer> GetEditWorkoutViewModelForTrainer(int id, string userId, string trainerId);

@@ -33,6 +33,14 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             return View(model);
         }
+        [HttpPost]
+        public async Task<IActionResult> AddNewExercisesToWorkout(int workoutId,string exerciseIds,string userId)
+        {
+            await workoutService.AttachNewExerciseToWorkoutAsync(workoutId, exerciseIds);
+
+            TempData["Success"] = "Упражненията бяха успешно прикачени!";
+            return RedirectToAction("EditWorkoutForTrainer", new { id = workoutId,userId = userId });
+        }
         [HttpGet]
         public async Task<IActionResult> DetailsWorkoutForTrainer(int id,string userId)
         {

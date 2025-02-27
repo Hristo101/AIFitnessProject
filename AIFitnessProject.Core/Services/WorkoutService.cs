@@ -131,6 +131,22 @@ namespace AIFitnessProject.Core.Services
 
         }
 
+        public async Task AttachNewExerciseToWorkoutAsync(int workoutId, string exerciseIds)
+        {
+            var items = exerciseIds.Split(",").Select(int.Parse).ToList();
+
+            foreach (var item in items)
+            {
+                var workoutExercise = new WorkoutsExercise()
+                {
+                    WorkoutId = workoutId,
+                    ExcersiceId = item
+                };
+                await repository.AddAsync(workoutExercise);
+                await repository.SaveChangesAsync();
+            }
+        }
+
         public async Task<int> CreateWorkout(AddWorkoutViewModel model,string userId)
         {
             var trainer = await repository.AllAsReadOnly<Infrastructure.Data.Models.Trainer>()
