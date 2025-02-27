@@ -1,5 +1,6 @@
 ﻿using AIFitnessProject.Core.Models.TrainingPlan;
 using AIFitnessProject.Infrastructure.Data.Models;
+using Azure.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace AIFitnessProject.Core.Contracts
 {
     public interface ITrainingPlanService
     {
-        Task CreateTrainigPlan(string id, string trainerId, CreateTraingPlanViewModel model);
+        Task CreateTrainigPlan(string id, string trainerId, CreateTraingPlanViewModel model, int requestId);
         Task<ICollection<AllTrainingPlanViewModel>> GetAllTrainingPlanAsync(string userId);
         Task<ICollection<RejectedTrainingPlanViewModel>> GetModelsForAllTrainingPlanAsync(string userId);
         Task<TrainingPlanDetailsViewModel> GetTrainingPlanModelsForDetailsFromExercise(int exerciseId);

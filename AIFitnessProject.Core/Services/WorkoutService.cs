@@ -80,6 +80,26 @@ namespace AIFitnessProject.Core.Services
             return model;
         }
 
+        public async Task<ICollection<ExerciseViewModel>> AllExercise()
+        {
+            var allExercise = await repository.AllAsReadOnly<Exercise>()
+               .Select(x => new ExerciseViewModel()
+               {
+                   Id = x.Id,
+                   Name = x.Name,
+                   Description = x.Description,
+                   ImageUrl = x.ImageUrl,
+                   VideoUrl = x.VideoUrl,
+                   Repetitions = x.Repetitions,
+                   Series = x.Series,
+                   DifficultyLevel = x.DifficultyLevel,
+                   MuscleGroup = x.MuscleGroup
+               })
+               .ToListAsync();
+
+            return allExercise;
+        }
+
         public async Task<ICollection<WorkoutViewModelForTrainer>> AllWorkousForTrainer(string userId)
         {
             var trainingPlan = await repository.AllAsReadOnly<TrainingPlan>()
@@ -202,6 +222,53 @@ namespace AIFitnessProject.Core.Services
                     ExerciseCount = x.WorkoutsExercises.Count,
                 }).FirstOrDefaultAsync();
 
+            return model;
+        }
+
+        public async Task<EditWorkoutViewModelForTrainer> GetEditWorkoutViewModelForTrainer(int id,string userId,string trainerId)
+        {
+            var trainer = await repository.AllAsReadOnly<Trainer>()
+            .Where(x => x.UserId == trainerId)
+             .FirstOrDefaultAsync();
+
+
+            var allExercise = await AllExercise();
+
+
+            var trainingPlan = await repository.AllAsReadOnly<TrainingPlan>()
+                .Where(x =>x.UserId == userId)
+                .Where(x=>x.CreatedById == trainer.Id)
+                .FirstOrDefaultAsync(); 
+
+            var model = await repository.AllAsReadOnly<Workout>()
+              .Include(x => x.WorkoutsExercises)
+              .ThenInclude(x => x.Exercise)
+              .Where(x => x.Id == id)
+              .Select(x => new EditWorkoutViewModelForTrainer
+              {
+                  Id = x.Id,
+                  DayOfWeek = x.DayOfWeek,
+                  TrainingPlanId = trainingPlan.Id,
+                  DifficultyLevel = x.DificultyLevel,
+                  ImageUrl = x.ImageUrl,
+                  MuscleGroup = x.MuscleGroup,
+                  Title = x.Title,
+                  Exercises = x.WorkoutsExercises.Select(x => new ExerciseViewModel
+                  {
+                      Id = x.Exercise.Id,
+                      Name = x.Exercise.Name,
+                      Description = x.Exercise.Description,
+                      ImageUrl = x.Exercise.ImageUrl,
+                      VideoUrl = x.Exercise.VideoUrl,
+                      Repetitions = x.Exercise.Repetitions,
+                      Series = x.Exercise.Series,
+                      DifficultyLevel = x.Exercise.DifficultyLevel,
+                      MuscleGroup = x.Exercise.MuscleGroup
+                  }).ToList(),
+                  ExerciseCount = x.WorkoutsExercises.Count,
+              }).FirstOrDefaultAsync();
+
+            model.AllExercises = allExercise;
             return model;
         }
 

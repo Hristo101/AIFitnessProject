@@ -27,6 +27,13 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             return View(model);
         }
         [HttpGet]
+        public async Task<IActionResult> EditWorkoutForTrainer(int id,string userId)
+        {
+            var model = await workoutService.GetEditWorkoutViewModelForTrainer(id,userId,GetUserId());
+
+            return View(model);
+        }
+        [HttpGet]
         public async Task<IActionResult> DetailsWorkoutForTrainer(int id,string userId)
         {
             var model = await workoutService.GetDetailsWorkoutViewModelForTrainer(id, userId);

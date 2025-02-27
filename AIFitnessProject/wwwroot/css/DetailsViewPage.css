@@ -233,6 +233,7 @@
 .signup-btn {
     background-color: #ff6347;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-decoration: dashed;
     animation: bounce 1s infinite;
 }
 

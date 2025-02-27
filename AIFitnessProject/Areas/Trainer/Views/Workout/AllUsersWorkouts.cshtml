@@ -309,8 +309,9 @@
             <div class="button-group">
                 @if (!workout.IsEdit) 
                 {
-                    <form asp-action="Edit" method="get">
+                    <form asp-action="EditWorkoutForTrainer" asp-controller="Workout" asp-area="Trainer" asp-route-id="@workout.Id" asp-route-id="@workout.UserId" method="get">
                         <input type="hidden" name="id" value="@workout.Id" />
+                        <input type="hidden" name="userId" value="@workout.UserId" />
                         <button type="submit" class="button edit-button">
                             <span class="button-label">Edit</span>
                             <svg class="button-icon" viewBox="0 0 24 24">
