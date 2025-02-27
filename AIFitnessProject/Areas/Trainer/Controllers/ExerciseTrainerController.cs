@@ -144,6 +144,25 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             return RedirectToAction("DetailsTrainingPlan", "ExerciseTrainer", new { id = model.Id });
         }
+        [HttpGet]
+        public async Task<IActionResult> AddFromEditWorkout()
+        {
+            var model = new CreateExerciseViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddFromEditWorkout(CreateExerciseViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            await exerciseService.AddExercise(model, GetUserId());
+
+            return RedirectToAction("DetailsRejectedTrainingPlan", "TrainingPlan", new { id = model.TrainingPlanId });
+        }
+
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);

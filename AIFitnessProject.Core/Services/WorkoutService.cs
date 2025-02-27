@@ -185,6 +185,16 @@ namespace AIFitnessProject.Core.Services
             return model.TrainingPlanId;
         }
 
+        public async Task DeleteExercise(int workoutId, int exerciseId)
+        {
+            var modelForDelete = await repository.All<WorkoutsExercise>()
+                .Where(x =>x.WorkoutId == workoutId && x.ExcersiceId == exerciseId)
+                .FirstOrDefaultAsync();
+
+            repository.Delete(modelForDelete);
+            await repository.SaveChangesAsync();
+        }
+
         public async Task<DetailsWorkoutViewModelForTrainer> GetDetailsWorkoutViewModelForTrainer(int id,string userId)
         {
            var user = await repository.AllAsReadOnly<ApplicationUser>()
@@ -249,6 +259,7 @@ namespace AIFitnessProject.Core.Services
                   Id = x.Id,
                   DayOfWeek = x.DayOfWeek,
                   TrainingPlanId = trainingPlan.Id,
+                  UserId = userId,
                   DifficultyLevel = x.DificultyLevel,
                   ImageUrl = x.ImageUrl,
                   MuscleGroup = x.MuscleGroup,

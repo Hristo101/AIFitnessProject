@@ -87,7 +87,12 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             return View(model);
         }
-
+        [HttpPost]
+        public async Task<IActionResult> DeleteFromWorkout(int workoutId,int exerciseId,string userId)
+        {
+            await workoutService.DeleteExercise(workoutId, exerciseId);
+            return RedirectToAction("EditWorkoutForTrainer", "Workout", new { id = workoutId, userId = userId });
+        }
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);

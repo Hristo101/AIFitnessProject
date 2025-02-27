@@ -40,10 +40,10 @@
             background: linear-gradient(145deg, #ffffff 0%, #f9fbff 100%);
         }
 
-        .workout-section:hover {
-            box-shadow: 0 15px 40px rgba(42,45,114,0.15);
-            transform: translateY(-5px);
-        }
+            .workout-section:hover {
+                box-shadow: 0 15px 40px rgba(42,45,114,0.15);
+                transform: translateY(-5px);
+            }
 
         .workout-title {
             font-size: 3rem;
@@ -56,17 +56,17 @@
             position: relative;
         }
 
-        .workout-title::after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(90deg, #6C63FF, #2A2D72);
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
+            .workout-title::after {
+                content: '';
+                position: absolute;
+                width: 100px;
+                height: 4px;
+                background: linear-gradient(90deg, #6C63FF, #2A2D72);
+                bottom: -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                border-radius: 2px;
+            }
 
         .form-group {
             position: relative;
@@ -84,17 +84,18 @@
             height: 55px;
         }
 
-        .form-control:focus {
-            border-color: #6C63FF;
-            box-shadow: 0 6px 18px rgba(108,99,255,0.2);
-            transform: translateY(-2px);
-        }
+            .form-control:focus {
+                border-color: #6C63FF;
+                box-shadow: 0 6px 18px rgba(108,99,255,0.2);
+                transform: translateY(-2px);
+            }
 
         .form-group label {
             position: absolute;
             top: -12px;
             left: 20px;
             background: #fff;
+            margin-top: -1em;
             padding: 0 10px;
             font-size: 0.95rem;
             color: #2A2D72;
@@ -102,93 +103,125 @@
             letter-spacing: 0.5px;
         }
 
-        /* Подобрен контейнер за качване на файлове */
+        /* Обновен стил за качване на файлове */
         .container-upload {
-            padding: 25px;
-            background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
-            border-radius: 20px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            --transition: 350ms;
+            --folder-W: 120px;
+            --folder-H: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 10px;
+            background: linear-gradient(135deg, #6dd5ed, #2193b0);
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            height: calc(var(--folder-H) * 1.7);
             width: 280px;
-            height: 160px;
             margin: 40px auto 30px;
             position: relative;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .container-upload:hover {
-            transform: scale(1.03);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        }
+            .container-upload:hover {
+                transform: scale(1.03);
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            }
 
         .folder {
             position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 140px;
-            height: 100px;
+            top: -20px;
+            left: calc(50% - 60px);
             animation: float 2.5s infinite ease-in-out;
+            transition: transform var(--transition) ease;
         }
 
-        .folder .front-side,
-        .folder .back-side {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 12px;
-            transition: all 0.3s ease;
+            .folder:hover {
+                transform: scale(1.05);
+            }
+
+            .folder .front-side,
+            .folder .back-side {
+                position: absolute;
+                transition: transform var(--transition);
+                transform-origin: bottom center;
+            }
+
+                .folder .back-side::before,
+                .folder .back-side::after {
+                    content: "";
+                    display: block;
+                    background-color: white;
+                    opacity: 0.5;
+                    z-index: 0;
+                    width: var(--folder-W);
+                    height: var(--folder-H);
+                    position: absolute;
+                    transform-origin: bottom center;
+                    border-radius: 15px;
+                    transition: transform 350ms;
+                }
+
+        .container-upload:hover .back-side::before {
+            transform: rotateX(-5deg) skewX(5deg);
         }
 
-        .folder .back-side {
-            background: rgba(255, 255, 255, 0.4);
-            z-index: 0;
+        .container-upload:hover .back-side::after {
+            transform: rotateX(-15deg) skewX(12deg);
         }
 
         .folder .front-side {
-            background: linear-gradient(135deg, #ffe563 0%, #ffc663 100%);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
             z-index: 1;
+        }
+
+        .container-upload:hover .front-side {
+            transform: rotateX(-40deg) skewX(15deg);
         }
 
         .folder .tip {
             background: linear-gradient(135deg, #ff9a56, #ff6f56);
-            width: 90px;
-            height: 25px;
-            border-radius: 15px 15px 0 0;
-            position: absolute;
-            top: -15px;
-            left: 25px;
+            width: 80px;
+            height: 20px;
+            border-radius: 12px 12px 0 0;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            top: -10px;
             z-index: 2;
         }
 
+        .folder .cover {
+            background: linear-gradient(135deg, #ffe563, #ffc663);
+            width: var(--folder-W);
+            height: var(--folder-H);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
         .custom-file-upload {
-            font-size: 1.2em;
+            font-size: 1.1em;
             color: #ffffff;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 12px 20px;
-            width: 80%;
             text-align: center;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background var(--transition) ease;
+            display: inline-block;
+            width: 80%;
+            padding: 10px 35px;
             position: relative;
             z-index: 3;
             font-weight: 600;
         }
 
-        .custom-file-upload:hover {
-            background: rgba(255, 255, 255, 0.45);
-            transform: scale(1.05);
-        }
+            .custom-file-upload:hover {
+                background: rgba(255, 255, 255, 0.4);
+            }
 
-        .custom-file-upload input[type="file"] {
-            display: none;
-        }
+            .custom-file-upload input[type="file"] {
+                display: none;
+            }
 
         .image-preview-container {
             position: relative;
@@ -211,15 +244,23 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
-        .remove-image:hover {
-            background: #E53E3E;
-            transform: scale(1.1);
-        }
+            .remove-image:hover {
+                background: #E53E3E;
+                transform: scale(1.1);
+            }
 
         @@keyframes float {
-            0% { transform: translateX(-50%) translateY(0px); }
-            50% { transform: translateX(-50%) translateY(-20px); }
-            100% { transform: translateX(-50%) translateY(0px); }
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
         }
 
         .action-btn {
@@ -233,23 +274,24 @@
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             position: relative;
+            text-decoration: dashed;
             overflow: hidden;
         }
 
-        .action-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
+            .action-btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.2);
+                transition: all 0.3s ease;
+            }
 
-        .action-btn:hover::before {
-            left: 0;
-        }
+            .action-btn:hover::before {
+                left: 0;
+            }
 
         .edit-btn {
             background: linear-gradient(45deg, #4FD1C5, #38B2AC);
@@ -279,21 +321,38 @@
             background: linear-gradient(145deg, #ffffff 0%, #f9fbff 100%);
         }
 
-        .exercise-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(42,45,114,0.15);
-            border-color: #6C63FF;
+            .exercise-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 30px rgba(42,45,114,0.15);
+                border-color: #6C63FF;
+            }
+
+            .exercise-card.selected {
+                border-color: #4FD1C5;
+                background: #F5FDFD;
+                transform: translateY(-5px);
+            }
+
+        /* Цветове за ниво на трудност като фон */
+        .difficulty-level {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
         }
 
-        .exercise-card.selected {
-            border-color: #4FD1C5;
-            background: #F5FDFD;
-            transform: translateY(-5px);
+        .difficulty-easy {
+            background: #4FD1C5;
         }
 
-        .difficulty-easy { border-left: 6px solid #4FD1C5; }
-        .difficulty-medium { border-left: 6px solid #F6AD55; }
-        .difficulty-hard { border-left: 6px solid #FC8181; }
+        .difficulty-medium {
+            background: #F6AD55;
+        }
+
+        .difficulty-hard {
+            background: #FC8181;
+        }
 
         .exercise-image {
             height: 250px;
@@ -329,16 +388,16 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        .pagination-btn:disabled {
-            background: #d1d5db;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
+            .pagination-btn:disabled {
+                background: #d1d5db;
+                cursor: not-allowed;
+                box-shadow: none;
+            }
 
-        .pagination-btn:hover:not(:disabled) {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(42,45,114,0.3);
-        }
+            .pagination-btn:hover:not(:disabled) {
+                transform: scale(1.05);
+                box-shadow: 0 8px 20px rgba(42,45,114,0.3);
+            }
 
         .pagination-info {
             padding: 12px 25px;
@@ -356,14 +415,16 @@
             justify-content: center;
         }
 
-        .filter-group .form-control {
-            width: 200px;
-            background: #fff;
-        }
+            .filter-group .form-control {
+                width: 200px;
+                background: #fff;
+            }
     </style>
     @functions {
-        private string GetDifficultyClass(string difficulty) {
-            return difficulty switch {
+        private string GetDifficultyClass(string difficulty)
+        {
+            return difficulty switch
+            {
                 "Лесно" => "difficulty-easy",
                 "Средно" => "difficulty-medium",
                 "Средно-Напреднал" => "difficulty-medium",
@@ -405,13 +466,10 @@
                 <div class="form-group">
                     <label asp-for="MuscleGroup">Мускулна група</label>
                     <select asp-for="MuscleGroup" class="form-control">
-                        <option value="Гръден кош">Гръден кош</option>
+                        <option value="Гърди">Гърди</option>
                         <option value="Гръб">Гръб</option>
-                        <option value="Рамене">Рамене</option>
-                        <option value="Бицепс">Бицепс</option>
-                        <option value="Трицепс">Трицепс</option>
+                        <option value="Ръце">Ръце</option>
                         <option value="Крака">Крака</option>
-                        <option value="Корем">Корем</option>
                     </select>
                 </div>
 
@@ -436,13 +494,11 @@
                         <div class="folder">
                             <div class="front-side">
                                 <div class="tip"></div>
+                                <div class="cover"></div>
                             </div>
-                            <div class="back-side"></div>
+                            <div class="back-side cover"></div>
                         </div>
-                        <label class="custom-file-upload">
-                            <input type="file" name="image" accept="image/*" onchange="previewImage(this)" />
-                            Избери файл
-                        </label>
+                        <label class="custom-file-upload" style=" margin-top: 6em; "> <input type="file" name="image" accept="image/*" onchange="previewImage(this)"> Избери файл </label>
                     </div>
                     <div class="image-preview-container">
                         <img id="imagePreview" class="workout-image mt-3" style="display: none; max-width: 100%; border-radius: 20px; box-shadow: 0 5px 15px rgba(42,45,114,0.1);" alt="Предварителен преглед" />
@@ -455,7 +511,7 @@
                     @foreach (var exercise in Model.Exercises)
                     {
                         <div class="col-lg-4 col-md-6">
-                            <div class="exercise-card @GetDifficultyClass(exercise.DifficultyLevel)" id="exercise-@exercise.Id">
+                            <div class="exercise-card" id="exercise-@exercise.Id">
                                 <input type="hidden" name="Exercises[@exercise.Id].Id" value="@exercise.Id" />
                                 <input type="hidden" name="Exercises[@exercise.Id].Name" value="@exercise.Name" />
                                 <input type="hidden" name="Exercises[@exercise.Id].Description" value="@exercise.Description" />
@@ -471,7 +527,7 @@
                                 <h4 class="exercise-name">@exercise.Name</h4>
                                 <p style="color: #4B5EAA; line-height: 1.5;">@exercise.Description</p>
                                 <p><strong>Мускулна група:</strong> @exercise.MuscleGroup</p>
-                                <p><strong>Ниво:</strong> @exercise.DifficultyLevel</p>
+                                <p><strong>Ниво:</strong> <span class="difficulty-level @GetDifficultyClass(exercise.DifficultyLevel)">@exercise.DifficultyLevel</span></p>
                                 <p><strong>Серии:</strong> @exercise.Series, <strong>Повторения:</strong> @exercise.Repetitions</p>
                                 @if (!string.IsNullOrEmpty(exercise.VideoUrl))
                                 {
@@ -479,7 +535,12 @@
                                 }
                                 <div class="buttons mt-3 d-flex gap-3 justify-content-center">
                                     <button type="button" class="action-btn edit-btn" onclick="editExercise(@exercise.Id)">Редактирай</button>
-                                    <button type="button" class="action-btn delete-btn" onclick="deleteExercise(@exercise.Id)">Изтрий</button>
+                                    <form asp-action="DeleteFromWorkout" asp-area="Trainer" asp-controller="Workout" method="post" onsubmit="return confirmDelete()">
+                                        <input type="hidden" name="workoutId" value="@Model.Id" />
+                                        <input type="hidden" name="exerciseId" value="@exercise.Id" />
+                                        <input type="hidden" name="userId" value="@Model.UserId" />
+                                        <button type="submit" class="action-btn delete-btn">Изтрий</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -554,7 +615,7 @@
         function previewImage(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     $('#imagePreview').attr('src', e.target.result).show();
                     $('.remove-image').show();
                 }
@@ -576,12 +637,12 @@
         function applyFilters() {
             const muscleGroup = $('#muscleGroupFilter').val();
             const difficulty = $('#difficultyFilter').val();
-            
+
             filteredExercises = allExercises.filter(ex => {
                 return (!muscleGroup || ex.muscleGroup === muscleGroup) &&
-                       (!difficulty || ex.difficultyLevel === difficulty);
+                    (!difficulty || ex.difficultyLevel === difficulty);
             });
-            
+
             currentPage = 1;
             renderExerciseList();
         }
@@ -600,18 +661,18 @@
                     const difficultyClass = getDifficultyClass(ex.difficultyLevel);
                     const isSelected = selectedExercises.includes(ex.id) ? 'selected' : '';
                     container.append(`
-                        <div class="col-lg-4 col-md-6">
-                            <div class="exercise-card ${difficultyClass} ${isSelected}" data-id="${ex.id}" onclick="toggleExerciseSelection(${ex.id})">
-                                ${ex.imageUrl ? `<img src="${ex.imageUrl}" class="exercise-image mb-3" alt="${ex.name}" />` : ''}
-                                <h4 class="exercise-name">${ex.name}</h4>
-                                <p style="color: #4B5EAA; line-height: 1.5;">${ex.description || 'Няма описание'}</p>
-                                <p><strong>Мускулна група:</strong> ${ex.muscleGroup}</p>
-                                <p><strong>Ниво:</strong> ${ex.difficultyLevel}</p>
-                                <p><strong>Серии:</strong> ${ex.series}, <strong>Повторения:</strong> ${ex.repetitions}</p>
-                                ${ex.videoUrl ? `<a href="${ex.videoUrl}" target="_blank" class="action-btn edit-btn mt-2 d-inline-block">Гледай Видео</a>` : ''}
-                            </div>
-                        </div>
-                    `);
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="exercise-card ${isSelected}" data-id="${ex.id}" onclick="toggleExerciseSelection(${ex.id})">
+                                        ${ex.imageUrl ? `<img src="${ex.imageUrl}" class="exercise-image mb-3" alt="${ex.name}" />` : ''}
+                                        <h4 class="exercise-name">${ex.name}</h4>
+                                        <p style="color: #4B5EAA; line-height: 1.5;">${ex.description || 'Няма описание'}</p>
+                                        <p><strong>Мускулна група:</strong> ${ex.muscleGroup}</p>
+                                        <p><strong>Ниво:</strong> <span class="difficulty-level ${difficultyClass}">${ex.difficultyLevel}</span></p>
+                                        <p><strong>Серии:</strong> ${ex.series}, <strong>Повторения:</strong> ${ex.repetitions}</p>
+                                        ${ex.videoUrl ? `<a href="${ex.videoUrl}" target="_blank" class="action-btn edit-btn mt-2 d-inline-block">Гледай Видео</a>` : ''}
+                                    </div>
+                                </div>
+                            `);
                 });
             }
 
@@ -622,7 +683,7 @@
         }
 
         function getDifficultyClass(difficulty) {
-            switch(difficulty) {
+            switch (difficulty) {
                 case "Лесно": return "difficulty-easy";
                 case "Средно": case "Средно-Напреднал": return "difficulty-medium";
                 case "Трудно": return "difficulty-hard";
@@ -649,21 +710,6 @@
         function attachExercises() {
             const selected = allExercises.filter(ex => selectedExercises.includes(ex.id));
             console.log('Прикрепени упражнения:', selected);
-            // Пример за AJAX заявка:
-            /*
-            $.ajax({
-                url: '/Trainer/Edit/AddExercises',
-                method: 'POST',
-                data: { workoutId: @Model.Id, exerciseIds: selectedExercises },
-                success: function(response) {
-                    $('#exerciseListModal').modal('hide');
-                    location.reload(); // Обнови страницата след добавяне
-                },
-                error: function() {
-                    alert('Грешка при добавянето на упражнения.');
-                }
-            });
-            */
             $('#exerciseListModal').modal('hide');
         }
 
