@@ -7,36 +7,36 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
 <style>
-    /* Header Styles (provided) */
-    .header-style {
-        top: 0;
-        position: sticky;
-        width: 100%;
-        z-index: 1000; /* Increased z-index for the header to ensure it stays on top */
-    }
-
-    /* ФАЙН “FOLDER” КОНТЕЙНЕР */
+    /* ========== ПОПРАВЕН СТИЛ ЗА "FOLDER" ========== */
     .container {
         --transition: 350ms;
         --folder-W: 120px;
         --folder-H: 80px;
+
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-end;
+
+        /* Премахваме фиксираната височина и позволяваме съдържанието да излиза */
+        /* height: calc(var(--folder-H) * 1.7); */
+        min-height: 150px;         /* или повече, ако искаш по-висок контейнер */
+        overflow: visible;        /* за да не се реже папката */
+        position: relative;
+
         padding: 10px;
         background: linear-gradient(135deg, #6dd5ed, #2193b0);
         border-radius: 15px;
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        height: calc(var(--folder-H) * 1.7);
-        position: relative;
         margin-bottom: 1rem;
     }
 
     .folder {
         position: absolute;
-        top: -20px;
+        /* Вместо top: -20px, може да е 0 или малко положителен, за да се вижда цялото */
+        top: 0;
         left: calc(50% - 60px);
+
         animation: float 2.5s infinite ease-in-out;
         transition: transform var(--transition) ease;
     }
@@ -137,17 +137,16 @@
         }
     }
 
-    /* ФОРМА – СТИЛОВЕ (adjusted for sticky header) */
+    /* ========== СТИЛОВЕ НА ФОРМАТА ========== */
     .form-container {
         max-width: 900px;
-        margin: 80px auto 3rem; /* Increased top margin to account for the header's height (estimated ~80px) */
+        margin: 3rem auto;
         padding: 2.5rem;
         background: linear-gradient(145deg, #f8f9fa 0%, #ffffff 100%);
         border-radius: 20px;
         box-shadow: 0 12px 35px rgba(0,0,0,0.1);
         animation: slideIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         border: 1px solid rgba(255,255,255,0.3);
-        z-index: 10; /* Ensure form is above other content but below the header */
     }
 
     @@keyframes slideIn {
@@ -188,7 +187,7 @@
 
     .card-img-top {
         height: 215px;
-        object-fit: cover;
+        object-fit: scale-down;
         border-radius: 8px 8px 0 0;
         transition: transform 0.3s ease, filter 0.3s ease;
     }
@@ -293,9 +292,13 @@
         <i class="fas fa-dumbbell me-2"></i>@ViewData["Title"]
     </h2>
 
-    <form asp-action="Add" asp-controller="ExerciseTrainer" asp-area="Trainer" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+    <form asp-action="AddFromEditWorkout" asp-controller="ExerciseTrainer" asp-area="Trainer"
+          method="post" enctype="multipart/form-data"
+          class="needs-validation" novalidate>
+
         <input type="hidden" name="TrainingPlanId" value="@Model.TrainingPlanId" />
 
+        <!-- Име -->
         <div class="mb-4">
             <label asp-for="Name" class="form-label">
                 <i class="fas fa-tag"></i>Име на упражнение
@@ -304,14 +307,17 @@
             <span asp-validation-for="Name" class="text-danger mt-1 d-block"></span>
         </div>
 
+        <!-- Описание -->
         <div class="mb-4">
             <label asp-for="Description" class="form-label">
                 <i class="fas fa-align-left"></i>Описание
             </label>
-            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Детайлно описание на техниката и изпълнението"></textarea>
+            <textarea asp-for="Description" class="form-control" rows="4"
+                      placeholder="Детайлно описание на техниката и изпълнението"></textarea>
             <span asp-validation-for="Description" class="text-danger mt-1 d-block"></span>
         </div>
 
+        <!-- Повторения / Серии -->
         <div class="training-stats">
             <div class="position-relative">
                 <label asp-for="Repetitions" class="form-label">
@@ -321,7 +327,8 @@
                     <span class="input-group-icon">
                         <i class="fas fa-hashtag"></i>
                     </span>
-                    <input asp-for="Repetitions" type="number" class="form-control ps-4" placeholder="10" min="1" max="1000">
+                    <input asp-for="Repetitions" type="number" class="form-control ps-4"
+                           placeholder="10" min="1" max="1000">
                 </div>
                 <span asp-validation-for="Repetitions" class="text-danger mt-1 d-block"></span>
             </div>
@@ -334,18 +341,21 @@
                     <span class="input-group-icon">
                         <i class="fas fa-hashtag"></i>
                     </span>
-                    <input asp-for="Series" type="number" class="form-control ps-4" placeholder="3" min="1" max="50">
+                    <input asp-for="Series" type="number" class="form-control ps-4"
+                           placeholder="3" min="1" max="50">
                 </div>
                 <span asp-validation-for="Series" class="text-danger mt-1 d-block"></span>
             </div>
         </div>
 
-        <!-- Замяна на стандартния file-upload с “folder” контейнер -->
+        <!-- Качване на изображение -->
         <div class="mb-4">
             <label class="form-label">
                 <i class="fas fa-image"></i> Качване на изображение
             </label>
+
             <div class="file-upload-wrapper">
+                <!-- Тук е анимираната "folder" -->
                 <div class="container">
                     <div class="folder">
                         <div class="front-side">
@@ -354,16 +364,24 @@
                         </div>
                         <div class="back-side cover"></div>
                     </div>
+
+                    <!-- Етикет, който отваря File Dialog-а -->
                     <label class="custom-file-upload">
-                        <input asp-for="ImageUrl" type="file" id="imageInput" class="title" accept="image/*">
-                        Choose a file
+                        <input asp-for="ImageUrl" type="file" id="imageInput"
+                               class="title" accept="image/*">
+                        <!-- Текст, който се показва в бутона -->
+                        Провлачете снимка или кликнете тук
                     </label>
                 </div>
+
                 <span asp-validation-for="ImageUrl" class="text-danger mt-1 d-block"></span>
+
+                <!-- Превю на качените изображения -->
                 <div id="imagePreview" class="row g-3 mt-3"></div>
             </div>
         </div>
 
+        <!-- Видео URL -->
         <div class="mb-4">
             <label asp-for="VideoUrl" class="form-label">
                 <i class="fab fa-youtube"></i>Видео URL
@@ -372,6 +390,7 @@
             <span asp-validation-for="VideoUrl" class="text-danger mt-1 d-block"></span>
         </div>
 
+        <!-- Мускулна група / Трудност -->
         <div class="row g-4">
             <div class="col-md-6">
                 <div class="mb-4">
@@ -412,6 +431,7 @@
             </div>
         </div>
 
+        <!-- Бутон за събмит -->
         <div class="d-grid gap-2 mt-5">
             <button type="submit" class="btn btn-primary submit-btn">
                 <i class="fas fa-plus-circle me-2"></i>Добави упражнение
@@ -422,9 +442,10 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
     <script>
-        // Подобрено показване на избраното изображение с валидация на файла
-        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+        // Максимален размер: 5MB
+        const MAX_FILE_SIZE = 5 * 1024 * 1024;
         const imageInput = document.getElementById('imageInput');
         const previewContainer = document.getElementById('imagePreview');
 
@@ -469,7 +490,7 @@
             const indicator = document.createElement('span');
             indicator.className = 'difficulty-indicator ' +
                 (option.value === 'Лесно' ? 'easy' :
-                 option.value === 'Средно-напреднал' ? 'medium' : 'hard');
+                 option.value === 'Средно' || option.value === 'Средно-напреднал' ? 'medium' : 'hard');
             option.prepend(indicator);
         });
 

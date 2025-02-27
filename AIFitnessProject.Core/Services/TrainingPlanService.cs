@@ -6,6 +6,7 @@ using AIFitnessProject.Core.Models.TrainingPlan;
 using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
+using Azure.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,7 +29,7 @@ namespace AIFitnessProject.Core.Services
         }
 
 
-        public async Task  CreateTrainigPlan(string id, string trainerId, CreateTraingPlanViewModel model)
+        public async Task  CreateTrainigPlan(string id, string trainerId, CreateTraingPlanViewModel model, int requestId)
         {
            var trainer = await repository.All<Trainer>().Where(x =>x.UserId == trainerId).FirstAsync();
             TrainingPlan  trainingPlan = new TrainingPlan()
@@ -50,6 +51,12 @@ namespace AIFitnessProject.Core.Services
             }
 
             await repository.AddAsync(trainingPlan);
+
+            var rquest = await repository.All<RequestsToCoach>()
+                .Where(x => x.Id == requestId)
+                .FirstOrDefaultAsync();
+
+            rquest.IsAnswered = true;
             await repository.SaveChangesAsync();
         }
 
