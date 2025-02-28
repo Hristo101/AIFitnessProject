@@ -21,6 +21,51 @@ namespace AIFitnessProject.Core.Services
             this.repository = _repository;
         }
 
+        public async Task AcceptDietAsync(int id, string userId)
+        {
+            var dietitian = await repository.All<Dietitian>()
+                                          .Where(x => x.UserId == userId)
+                                          .FirstOrDefaultAsync();
+
+            var diet = await repository.All<Diet>()
+                .Where(x => x.Id == id)
+                .Where(x => x.UserId == userId)
+                .Include(x => x.Dietitian)
+                .Include(x => x.User)
+                .FirstOrDefaultAsync();
+
+            if (diet == null)
+            {
+                throw new ArgumentException("Diet not found or does not belong to the user.");
+            }
+
+            diet.IsInCalendar = true;
+            await repository.SaveChangesAsync();
+
+            var existingCalendar = await repository.All<Calendar>()
+                .FirstOrDefaultAsync(c => c.UserId == userId);
+
+
+            if (existingCalendar != null)
+            {
+                if (existingCalendar.TrainerId != null || existingCalendar.TrainerId != 0)
+                {
+                    existingCalendar.DietitianId = diet.CreatedById;
+                    await repository.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                Calendar calendar = new Calendar
+                {
+                    DietitianId = diet.CreatedById,
+                    UserId = diet.UserId
+                };
+                await repository.AddAsync(calendar);
+                await repository.SaveChangesAsync();
+            }
+        }
+
         //public async Task AcceptDietAsync(int id, string UserId)
         //{
         //    var diet = await repository.All<Diet>()

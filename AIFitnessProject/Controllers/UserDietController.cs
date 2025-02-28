@@ -74,12 +74,13 @@ namespace AIFitnessProject.Controllers
             await dietService.SendEditDietAsync(id, userId);
             return RedirectToAction(nameof(MyDiet));
         }
-        //public async Task<IActionResult> AcceptDiet(int id)
-        //{
-        //    await dietService.AcceptDietAsync(id, GetUserId());
 
-        //    return RedirectToAction(nameof(MyDiet));
-        //}
+        public async Task<IActionResult> AcceptDiet(int id)
+        {
+            await dietService.AcceptDietAsync(id, GetUserId());
+
+            return RedirectToAction(nameof(MyDiet));
+        }
 
         private string GetUserId()
         {
