@@ -7,19 +7,88 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
 <style>
-    /* Header Styles (provided) */
+    /* Глобални променливи за папката */
+    :root {
+        --transition: 350ms;
+        --folder-W: 120px;
+        --folder-H: 80px;
+    }
+
+    /* Стилове за навигацията */
+    nav.navbar {
+        background-color: #343a40 !important;
+        width: 100%;
+        padding: 10px 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .navbar-nav {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+            .navbar-nav .nav-link:hover {
+                background-color: #f39c12;
+                color: #ffffff !important;
+                transform: scale(1.05);
+            }
+
+    .navbar-brand {
+        color: #ffffff !important;
+        font-size: 22px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: color 0.3s;
+    }
+
+        .navbar-brand:hover {
+            color: #f39c12 !important;
+        }
+
+    .navbar-nav .nav-link i {
+        margin-right: 8px;
+        color: #f39c12;
+    }
+
+    body {
+        background-color: #f8f9fa;
+        color: #ecf0f1;
+    }
+
     .header-style {
         top: 0;
         position: sticky;
         width: 100%;
-        z-index: 1000; /* Increased z-index for the header to ensure it stays on top */
+        z-index: 1;
     }
 
-    /* ФАЙН “FOLDER” КОНТЕЙНЕР */
-    .container {
-        --transition: 350ms;
-        --folder-W: 120px;
-        --folder-H: 80px;
+    /* Контейнер за съдържанието от втория код */
+    .content-container {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Контейнер за папката */
+    .folder-container {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -33,6 +102,18 @@
         margin-bottom: 1rem;
     }
 
+    .form-container {
+        max-width: 900px;
+        margin: 80px auto 3rem;
+        padding: 2.5rem;
+        background: linear-gradient(145deg, #f8f9fa 0%, #ffffff 100%);
+        border-radius: 20px;
+        box-shadow: 0 12px 35px rgba(0,0,0,0.1);
+        animation: slideIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        border: 1px solid rgba(255,255,255,0.3);
+        z-index: 10;
+    }
+
     .folder {
         position: absolute;
         top: -20px;
@@ -41,36 +122,36 @@
         transition: transform var(--transition) ease;
     }
 
-    .folder:hover {
-        transform: scale(1.05);
-    }
+        .folder:hover {
+            transform: scale(1.05);
+        }
 
-    .folder .front-side,
-    .folder .back-side {
-        position: absolute;
-        transition: transform var(--transition);
-        transform-origin: bottom center;
-    }
+        .folder .front-side,
+        .folder .back-side {
+            position: absolute;
+            transition: transform var(--transition);
+            transform-origin: bottom center;
+        }
 
-    .folder .back-side::before,
-    .folder .back-side::after {
-        content: "";
-        display: block;
-        background-color: white;
-        opacity: 0.5;
-        width: var(--folder-W);
-        height: var(--folder-H);
-        position: absolute;
-        transform-origin: bottom center;
-        border-radius: 15px;
-        transition: transform 350ms;
-    }
+            .folder .back-side::before,
+            .folder .back-side::after {
+                content: "";
+                display: block;
+                background-color: white;
+                opacity: 0.5;
+                width: var(--folder-W);
+                height: var(--folder-H);
+                position: absolute;
+                transform-origin: bottom center;
+                border-radius: 15px;
+                transition: transform 350ms;
+            }
 
-    .container:hover .back-side::before {
+    .folder-container:hover .back-side::before {
         transform: rotateX(-5deg) skewX(5deg);
     }
 
-    .container:hover .back-side::after {
+    .folder-container:hover .back-side::after {
         transform: rotateX(-15deg) skewX(12deg);
     }
 
@@ -78,7 +159,7 @@
         z-index: 1;
     }
 
-    .container:hover .front-side {
+    .folder-container:hover .front-side {
         transform: rotateX(-40deg) skewX(15deg);
     }
 
@@ -117,37 +198,26 @@
         position: relative;
     }
 
-    .custom-file-upload:hover {
-        background: rgba(255, 255, 255, 0.4);
-    }
+        .custom-file-upload:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
 
-    .custom-file-upload input[type="file"] {
-        display: none;
-    }
+        .custom-file-upload input[type="file"] {
+            display: none;
+        }
 
     @@keyframes float {
         0% {
             transform: translateY(0px);
         }
+
         50% {
             transform: translateY(-20px);
         }
+
         100% {
             transform: translateY(0px);
         }
-    }
-
-    /* ФОРМА – СТИЛОВЕ (adjusted for sticky header) */
-    .form-container {
-        max-width: 900px;
-        margin: 80px auto 3rem; /* Increased top margin to account for the header's height (estimated ~80px) */
-        padding: 2.5rem;
-        background: linear-gradient(145deg, #f8f9fa 0%, #ffffff 100%);
-        border-radius: 20px;
-        box-shadow: 0 12px 35px rgba(0,0,0,0.1);
-        animation: slideIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-        border: 1px solid rgba(255,255,255,0.3);
-        z-index: 10; /* Ensure form is above other content but below the header */
     }
 
     @@keyframes slideIn {
@@ -155,6 +225,7 @@
             opacity: 0;
             transform: translateY(-30px) scale(0.98);
         }
+
         to {
             opacity: 1;
             transform: translateY(0) scale(1);
@@ -179,12 +250,12 @@
         background: rgba(241, 243, 245, 0.4);
     }
 
-    .file-upload-label:hover {
-        border-color: #4a90e2;
-        background: rgba(74, 144, 226, 0.05);
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(74, 144, 226, 0.1);
-    }
+        .file-upload-label:hover {
+            border-color: #4a90e2;
+            background: rgba(74, 144, 226, 0.05);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.1);
+        }
 
     .card-img-top {
         height: 215px;
@@ -210,22 +281,22 @@
         overflow: hidden;
     }
 
-    .submit-btn::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: rgba(255,255,255,0.1);
-        transform: rotate(45deg);
-        transition: all 0.4s ease;
-    }
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(45deg);
+            transition: all 0.4s ease;
+        }
 
-    .submit-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(44, 108, 212, 0.35);
-    }
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(44, 108, 212, 0.35);
+        }
 
     .form-control, .form-select {
         border: 2px solid #e9ecef;
@@ -235,10 +306,10 @@
         font-size: 0.95rem;
     }
 
-    .form-control:focus, .form-select:focus {
-        border-color: #4a90e2;
-        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
-    }
+        .form-control:focus, .form-select:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
 
     .input-group-icon {
         position: absolute;
@@ -286,6 +357,24 @@
         gap: 1.5rem;
         margin-bottom: 2rem;
     }
+
+    .back-btn {
+        background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 15px 40px;
+        font-size: 1.1rem;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        color: white;
+    }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(73, 80, 87, 0.35);
+            color: white;
+            text-decoration: none;
+        }
 </style>
 
 <div class="form-container">
@@ -340,13 +429,12 @@
             </div>
         </div>
 
-        <!-- Замяна на стандартния file-upload с “folder” контейнер -->
         <div class="mb-4">
             <label class="form-label">
                 <i class="fas fa-image"></i> Качване на изображение
             </label>
             <div class="file-upload-wrapper">
-                <div class="container">
+                <div class="folder-container">
                     <div class="folder">
                         <div class="front-side">
                             <div class="tip"></div>
@@ -413,9 +501,18 @@
         </div>
 
         <div class="d-grid gap-2 mt-5">
-            <button type="submit" class="btn btn-primary submit-btn">
-                <i class="fas fa-plus-circle me-2"></i>Добави упражнение
-            </button>
+            <div class="row">
+                <div class="col-6">
+                    <a href="javascript:history.back()" class="btn back-btn w-100">
+                        <i class="fas fa-arrow-left me-2"></i>Назад
+                    </a>
+                </div>
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary submit-btn w-100">
+                        <i class="fas fa-plus-circle me-2"></i>Добави упражнение
+                    </button>
+                </div>
+            </div>
         </div>
     </form>
 </div>
@@ -423,8 +520,7 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        // Подобрено показване на избраното изображение с валидация на файла
-        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+        const MAX_FILE_SIZE = 5 * 1024 * 1024;
         const imageInput = document.getElementById('imageInput');
         const previewContainer = document.getElementById('imagePreview');
 
@@ -446,34 +542,32 @@
                     const col = document.createElement('div');
                     col.className = 'col-6 col-md-4 col-lg-3 position-relative mb-3';
                     col.innerHTML = `
-                        <div class="card shadow-sm overflow-hidden">
-                            <div class="preview-badge">${(file.size / 1024 / 1024).toFixed(2)}MB</div>
-                            <img src="${event.target.result}" class="card-img-top" alt="Preview">
-                            <div class="card-footer py-2">
-                                <small class="text-muted d-block text-truncate">${file.name}</small>
-                                <button type="button" class="btn btn-danger btn-sm float-end"
-                                    onclick="this.closest('.col-6').remove()">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
+                                <div class="card shadow-sm overflow-hidden">
+                                    <div class="preview-badge">${(file.size / 1024 / 1024).toFixed(2)}MB</div>
+                                    <img src="${event.target.result}" class="card-img-top" alt="Preview">
+                                    <div class="card-footer py-2">
+                                        <small class="text-muted d-block text-truncate">${file.name}</small>
+                                        <button type="button" class="btn btn-danger btn-sm float-end"
+                                            onclick="this.closest('.col-6').remove()">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
                     previewContainer.appendChild(col);
                 };
                 reader.readAsDataURL(file);
             });
         });
 
-        // Динамични индикатори за трудност
         document.querySelectorAll('.form-select option').forEach(option => {
             const indicator = document.createElement('span');
             indicator.className = 'difficulty-indicator ' +
                 (option.value === 'Лесно' ? 'easy' :
-                 option.value === 'Средно-напреднал' ? 'medium' : 'hard');
+                    option.value === 'Средно-напреднал' ? 'medium' : 'hard');
             option.prepend(indicator);
         });
 
-        // Валидация за числови входове
         document.querySelectorAll('input[type="number"]').forEach(input => {
             input.addEventListener('input', function () {
                 if (this.validity.rangeUnderflow) {

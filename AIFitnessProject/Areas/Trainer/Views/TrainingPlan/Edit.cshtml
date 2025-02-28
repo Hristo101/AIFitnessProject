@@ -13,6 +13,12 @@
     <!-- Font Awesome за икони -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <style>
+        .header-style {
+            top: 0;
+            position: absolute;
+            width: 100%;
+            z-index: 1;
+        }
         body {
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
             min-height: 100vh;
@@ -113,7 +119,14 @@
                         @if(!string.IsNullOrEmpty(Model.ImageUrl))
                         {
                             <div class="mb-4 text-center">
-                                <img src="@Model.ImageUrl" alt="Текуща снимка" class="img-fluid rounded" style="max-height:300px;" />
+                                @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("/img"))
+                                {
+                                    <img src="@Model.ImageUrl" alt="Текуща снимка" class="img-fluid rounded" style="max-height:300px;" />
+                                }
+                                else
+                                {
+                                    <img src="data:image/jpeg;base64,@Model.ImageUrl" alt="Текуща снимка" class="img-fluid rounded" style="max-height:300px;" />
+                                }
                                 <p class="mt-2">Текуща снимка</p>
                             </div>
                         }
