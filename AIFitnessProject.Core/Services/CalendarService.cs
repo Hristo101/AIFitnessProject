@@ -134,5 +134,116 @@ namespace AIFitnessProject.Core.Services
                 return false;
             }
         }
+
+        public async Task<UserCalendarViewModelForDietitianArea> GetModelForUserCalendarInDietitianArea(string userId)
+        {
+            var calendar = await repository.AllAsReadOnly<Calendar>()
+               .Where(c => c.UserId == userId)
+               .Include(x => x.CalendarDiet)
+               .Select(c => new
+               {
+                   c.Id,
+                   Meals = c.CalendarDiet.Select(cw => new
+                   {
+                       cw.MealId,
+                       cw.Meal.Name,
+                       cw.Meal.ImageUrl,
+                       cw.Meal.MealTime,
+                       cw.Meal.Calories,
+                       MealCount = cw.Meal.MealsDailyDietPlans.Count(),
+                       cw.CalendarId,
+                       cw.DateOnly,
+                       cw.StartEventTime,
+                       cw.EndEventTime
+                   }).ToList()
+               })
+               .FirstOrDefaultAsync();
+
+            var diet = await repository.All<Diet>()
+               .Where(tp => tp.UserId == userId && tp.IsActive)
+               .FirstOrDefaultAsync();
+
+            var meals = await repository.AllAsReadOnly<DietDailyDietPlan>()
+                .Where(x => x.DietId == diet.Id)
+                .SelectMany(x => x.DailyDietPlan.MealsDailyDietPlans)
+                .Select(x => x.Meal)
+                .Distinct()
+                .ToListAsync();
+
+
+
+            var user = await repository.AllAsReadOnly<ApplicationUser>()
+                .Where(x => x.Id == userId)
+                .Select(u => new
+                {
+                    u.Email,
+                    FullName = $"{u.FirstName} {u.LastName}",
+                    u.ProfilePicture
+                })
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var model = new UserCalendarViewModelForDietitianArea
+            {
+                CalendarId = calendar?.Id ?? 0,
+                Email = user.Email,
+                FullName = user.FullName,
+                ProfilePictureUrl = user.ProfilePicture,
+                Meals = calendar?.Meals.Select(cw => new MealCalendarViewModel
+                {
+                    Id = cw.MealId,
+                    Name = cw.Name,
+                    ImageUrl = cw.ImageUrl,
+                    MealTime = cw.MealTime,
+                    Calories = cw.Calories,
+                    CalendarId = cw.CalendarId,
+                    Date = cw.DateOnly,
+                    StartEventTime = cw.StartEventTime,
+                    EndEventTime = cw.EndEventTime
+                }).ToList() ?? new List<MealCalendarViewModel>(),
+                DietMeal = meals.Select(tpw => new MealCalendarViewModel
+                {
+                    Id = tpw.Id,
+                    Name = tpw.Name,
+                    ImageUrl = tpw.ImageUrl,
+                    MealTime = tpw.MealTime,
+                    MealCount = meals.Count,
+                }).ToList()
+            };
+
+            return model;
+        }
+
+        public async Task<bool> AddCalendarMealEventAsync(AddEventFromDietitianViewModel model)
+        {
+            try
+            {
+                var start = TimeOnly.Parse(model.StartTime);
+                var end = TimeOnly.Parse(model.EndTime);
+                var date = new DateOnly(model.Year, model.Month, model.Day);
+
+                var calendarWorkout = new CalendarMeal
+                {
+                    CalendarId = model.CalendarId,
+                    MealId = model.MealId,
+                    DateOnly = date,
+                    StartEventTime = start,
+                    EndEventTime = end,
+                };
+
+                await repository.AddAsync(calendarWorkout);
+                await repository.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

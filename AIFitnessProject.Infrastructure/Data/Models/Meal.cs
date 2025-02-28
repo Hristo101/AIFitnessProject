@@ -51,5 +51,6 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 
         public ICollection<MealsDailyDietPlan> MealsDailyDietPlans { get; set; } = new List<MealsDailyDietPlan>();
         public ICollection<MealFeedback> MealFeedbacks { get; set; } = new List<MealFeedback>();
+        public ICollection<CalendarMeal> CalendarMeals { get; set; } = new List<CalendarMeal>();
     }
 }

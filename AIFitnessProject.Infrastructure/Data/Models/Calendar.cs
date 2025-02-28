@@ -25,6 +25,6 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public Dietitian Dietitian { get; set; }
 
         public ICollection<CalendarWorkout> CalendarWorkouts { get; set; } = new List<CalendarWorkout>();
-        public ICollection<CalendarDiet> CalendarDiet { get; set; } = new List<CalendarDiet>();
+        public ICollection<CalendarMeal> CalendarDiet { get; set; } = new List<CalendarMeal>();
     }
 }
