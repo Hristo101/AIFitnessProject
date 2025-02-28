@@ -45,7 +45,7 @@
             else if (User.IsInRole("Trainer") == true || User.IsInRole("Dietitian") == true)
             {
                 <a asp-controller="Account" asp-area="Dietitian" asp-action="Edit" asp-route-Id="@Model.Id" class="button">Редактиране на информацията ✏️</a>
-                <a asp-area="Dietitian" asp-controller="Account" asp-action="AllUsers" class="button">Моите клиенти 🧑‍🤝‍🧑</a>
+                <a asp-area="Dietitian" asp-controller="Account" asp-action="AllDietitianClients" class="button">Моите клиенти 🧑‍🤝‍🧑</a>
             }
         </div>
     </div>

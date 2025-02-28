@@ -248,6 +248,7 @@ namespace AIFitnessProject.Core.Services
             {
                 return false;
             }
+        }
 
         public async Task<DetailsEventViewModel> GetModelForDetailsEvent(int id)
         {
