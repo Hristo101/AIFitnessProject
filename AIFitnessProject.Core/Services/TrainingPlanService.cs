@@ -9,6 +9,7 @@ using AIFitnessProject.Infrastructure.Data.Models;
 using Azure.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -348,6 +349,7 @@ namespace AIFitnessProject.Core.Services
             var models = await repository.AllAsReadOnly<TrainingPlan>().Include(x => x.User)
                 .Where(x => x.Trainer.Id == trainer.Id)
                 .Where(x => x.IsActive == false)
+                .Where(x =>x.IsEdit == true)
                 .Include(x =>x.User)
                 .Select(x => new RejectedTrainingPlanViewModel()
                 {
@@ -374,7 +376,6 @@ namespace AIFitnessProject.Core.Services
             var trainingPlan = await repository.AllAsReadOnly<TrainingPlan>()
                 .Where(x => x.CreatedById == trainer.Id)
                 .Where(x => x.IsActive == false)
-                .Where(x =>x.IsEdit == true)
                 .Include(tp => tp.TrainingPlanWorkouts)
                     .ThenInclude(tpw => tpw.Workout)
                         .ThenInclude(w => w.WorkoutsExercises)
@@ -441,27 +442,49 @@ namespace AIFitnessProject.Core.Services
             return viewModel;
         }
 
-        public async Task AcceptTrainingPlanAsync(int id,string UserId)
+        public async Task AcceptTrainingPlanAsync(int id, string userId)
         {
+            var trainer = await repository.All<Trainer>()
+                                         .Where(x => x.UserId == userId)
+                                         .FirstOrDefaultAsync();
+
             var trainingPlan = await repository.All<TrainingPlan>()
-               .Where(x => x.Id == id)
-               .Where(x => x.UserId == UserId)
-               .Include(x =>x.Trainer)
-               .Include(x =>x.User)
-               .FirstOrDefaultAsync();
+                .Where(x => x.Id == id)
+                .Where(x => x.UserId == userId)
+                .Include(x => x.Trainer)
+                .Include(x => x.User)
+                .FirstOrDefaultAsync();
+
+            if (trainingPlan == null)
+            {
+                throw new ArgumentException("Training plan not found or does not belong to the user.");
+            }
 
             trainingPlan.IsInCalendar = true;
             await repository.SaveChangesAsync();
 
+            var existingCalendar = await repository.All<Calendar>()
+                .FirstOrDefaultAsync(c => c.UserId == userId);
 
-            Calendar calendar = new Calendar()
+
+            if (existingCalendar != null)
             {
-                TrainerId = trainingPlan.CreatedById,
-                UserId = trainingPlan.UserId,
-            };
-
-            await repository.AddAsync(calendar);
-            await repository.SaveChangesAsync();
+                if (existingCalendar.TrainerId != null || existingCalendar.TrainerId != 0)
+                {
+                    existingCalendar.TrainerId = trainingPlan.CreatedById;
+                    await repository.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                Calendar calendar = new Calendar
+                {
+                    TrainerId = trainingPlan.CreatedById,
+                    UserId = trainingPlan.UserId
+                };
+                await repository.AddAsync(calendar);
+                await repository.SaveChangesAsync();
+            }
         }
     }
 

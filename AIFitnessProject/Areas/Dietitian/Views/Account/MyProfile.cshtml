@@ -1,0 +1,53 @@
+﻿@using AIFitnessProject.Core.Models.Account
+@model MyProfileViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="~/css/Account/MyProfile.css" />
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Header with profile picture -->
+        <div class="profile-header">
+            <img src="data:image/jpeg;base64,@Model.ImageUrl" alt="Profile Picture" alt="Profile Picture">
+            <h2>@Model.FirstName @Model.LastName</h2>
+            <p>@Model.ExperienceLevel</p>
+        </div>
+
+        <!-- Details -->
+        <div class="profile-details">
+            <div class="detail">
+                <span>Потребителско име:</span> @Model.UserName <span class="emoji">👤</span>
+            </div>
+            <div class="detail">
+                <span>Email:</span> @Model.Email <span class="emoji">📧</span>
+            </div>
+            <div class="detail">
+                <span>Височина:</span> @Model.Height см <span class="emoji">📏</span>
+            </div>
+            <div class="detail">
+                <span>Тегло:</span> @Model.Weight кг <span class="emoji">⚖️</span>
+            </div>
+        </div>
+
+        <!-- Buttons as links -->
+        <div class="buttons">
+            @if (User.IsInRole("Trainer") == false && User.IsInRole("Dietitian") == false)
+            {
+                <a asp-controller="Account" asp-action="Edit" asp-route-Id="@Model.Id" class="button">Редактиране на информацията ✏️</a>
+                <a asp-controller="UserTrainingPlan" asp-action="AllMyTrainingPlans" class="button">Тренировъчни планове 🏋️</a>
+                <a asp-controller="UserDiet" asp-action="MyDiet" class="button">Диетични планове 🥗</a>
+            }
+            else if (User.IsInRole("Trainer") == true || User.IsInRole("Dietitian") == true)
+            {
+                <a asp-controller="Account" asp-area="Dietitian" asp-action="Edit" asp-route-Id="@Model.Id" class="button">Редактиране на информацията ✏️</a>
+                <a asp-area="Dietitian" asp-controller="Account" asp-action="AllUsers" class="button">Моите клиенти 🧑‍🤝‍🧑</a>
+            }
+        </div>
+    </div>
+</body>
+</html>

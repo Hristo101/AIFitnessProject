@@ -1,0 +1,404 @@
+﻿@using AIFitnessProject.Core.Models.Calendar
+@model DetailsEventViewModel
+
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.WorkoutTitle - Детайли</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #2d3436;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --easy-color: #2ecc71;
+            --medium-color: #f1c40f;
+            --hard-color: #e74c3c;
+            --button-color: #6c5ce7;
+            --hover-shadow: rgba(108, 92, 231, 0.25);
+            --accent-color: #3498db;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 2rem;
+            color: var(--text-color);
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Section */
+        .workout-header {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+            .workout-header::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(90deg, var(--easy-color) 0%, var(--hard-color) 100%);
+            }
+
+        .workout-title {
+            font-size: 2.8rem;
+            margin: 0 0 1.5rem 0;
+            color: var(--text-color);
+            position: relative;
+            display: inline-block;
+            font-weight: 700;
+        }
+
+            .workout-title::after {
+                content: '';
+                position: absolute;
+                bottom: -10px;
+                left: 0;
+                width: 60px;
+                height: 4px;
+                background: var(--accent-color);
+                border-radius: 2px;
+            }
+
+        /* Meta Information */
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .meta-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+            .meta-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            }
+
+        .meta-icon {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .meta-label {
+            font-size: 0.95rem;
+            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .meta-value {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        /* Exercise Cards */
+        .exercise-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .exercise-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: var(--transition);
+            display: flex;
+        }
+
+            .exercise-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+            }
+
+        .exercise-media {
+            flex: 0 0 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exercise-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .exercise-card:hover .exercise-image {
+            transform: scale(1.05);
+        }
+
+        .exercise-content {
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .exercise-name {
+            font-size: 1.8rem;
+            margin: 0 0 1rem 0;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .exercise-description {
+            color: #636e72;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            background: rgba(52, 152, 219, 0.08);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+            .stat-item:hover {
+                background: rgba(52, 152, 219, 0.15);
+                transform: translateY(-3px);
+            }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        /* Difficulty Badges */
+        .difficulty-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .difficulty-easy {
+            background: rgba(46, 204, 113, 0.15);
+            color: var(--easy-color);
+        }
+
+        .difficulty-medium {
+            background: rgba(241, 196, 15, 0.15);
+            color: var(--medium-color);
+        }
+
+        .difficulty-hard {
+            background: rgba(231, 76, 60, 0.15);
+            color: var(--hard-color);
+        }
+
+        /* Back Button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: var(--button-color);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin: 3rem auto 2rem;
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+        }
+
+            .back-button:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+                background: #5b4bc4;
+            }
+
+            .back-button i {
+                margin-right: 0.8rem;
+            }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .exercise-card {
+                flex-direction: column;
+            }
+
+            .exercise-media {
+                flex: 0 0 250px;
+            }
+
+            .workout-title {
+                font-size: 2.2rem;
+            }
+
+            .meta-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @@keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .workout-header, .meta-card, .exercise-card {
+            animation: slideIn 0.6s ease-out forwards;
+        }
+
+            .exercise-card:nth-child(2) {
+                animation-delay: 0.1s;
+            }
+
+            .exercise-card:nth-child(3) {
+                animation-delay: 0.2s;
+            }
+
+            .exercise-card:nth-child(4) {
+                animation-delay: 0.3s;
+            }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Workout Header -->
+        <div class="workout-header">
+            <h1 class="workout-title">@Model.WorkoutTitle</h1>
+            <div class="difficulty-badge difficulty-@Model.WorkoutDifficultyLevel.ToLower()">
+                @Model.WorkoutDifficultyLevel
+            </div>
+        </div>
+
+        <!-- Meta Information Grid -->
+        <div class="meta-grid">
+            <div class="meta-card">
+                <i class="fas fa-dumbbell meta-icon"></i>
+                <div class="meta-label">Мускулна група</div>
+                <div class="meta-value">@Model.WorkoutMuscleGroup</div>
+            </div>
+
+            <div class="meta-card">
+                <i class="fas fa-clock meta-icon"></i>
+                <div class="meta-label">Времеви интервал</div>
+                <div class="meta-value">@Model.StartEventTime - @Model.EndEventTime</div>
+            </div>
+
+            <div class="meta-card">
+                <i class="fas fa-calendar-day meta-icon"></i>
+                <div class="meta-label">Тренировъчен ден</div>
+                <div class="meta-value">@Model.WorkoutDayOfWeek</div>
+            </div>
+
+            <div class="meta-card">
+                <i class="fas fa-list-ol meta-icon"></i>
+                <div class="meta-label">Общо упражнения</div>
+                <div class="meta-value">@Model.ExerciseCount</div>
+            </div>
+        </div>
+
+        <!-- Exercises List -->
+        <div class="exercise-grid">
+            <h2 style="color: var(--accent-color); margin-bottom: 2rem;">Упражнения</h2>
+
+            @foreach (var exercise in Model.Exercises)
+            {
+                <div class="exercise-card">
+                    <div class="exercise-media">
+                        <img src="@exercise.ImageUrl"
+                             class="exercise-image"
+                             onerror="this.src='https://source.unsplash.com/featured/800x600/?fitness,exercise'">
+                    </div>
+
+                    <div class="exercise-content">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <h3 class="exercise-name">@exercise.Name</h3>
+                            <div class="difficulty-badge difficulty-@exercise.DifficultyLevel.ToLower()">
+                                @exercise.DifficultyLevel
+                            </div>
+                        </div>
+
+                        <p class="exercise-description">@exercise.Description</p>
+
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-label">Серии</div>
+                                <div class="stat-value">@exercise.Series</div>
+                            </div>
+
+                            <div class="stat-item">
+                                <div class="stat-label">Повторения</div>
+                                <div class="stat-value">@exercise.Repetitions</div>
+                            </div>
+
+                            <div class="stat-item">
+                                <div class="stat-label">Интензитет</div>
+                                <div class="stat-value">@exercise.MuscleGroup</div>
+                            </div>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(exercise.VideoUrl))
+                        {
+                            <a href="@exercise.VideoUrl" target="_blank" class="back-button" style="text-decoration: none;">
+                                <i class="fas fa-play"></i> Гледай видео
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+        <button class="back-button" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i> Назад
+        </button>
+    </div>
+</body>
+</html>

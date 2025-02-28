@@ -1,6 +1,7 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.DTOs.Calendar;
 using AIFitnessProject.Core.Models.Calendar;
+using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,7 @@ namespace AIFitnessProject.Core.Services
                     c.Id,
                     Workouts = c.CalendarWorkouts.Select(cw => new
                     {
+                        cw.EventId,
                         cw.WorkoutId,
                         cw.Workout.Title,
                         cw.Workout.ImageUrl,
@@ -77,7 +79,7 @@ namespace AIFitnessProject.Core.Services
             }
 
             var model = new UserCalendarViewModel
-            {
+            {             
                 CalendarId = calendar?.Id ?? 0,
                 Email = user.Email,
                 FullName = user.FullName,
@@ -85,6 +87,7 @@ namespace AIFitnessProject.Core.Services
                 Workouts = calendar?.Workouts.Select(cw => new WorkoutCalendarViewModel
                 {
                     Id = cw.WorkoutId,
+                    EventId = cw.EventId,
                     Name = cw.Title,
                     ImageUrl = cw.ImageUrl,
                     ExerciseCount = cw.ExerciseCount,
@@ -133,6 +136,52 @@ namespace AIFitnessProject.Core.Services
             {
                 return false;
             }
+        }
+
+        public async Task<DetailsEventViewModel> GetModelForDetailsEvent(int id)
+        {
+            var workoutCalendar = await repository.AllAsReadOnly<CalendarWorkout>()
+                 .Where(x => x.EventId == id)
+                 .Include(x =>x.Workout)
+                 .ThenInclude(x=>x.WorkoutsExercises)
+                 .ThenInclude(x =>x.Exercise)
+                 .Select(x => new DetailsEventViewModel
+                 {
+                     DateOnly = x.DateOnly.ToString("yyyy-MM-dd"),
+                   StartEventTime = x.StartEventTime.ToString("hh:mm tt"),
+                   EndEventTime = x.EndEventTime.ToString("hh:mm tt"),
+                   WorkoutTitle = x.Workout.Title,
+                   ExerciseCount = x.Workout.WorkoutsExercises.Count,
+                   WorkoutDayOfWeek = x.Workout.DayOfWeek,
+                   WorkoutDifficultyLevel = x.Workout.DificultyLevel,
+                   WorkoutImage = x.Workout.ImageUrl,
+                   WorkoutMuscleGroup = x.Workout.MuscleGroup,
+                     Exercises = x.Workout.WorkoutsExercises.Select(x => new ExerciseViewModel
+                     {
+                         Id = x.Exercise.Id,
+                         Name = x.Exercise.Name,
+                         Description = x.Exercise.Description,
+                         ImageUrl = x.Exercise.ImageUrl,
+                         VideoUrl = x.Exercise.VideoUrl,
+                         Repetitions = x.Exercise.Repetitions,
+                         Series = x.Exercise.Series,
+                         DifficultyLevel = x.Exercise.DifficultyLevel,
+                         MuscleGroup = x.Exercise.MuscleGroup
+                     }).ToList(),
+                 })
+                 .FirstOrDefaultAsync();
+
+            return workoutCalendar;
+        }
+
+        public async Task DeleteEvenet(int workoutId, int calendarId)
+        {
+            var calendarWorkout = await repository.All<CalendarWorkout>()
+                 .Where(x => x.WorkoutId == workoutId && x.CalendarId == calendarId)
+                 .FirstOrDefaultAsync();
+
+            repository.Delete(calendarWorkout);
+            await repository.SaveChangesAsync();
         }
     }
 }

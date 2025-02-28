@@ -133,7 +133,7 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
         }
         [HttpGet]
         public async Task<IActionResult> DetailsRejectedTrainingPlan(int id)
-        {
+       {
             var model = await trainingPlanService.GetRejectedTrainingPlanAsync(id, GetUserId());
 
             return View(model);

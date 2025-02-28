@@ -11,6 +11,8 @@ namespace AIFitnessProject.Core.Contracts
     public interface ICalendarService
     {
         Task<UserCalendarViewModel> GetModeForUserCalendar(string userId);
+        Task DeleteEvenet(int workoutId, int calendarId);
         Task<bool> AddCalendarEventAsync(AddEventViewModel model);
+        Task<DetailsEventViewModel> GetModelForDetailsEvent(int id);
     }
 }

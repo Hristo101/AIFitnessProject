@@ -1,0 +1,83 @@
+﻿@using AIFitnessProject.Core.Models.Account
+@model EditProfileViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="~/css/Account/EditProfile.css" />
+</head>
+<body>
+    <div class="edit-profile-container">
+        <h1>Редактиране на профила</h1>
+
+        <form asp-action="Edit" asp-controller="Account" asp-area="Trainer" method="post" enctype="multipart/form-data">
+
+            <div class="form-group">
+                <label asp-for="ImageUrl">Снимка на профила</label>
+                <img src="data:image/jpeg;base64,@Model.ImageUrl" alt="Profile Picture" class="current-profile-pic">
+                <input type="file" asp-for="NewImageUrl" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FirstName">Първо име</label>
+                <input type="text" asp-for="FirstName" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LastName">Фамилия</label>
+                <input type="text" asp-for="LastName" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email">Email</label>
+                <input type="email" asp-for="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="UserName">Потребителско име</label>
+                <input type="text" asp-for="UserName" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="Height">Височина (м)</label>
+                <input type="number" asp-for="Height" step="0.01" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Weight">Тегло (кг)</label>
+                <input type="number" asp-for="Weight" step="0.1" />
+                <span asp-validation-for="Weight" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ExperienceLevel">Ниво на опит</label>
+                <select asp-for="ExperienceLevel">
+                    <option value="Начинаещ">Начинаещ</option>
+                    <option value="Средно напреднал">Средно напреднал</option>
+                    <option value="Напреднал">Напреднал</option>
+                </select>
+                <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Запази</button>
+                <a asp-action="MyProfile" asp-controller="Account" class="btn btn-secondary">Отказ</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

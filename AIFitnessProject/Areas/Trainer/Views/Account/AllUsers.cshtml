@@ -248,8 +248,8 @@
                     </div>
                 </button>
                 </form>
-
-                <!-- Calendar Button -->
+                @if (user.IsInCalendar)
+                {
                 <form asp-controller="Calendar" asp-action="UserCalendar" asp-area="Trainer" asp-route-id="@user.UserId" method="get">
                     <button type="submit" class="button calendar-btn" data-tooltip="Календар на тренировки">
                         <div class="button-wrapper">
@@ -263,7 +263,9 @@
                             </div>
                         </div>
                     </button>
-                </form>
+                </form>                   
+                }
+
             </div>
         </div>
     }

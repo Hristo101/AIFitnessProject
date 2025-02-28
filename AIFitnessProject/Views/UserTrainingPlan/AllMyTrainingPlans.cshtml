@@ -61,19 +61,19 @@ else
                 color: #777;
             }
 
-        .btn {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 16px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-            .btn:hover {
-                background-color: #0056b3;
+            .nav-btn {
+                display: inline-block;
+                margin-top: 15px;
+                padding: 10px 16px;
+                background-color: #007bff; 
+                color: #fff;
+                text-decoration: none;
+                border-radius: 5px;
             }
+
+                .nav-btn:hover {
+                    background-color: #555; 
+                }
     </style>
 </head>
 <body>
@@ -89,7 +89,7 @@ else
             }
         <h3>@Model.TitleOfTriningPlan</h3>
         <p>@Model.DescriptionOfTriningPlan</p>
-        <a asp-action="Details" asp-asp-controller="UserTrainingPlanController" asp-route-id="@Model.Id" class="btn">Детайли</a>
+            <a asp-action="Details" asp-asp-controller="UserTrainingPlanController" asp-route-id="@Model.Id" class="nav-btn">Детайли</a>
     </div>
     
 </body>
