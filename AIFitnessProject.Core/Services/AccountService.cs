@@ -127,6 +127,7 @@ namespace AIFitnessProject.Core.Services
                 .Select(x => new AllUsersViewModel()
                 {
                     UserId = x.UserId,
+                    IsInCalendar = x.IsInCalendar,
                     Aim = x.User.Aim,
                     Email = x.User.Email,
                     ExperienceLevel = x.User.ExperienceLevel,

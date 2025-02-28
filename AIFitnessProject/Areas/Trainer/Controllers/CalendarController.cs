@@ -3,6 +3,7 @@ using AIFitnessProject.Core.DTOs.Calendar;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace AIFitnessProject.Areas.Trainer.Controllers
 {
@@ -55,6 +56,10 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
         public async Task<IActionResult> Delete(int calendarId,int workoutId)
         {
             return View();
+        }
+        private string GetUserId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

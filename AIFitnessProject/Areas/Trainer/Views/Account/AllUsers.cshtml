@@ -234,7 +234,7 @@
             </div>
             <p style="color: #6c757d; margin: 1.5rem 0; font-size: 1.2rem;">@user.Aim</p>
             <div class="buttons-container" style="display: flex; gap: 1.5rem;">
-
+                <form asp-controller="Workout" asp-action="AllUsersWorkouts" asp-area="Trainer" asp-route-id="@user.UserId" method="get">
                 <button class="button training-btn" data-tooltip="Тренировъчна програма">
                     <div class="button-wrapper">
                         <div class="button-text">
@@ -247,7 +247,9 @@
                         </div>
                     </div>
                 </button>
-                <!-- Calendar Button -->
+                </form>
+                @if (user.IsInCalendar)
+                {
                 <form asp-controller="Calendar" asp-action="UserCalendar" asp-area="Trainer" asp-route-id="@user.UserId" method="get">
                     <button type="submit" class="button calendar-btn" data-tooltip="Календар на тренировки">
                         <div class="button-wrapper">
@@ -261,7 +263,9 @@
                             </div>
                         </div>
                     </button>
-                </form>
+                </form>                   
+                }
+
             </div>
         </div>
     }

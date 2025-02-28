@@ -422,11 +422,12 @@
         }
 
         .event .checkmark-btn {
-            position: absolute;
+            position: relative;
             top: 50%;
             right: 20px;
             width: 50px;
             height: 50px;
+            margin-left: 1.5em;
             background: transparent;
             border: 2px solid var(--primary-clr);
             border-radius: 50%;
@@ -436,7 +437,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3sease;
             transform: translateY(-50%);
             opacity: 0.7;
             z-index: 1;
@@ -824,10 +825,10 @@
                             ` : ''}
                             <div class="buttons">
                                 ${event.workout ? `
-                                    <a href="/Calendar/DetailsEvent/${event.workout.id}" class="details-btn">📋 Детайли</a>
+                                    <a href="/Calendar/DetailsEvent/${event.workout.eventId}" class="details-btn">📋 Детайли</a>
                                 ` : ''}
                             </div>
-                            <button class="checkmark-btn" onclick="window.location.href='/Trainer/Calendar/MarkEventCompleted?calendarId=${calendarId}&workoutId=${event.workout ? event.workout.id : ''}'">✓</button>
+                            <button class="checkmark-btn" onclick="window.location.href='/Calendar/MarkEventCompleted?calendarId=${calendarId}&workoutId=${event.workout ? event.workout.id : ''}'">✓</button>
                         </div>`;
                     });
                 }
@@ -849,6 +850,7 @@
                             : "Time not set",
                         workout = new {
                             id = w.Id,
+                            eventId = w.EventId,
                             name = w.Name,
                             imageUrl = w.ImageUrl,
                             exerciseCount = w.ExerciseCount,

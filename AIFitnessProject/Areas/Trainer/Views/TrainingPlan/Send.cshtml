@@ -105,15 +105,25 @@
             color: #2a9d8f;
             font-weight: 600;
         }
+
+        .header-style {
+            position:absolute;
+        }
     </style>
 </head>
 <body>
      <form asp-action="SendConfrimed" method="post" asp-route-id="@Model.Id" class="needs-validation" enctype="multipart/form-data" novalidate>
     <div class="container confirmation-container">
         <div class="card">
-            <img src="@Model.ImageUrlTrainingPlan" class="training-plan-image" alt="Training Plan">
-
-            <div class="card-body p-4">
+                @if (Model.ImageUrlTrainingPlan.StartsWith("http") || Model.ImageUrlTrainingPlan.StartsWith("/img"))
+                        {
+                    <img src="@Model.ImageUrlTrainingPlan" class="training-plan-image" alt="Training Plan">
+                }
+                else
+                {
+                    <img src="data:image/jpeg;base64,@Model.ImageUrlTrainingPlan" class="training-plan-image" alt="Training Plan">
+                }
+                <div class="card-body p-4">
                 <h3 class="mb-4 text-center">Сигурни ли сте, че искате да изпратите този тренировъчен план?</h3>
 
                 <div class="mb-4">

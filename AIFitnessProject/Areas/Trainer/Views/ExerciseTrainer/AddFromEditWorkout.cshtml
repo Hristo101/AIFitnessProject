@@ -7,151 +7,70 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
 <style>
-    /* Глобални променливи за папката */
-    :root {
+    /* ========== ПОПРАВЕН СТИЛ ЗА "FOLDER" ========== */
+    .container {
         --transition: 350ms;
         --folder-W: 120px;
         --folder-H: 80px;
-    }
 
-    /* Стилове за навигацията */
-    nav.navbar {
-        background-color: #343a40 !important;
-        width: 100%;
-        padding: 10px 20px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-    }
-
-    .navbar-nav {
-        display: flex;
-        gap: 20px;
-        align-items: center;
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-    }
-
-        .navbar-nav .nav-link {
-            color: #ffffff !important;
-            font-weight: bold;
-            text-transform: uppercase;
-            text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-            .navbar-nav .nav-link:hover {
-                background-color: #f39c12;
-                color: #ffffff !important;
-                transform: scale(1.05);
-            }
-
-    .navbar-brand {
-        color: #ffffff !important;
-        font-size: 22px;
-        font-weight: bold;
-        text-transform: uppercase;
-        transition: color 0.3s;
-    }
-
-        .navbar-brand:hover {
-            color: #f39c12 !important;
-        }
-
-    .navbar-nav .nav-link i {
-        margin-right: 8px;
-        color: #f39c12;
-    }
-
-    body {
-        background-color: #f8f9fa;
-        color: #ecf0f1;
-    }
-
-    .header-style {
-        top: 0;
-        position: sticky;
-        width: 100%;
-        z-index: 1;
-    }
-
-    /* Контейнер за съдържанието от втория код */
-    .content-container {
-        background-color: #f8f9fa;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    }
-
-    /* Контейнер за папката */
-    .folder-container {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-end;
+
+        /* Премахваме фиксираната височина и позволяваме съдържанието да излиза */
+        /* height: calc(var(--folder-H) * 1.7); */
+        min-height: 150px;         /* или повече, ако искаш по-висок контейнер */
+        overflow: visible;        /* за да не се реже папката */
+        position: relative;
+
         padding: 10px;
         background: linear-gradient(135deg, #6dd5ed, #2193b0);
         border-radius: 15px;
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        height: calc(var(--folder-H) * 1.7);
-        position: relative;
         margin-bottom: 1rem;
-    }
-
-    .form-container {
-        max-width: 900px;
-        margin: 80px auto 3rem;
-        padding: 2.5rem;
-        background: linear-gradient(145deg, #f8f9fa 0%, #ffffff 100%);
-        border-radius: 20px;
-        box-shadow: 0 12px 35px rgba(0,0,0,0.1);
-        animation: slideIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-        border: 1px solid rgba(255,255,255,0.3);
-        z-index: 10;
     }
 
     .folder {
         position: absolute;
-        top: -20px;
+        /* Вместо top: -20px, може да е 0 или малко положителен, за да се вижда цялото */
+        top: 0;
         left: calc(50% - 60px);
+
         animation: float 2.5s infinite ease-in-out;
         transition: transform var(--transition) ease;
     }
 
-        .folder:hover {
-            transform: scale(1.05);
-        }
+    .folder:hover {
+        transform: scale(1.05);
+    }
 
-        .folder .front-side,
-        .folder .back-side {
-            position: absolute;
-            transition: transform var(--transition);
-            transform-origin: bottom center;
-        }
+    .folder .front-side,
+    .folder .back-side {
+        position: absolute;
+        transition: transform var(--transition);
+        transform-origin: bottom center;
+    }
 
-            .folder .back-side::before,
-            .folder .back-side::after {
-                content: "";
-                display: block;
-                background-color: white;
-                opacity: 0.5;
-                width: var(--folder-W);
-                height: var(--folder-H);
-                position: absolute;
-                transform-origin: bottom center;
-                border-radius: 15px;
-                transition: transform 350ms;
-            }
+    .folder .back-side::before,
+    .folder .back-side::after {
+        content: "";
+        display: block;
+        background-color: white;
+        opacity: 0.5;
+        width: var(--folder-W);
+        height: var(--folder-H);
+        position: absolute;
+        transform-origin: bottom center;
+        border-radius: 15px;
+        transition: transform 350ms;
+    }
 
-    .folder-container:hover .back-side::before {
+    .container:hover .back-side::before {
         transform: rotateX(-5deg) skewX(5deg);
     }
 
-    .folder-container:hover .back-side::after {
+    .container:hover .back-side::after {
         transform: rotateX(-15deg) skewX(12deg);
     }
 
@@ -159,7 +78,7 @@
         z-index: 1;
     }
 
-    .folder-container:hover .front-side {
+    .container:hover .front-side {
         transform: rotateX(-40deg) skewX(15deg);
     }
 
@@ -198,26 +117,36 @@
         position: relative;
     }
 
-        .custom-file-upload:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
+    .custom-file-upload:hover {
+        background: rgba(255, 255, 255, 0.4);
+    }
 
-        .custom-file-upload input[type="file"] {
-            display: none;
-        }
+    .custom-file-upload input[type="file"] {
+        display: none;
+    }
 
     @@keyframes float {
         0% {
             transform: translateY(0px);
         }
-
         50% {
             transform: translateY(-20px);
         }
-
         100% {
             transform: translateY(0px);
         }
+    }
+
+    /* ========== СТИЛОВЕ НА ФОРМАТА ========== */
+    .form-container {
+        max-width: 900px;
+        margin: 3rem auto;
+        padding: 2.5rem;
+        background: linear-gradient(145deg, #f8f9fa 0%, #ffffff 100%);
+        border-radius: 20px;
+        box-shadow: 0 12px 35px rgba(0,0,0,0.1);
+        animation: slideIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        border: 1px solid rgba(255,255,255,0.3);
     }
 
     @@keyframes slideIn {
@@ -225,7 +154,6 @@
             opacity: 0;
             transform: translateY(-30px) scale(0.98);
         }
-
         to {
             opacity: 1;
             transform: translateY(0) scale(1);
@@ -250,16 +178,16 @@
         background: rgba(241, 243, 245, 0.4);
     }
 
-        .file-upload-label:hover {
-            border-color: #4a90e2;
-            background: rgba(74, 144, 226, 0.05);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.1);
-        }
+    .file-upload-label:hover {
+        border-color: #4a90e2;
+        background: rgba(74, 144, 226, 0.05);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(74, 144, 226, 0.1);
+    }
 
     .card-img-top {
         height: 215px;
-        object-fit: cover;
+        object-fit: scale-down;
         border-radius: 8px 8px 0 0;
         transition: transform 0.3s ease, filter 0.3s ease;
     }
@@ -281,22 +209,22 @@
         overflow: hidden;
     }
 
-        .submit-btn::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: rgba(255,255,255,0.1);
-            transform: rotate(45deg);
-            transition: all 0.4s ease;
-        }
+    .submit-btn::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(255,255,255,0.1);
+        transform: rotate(45deg);
+        transition: all 0.4s ease;
+    }
 
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(44, 108, 212, 0.35);
-        }
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(44, 108, 212, 0.35);
+    }
 
     .form-control, .form-select {
         border: 2px solid #e9ecef;
@@ -306,10 +234,10 @@
         font-size: 0.95rem;
     }
 
-        .form-control:focus, .form-select:focus {
-            border-color: #4a90e2;
-            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
-        }
+    .form-control:focus, .form-select:focus {
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    }
 
     .input-group-icon {
         position: absolute;
@@ -357,24 +285,6 @@
         gap: 1.5rem;
         margin-bottom: 2rem;
     }
-
-    .back-btn {
-        background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-        border: none;
-        border-radius: 10px;
-        padding: 15px 40px;
-        font-size: 1.1rem;
-        letter-spacing: 0.5px;
-        transition: all 0.3s ease;
-        color: white;
-    }
-
-        .back-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(73, 80, 87, 0.35);
-            color: white;
-            text-decoration: none;
-        }
 </style>
 
 <div class="form-container">
@@ -382,9 +292,13 @@
         <i class="fas fa-dumbbell me-2"></i>@ViewData["Title"]
     </h2>
 
-    <form asp-action="Add" asp-controller="ExerciseTrainer" asp-area="Trainer" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+    <form asp-action="AddFromEditWorkout" asp-controller="ExerciseTrainer" asp-area="Trainer"
+          method="post" enctype="multipart/form-data"
+          class="needs-validation" novalidate>
+
         <input type="hidden" name="TrainingPlanId" value="@Model.TrainingPlanId" />
 
+        <!-- Име -->
         <div class="mb-4">
             <label asp-for="Name" class="form-label">
                 <i class="fas fa-tag"></i>Име на упражнение
@@ -393,14 +307,17 @@
             <span asp-validation-for="Name" class="text-danger mt-1 d-block"></span>
         </div>
 
+        <!-- Описание -->
         <div class="mb-4">
             <label asp-for="Description" class="form-label">
                 <i class="fas fa-align-left"></i>Описание
             </label>
-            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Детайлно описание на техниката и изпълнението"></textarea>
+            <textarea asp-for="Description" class="form-control" rows="4"
+                      placeholder="Детайлно описание на техниката и изпълнението"></textarea>
             <span asp-validation-for="Description" class="text-danger mt-1 d-block"></span>
         </div>
 
+        <!-- Повторения / Серии -->
         <div class="training-stats">
             <div class="position-relative">
                 <label asp-for="Repetitions" class="form-label">
@@ -410,7 +327,8 @@
                     <span class="input-group-icon">
                         <i class="fas fa-hashtag"></i>
                     </span>
-                    <input asp-for="Repetitions" type="number" class="form-control ps-4" placeholder="10" min="1" max="1000">
+                    <input asp-for="Repetitions" type="number" class="form-control ps-4"
+                           placeholder="10" min="1" max="1000">
                 </div>
                 <span asp-validation-for="Repetitions" class="text-danger mt-1 d-block"></span>
             </div>
@@ -423,18 +341,22 @@
                     <span class="input-group-icon">
                         <i class="fas fa-hashtag"></i>
                     </span>
-                    <input asp-for="Series" type="number" class="form-control ps-4" placeholder="3" min="1" max="50">
+                    <input asp-for="Series" type="number" class="form-control ps-4"
+                           placeholder="3" min="1" max="50">
                 </div>
                 <span asp-validation-for="Series" class="text-danger mt-1 d-block"></span>
             </div>
         </div>
 
+        <!-- Качване на изображение -->
         <div class="mb-4">
             <label class="form-label">
                 <i class="fas fa-image"></i> Качване на изображение
             </label>
+
             <div class="file-upload-wrapper">
-                <div class="folder-container">
+                <!-- Тук е анимираната "folder" -->
+                <div class="container">
                     <div class="folder">
                         <div class="front-side">
                             <div class="tip"></div>
@@ -442,16 +364,24 @@
                         </div>
                         <div class="back-side cover"></div>
                     </div>
+
+                    <!-- Етикет, който отваря File Dialog-а -->
                     <label class="custom-file-upload">
-                        <input asp-for="ImageUrl" type="file" id="imageInput" class="title" accept="image/*">
-                        Choose a file
+                        <input asp-for="ImageUrl" type="file" id="imageInput"
+                               class="title" accept="image/*">
+                        <!-- Текст, който се показва в бутона -->
+                        Провлачете снимка или кликнете тук
                     </label>
                 </div>
+
                 <span asp-validation-for="ImageUrl" class="text-danger mt-1 d-block"></span>
+
+                <!-- Превю на качените изображения -->
                 <div id="imagePreview" class="row g-3 mt-3"></div>
             </div>
         </div>
 
+        <!-- Видео URL -->
         <div class="mb-4">
             <label asp-for="VideoUrl" class="form-label">
                 <i class="fab fa-youtube"></i>Видео URL
@@ -460,6 +390,7 @@
             <span asp-validation-for="VideoUrl" class="text-danger mt-1 d-block"></span>
         </div>
 
+        <!-- Мускулна група / Трудност -->
         <div class="row g-4">
             <div class="col-md-6">
                 <div class="mb-4">
@@ -500,26 +431,20 @@
             </div>
         </div>
 
+        <!-- Бутон за събмит -->
         <div class="d-grid gap-2 mt-5">
-            <div class="row">
-                <div class="col-6">
-                    <a href="javascript:history.back()" class="btn back-btn w-100">
-                        <i class="fas fa-arrow-left me-2"></i>Назад
-                    </a>
-                </div>
-                <div class="col-6">
-                    <button type="submit" class="btn btn-primary submit-btn w-100">
-                        <i class="fas fa-plus-circle me-2"></i>Добави упражнение
-                    </button>
-                </div>
-            </div>
+            <button type="submit" class="btn btn-primary submit-btn">
+                <i class="fas fa-plus-circle me-2"></i>Добави упражнение
+            </button>
         </div>
     </form>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
     <script>
+        // Максимален размер: 5MB
         const MAX_FILE_SIZE = 5 * 1024 * 1024;
         const imageInput = document.getElementById('imageInput');
         const previewContainer = document.getElementById('imagePreview');
@@ -542,32 +467,34 @@
                     const col = document.createElement('div');
                     col.className = 'col-6 col-md-4 col-lg-3 position-relative mb-3';
                     col.innerHTML = `
-                                <div class="card shadow-sm overflow-hidden">
-                                    <div class="preview-badge">${(file.size / 1024 / 1024).toFixed(2)}MB</div>
-                                    <img src="${event.target.result}" class="card-img-top" alt="Preview">
-                                    <div class="card-footer py-2">
-                                        <small class="text-muted d-block text-truncate">${file.name}</small>
-                                        <button type="button" class="btn btn-danger btn-sm float-end"
-                                            onclick="this.closest('.col-6').remove()">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            `;
+                        <div class="card shadow-sm overflow-hidden">
+                            <div class="preview-badge">${(file.size / 1024 / 1024).toFixed(2)}MB</div>
+                            <img src="${event.target.result}" class="card-img-top" alt="Preview">
+                            <div class="card-footer py-2">
+                                <small class="text-muted d-block text-truncate">${file.name}</small>
+                                <button type="button" class="btn btn-danger btn-sm float-end"
+                                    onclick="this.closest('.col-6').remove()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
                     previewContainer.appendChild(col);
                 };
                 reader.readAsDataURL(file);
             });
         });
 
+        // Динамични индикатори за трудност
         document.querySelectorAll('.form-select option').forEach(option => {
             const indicator = document.createElement('span');
             indicator.className = 'difficulty-indicator ' +
                 (option.value === 'Лесно' ? 'easy' :
-                    option.value === 'Средно-напреднал' ? 'medium' : 'hard');
+                 option.value === 'Средно' || option.value === 'Средно-напреднал' ? 'medium' : 'hard');
             option.prepend(indicator);
         });
 
+        // Валидация за числови входове
         document.querySelectorAll('input[type="number"]').forEach(input => {
             input.addEventListener('input', function () {
                 if (this.validity.rangeUnderflow) {

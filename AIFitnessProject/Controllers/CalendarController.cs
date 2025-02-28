@@ -1,5 +1,6 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AIFitnessProject.Controllers
 {
@@ -16,11 +17,30 @@ namespace AIFitnessProject.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public async Task<IActionResult> DetailsEvent(int id)
+        {
+            var model = await calendarService.GetModelForDetailsEvent(id);
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> MarkEventCompleted(int workoutId,int calendarId)
+        {
+            await calendarService.DeleteEvenet(workoutId, calendarId);
+
+            return RedirectToAction("UsersCalendar", new { id = GetUserId() });
+        }
+        [HttpGet]
         public async Task<IActionResult> UsersCalendar(string Id)
         {
             var model = await calendarService.GetModeForUserCalendar(Id);
 
             return View(model);
+        }
+        private string GetUserId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

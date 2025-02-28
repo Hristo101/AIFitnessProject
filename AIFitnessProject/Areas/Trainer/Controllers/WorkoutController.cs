@@ -19,7 +19,35 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public async Task<IActionResult> AllUsersWorkouts(string id)
+        {
+            var model = await workoutService.AllWorkousForTrainer(id);
 
+            return View(model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditWorkoutForTrainer(int id,string userId)
+        {
+            var model = await workoutService.GetEditWorkoutViewModelForTrainer(id,userId,GetUserId());
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddNewExercisesToWorkout(int workoutId,string exerciseIds,string userId)
+        {
+            await workoutService.AttachNewExerciseToWorkoutAsync(workoutId, exerciseIds);
+
+            TempData["Success"] = "Упражненията бяха успешно прикачени!";
+            return RedirectToAction("EditWorkoutForTrainer", new { id = workoutId,userId = userId });
+        }
+        [HttpGet]
+        public async Task<IActionResult> DetailsWorkoutForTrainer(int id,string userId)
+        {
+            var model = await workoutService.GetDetailsWorkoutViewModelForTrainer(id, userId);
+
+            return View(model);
+        }
         [HttpGet]
         public async Task<IActionResult> All(int id)
         {
@@ -67,7 +95,12 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             return View(model);
         }
-
+        [HttpPost]
+        public async Task<IActionResult> DeleteFromWorkout(int workoutId,int exerciseId,string userId)
+        {
+            await workoutService.DeleteExercise(workoutId, exerciseId);
+            return RedirectToAction("EditWorkoutForTrainer", "Workout", new { id = workoutId, userId = userId });
+        }
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);

@@ -67,7 +67,7 @@
     <!-- Buttons Section -->
     <section class="trainer-buttons">
         <button class="back-btn" onclick="window.history.back()">Назад</button>
-        <button class="signup-btn">Запиши се</button>
+        <a asp-controller="RequestsToCoach" asp-action="Survey" asp-route-Id="@Model.Id" class="signup-btn">Запиши се</a>
     </section>
 </div>
  <link rel="stylesheet" href="~/css/DetailsViewPage.css" />
