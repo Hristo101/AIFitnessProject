@@ -1,6 +1,7 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.DTOs;
 using AIFitnessProject.Core.DTOs.MealFeedback;
+using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
@@ -184,6 +185,47 @@ namespace AIFitnessProject.Core.Services
                      DietId = dietDailyDietPlan.DietId,
 
                  }).FirstAsync();
+
+            return meal;
+        }
+
+        public async Task<MealViewModel> GetModelForDetailsForUser(int id, string userId)
+        {
+            var diet = await repository.AllAsReadOnly<Diet>()
+                .Include(x => x.User)
+                .Where(x => x.UserId == userId)
+                .FirstAsync();
+
+
+
+            var mealDailyDietPlan = await repository.AllAsReadOnly<MealsDailyDietPlan>()
+                .Where(x => x.MealId == id)
+                .Include(x => x.DailyDietPlans)
+                    .ThenInclude(w => w.DietDailyDietPlans)
+                    .ThenInclude(w => w.Diet)
+                .FirstOrDefaultAsync();
+
+            if (mealDailyDietPlan == null)
+            {
+                return null;
+            }
+
+
+            var meal = await repository.AllAsReadOnly<Meal>()
+                 .Where(x => x.Id == id)
+                 .Select(x => new MealViewModel()
+                 {
+                     Id = x.Id,
+                     DificultyLevel = x.DificultyLevel,
+                     Calories = x.Calories,
+                     ImageUrl = x.ImageUrl,
+                     MealTime = x.MealTime,
+                     Name = x.Name,
+                     Recipe = x.Recipe,
+                     VideoUrl = x.VideoUrl,
+                     DietId = diet.Id,
+
+                 }).FirstOrDefaultAsync();
 
             return meal;
         }
