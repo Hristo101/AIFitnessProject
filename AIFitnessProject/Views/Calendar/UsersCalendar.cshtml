@@ -1,5 +1,5 @@
 ﻿@using AIFitnessProject.Core.Models.Calendar
-@model UserCalendarViewModel
+@model UserCalendarViewModelForUserArea
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -806,15 +806,20 @@
             eventsArr.forEach((eventObj) => {
                 if (date === eventObj.day && month + 1 === eventObj.month && year === eventObj.year) {
                     eventObj.events.forEach((event, index) => {
-                        events += `<div class="event" data-day="${eventObj.day}" data-month="${eventObj.month}" data-year="${eventObj.year}" data-index="${index}" data-workout-id="${event.workout ? event.workout.id : ''}">
-                            <div class="title">
-                                <i class="fas fa-circle"></i>
-                                <h3 class="event-title">${event.title}</h3>
-                            </div>
-                            <div class="event-time">
-                                <span class="event-time">${event.time}</span>
-                            </div>
-                            ${event.workout ? `
+                        let eventHtml = `
+                            <div class="event" data-day="${eventObj.day}" data-month="${eventObj.month}" data-year="${eventObj.year}" data-index="${index}" data-workout-id="${event.workout ? event.workout.id : (event.meal ? event.meal.id : '')}">
+                                <div class="title">
+                                    <i class="fas fa-circle"></i>
+                                    <h3 class="event-title">${event.title}</h3>
+                                </div>
+                                <div class="event-time">
+                                    <span class="event-time">${event.time}</span>
+                                </div>
+                        `;
+
+                        // Ако събитието е тренировка
+                        if (event.workout) {
+                            eventHtml += `
                                 <div class="event-workout">
                                     <img src="${event.workout.imageUrl}" alt="${event.workout.name}" />
                                     <div class="workout-details">
@@ -822,14 +827,33 @@
                                         <p class="workout-info"><i class="fas fa-dumbbell"></i> ${event.workout.muscleGroup} - ${event.workout.exerciseCount} Exercises</p>
                                     </div>
                                 </div>
-                            ` : ''}
-                            <div class="buttons">
-                                ${event.workout ? `
+                                <div class="buttons">
                                     <a href="/Calendar/DetailsEvent/${event.workout.eventId}" class="details-btn">📋 Детайли</a>
-                                ` : ''}
-                            </div>
-                            <button class="checkmark-btn" onclick="window.location.href='/Calendar/MarkEventCompleted?calendarId=${calendarId}&workoutId=${event.workout ? event.workout.id : ''}'">✓</button>
+                                </div>
+                            `;
+                        }
+
+                        // Ако събитието е хранене
+                        if (event.meal) {
+                            eventHtml += `
+                                <div class="event-workout">
+                                    <img src="${event.meal.imageUrl}" alt="${event.meal.name}" />
+                                    <div class="workout-details">
+                                        <p class="workout-name">${event.meal.name}</p>
+                                        <p class="workout-info"><i class="fas fa-utensils"></i> ${event.meal.mealTime} - ${event.meal.calories} Calories</p>
+                                    </div>
+                                </div>
+                                <div class="buttons">
+                                    <a href="/Calendar/DetailsMeal/${event.meal.eventId}" class="details-btn">🍽 Детайли</a>
+                                </div>
+                            `;
+                        }
+
+                        eventHtml += `
+                            <button class="checkmark-btn" onclick="window.location.href='/Calendar/MarkEventCompleted?calendarId=${calendarId}&workoutId=${event.workout ? event.workout.id : ''}&mealId=${event.meal ? event.meal.id : ''}'">✓</button>
                         </div>`;
+
+                        events += eventHtml;
                     });
                 }
             });
@@ -843,26 +867,51 @@
                 month = w.Date.Month,
                 year = w.Date.Year,
                 events = new[] {
-                    new {
-                        title = w.Name,
-                        time = (w.StartEventTime != null && w.EndEventTime != null) 
-                            ? $"{w.StartEventTime:hh\\:mm} - {w.EndEventTime:hh\\:mm}"
-                            : "Time not set",
-                        workout = new {
-                            id = w.Id,
-                            eventId = w.EventId,
-                            name = w.Name,
-                            imageUrl = w.ImageUrl,
-                            exerciseCount = w.ExerciseCount,
-                            muscleGroup = w.MuscleGroup
-                        }
-                    }
+                new {
+                title = w.Name,
+                time = (w.StartEventTime != null && w.EndEventTime != null)
+                ? $"{w.StartEventTime:hh\\:mm} - {w.EndEventTime:hh\\:mm}"
+                : "Time not set",
+
+                workout = new {
+                id = w.Id,
+                eventId = w.EventId,
+                name = w.Name,
+                imageUrl = w.ImageUrl,
+                exerciseCount = w.ExerciseCount,
+                muscleGroup = w.MuscleGroup
+                }
+                }
                 }
             })));
-            
+
+            const mealEvents = @Html.Raw(Json.Serialize(Model.Meals.Select(w => new
+            {
+                day = w.Date.Day,
+                month = w.Date.Month,
+                year = w.Date.Year,
+                events = new[] {
+                new {
+                title = w.Name,
+                time = (w.StartEventTime != null && w.EndEventTime != null)
+                ? $"{w.StartEventTime:hh\\:mm} - {w.EndEventTime:hh\\:mm}"
+                : "Time not set",
+                meal = new {
+                id = w.Id,
+                eventId = w.EventId,
+                name = w.Name,
+                imageUrl = w.ImageUrl,
+                calories = w.Calories,
+                mealTime = w.MealTime
+                }
+                }
+                }
+            })));
+
             eventsArr.length = 0;
-            eventsArr.push(...serverEvents);
+            eventsArr.push(...serverEvents, ...mealEvents);
         }
+
     </script>
 </body>
 </html>

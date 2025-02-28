@@ -5,11 +5,6 @@ using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AIFitnessProject.Core.Services
 {
@@ -143,11 +138,11 @@ namespace AIFitnessProject.Core.Services
         {
             var calendar = await repository.AllAsReadOnly<Calendar>()
                .Where(c => c.UserId == userId)
-               .Include(x => x.CalendarDiet)
+               .Include(x => x.CalendarMeals)
                .Select(c => new
                {
                    c.Id,
-                   Meals = c.CalendarDiet.Select(cw => new
+                   Meals = c.CalendarMeals.Select(cw => new
                    {
                        cw.MealId,
                        cw.Meal.Name,
@@ -295,6 +290,103 @@ namespace AIFitnessProject.Core.Services
             repository.Delete(calendarWorkout);
             await repository.SaveChangesAsync();
 
+        }
+
+        public async Task<UserCalendarViewModelForUserArea> GetModelForUserCalendarForUserArea(string userId)
+        {
+            var calendar = await repository.AllAsReadOnly<Calendar>()
+                .Where(c => c.UserId == userId)
+                .Include(x => x.CalendarWorkouts)
+                .Include(x=>x.CalendarMeals)
+                .Select(c => new
+                {
+                    c.Id,
+                    Workouts = c.CalendarWorkouts.Select(cw => new
+                    {
+                        cw.EventId,
+                        cw.WorkoutId,
+                        cw.Workout.Title,
+                        cw.Workout.ImageUrl,
+                        ExerciseCount = cw.Workout.WorkoutsExercises.Count(),
+                        MuscleGroup = cw.Workout.WorkoutsExercises.FirstOrDefault() != null
+                            ? cw.Workout.WorkoutsExercises.First().Exercise.MuscleGroup
+                            : "N/A",
+                        cw.CalendarId,
+                        cw.DateOnly,
+                        cw.StartEventTime,
+                        cw.EndEventTime,
+                        
+                    }).ToList(),
+                    Meals = c.CalendarMeals.Select(x=> new
+                    {
+                      
+                        x.EventId,
+                        x.MealId,
+                        x.Meal.Name,
+                        x.Meal.ImageUrl,
+                        x.Meal.Calories,
+                        x.Meal.MealTime,
+                        x.CalendarId,
+                        x.DateOnly,
+                        x.StartEventTime,
+                        x.EndEventTime
+                    })
+                    
+                })
+                .FirstOrDefaultAsync();
+
+           
+
+            var user = await repository.AllAsReadOnly<ApplicationUser>()
+                .Where(x => x.Id == userId)
+                .Select(u => new
+                {
+                    u.Email,
+                    FullName = $"{u.FirstName} {u.LastName}",
+                    u.ProfilePicture
+                })
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var model = new UserCalendarViewModelForUserArea
+            {
+                CalendarId = calendar?.Id ?? 0,
+                Email = user.Email,
+                FullName = user.FullName,
+                ProfilePictureUrl = user.ProfilePicture,
+                Workouts = calendar?.Workouts.Select(cw => new WorkoutCalendarViewModel
+                {
+                    Id = cw.WorkoutId,
+                    EventId = cw.EventId,
+                    Name = cw.Title,
+                    ImageUrl = cw.ImageUrl,
+                    ExerciseCount = cw.ExerciseCount,
+                    MuscleGroup = cw.MuscleGroup,
+                    CalendarId = cw.CalendarId,
+                    Date = cw.DateOnly,
+                    StartEventTime = cw.StartEventTime,
+                    EndEventTime = cw.EndEventTime
+                }).ToList() ?? new List<WorkoutCalendarViewModel>(),
+               Meals = calendar.Meals.Select(x=> new MealCalendarViewModel
+               {
+                       EventId = x.EventId,
+                        Id = x.MealId,
+                       Name = x.Name,
+                        ImageUrl= x.ImageUrl,
+                       Calories = x.Calories,
+                       MealTime = x.MealTime,
+                        CalendarId= x.CalendarId,
+                        Date= x.DateOnly,
+                        StartEventTime= x.StartEventTime,
+                        EndEventTime= x.EndEventTime
+               }).ToList() ?? new List<MealCalendarViewModel>(),
+            };
+
+            return model;
         }
     }
 }

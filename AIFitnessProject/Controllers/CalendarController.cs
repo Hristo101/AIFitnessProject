@@ -34,7 +34,7 @@ namespace AIFitnessProject.Controllers
         [HttpGet]
         public async Task<IActionResult> UsersCalendar(string Id)
         {
-            var model = await calendarService.GetModeForUserCalendar(Id);
+            var model = await calendarService.GetModelForUserCalendarForUserArea(Id);
 
             return View(model);
         }
