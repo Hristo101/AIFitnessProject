@@ -208,6 +208,7 @@ namespace AIFitnessProject.Core.Services
                 {
                     Id = tpw.Id,
                     Name = tpw.Name,
+                    Calories = tpw.Calories,
                     ImageUrl = tpw.ImageUrl,
                     MealTime = tpw.MealTime,
                     MealCount = meals.Count,

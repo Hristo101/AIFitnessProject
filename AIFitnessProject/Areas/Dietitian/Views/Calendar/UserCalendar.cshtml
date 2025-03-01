@@ -70,14 +70,14 @@
                                 <div class="workout-image">
                                     <img src="@meal.ImageUrl" alt="@meal.Name" class="workout-img" />
                                     <div class="workout-overlay">
-                                        <i class="fas fa-dumbbell"></i>
+                                        <i class="fas fa-utensils"></i>
                                     </div>
                                 </div>
                                 <div class="workout-details">
                                     <h3 class="workout-name">@meal.Name</h3>
                                     <p class="workout-exercise-count">@meal.Calories Калории</p>
                                     <div class="workout-stats">
-                                        <span><i class="fas fa-dumbbell"></i> @meal.MealTime</span>
+                                        <span><i class="fas fa-utensils"></i> @meal.MealTime</span>
                                     </div>
                                     <a asp-area="Dietitian"
                                        asp-controller="Meal"
@@ -119,7 +119,7 @@
                     </div>
                     <div class="add-event-input workout-input">
                         <button class="attach-workout-btn">
-                            <i class="fas fa-dumbbell"></i>
+                            <i class="fas fa-utensils"></i>
                             <span>Прикачи хранене</span>
                         </button>
                         <span class="selected-workout-info"></span>
@@ -167,9 +167,6 @@
         body {
             position: relative;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             background-color: #e2e1dc;
         }
 
@@ -1429,7 +1426,7 @@
                                             <img src="${event.workout.imageUrl}" alt="${event.workout.name}" />
                                             <div class="workout-details">
                                                 <p class="workout-name">${event.workout.name}</p>
-                                                <p class="workout-info"><i class="fas fa-dumbbell"></i> ${event.workout.muscleGroup} - ${event.workout.calories} Калории</p>
+                                                <p class="workout-info"><i class="fas fa-utensils"></i> ${event.workout.muscleGroup} - ${event.workout.calories} Калории</p>
                                             </div>
                                         </div>
                                     ` : ''}
@@ -1666,6 +1663,7 @@
                 name = w.Name,
                 imageUrl = w.ImageUrl,
                 exerciseCount = w.MealCount,
+                calories = w.Calories,
                 muscleGroup = w.MealTime
                 }
                 }
