@@ -1,0 +1,104 @@
+﻿@using AIFitnessProject.Core.Models.Meal
+@model MealViewModel
+
+<!DOCTYPE html>
+<html lang="bg" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Детайлна информация за упражнението @Model.Name">
+    <meta name="keywords" content="фитнес, упражнения, @Model.MealTime, @Model.DificultyLevel">
+    <title>@Model.Name - Детайли</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Meal/DetailsMeal.css" />
+</head>
+<body class="d-flex flex-column h-100">
+
+
+    <!-- Основно съдържание -->
+    <main class="flex-shrink-0">
+        <div class="container py-5">
+            <div class="exercise-container">
+                <div class="row g-0">
+                    <!-- Лява колона -->
+                    <div class="col-lg-6 position-relative">
+                        <div class="image-loader">
+
+                            @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("/img"))
+                            {
+                                <img src="@Model.ImageUrl" class="exercise-image w-100" alt="@Model.Name" loading="lazy"
+                                     onerror="this.onerror=null;this.src='/images/placeholder.jpg';">
+                            }
+                            else
+                            {
+                                <img src="data:image/jpeg;base64,@Model.ImageUrl" class="exercise-image w-100" alt="@Model.Name" loading="lazy"
+                                     onerror="this.onerror=null;this.src='/images/placeholder.jpg';">
+                            }
+                        </div>
+
+                        <div class="video-wrapper">
+                            @if (!string.IsNullOrEmpty(Model.VideoUrl))
+                            {
+                                var videoId = System.Text.RegularExpressions.Regex.Match(Model.VideoUrl, @"(?:v=|\/)([a-zA-Z0-9_-]{11})").Groups[1].Value;
+                                <iframe src="https://www.youtube.com/embed/@videoId"
+                                        title="Видео демонстрация - @Model.Name"
+                                        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen
+                                        aria-label="Видео демонстрация"></iframe>
+                            }
+                            else
+                            {
+                                <div class="video-placeholder">
+                                    <i class="fas fa-video-slash"></i>
+                                    <p>Няма налично видео</p>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-lg-6">
+                        <div class="exercise-details">
+                            <h1 class="display-5 mb-4" itemprop="name">@Model.Name</h1>
+                            <div class="detail-item">
+                                <h5 class="text-muted mb-3"><i class="fas fa-signal me-2"></i>Ниво на трудност</h5>
+                                <div class="difficulty-badge difficulty-@Model.DificultyLevel?.ToLower()">
+                                    @Model.DificultyLevel
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="detail-item" itemprop="description">
+                                        <h5 class="text-muted mb-3"><i class="fas fa-utensils me-2"></i>Тип хранене</h5>
+                                        <p class="mb-0">@Model.MealTime</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <h5 class="text-muted mb-3"><i class="fas fa-fire me-2"></i>Калории</h5>
+                                        <p class="mb-0">@Model.Calories</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <h5 class="text-muted mb-3"><i class="fas fa-clipboard-list me-2"></i>Рецепта</h5>
+                                <p class="mb-0">@Model.Recipe</p>
+                            </div>
+
+
+                            <!-- Действия -->
+                            <div class="action-buttons">
+
+                                <button class="btn btn-back" onclick="history.back()">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>

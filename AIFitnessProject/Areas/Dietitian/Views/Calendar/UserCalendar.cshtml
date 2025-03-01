@@ -79,9 +79,9 @@
                                     <div class="workout-stats">
                                         <span><i class="fas fa-dumbbell"></i> @meal.MealTime</span>
                                     </div>
-                                    <a asp-area="Trainer"
-                                       asp-controller="Workout"
-                                       asp-action="WorkoutDetailsFromCalendar"
+                                    <a asp-area="Dietitian"
+                                       asp-controller="Meal"
+                                       asp-action="DetailsMealFromCalendar"
                                        asp-route-id="@meal.Id"
                                        class="details-btn">Details</a>
                                 </div>

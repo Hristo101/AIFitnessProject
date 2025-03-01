@@ -73,6 +73,15 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DetailsMealFromCalendar(int id)
+        {
+
+            var model = await mealService.DetailsMealFromCalendar(id);
+
+            return View(model);
+        }
         [HttpGet]
         public async Task<IActionResult> Edit(int id,int dietId)
         {

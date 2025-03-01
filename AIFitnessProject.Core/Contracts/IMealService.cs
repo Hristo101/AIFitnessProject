@@ -10,6 +10,7 @@ namespace AIFitnessProject.Core.Contracts
         Task<MealViewModel> GetModelForDetails(int id,int dietId);
         Task<MealDetailViewModel> GetModelForDetailsFromDailyDietPlan(int id, int dailyDietPlanId);
         Task<MealViewModel> GetModelForDetailsForUser(int id, string userId);
+        Task<MealViewModel> DetailsMealFromCalendar(int id);
         Task<EditMealViewModel> GetModelForEdit(int id,int dietId);
         Task EditAsync(int id, EditMealViewModel model);
         Task EditAsyncFromDailyDietPlan(int id, EditMealFromDailyDietPlanViewModel model);

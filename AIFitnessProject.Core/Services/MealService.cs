@@ -3,6 +3,7 @@ using AIFitnessProject.Core.DTOs;
 using AIFitnessProject.Core.DTOs.MealFeedback;
 using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
+using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -60,6 +61,29 @@ namespace AIFitnessProject.Core.Services
             }
             await repository.AddAsync(meal);
             await repository.SaveChangesAsync();
+        }
+
+        public async Task<MealViewModel> DetailsMealFromCalendar(int id)
+        {
+            var model = await repository.AllAsReadOnly<Meal>()
+          .Where(x => x.Id == id)
+          .Select(x => new MealViewModel()
+          {
+              Id = x.Id,
+              DificultyLevel = x.DificultyLevel,
+              Calories = x.Calories,
+              ImageUrl = x.ImageUrl,
+              MealTime = x.MealTime,
+              Name = x.Name,
+              Recipe = x.Recipe,
+              VideoUrl = x.VideoUrl,
+
+
+          })
+          .FirstOrDefaultAsync();
+
+            return model;
+
         }
 
         public async Task EditAsync(int id, EditMealViewModel model)
