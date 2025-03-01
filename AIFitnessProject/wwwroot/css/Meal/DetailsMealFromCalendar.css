@@ -1,0 +1,314 @@
+﻿:root {
+    --primary-color: #6c757d;
+    --secondary-color: #5a6268;
+    --background-color: #f8f9fa;
+    --text-color: #212529;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --accent-color: #b38add /*#ff6f61*/; /* Допълнителен акцент */
+    --transition-speed: 0.3s;
+}
+
+/* Основни стилове */
+body {
+    background-color: var(--background-color);
+    padding-top: 0px;
+    min-height: 100vh;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.btn-back {
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    background: transparent;
+    transition: all var(--transition-speed) ease;
+    cursor: pointer;
+}
+
+    .btn-back:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+/* Основен контейнер за упражнението */
+.exercise-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    margin-bottom: 2rem;
+    transition: transform var(--transition-speed) ease;
+}
+
+    .exercise-container:hover {
+        transform: translateY(0);
+    }
+
+/* Анимация за появяване */
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Изображение */
+.exercise-image {
+    height: 400px;
+    width: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-speed) ease, filter var(--transition-speed) ease;
+    border-bottom: 3px solid var(--primary-color);
+    background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+}
+
+    .exercise-image:hover {
+        transform: scale(1.02);
+        filter: brightness(1.05);
+    }
+
+/* Видео секция */
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* Съотношение 16:9 */
+    margin: 1rem;
+    border-radius: 15px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+    .video-wrapper:hover {
+        transform: scale(1.02);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .video-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+/* Стилизация на плейсхолдъра, ако няма видео */
+.video-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    opacity: 0.8;
+}
+
+    .video-placeholder i {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+    }
+
+/* Детайли за упражнението */
+.exercise-details {
+    padding: 2.5rem;
+    position: relative;
+}
+
+    .exercise-details h1 {
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+    }
+
+/* Всеки детайлен блок */
+.detail-item {
+    margin-bottom: 1.2rem;
+    padding: 1.2rem;
+    background: rgba(108, 117, 125, 0.05);
+    border-radius: 10px;
+    transition: all var(--transition-speed) ease;
+    border-left: 3px solid transparent;
+}
+
+    .detail-item:hover {
+        transform: translateX(10px);
+        border-left-color: #b38add;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .detail-item h5 {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--secondary-color);
+    }
+
+/* Ниво на трудност */
+.difficulty-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.85em;
+}
+
+.difficulty-beginner {
+    background: var(--success-color);
+    color: white;
+}
+
+.difficulty-intermediate {
+    background: var(--warning-color);
+    color: black;
+}
+
+.difficulty-advanced {
+    background: var(--danger-color);
+    color: white;
+}
+
+/* Действия */
+.action-buttons {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    opacity: 0;
+    animation: fadeIn 0.5s 0.3s forwards;
+}
+
+.btn-edit {
+    background: #3CB371;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    transition: all var(--transition-speed) ease;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+    .btn-edit:hover {
+        background: #3CB371;
+        color: black;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+.btn-back:hover {
+    background-color: #b38add;
+}
+/* Анимация за изчезване */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.text-muted {
+    --bs-text-opacity: 1;
+    color: #3CB371 !important;
+}
+/* Респонсивни стилове */
+@media (max-width: 992px) {
+    .exercise-image {
+        height: 300px;
+    }
+
+    .exercise-details {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 60px;
+    }
+
+    .exercise-container {
+        margin: 0.5rem;
+        border-radius: 15px;
+    }
+
+    .exercise-image {
+        height: 250px;
+    }
+
+    .detail-item h5 {
+        font-size: 1.1rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .btn-edit, .btn-back {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Стилове при печат */
+@media print {
+    .navbar-custom, .action-buttons, .video-wrapper {
+        display: none;
+    }
+
+    .exercise-container {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+
+    .exercise-image {
+        height: 200px;
+    }
+}
+
+/* Допълнителни визуални ефекти */
+
+/* Градиентен фон за заглавията на секциите */
+.exercise-details h1,
+.detail-item h5 {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Лек ефект за бутоните при клик */
+.btn-edit:active, .btn-back:active {
+    transform: scale(0.98);
+}
+
+/* Анимация за плавно появяване на съдържанието */
+@keyframes fadeInContent {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.exercise-details, .footer {
+    animation: fadeInContent 1s ease-out;
+}
