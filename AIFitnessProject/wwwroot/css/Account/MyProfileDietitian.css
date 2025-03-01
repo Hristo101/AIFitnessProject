@@ -1,0 +1,154 @@
+﻿body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #f9f9f9, #ececec);
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    background-color: #f8f9fa;
+    padding: 30px;
+    margin-top: 3em;
+    margin-bottom: 3em;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.profile-container {
+    max-width: 900px;
+    margin: 50px auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    animation: fadeIn 1s ease-in-out;
+    transition: transform 0.3s ease;
+    padding: 20px;
+}
+
+    .profile-container:hover {
+        transform: translateY(-10px);
+    }
+
+.profile-header {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    text-align: center;
+    color: white;
+    padding: 40px 20px;
+    height: 385px;
+    position: relative;
+}
+
+    .profile-header img {
+        width: 243px;
+        height: 224px;
+        border-radius: 50%;
+        border: 5px solid white;
+        margin-top: -30px;
+        animation: popIn 1s ease-in-out;
+    }
+
+    .profile-header h2 {
+        margin: 25px 0 10px;
+        font-size: 30px;
+    }
+
+    .profile-header p {
+        font-size: 18px;
+        margin: 0;
+        font-style: italic;
+    }
+
+.profile-details {
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+    .profile-details .detail {
+        padding: 20px;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        background: #f9f9f9;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .profile-details .detail:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-details .detail span {
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .profile-details .detail .emoji {
+            margin-left: auto;
+            font-size: 24px;
+        }
+
+.buttons {
+    text-align: center;
+    margin: 30px 0;
+}
+
+    .buttons .button {
+        display: inline-block;
+        background: linear-gradient(135deg, #ff7eb3, #ff758c);
+        color: white;
+        text-decoration: none;
+        padding: 15px 30px;
+        font-size: 18px;
+        border-radius: 30px;
+        margin: 10px;
+        transition: transform 0.3s ease, background 0.3s ease;
+        animation: fadeInUp 1s ease-in-out;
+    }
+
+        .buttons .button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, #ff6a99, #ff4e77);
+        }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

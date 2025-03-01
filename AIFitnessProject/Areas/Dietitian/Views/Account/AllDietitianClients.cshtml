@@ -77,8 +77,8 @@
         display: block;
         padding: 1.2rem;
         font-size: 1.4rem;
-        background: #ffe8cc;
-        color: #d9480f;
+        background-color: rgba(40, 167, 69, 0.1);
+        color: #2C6B2F;
         border-radius: 12px;
         text-align: center;
         width: 100%;
@@ -87,8 +87,8 @@
     }
 
         .experience-badge:hover {
-            background: #ffd1a7;
-            color: #b73e0d;
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #2C6B2F;
         }
 
         .experience-badge.expanded {
@@ -148,13 +148,15 @@
         }
 
     .training-btn {
-        --button-color: #8A2BE2;
-        --tooltip-color: #8A2BE2;
+        --button-color: #3CB371;
+        --tooltip-color: #3CB371;
+        /* #4ade80 0%, #16a34a */
+
     }
 
     .calendar-btn {
-        --button-color: #dc3545;
-        --tooltip-color: #dc3545;
+        --button-color: #8A2BE2;
+        --tooltip-color: #8A2BE2;
     }
 
     .button-wrapper {
@@ -235,33 +237,39 @@
             <p style="color: #6c757d; margin: 1.5rem 0; font-size: 1.2rem;">@user.Aim</p>
             <div class="buttons-container" style="display: flex; gap: 1.5rem;">
 
-                <button class="button training-btn" data-tooltip="Тренировъчна програма">
-                    <div class="button-wrapper">
-                        <div class="button-text">
-                            <span>Тренировки</span>
-                        </div>
-                        <div class="button-icon">
-                            <svg viewBox="0 0 24 24" fill="white">
-                                <path d="M15.5,13H18V11H15.5C14.67,11 14,11.67 14,12.5S14.67,14 15.5,14H18V16H15.5C14.67,16 14,15.33 14,14.5S14.67,13 15.5,13M19,19H5V5H19M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" />
-                            </svg>
-                        </div>
-                    </div>
-                </button>
-                <!-- Calendar Button -->
-                <form asp-controller="Calendar" asp-action="UserCalendar" asp-area="Dietitian" asp-route-id="@user.UserId" method="get">
-                    <button type="submit" class="button calendar-btn" data-tooltip="Календар на тренировки">
+                <form asp-controller="DailyDietPlan" asp-action="AllUserDailyDietPlans" asp-area="Dietitian" asp-route-id="@user.UserId" method="get">
+                    <button class="button training-btn" data-tooltip="Тренировъчна програма">
                         <div class="button-wrapper">
                             <div class="button-text">
-                                <span>Календар</span>
+                                <span>Дневни планове</span>
                             </div>
                             <div class="button-icon">
                                 <svg viewBox="0 0 24 24" fill="white">
-                                    <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z" />
+                                    <path d="M15.5,13H18V11H15.5C14.67,11 14,11.67 14,12.5S14.67,14 15.5,14H18V16H15.5C14.67,16 14,15.33 14,14.5S14.67,13 15.5,13M19,19H5V5H19M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" />
                                 </svg>
                             </div>
                         </div>
                     </button>
                 </form>
+                <!-- Calendar Button -->
+                @if (user.IsInCalendar)
+                {
+                    <form asp-controller="Calendar" asp-action="UserCalendar" asp-area="Dietitian" asp-route-id="@user.UserId" method="get">
+                        <button type="submit" class="button calendar-btn" data-tooltip="Календар на тренировки">
+                            <div class="button-wrapper">
+                                <div class="button-text">
+                                    <span>Календар</span>
+                                </div>
+                                <div class="button-icon">
+                                    <svg viewBox="0 0 24 24" fill="white">
+                                        <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </button>
+                    </form>
+                }
+                
             </div>
         </div>
     }

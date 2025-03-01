@@ -1,6 +1,7 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.DailyDietPlan;
 using AIFitnessProject.Core.Models.Meal;
+using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -28,7 +29,7 @@ namespace AIFitnessProject.Core.Services
                 var dailyDietPlan = await repository.All<DailyDietPlan>()
                     .Where(d => d.Id == id)
                     .FirstOrDefaultAsync();
-                if(dailyDietPlan != null)
+                if (dailyDietPlan != null)
                 {
                     var dietDailyDietPlan = new DietDailyDietPlan
                     {
@@ -108,7 +109,7 @@ namespace AIFitnessProject.Core.Services
                 dailyDietPlan.Title = model.Title;
                 dailyDietPlan.DificultyLevel = model.DificultyLevel;
                 dailyDietPlan.DayOfWeel = model.DayOfWeek;
-               
+
 
                 if (model.NewImage != null)
                 {
@@ -170,6 +171,35 @@ namespace AIFitnessProject.Core.Services
                  .ToListAsync();
 
             return model;
+        }
+
+        public async Task<ICollection<DailyDietPlanViewModelForDietitian>> GetAllUserDailyDietPlansForDietitian(string userId)
+        {
+            var diet = await repository.AllAsReadOnly<Diet>()
+              .Where(x => x.UserId == userId)
+              .FirstOrDefaultAsync();
+
+
+            var dietDailyDietPlan = await repository.AllAsReadOnly<DietDailyDietPlan>()
+                 .Include(x => x.Diet)
+                 .Include(x => x.DailyDietPlan)
+                     .ThenInclude(x => x.MealsDailyDietPlans)
+                     .ThenInclude(x => x.Meal)
+                 .Where(x => x.DietId == diet.Id)
+                 .Select(x => new DailyDietPlanViewModelForDietitian
+                 {
+                     Id = x.DailyDietPlanId,
+                     UserId = userId,
+                     DietId = x.DietId,
+                     DayOfWeek = x.DailyDietPlan.DayOfWeel,
+                     DifficultyLevel = x.DailyDietPlan.DificultyLevel,
+                     ImageUrl = x.DailyDietPlan.ImageUrl,
+                     Title = x.DailyDietPlan.Title,
+                     IsEdit = x.Diet.IsEdit,
+                     MealCount = x.DailyDietPlan.MealsDailyDietPlans.Count
+                 }).ToListAsync();  
+
+            return dietDailyDietPlan;
         }
 
         public async Task<DailyDietPlan> GetDailyDietPlanById(int id)

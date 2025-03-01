@@ -102,6 +102,7 @@ namespace AIFitnessProject.Core.Services
                 .Where(x => x.CreatedById == dietitian.Id)
                 .Select(x => new AllUsersViewModel()
                 {
+                    IsInCalendar = x.IsInCalendar,
                     UserId = x.UserId,
                     Aim = x.User.Aim,
                     Email = x.User.Email,
