@@ -36,14 +36,14 @@
             width: 180px;
             height: 180px;
             border-radius: 50%;
-            border: 4px solid #6C63FF;
-            box-shadow: 0 10px 30px rgba(108,99,255,0.2);
+            border: 4px solid #38B2AC;
+            box-shadow: 0 10px 30px rgba(56, 178, 172, 0.2);
         }
 
         .profile-name {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 2.8rem;
-            background: linear-gradient(135deg, #2A2D72 0%, #3A9E9E 100%);
+            background: linear-gradient(135deg, #38B2AC 0%, #3A9E9E 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin: 25px 0 15px;
@@ -60,7 +60,7 @@
         .workout-title {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 3.2rem;
-            background: linear-gradient(135deg, #2A2D72 0%, #3A9E9E 100%);
+            background: linear-gradient(135deg, #38B2AC 0%, #3A9E9E 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 35px;
@@ -121,11 +121,11 @@
             .exercise-card:hover {
                 transform: translateY(-8px);
                 box-shadow: 0 15px 30px rgba(42,45,114,0.1);
-                border-color: #6C63FF;
+                border-color: #38B2AC;
             }
 
         .exercise-name {
-            color: #2A2D72;
+            color: #38B2AC;
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.8rem;
             font-weight: 700;
@@ -149,10 +149,8 @@
             margin-top: 40px;
         }
 
-        .workout-image {
-            border-radius: 20px;
-            border: 3px solid #E8F0FE;
-            box-shadow: 0 10px 30px rgba(42,45,114,0.1);
+        .img-container {
+            text-align: center;
         }
 
         .exercise-image {
@@ -160,6 +158,50 @@
             object-fit: cover;
             border-radius: 15px;
             border: 2px solid #E8F0FE;
+        }
+
+        .recipe-wrapper {
+            position: relative;
+            margin: 1.5rem 0;
+            padding-right: 30px;
+        }
+
+        .text-secondary {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.6;
+            color: #495057;
+        }
+
+        .expand-button {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.3s ease;
+        }
+
+            .expand-button:hover {
+                transform: translateY(2px);
+            }
+
+        .expanded {
+            -webkit-line-clamp: unset;
+            overflow: visible;
+        }
+
+        .difficulty-level {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
         }
     </style>
     @functions {
@@ -190,7 +232,7 @@
             }
             <h1 class="profile-name">@Model.FirstName @Model.LastName</h1>
             <p class="text-muted fs-5">@Model.Email</p>
-            <p class="text-primary fs-5 fw-bold">Персонализирана хранителна програма</p>
+            <p class="fs-5 fw-bold" style="color: #38B2AC;">Персонализирана хранителна програма</p>
         </div>
 
         <!-- Тренировъчна секция -->
@@ -209,11 +251,18 @@
                 </div>
             </div>
 
-            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+         @*    @if (!string.IsNullOrEmpty(Model.ImageUrl))
             {
                 <img src="@Model.ImageUrl" class="workout-image w-100 mb-5">
             }
-
+ *@
+            <div class="img-container">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" class="workout-image mb-4" alt="Текуща снимка" style="max-width: 100%; max-height: 680px; border-radius: 20px; box-shadow: 0 5px 15px rgba(42,45,114,0.1);" />
+                }
+            </div>
+           
             <!-- Упражнения -->
             <div class="row g-4">
                 @foreach (var meal in Model.Meals)
@@ -226,16 +275,25 @@
                             }
                             <h3 class="exercise-name mb-3">@meal.Name</h3>
                             <div class="exercise-details">
-                                <p class="text-secondary">@meal.Recipe</p>
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge bg-primary">@meal.MealTime</span>
+                                <div class="recipe-wrapper">
+                                    <p class="text-secondary">@meal.Recipe</p>
+                                    <button class="expand-button" onclick="toggleDescription(this)">
+                                        <i class="fas fa-chevron-down text-muted"></i>
+                                    </button>
+                                </div>
+
+                                <p><strong>Тип хранене:</strong> <span> @meal.MealTime</span></p>
+                                <p><strong>Ниво:</strong> <span class="difficulty-level @GetDifficultyClass(meal.DificultyLevel)">@meal.DificultyLevel</span></p>
+                                <p><strong>Калории:</strong> @meal.Calories </p>
+                                @* <div class="d-flex flex-wrap gap-2 mb-3">
+                                    <span class="badge" style="background: linear-gradient(135deg, #4FD1C5 0%, #319795 100%);">@meal.MealTime</span>
                                     <span class="badge @GetDifficultyClass(meal.DificultyLevel)">@meal.DificultyLevel</span>
                                 </div>
                                 <div class="row">
                                     <div class="col">
                                         <p class="mb-1"><strong>калории:</strong> @meal.Calories</p>
                                     </div>
-                                </div>
+                                </div> *@
                                 @if (!string.IsNullOrEmpty(meal.VideoUrl))
                                 {
                                     <a href="@meal.VideoUrl" target="_blank" class="btn-video btn mt-3 w-100">
@@ -257,6 +315,24 @@
         </div>
     </div>
 
+    <script>
+        function toggleDescription(button) {
+            const wrapper = button.closest('.recipe-wrapper');
+            const text = wrapper.querySelector('.text-secondary');
+            const icon = button.querySelector('i');
+
+            text.classList.toggle('expanded');
+            icon.classList.toggle('fa-chevron-down');
+            icon.classList.toggle('fa-chevron-up');
+
+            if (text.classList.contains('expanded')) {
+                const card = wrapper.closest('.exercise-card');
+                const cardTop = card.getBoundingClientRect().top;
+                const offset = window.pageYOffset + cardTop - 20;
+                window.scrollTo({ top: offset, behavior: 'smooth' });
+            }
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

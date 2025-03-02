@@ -432,6 +432,42 @@
                 width: 200px;
                 background: #fff;
             }
+
+        .recipe-wrapper {
+            position: relative;
+            margin: 1.5rem 0;
+            padding-right: 30px;
+        }
+
+        .text-secondary {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.6;
+            color: #495057;
+        }
+
+        .expand-button {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.3s ease;
+        }
+
+            .expand-button:hover {
+                transform: translateY(2px);
+            }
+
+        .expanded {
+            -webkit-line-clamp: unset;
+            overflow: visible;
+        }
     </style>
     @functions {
         private string GetDifficultyClass(string difficulty)
@@ -527,7 +563,13 @@
                                     <img src="@meal.ImageUrl" class="exercise-image mb-3" alt="@meal.Name" />
                                 }
                                 <h4 class="exercise-name">@meal.Name</h4>
-                                <p style="color: #4B5EAA; line-height: 1.5;">@meal.Recipe</p>
+                                <div class="recipe-wrapper">
+                                    <p class="text-secondary">@meal.Recipe</p>
+                                    <button class="expand-button" onclick="toggleDescription(this)">
+                                        <i class="fas fa-chevron-down text-muted"></i>
+                                    </button>
+                                </div>
+                       @*          <p style="color: #4B5EAA; line-height: 1.5;">@meal.Recipe</p> *@
                                 <p><strong>Тип хранене:</strong> @meal.MealTime</p>
                                 <p><strong>Ниво:</strong> <span class="difficulty-level @GetDifficultyClass(meal.DificultyLevel)">@meal.DificultyLevel</span></p>
                                 <p><strong>Калории:</strong> @meal.Calories </p>
@@ -615,6 +657,23 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+
+        function toggleDescription(button) {
+            const wrapper = button.closest('.recipe-wrapper');
+            const text = wrapper.querySelector('.text-secondary');
+            const icon = button.querySelector('i');
+
+            text.classList.toggle('expanded');
+            icon.classList.toggle('fa-chevron-down');
+            icon.classList.toggle('fa-chevron-up');
+
+            if (text.classList.contains('expanded')) {
+                const card = wrapper.closest('.exercise-card');
+                const cardTop = card.getBoundingClientRect().top;
+                const offset = window.pageYOffset + cardTop - 20;
+                window.scrollTo({ top: offset, behavior: 'smooth' });
+            }
+        }
         let currentPage = 1;
         const exercisesPerPage = 6;
         let selectedExercises = [];
