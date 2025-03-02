@@ -13,6 +13,7 @@ namespace AIFitnessProject.Core.Contracts
         Task DeleteEvenet(int workoutId, int calendarId);
         Task DeleteMealEvenet(int mealId, int calendarId);
         Task<DetailsEventViewModel> GetModelForDetailsEvent(int id);
+        Task<DetailsMealViewModel> GetModelForDetailsMeal(int id);
 
     }
 }

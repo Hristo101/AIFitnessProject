@@ -1,5 +1,7 @@
 ﻿using AIFitnessProject.Core.Models.DailyDietPlan;
+using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
+using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Data.Models;
 
 namespace AIFitnessProject.Core.Contracts
@@ -17,5 +19,8 @@ namespace AIFitnessProject.Core.Contracts
         Task<AddDailyDietPlanViewModel> GetModelForAdd(int dietId);
         Task<int> CreateDailyDietPlan(AddDailyDietPlanViewModel model, string userId);
         Task<ICollection<MealViewModel>> ReturnAllMealViewModel(string userId);
+        Task<DetailsDailyDietPlanViewModelForDietitian> GetDetailsDailyDietPlanViewModelForDietitian(int id, string userId);
+        Task<EditDailyDietPlanViewModelForDietitian> GetEditDailyDietPlanViewModelForDietitian(int id, string userId, string dietitianId);
+        Task<ICollection<MealViewModel>> AllMeal();
     }
 }

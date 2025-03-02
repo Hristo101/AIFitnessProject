@@ -1,0 +1,338 @@
+﻿@using AIFitnessProject.Core.Models.DailyDietPlan
+@model DetailsDailyDietPlanViewModelForDietitian
+
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.Title - Диетичен План</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8fafb 0%, #e6f4f1 100%);
+            font-family: 'Montserrat', sans-serif;
+            color: #2A2D72;
+        }
+
+        .container {
+            max-width: 1400px;
+            padding: 40px 20px;
+        }
+
+        .profile-card {
+            background: linear-gradient(135deg, #FFFFFF 0%, #F5F9FF 100%);
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(42,45,114,0.1);
+            padding: 40px;
+            border: 2px solid #E8F0FE;
+            margin-bottom: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-picture {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid #38B2AC;
+            box-shadow: 0 10px 30px rgba(56, 178, 172, 0.2);
+        }
+
+        .profile-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, #38B2AC 0%, #3A9E9E 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 25px 0 15px;
+        }
+
+        .workout-section {
+            background: linear-gradient(135deg, #FFFFFF 0%, #F5F9FF 100%);
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(42,45,114,0.1);
+            padding: 40px;
+            border: 2px solid #E8F0FE;
+        }
+
+        .workout-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.2rem;
+            background: linear-gradient(135deg, #38B2AC 0%, #3A9E9E 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 35px;
+        }
+
+        .day-badge {
+            background: linear-gradient(135deg, #6C63FF 0%, #918BFF 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+        }
+
+        .difficulty-badge {
+            padding: 12px 30px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 700;
+        }
+
+        .difficulty-easy {
+            background: linear-gradient(135deg, #4FD1C5 0%, #319795 100%);
+        }
+
+        .difficulty-medium {
+            background: linear-gradient(135deg, #F6AD55 0%, #ED8936 100%);
+        }
+
+        .difficulty-hard {
+            background: linear-gradient(135deg, #FC8181 0%, #F56565 100%);
+        }
+
+        .muscle-group {
+            background: linear-gradient(135deg, #3A9E9E 0%, #2C7A7B 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+        }
+
+        .exercises-counter {
+            background: linear-gradient(135deg, #2A2D72 0%, #434190 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.4em;
+        }
+
+        .exercise-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            border: 2px solid #E8F0FE;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+            .exercise-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 15px 30px rgba(42,45,114,0.1);
+                border-color: #38B2AC;
+            }
+
+        .exercise-name {
+            color: #38B2AC;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .btn-video {
+            background: linear-gradient(45deg, #4FD1C5, #38B2AC);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+        }
+
+        .btn-back {
+            background: linear-gradient(45deg, #2A2D72, #434190);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: 700;
+            margin-top: 40px;
+        }
+
+        .img-container {
+            text-align: center;
+        }
+
+        .exercise-image {
+            height: 220px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 2px solid #E8F0FE;
+        }
+
+        .recipe-wrapper {
+            position: relative;
+            margin: 1.5rem 0;
+            padding-right: 30px;
+        }
+
+        .text-secondary {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.6;
+            color: #495057;
+        }
+
+        .expand-button {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.3s ease;
+        }
+
+            .expand-button:hover {
+                transform: translateY(2px);
+            }
+
+        .expanded {
+            -webkit-line-clamp: unset;
+            overflow: visible;
+        }
+
+        .difficulty-level {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+        }
+    </style>
+    @functions {
+        private string GetDifficultyClass(string difficulty)
+        {
+            return difficulty switch
+            {
+                "Лесно" => "difficulty-easy",
+                "Средно" => "difficulty-medium",
+                "Средно-Напреднал" => "difficulty-medium",
+                "Трудно" => "difficulty-hard",
+                _ => "difficulty-easy"
+            };
+        }
+    }
+</head>
+<body>
+    <div class="container">
+        <!-- Профилна секция -->
+        <div class="profile-card text-center">
+            @if (Model.ProfilePicture.StartsWith("http") || Model.ProfilePicture.StartsWith("/img"))
+            {
+                <img src="@Model.ProfilePicture" class="profile-picture" alt="Профилна снимка">
+            }
+            else
+            {
+                <img src="data:image/jpeg;base64,@Model.ProfilePicture" class="profile-picture" alt="Профилна снимка">
+            }
+            <h1 class="profile-name">@Model.FirstName @Model.LastName</h1>
+            <p class="text-muted fs-5">@Model.Email</p>
+            <p class="fs-5 fw-bold" style="color: #38B2AC;">Персонализирана хранителна програма</p>
+        </div>
+
+        <!-- Тренировъчна секция -->
+        <div class="workout-section">
+            <h2 class="workout-title">@Model.Title</h2>
+
+            <div class="d-flex flex-wrap gap-3 mb-5">
+                <div class="day-badge">
+                    <i class="fas fa-calendar-alt me-2"></i>@Model.DayOfWeek
+                </div>
+                <div class="difficulty-badge @GetDifficultyClass(Model.DifficultyLevel)">
+                    <i class="fas fa-bolt me-2"></i>@Model.DifficultyLevel
+                </div>
+                <div class="exercises-counter">
+                    <i class="fas fa-list-check me-2"></i>@Model.MealCount Хранения
+                </div>
+            </div>
+
+         @*    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Model.ImageUrl" class="workout-image w-100 mb-5">
+            }
+ *@
+            <div class="img-container">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" class="workout-image mb-4" alt="Текуща снимка" style="max-width: 100%; max-height: 680px; border-radius: 20px; box-shadow: 0 5px 15px rgba(42,45,114,0.1);" />
+                }
+            </div>
+           
+            <!-- Упражнения -->
+            <div class="row g-4">
+                @foreach (var meal in Model.Meals)
+                {
+                    <div class="col-lg-4 col-md-6">
+                        <div class="exercise-card">
+                            @if (!string.IsNullOrEmpty(meal.ImageUrl))
+                            {
+                                <img src="@meal.ImageUrl" class="exercise-image w-100 mb-3">
+                            }
+                            <h3 class="exercise-name mb-3">@meal.Name</h3>
+                            <div class="exercise-details">
+                                <div class="recipe-wrapper">
+                                    <p class="text-secondary">@meal.Recipe</p>
+                                    <button class="expand-button" onclick="toggleDescription(this)">
+                                        <i class="fas fa-chevron-down text-muted"></i>
+                                    </button>
+                                </div>
+
+                                <p><strong>Тип хранене:</strong> <span> @meal.MealTime</span></p>
+                                <p><strong>Ниво:</strong> <span class="difficulty-level @GetDifficultyClass(meal.DificultyLevel)">@meal.DificultyLevel</span></p>
+                                <p><strong>Калории:</strong> @meal.Calories </p>
+                                @* <div class="d-flex flex-wrap gap-2 mb-3">
+                                    <span class="badge" style="background: linear-gradient(135deg, #4FD1C5 0%, #319795 100%);">@meal.MealTime</span>
+                                    <span class="badge @GetDifficultyClass(meal.DificultyLevel)">@meal.DificultyLevel</span>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p class="mb-1"><strong>калории:</strong> @meal.Calories</p>
+                                    </div>
+                                </div> *@
+                                @if (!string.IsNullOrEmpty(meal.VideoUrl))
+                                {
+                                    <a href="@meal.VideoUrl" target="_blank" class="btn-video btn mt-3 w-100">
+                                        <i class="fas fa-play me-2"></i>Гледай Видео
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Бутон Назад -->
+            <div class="text-center mt-5">
+                <a href="javascript:history.back()" class="btn btn-back">
+                    <i class="fas fa-arrow-left me-2"></i>Назад към списъка
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDescription(button) {
+            const wrapper = button.closest('.recipe-wrapper');
+            const text = wrapper.querySelector('.text-secondary');
+            const icon = button.querySelector('i');
+
+            text.classList.toggle('expanded');
+            icon.classList.toggle('fa-chevron-down');
+            icon.classList.toggle('fa-chevron-up');
+
+            if (text.classList.contains('expanded')) {
+                const card = wrapper.closest('.exercise-card');
+                const cardTop = card.getBoundingClientRect().top;
+                const offset = window.pageYOffset + cardTop - 20;
+                window.scrollTo({ top: offset, behavior: 'smooth' });
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

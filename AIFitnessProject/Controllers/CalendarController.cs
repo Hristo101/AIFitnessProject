@@ -24,6 +24,14 @@ namespace AIFitnessProject.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DetailsMeal(int id)
+        {
+            var model = await calendarService.GetModelForDetailsMeal(id);
+
+            return View(model);
+        }
         [HttpPost]
         public async Task<IActionResult> MarkEventCompleted(int workoutId,int calendarId)
         {

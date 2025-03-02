@@ -5,6 +5,7 @@ using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace AIFitnessProject.Core.Services
 {
@@ -19,7 +20,7 @@ namespace AIFitnessProject.Core.Services
 
         public async Task<UserCalendarViewModel> GetModeForUserCalendar(string userId)
         {
-            var calendar = await repository.AllAsReadOnly<Calendar>()
+            var calendar = await repository.AllAsReadOnly< AIFitnessProject.Infrastructure.Data.Models.Calendar>()
                 .Where(c => c.UserId == userId)
                 .Include(x => x.CalendarWorkouts)
                 .Select(c => new
@@ -137,7 +138,7 @@ namespace AIFitnessProject.Core.Services
 
         public async Task<UserCalendarViewModelForDietitianArea> GetModelForUserCalendarInDietitianArea(string userId)
         {
-            var calendar = await repository.AllAsReadOnly<Calendar>()
+            var calendar = await repository.AllAsReadOnly< AIFitnessProject.Infrastructure.Data.Models.Calendar> ()
                .Where(c => c.UserId == userId)
                .Include(x => x.CalendarMeals)
                .Select(c => new
@@ -257,7 +258,7 @@ namespace AIFitnessProject.Core.Services
                  .ThenInclude(x =>x.Exercise)
                  .Select(x => new DetailsEventViewModel
                  {
-                     DateOnly = x.DateOnly.ToString("yyyy-MM-dd"),
+                   DateOnly = x.DateOnly.ToString("yyyy-MM-dd"),
                    StartEventTime = x.StartEventTime.ToString("hh:mm tt"),
                    EndEventTime = x.EndEventTime.ToString("hh:mm tt"),
                    WorkoutTitle = x.Workout.Title,
@@ -300,7 +301,7 @@ namespace AIFitnessProject.Core.Services
 
         public async Task<UserCalendarViewModelForUserArea> GetModelForUserCalendarForUserArea(string userId)
         {
-            var calendar = await repository.AllAsReadOnly<Calendar>()
+            var calendar = await repository.AllAsReadOnly<AIFitnessProject.Infrastructure.Data.Models.Calendar>()
                 .Where(c => c.UserId == userId)
                 .Include(x => x.CalendarWorkouts)
                 .Include(x=>x.CalendarMeals)
@@ -395,6 +396,7 @@ namespace AIFitnessProject.Core.Services
             return model;
         }
 
+
         public async Task DeleteMealEvenet(int mealId, int calendarId)
         {
             var calendarMeal = await repository.All<CalendarMeal>()
@@ -405,8 +407,36 @@ namespace AIFitnessProject.Core.Services
             await repository.SaveChangesAsync();
         }
 
+        public async Task<DetailsMealViewModel> GetModelForDetailsMeal(int id)
+        {
+            var mealCalendar = await repository.AllAsReadOnly<CalendarMeal>()
+                 .Where(x => x.EventId == id)
+                 .Include(x => x.Meal)
+                 .ThenInclude(x => x.MealsDailyDietPlans)
+                 .ThenInclude(x => x.DailyDietPlans)
+                 .Select(x => new DetailsMealViewModel
+                 {
+                     DateOnly = x.DateOnly.ToString("dd MMMM", new CultureInfo("bg-BG")),
+                     StartEventTime = x.StartEventTime.ToString("hh:mm tt"),
+                     EndEventTime = x.EndEventTime.ToString("hh:mm tt"),
+                     MealDifficultyLevel = x.Meal.DificultyLevel,
+                     MealImage = x.Meal.ImageUrl,
+                     MealTime = x.Meal.MealTime,
+                     MealName = x.Meal.Name,
+                     MealCalories = x.Meal.Calories,
+                     MealRecipe = x.Meal.Recipe,
+                     MealVideoUrl = x.Meal.VideoUrl
+                     
+                 })
+                 .FirstOrDefaultAsync();
+
+            return mealCalendar;
+        }
     }
 
-}
+
+    }
+
+
 
 
