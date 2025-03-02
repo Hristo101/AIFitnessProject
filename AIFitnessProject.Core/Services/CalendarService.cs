@@ -79,7 +79,8 @@ namespace AIFitnessProject.Core.Services
             }
 
             var model = new UserCalendarViewModel
-            {             
+            {          
+                UserId = userId,
                 CalendarId = calendar?.Id ?? 0,
                 Email = user.Email,
                 FullName = user.FullName,
@@ -248,52 +249,53 @@ namespace AIFitnessProject.Core.Services
             {
                 return false;
             }
-
-        public async Task<DetailsEventViewModel> GetModelForDetailsEvent(int id)
-        {
-            var workoutCalendar = await repository.AllAsReadOnly<CalendarWorkout>()
-                 .Where(x => x.EventId == id)
-                 .Include(x =>x.Workout)
-                 .ThenInclude(x=>x.WorkoutsExercises)
-                 .ThenInclude(x =>x.Exercise)
-                 .Select(x => new DetailsEventViewModel
-                 {
-                     DateOnly = x.DateOnly.ToString("yyyy-MM-dd"),
-                   StartEventTime = x.StartEventTime.ToString("hh:mm tt"),
-                   EndEventTime = x.EndEventTime.ToString("hh:mm tt"),
-                   WorkoutTitle = x.Workout.Title,
-                   ExerciseCount = x.Workout.WorkoutsExercises.Count,
-                   WorkoutDayOfWeek = x.Workout.DayOfWeek,
-                   WorkoutDifficultyLevel = x.Workout.DificultyLevel,
-                   WorkoutImage = x.Workout.ImageUrl,
-                   WorkoutMuscleGroup = x.Workout.MuscleGroup,
-                     Exercises = x.Workout.WorkoutsExercises.Select(x => new ExerciseViewModel
-                     {
-                         Id = x.Exercise.Id,
-                         Name = x.Exercise.Name,
-                         Description = x.Exercise.Description,
-                         ImageUrl = x.Exercise.ImageUrl,
-                         VideoUrl = x.Exercise.VideoUrl,
-                         Repetitions = x.Exercise.Repetitions,
-                         Series = x.Exercise.Series,
-                         DifficultyLevel = x.Exercise.DifficultyLevel,
-                         MuscleGroup = x.Exercise.MuscleGroup
-                     }).ToList(),
-                 })
-                 .FirstOrDefaultAsync();
-
-            return workoutCalendar;
         }
+                public async Task<DetailsEventViewModel> GetModelForDetailsEvent(int id)
+            {
+                var workoutCalendar = await repository.AllAsReadOnly<CalendarWorkout>()
+                     .Where(x => x.EventId == id)
+                     .Include(x => x.Workout)
+                     .ThenInclude(x => x.WorkoutsExercises)
+                     .ThenInclude(x => x.Exercise)
+                     .Select(x => new DetailsEventViewModel
+                     {
+                         DateOnly = x.DateOnly.ToString("yyyy-MM-dd"),
+                         StartEventTime = x.StartEventTime.ToString("hh:mm tt"),
+                         EndEventTime = x.EndEventTime.ToString("hh:mm tt"),
+                         WorkoutTitle = x.Workout.Title,
+                         ExerciseCount = x.Workout.WorkoutsExercises.Count,
+                         WorkoutDayOfWeek = x.Workout.DayOfWeek,
+                         WorkoutDifficultyLevel = x.Workout.DificultyLevel,
+                         WorkoutImage = x.Workout.ImageUrl,
+                         WorkoutMuscleGroup = x.Workout.MuscleGroup,
+                         Exercises = x.Workout.WorkoutsExercises.Select(x => new ExerciseViewModel
+                         {
+                             Id = x.Exercise.Id,
+                             Name = x.Exercise.Name,
+                             Description = x.Exercise.Description,
+                             ImageUrl = x.Exercise.ImageUrl,
+                             VideoUrl = x.Exercise.VideoUrl,
+                             Repetitions = x.Exercise.Repetitions,
+                             Series = x.Exercise.Series,
+                             DifficultyLevel = x.Exercise.DifficultyLevel,
+                             MuscleGroup = x.Exercise.MuscleGroup
+                         }).ToList(),
+                     })
+                     .FirstOrDefaultAsync();
 
-        public async Task DeleteEvenet(int workoutId, int calendarId)
-        {
-            var calendarWorkout = await repository.All<CalendarWorkout>()
-                 .Where(x => x.WorkoutId == workoutId && x.CalendarId == calendarId)
-                 .FirstOrDefaultAsync();
+                return workoutCalendar;
+            }
 
-            repository.Delete(calendarWorkout);
-            await repository.SaveChangesAsync();
+            public async Task DeleteEvenet(int workoutId, int calendarId)
+            {
+                var calendarWorkout = await repository.All<CalendarWorkout>()
+                     .Where(x => x.WorkoutId == workoutId && x.CalendarId == calendarId)
+                     .FirstOrDefaultAsync();
 
+                repository.Delete(calendarWorkout);
+                await repository.SaveChangesAsync();
+
+            }
         }
     }
-}
+

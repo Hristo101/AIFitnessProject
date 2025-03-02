@@ -53,9 +53,12 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
                 return Json(new { success = false, message = $"Error: {ex.Message}" });
             }
         }
-        public async Task<IActionResult> Delete(int calendarId,int workoutId)
+        [HttpPost]
+        public async Task<IActionResult> Delete(int calendarId,int workoutId,string userId)
         {
-            return View();
+            await calendarService.DeleteEvenet(workoutId, calendarId);
+
+            return RedirectToAction("UserCalendar", new { id = userId });
         }
         private string GetUserId()
         {

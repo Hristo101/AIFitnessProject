@@ -84,7 +84,7 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             return RedirectToAction("Add","Workout", new { trainingPlanId = model.TrainingPlanId });
         }
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id,int trainingPlanId)
         {
             var model = await exerciseService.GetModelForDetailsFromWorkouts(id);
             
