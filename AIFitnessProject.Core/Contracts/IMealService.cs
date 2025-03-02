@@ -17,6 +17,7 @@ namespace AIFitnessProject.Core.Contracts
         Task<bool> ExistAsync(int id);
         Task<Meal> GetMealById(int id);
         Task AddMeal(CreateMealViewModel model, string userId);
+        Task AddMeal(CreateMealViewModelFromEditDailyDietPlan model, string userId);
         Task<EditMealFromDailyDietPlanViewModel> GetModelFromDailyDiePlanForEdit(int id ,int dailyDietPlanId);
         Task<bool> SwapMealInDailyDietPlan(SwapMealRequest request);
 

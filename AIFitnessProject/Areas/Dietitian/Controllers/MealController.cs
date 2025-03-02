@@ -57,6 +57,29 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             return RedirectToAction("DetailsRejectedDiet", "Diet", new { id = model.DietId });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> AddFromEditDailyDietPlan(int id,string userId)
+        {
+            var model = new CreateMealViewModelFromEditDailyDietPlan();
+            model.UserId = userId;
+            model.DailyDietPlanId = id;
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddFromEditDailyDietPlan(CreateMealViewModelFromEditDailyDietPlan model, int id, string userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.DailyDietPlanId = id;
+                model.UserId = userId;
+                return View(model);
+            }
+            await mealService.AddMeal(model, GetUserId());
+
+            return RedirectToAction("EditDailyDietPlanForDietitian", "DailyDietPlan", new { id = id, userId = userId });
+        }
         [HttpGet]
         public async Task<IActionResult> Details(int id,int dailyDietPlanId)
         {

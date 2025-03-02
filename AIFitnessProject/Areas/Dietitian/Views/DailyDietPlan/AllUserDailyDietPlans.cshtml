@@ -314,7 +314,7 @@
             <div class="button-group">
                 @if (dailyDietPlan.IsEdit)
                 {
-                    <form asp-action="EditWorkoutForTrainer" asp-controller="Workout" asp-area="Trainer" asp-route-id="@dailyDietPlan.Id" asp-route-id="@dailyDietPlan.UserId" method="get">
+                    <form asp-action="EditDailyDietPlanForDietitian" asp-controller="DailyDietPlan" asp-area="Dietitian" asp-route-id="@dailyDietPlan.Id" asp-route-id="@dailyDietPlan.UserId" method="get">
                         <input type="hidden" name="id" value="@dailyDietPlan.Id" />
                         <input type="hidden" name="userId" value="@dailyDietPlan.UserId" />
                         <button type="submit" class="button edit-button">
