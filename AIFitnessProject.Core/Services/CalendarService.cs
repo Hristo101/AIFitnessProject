@@ -75,7 +75,8 @@ namespace AIFitnessProject.Core.Services
             }
 
             var model = new UserCalendarViewModel
-            {             
+            {          
+                UserId = userId,
                 CalendarId = calendar?.Id ?? 0,
                 Email = user.Email,
                 FullName = user.FullName,
@@ -245,6 +246,7 @@ namespace AIFitnessProject.Core.Services
             {
                 return false;
             }
+
         }
 
         public async Task<DetailsEventViewModel> GetModelForDetailsEvent(int id)
@@ -281,18 +283,21 @@ namespace AIFitnessProject.Core.Services
                  .FirstOrDefaultAsync();
 
             return workoutCalendar;
-        }
-
-        public async Task DeleteEvenet(int workoutId, int calendarId)
-        {
-            var calendarWorkout = await repository.All<CalendarWorkout>()
-                 .Where(x => x.WorkoutId == workoutId && x.CalendarId == calendarId)
-                 .FirstOrDefaultAsync();
-
-            repository.Delete(calendarWorkout);
-            await repository.SaveChangesAsync();
 
         }
+
+
+            public async Task DeleteEvenet(int workoutId, int calendarId)
+            {
+                var calendarWorkout = await repository.All<CalendarWorkout>()
+                     .Where(x => x.WorkoutId == workoutId && x.CalendarId == calendarId)
+                     .FirstOrDefaultAsync();
+
+                repository.Delete(calendarWorkout);
+                await repository.SaveChangesAsync();
+
+            }
+
 
         public async Task<UserCalendarViewModelForUserArea> GetModelForUserCalendarForUserArea(string userId)
         {
@@ -417,4 +422,7 @@ namespace AIFitnessProject.Core.Services
             return mealCalendar;
         }
     }
-}
+
+    }
+
+

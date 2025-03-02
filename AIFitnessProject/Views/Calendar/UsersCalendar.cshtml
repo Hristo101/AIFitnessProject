@@ -653,7 +653,7 @@
 
         const calendarId = @Model.CalendarId;
         let today = new Date();
-        let activeDay;
+        let activeDay = today.getDate(); // Start with today's date
         let month = today.getMonth();
         let year = today.getFullYear();
 
@@ -663,8 +663,11 @@
         ];
 
         const eventsArr = [];
+
+        // Initialize the calendar
         getEvents();
         initCalendar();
+        updateEvents(activeDay); // Show events for today on load
 
         function initCalendar() {
             const firstDay = new Date(year, month, 1);
@@ -694,16 +697,17 @@
                     }
                 });
                 if (
-                    i === new Date().getDate() &&
-                    year === new Date().getFullYear() &&
-                    month === new Date().getMonth()
+                    i === today.getDate() &&
+                    year === today.getFullYear() &&
+                    month === today.getMonth()
                 ) {
-                    activeDay = i;
-                    getActiveDay(i);
-                    updateEvents(i);
-                    days += event ? `<div class="day today active event">${i}</div>` : `<div class="day today active">${i}</div>`;
+                    days += event
+                        ? `<div class="day today active event">${i}</div>`
+                        : `<div class="day today active">${i}</div>`;
                 } else {
-                    days += event ? `<div class="day event">${i}</div>` : `<div class="day">${i}</div>`;
+                    days += event
+                        ? `<div class="day event">${i}</div>`
+                        : `<div class="day">${i}</div>`;
                 }
             }
 
@@ -718,12 +722,14 @@
             month--;
             if (month < 0) { month = 11; year--; }
             initCalendar();
+            updateEvents(activeDay);
         }
 
         function nextMonth() {
             month++;
             if (month > 11) { month = 0; year++; }
             initCalendar();
+            updateEvents(activeDay);
         }
 
         prev.addEventListener("click", prevMonth);
@@ -733,18 +739,18 @@
             const days = document.querySelectorAll(".day");
             days.forEach((day) => {
                 day.addEventListener("click", (e) => {
-                    getActiveDay(e.target.innerHTML);
-                    updateEvents(Number(e.target.innerHTML));
                     activeDay = Number(e.target.innerHTML);
-                    days.forEach((day) => day.classList.remove("active"));
-                    
+                    getActiveDay(activeDay);
+                    updateEvents(activeDay);
+                    days.forEach((d) => d.classList.remove("active"));
+
                     if (e.target.classList.contains("prev-date")) {
                         prevMonth();
                         setTimeout(() => {
                             const days = document.querySelectorAll(".day");
-                            days.forEach((day) => {
-                                if (!day.classList.contains("prev-date") && day.innerHTML === e.target.innerHTML) {
-                                    day.classList.add("active");
+                            days.forEach((d) => {
+                                if (!d.classList.contains("prev-date") && d.innerHTML === e.target.innerHTML) {
+                                    d.classList.add("active");
                                 }
                             });
                         }, 100);
@@ -752,9 +758,9 @@
                         nextMonth();
                         setTimeout(() => {
                             const days = document.querySelectorAll(".day");
-                            days.forEach((day) => {
-                                if (!day.classList.contains("next-date") && day.innerHTML === e.target.innerHTML) {
-                                    day.classList.add("active");
+                            days.forEach((d) => {
+                                if (!d.classList.contains("next-date") && d.innerHTML === e.target.innerHTML) {
+                                    d.classList.add("active");
                                 }
                             });
                         }, 100);
@@ -769,7 +775,9 @@
             today = new Date();
             month = today.getMonth();
             year = today.getFullYear();
+            activeDay = today.getDate();
             initCalendar();
+            updateEvents(activeDay);
         });
 
         dateInput.addEventListener("input", (e) => {
@@ -787,8 +795,9 @@
             const dateArr = dateInput.value.split("/");
             if (dateArr.length === 2 && dateArr[0] > 0 && dateArr[0] < 13 && dateArr[1].length === 4) {
                 month = dateArr[0] - 1;
-                year = dateArr[1];
+                year = parseInt(dateArr[1]);
                 initCalendar();
+                updateEvents(activeDay);
                 return;
             }
             alert("Invalid Date");
@@ -807,52 +816,49 @@
                 if (date === eventObj.day && month + 1 === eventObj.month && year === eventObj.year) {
                     eventObj.events.forEach((event, index) => {
                         let eventHtml = `
-                            <div class="event" data-day="${eventObj.day}" data-month="${eventObj.month}" data-year="${eventObj.year}" data-index="${index}" data-workout-id="${event.workout ? event.workout.id : (event.meal ? event.meal.id : '')}">
-                                <div class="title">
-                                    <i class="fas fa-circle"></i>
-                                    <h3 class="event-title">${event.title}</h3>
-                                </div>
-                                <div class="event-time">
-                                    <span class="event-time">${event.time}</span>
-                                </div>
-                        `;
+                                    <div class="event" data-day="${eventObj.day}" data-month="${eventObj.month}" data-year="${eventObj.year}" data-index="${index}" data-workout-id="${event.workout ? event.workout.id : (event.meal ? event.meal.id : '')}">
+                                        <div class="title">
+                                            <i class="fas fa-circle"></i>
+                                            <h3 class="event-title">${event.title}</h3>
+                                        </div>
+                                        <div class="event-time">
+                                            <span class="event-time">${event.time}</span>
+                                        </div>
+                                `;
 
-                        // Ако събитието е тренировка
                         if (event.workout) {
                             eventHtml += `
-                                <div class="event-workout">
-                                    <img src="${event.workout.imageUrl}" alt="${event.workout.name}" />
-                                    <div class="workout-details">
-                                        <p class="workout-name">${event.workout.name}</p>
-                                        <p class="workout-info"><i class="fas fa-dumbbell"></i> ${event.workout.muscleGroup} - ${event.workout.exerciseCount} Exercises</p>
-                                    </div>
-                                </div>
-                                <div class="buttons">
-                                    <a href="/Calendar/DetailsEvent/${event.workout.eventId}" class="details-btn">📋 Детайли</a>
-                                </div>
-                            `;
+                                        <div class="event-workout">
+                                            <img src="${event.workout.imageUrl}" alt="${event.workout.name}" />
+                                            <div class="workout-details">
+                                                <p class="workout-name">${event.workout.name}</p>
+                                                <p class="workout-info"><i class="fas fa-dumbbell"></i> ${event.workout.muscleGroup} - ${event.workout.exerciseCount} Exercises</p>
+                                            </div>
+                                        </div>
+                                        <div class="buttons">
+                                            <a href="/Calendar/DetailsEvent/${event.workout.eventId}" class="details-btn">📋 Детайли</a>
+                                        </div>
+                                    `;
                         }
 
-                        // Ако събитието е хранене
                         if (event.meal) {
                             eventHtml += `
-                                <div class="event-workout">
-                                    <img src="${event.meal.imageUrl}" alt="${event.meal.name}" />
-                                    <div class="workout-details">
-                                        <p class="workout-name">${event.meal.name}</p>
-                                        <p class="workout-info"><i class="fas fa-utensils"></i> ${event.meal.mealTime} - ${event.meal.calories} Calories</p>
-                                    </div>
-                                </div>
-                                <div class="buttons">
-                                    <a href="/Calendar/DetailsMeal/${event.meal.eventId}" class="details-btn">🍽 Детайли</a>
-                                </div>
-                            `;
+                                        <div class="event-workout">
+                                            <img src="${event.meal.imageUrl}" alt="${event.meal.name}" />
+                                            <div class="workout-details">
+                                                <p class="workout-name">${event.meal.name}</p>
+                                                <p class="workout-info"><i class="fas fa-utensils"></i> ${event.meal.mealTime} - ${event.meal.calories} Calories</p>
+                                            </div>
+                                        </div>
+                                        <div class="buttons">
+                                            <a href="/Calendar/DetailsMeal/${event.meal.eventId}" class="details-btn">🍽 Детайли</a>
+                                        </div>
+                                    `;
                         }
 
                         eventHtml += `
-                            <button class="checkmark-btn" onclick="window.location.href='/Calendar/MarkEventCompleted?calendarId=${calendarId}&workoutId=${event.workout ? event.workout.id : ''}&mealId=${event.meal ? event.meal.id : ''}'">✓</button>
-                        </div>`;
-
+                                    <button class="checkmark-btn" onclick="markEventCompleted(${calendarId}, '${event.workout ? event.workout.id : ''}', '${event.meal ? event.meal.id : ''}')">✓</button>
+                                </div>`;
                         events += eventHtml;
                     });
                 }
@@ -872,7 +878,6 @@
                 time = (w.StartEventTime != null && w.EndEventTime != null)
                 ? $"{w.StartEventTime:hh\\:mm} - {w.EndEventTime:hh\\:mm}"
                 : "Time not set",
-
                 workout = new {
                 id = w.Id,
                 eventId = w.EventId,
@@ -885,33 +890,77 @@
                 }
             })));
 
-            const mealEvents = @Html.Raw(Json.Serialize(Model.Meals.Select(w => new
+            const mealEvents = @Html.Raw(Json.Serialize(Model.Meals.Select(m => new
             {
-                day = w.Date.Day,
-                month = w.Date.Month,
-                year = w.Date.Year,
+                day = m.Date.Day,
+                month = m.Date.Month,
+                year = m.Date.Year,
                 events = new[] {
                 new {
-                title = w.Name,
-                time = (w.StartEventTime != null && w.EndEventTime != null)
-                ? $"{w.StartEventTime:hh\\:mm} - {w.EndEventTime:hh\\:mm}"
+                title = m.Name,
+                time = (m.StartEventTime != null && m.EndEventTime != null)
+                ? $"{m.StartEventTime:hh\\:mm} - {m.EndEventTime:hh\\:mm}"
                 : "Time not set",
                 meal = new {
-                id = w.Id,
-                eventId = w.EventId,
-                name = w.Name,
-                imageUrl = w.ImageUrl,
-                calories = w.Calories,
-                mealTime = w.MealTime
+                id = m.Id,
+                eventId = m.EventId,
+                name = m.Name,
+                imageUrl = m.ImageUrl,
+                calories = m.Calories,
+                mealTime = m.MealTime
                 }
                 }
                 }
             })));
 
+            console.log("Workouts:", serverEvents);
+            console.log("Meals:", mealEvents);
+
             eventsArr.length = 0;
-            eventsArr.push(...serverEvents, ...mealEvents);
+            if (serverEvents && Array.isArray(serverEvents)) {
+                eventsArr.push(...serverEvents);
+            }
+            if (mealEvents && Array.isArray(mealEvents)) {
+                eventsArr.push(...mealEvents);
+            }
+            console.log("Combined eventsArr:", eventsArr);
         }
 
+        function markEventCompleted(calendarId, workoutId, mealId) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/Calendar/MarkEventCompleted';
+
+            const calendarInput = document.createElement('input');
+            calendarInput.type = 'hidden';
+            calendarInput.name = 'calendarId';
+            calendarInput.value = calendarId;
+            form.appendChild(calendarInput);
+
+            const workoutInput = document.createElement('input');
+            workoutInput.type = 'hidden';
+            workoutInput.name = 'workoutId';
+            workoutInput.value = workoutId || '';
+            form.appendChild(workoutInput);
+
+            const mealInput = document.createElement('input');
+            mealInput.type = 'hidden';
+            mealInput.name = 'mealId';
+            mealInput.value = mealId || '';
+            form.appendChild(mealInput);
+
+            const token = document.querySelector('input[name="__RequestVerificationToken"]');
+            if (token) {
+                const tokenInput = document.createElement('input');
+                tokenInput.type = 'hidden';
+                tokenInput.name = '__RequestVerificationToken';
+                tokenInput.value = token.value;
+                form.appendChild(tokenInput);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
     </script>
 </body>
 </html>
