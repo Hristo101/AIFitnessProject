@@ -1,0 +1,174 @@
+﻿@using AIFitnessProject.Core.Models.Calendar
+@model DetailsMealViewModel
+
+<!DOCTYPE html>
+<html lang="bg" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Детайлна информация за упражнението @Model.MealName">
+    <meta name="keywords" content="фитнес, упражнения, @Model.MealTime, @Model.MealDifficultyLevel">
+    <title>@Model.MealName - Детайли</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Meal/DetailsMealFromCalendar.css" />
+</head>
+<style>
+    .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 4rem;
+        margin-left: 1rem;
+    }
+
+    .meta-card {
+        background: var(--card-bg);
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: var(--transition);
+    }
+
+        .meta-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+    .meta-icon {
+        font-size: 1.8rem;
+        color: var(--accent-color);
+        margin-bottom: 1rem;
+    }
+
+    .meta-label {
+        font-size: 0.95rem;
+        color: #7f8c8d;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .meta-value {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--text-color);
+    }
+
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: #6c5ce7;
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        margin: 0rem auto 2rem;
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+    }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+            background: #5b4bc4;
+        }
+
+        .back-button i {
+            margin-right: 0.8rem;
+        }
+</style>
+<body class="d-flex flex-column h-100">
+
+
+    <!-- Основно съдържание -->
+    <main class="flex-shrink-0">
+        <div class="container py-5">
+            <div class="exercise-container">
+                <div class="row g-0">
+                    <!-- Лява колона -->
+                    <div class="col-lg-6 position-relative">
+                        <div class="image-loader">
+
+                            @if (Model.MealImage.StartsWith("http") || Model.MealImage.StartsWith("/img"))
+                            {
+                                <img src="@Model.MealImage" class="exercise-image w-100" alt="@Model.MealName" loading="lazy"
+                                     onerror="this.onerror=null;this.src='/images/placeholder.jpg';">
+                            }
+                            else
+                            {
+                                <img src="data:image/jpeg;base64,@Model.MealImage" class="exercise-image w-100" alt="@Model.MealName" loading="lazy"
+                                     onerror="this.onerror=null;this.src='/images/placeholder.jpg';">
+                            }
+                        </div>
+
+                        <div class="meta-grid">
+ 
+                            <div class="detail-item">
+                                <i class="fas fa-clock meta-icon"></i>
+                                <div class="meta-label">Времеви интервал</div>
+                                <div class="meta-value">@Model.StartEventTime - @Model.EndEventTime</div>
+                            </div>
+
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-day meta-icon"></i>
+                                <div class="meta-label">Тренировъчен ден</div>
+                                <div class="meta-value">@Model.DateOnly</div>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(Model.MealVideoUrl))
+                            {
+                                <a href="@Model.MealVideoUrl" target="_blank" class="back-button" style="text-decoration: none;">
+                                    <i class="fas fa-play"></i> Гледай видео
+                                </a>
+                            }
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-lg-6">
+                        <div class="exercise-details">
+                            <h1 class="display-5 mb-4" itemprop="name">@Model.MealName</h1>
+                            <div class="detail-item">
+                                <h5 class="text-muted mb-3"><i class="fas fa-signal me-2"></i>Ниво на трудност</h5>
+                                <div class="difficulty-badge difficulty-@Model.MealDifficultyLevel?.ToLower()">
+                                    @Model.MealDifficultyLevel
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="detail-item" itemprop="description">
+                                        <h5 class="text-muted mb-3"><i class="fas fa-utensils me-2"></i>Тип хранене</h5>
+                                        <p class="mb-0">@Model.MealTime</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <h5 class="text-muted mb-3"><i class="fas fa-fire me-2"></i>Калории</h5>
+                                        <p class="mb-0">@Model.MealCalories</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <h5 class="text-muted mb-3"><i class="fas fa-clipboard-list me-2"></i>Рецепта</h5>
+                                <p class="mb-0">@Model.MealRecipe</p>
+                            </div>
+
+
+                            <!-- Действия -->
+                            <div class="action-buttons">
+
+                                <button class="btn btn-back" onclick="history.back()">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>

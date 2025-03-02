@@ -12,6 +12,7 @@ namespace AIFitnessProject.Core.Contracts
         Task<bool> AddCalendarMealEventAsync(AddEventFromDietitianViewModel model);
         Task DeleteEvenet(int workoutId, int calendarId);
         Task<DetailsEventViewModel> GetModelForDetailsEvent(int id);
+        Task<DetailsMealViewModel> GetModelForDetailsMeal(int id);
 
     }
 }
