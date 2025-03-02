@@ -64,6 +64,15 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             return View(model);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> DetailsDailyDietPlanForDietitian(int id, string userId)
+        {
+            var model = await dailyDietPlanService.GetDetailsDailyDietPlanViewModelForDietitian(id, userId);
+
+            return View(model);
+        }
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {

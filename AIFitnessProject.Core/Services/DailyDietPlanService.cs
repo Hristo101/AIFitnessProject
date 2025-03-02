@@ -1,5 +1,6 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.DailyDietPlan;
+using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
 using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
@@ -195,7 +196,7 @@ namespace AIFitnessProject.Core.Services
                      DifficultyLevel = x.DailyDietPlan.DificultyLevel,
                      ImageUrl = x.DailyDietPlan.ImageUrl,
                      Title = x.DailyDietPlan.Title,
-                     IsEdit = x.Diet.IsEdit,
+                     IsEdit = x.Diet.IsInCalendar,
                      MealCount = x.DailyDietPlan.MealsDailyDietPlans.Count
                  }).ToListAsync();  
 
@@ -209,6 +210,45 @@ namespace AIFitnessProject.Core.Services
                 .FirstOrDefaultAsync();
 
             return dailyDietPlan;
+        }
+
+        public async Task<DetailsDailyDietPlanViewModelForDietitian> GetDetailsDailyDietPlanViewModelForDietitian(int id, string userId)
+        {
+            var user = await repository.AllAsReadOnly<ApplicationUser>()
+               .Where(x => x.Id == userId)
+               .FirstOrDefaultAsync();
+
+            var model = await repository.AllAsReadOnly<DailyDietPlan>()
+                .Include(x => x.MealsDailyDietPlans)
+                .ThenInclude(x => x.Meal)
+                .Where(x => x.Id == id)
+                .Select(x => new DetailsDailyDietPlanViewModelForDietitian
+                {
+                    Id = x.Id,
+                    DayOfWeek = x.DayOfWeel,
+                    DifficultyLevel = x.DificultyLevel,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    ProfilePicture = user.ProfilePicture,
+                    ImageUrl = x.ImageUrl,
+                    Title = x.Title,
+                    MealCount = x.MealsDailyDietPlans.Count,
+                    Meals = x.MealsDailyDietPlans.Select(x => new MealViewModel
+                    {
+                        Id = x.Meal.Id,
+                        Name = x.Meal.Name,
+                        Recipe = x.Meal.Recipe,
+                        ImageUrl = x.Meal.ImageUrl,
+                        VideoUrl = x.Meal.VideoUrl,
+                        Calories = x.Meal.Calories,
+                        DificultyLevel = x.Meal.DificultyLevel,
+                        MealTime = x.Meal.MealTime
+                    }).ToList(),
+                    
+                }).FirstOrDefaultAsync();
+
+            return model;
         }
 
         public async Task<AddDailyDietPlanViewModel> GetModelForAdd(int dietId)

@@ -336,7 +336,7 @@
                     </form>
                 }
 
-                <form asp-action="DetailsWorkoutForTrainer" asp-controller="Workout" asp-route-id="@dailyDietPlan.Id" asp-route-id="@dailyDietPlan.UserId" method="get">
+                <form asp-action="DetailsDailyDietPlanForDietitian" asp-controller="DailyDietPlan" asp-route-id="@dailyDietPlan.Id" asp-route-id="@dailyDietPlan.UserId" method="get">
                     <input type="hidden" name="id" value="@dailyDietPlan.Id" />
                     <input type="hidden" name="userId" value="@dailyDietPlan.UserId" />
                     <button type="submit" class="button details-button">

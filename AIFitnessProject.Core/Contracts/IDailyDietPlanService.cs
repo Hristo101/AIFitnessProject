@@ -17,5 +17,6 @@ namespace AIFitnessProject.Core.Contracts
         Task<AddDailyDietPlanViewModel> GetModelForAdd(int dietId);
         Task<int> CreateDailyDietPlan(AddDailyDietPlanViewModel model, string userId);
         Task<ICollection<MealViewModel>> ReturnAllMealViewModel(string userId);
+        Task<DetailsDailyDietPlanViewModelForDietitian> GetDetailsDailyDietPlanViewModelForDietitian(int id, string userId);
     }
 }
