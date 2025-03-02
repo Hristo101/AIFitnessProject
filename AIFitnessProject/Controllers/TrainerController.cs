@@ -1,6 +1,7 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.Trainer;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AIFitnessProject.Controllers
 {
@@ -27,12 +28,22 @@ namespace AIFitnessProject.Controllers
             return View(models);
         }
         [HttpGet]
+        public async Task<IActionResult> DetailsTrainerForUser(int id)
+        {
+            var model = await trainerService.GetViewModelForDetailsForUser(id,GetUserId());
+
+            return View(model);
+        }
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
             var models = await trainerService.GetViewModelForDetails(id);
 
             return View(models);
         }
-      
+        private string GetUserId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
+        }
     }
 }

@@ -1,0 +1,525 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainer Profile</title>
+    <style>
+        :root {
+            --primary: #2A2A72;
+            --secondary: #FF6B6B;
+            --accent: #4ECDC4;
+            --background: #F8F9FA;
+            --text: #2D3436;
+            --card-bg: #FFFFFF;
+            --shadow: 0 12px 24px rgba(0,0,0,0.1);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            margin-bottom: 2rem;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .trainer-profile {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 3rem;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trainer-profile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+        }
+
+        .trainer-media {
+            position: relative;
+        }
+
+        .trainer-image {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .certification-badge {
+            position: absolute;
+            bottom: -1.5rem;
+            right: -1.5rem;
+            width: 242px;
+            height: 182px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 3px solid var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+
+        .certification-badge:hover {
+            transform: scale(1.05) rotate(3deg);
+        }
+
+        .certification-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .trainer-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .trainer-header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+
+        .specialization {
+            font-size: 1.25rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .bio {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 65ch;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--background);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .comments-section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .add-comment-btn {
+            background: var(--primary);
+            color: white;
+            padding: 0.875rem 2rem;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .add-comment-btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .comment-card {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: var(--background);
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .comment-card:hover {
+            transform: translateX(10px);
+        }
+
+        .user-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+            padding: 2px;
+        }
+
+        .comment-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .comment-rating {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .star {
+            color: #FFD700;
+            font-size: 1.25rem;
+        }
+
+        .comment-text {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .comment-actions {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .comment-card:hover .comment-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+            padding: 0.5rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .edit-btn {
+            background: var(--accent);
+            color: white;
+        }
+
+        .delete-btn {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--radius);
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        /* Comment Form */
+        .comment-form {
+            display: none;
+            background: var(--background);
+            padding: 2rem;
+            border-radius: var(--radius);
+            margin-top: 2rem;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .star-input {
+            display: none;
+        }
+
+        .star-label {
+            font-size: 2rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .star-input:checked ~ .star-label,
+        .star-label:hover,
+        .star-label:hover ~ .star-label {
+            color: #FFD700;
+        }
+
+        .comment-textarea {
+            width: 100%;
+            padding: 1.25rem;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            min-height: 150px;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .submit-btn {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .submit-btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        @@media (max-width: 768px) {
+            .trainer-profile {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+
+            .certification-badge {
+                right: -0.5rem;
+                bottom: -0.5rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="#" class="back-btn" onclick="history.back()">
+            ← Back
+        </a>
+
+        <!-- Trainer Profile -->
+        <section class="trainer-profile">
+            <div class="trainer-media">
+                @if (Model.TrainerImage.StartsWith("http") || Model.TrainerImage.StartsWith("/img"))
+                    {
+                    <img src="@Model.TrainerImage" class="trainer-image" alt="Trainer">
+                }
+                else
+                {
+                    <img src="data:image/jpeg;base64,@Model.TrainerImage" class="trainer-image" alt="Trainer">
+                }
+                <div class="certification-badge" onclick="openCertificationModal('@Model.SertificationImage')">
+                    @if (Model.SertificationImage.StartsWith("http") || Model.SertificationImage.StartsWith("/img"))
+                    {
+                        <img src="@Model.SertificationImage" class="certification-image" alt="Certification">
+                    }
+                    else
+                    {
+                        <img src="data:image/jpeg;base64,@Model.SertificationImage" class="certification-image" alt="Certification">
+                    }
+                </div>
+            </div>
+            
+            <div class="trainer-info">
+                <div class="trainer-header">
+                    <h1>@Model.FirstName @Model.LastName</h1>
+                    <div class="specialization">@Model.Specialization</div>
+                </div>
+                
+                <p class="bio">@Model.Bio</p>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        📧 @Model.Email
+                    </div>
+                    <div class="contact-item">
+                        📱 @Model.PhoneNumber
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comments Section -->
+        <section class="comments-section">
+            <div class="comments-header">
+                <h2>Client Reviews (@Model.Comments.Count)</h2>
+                <button class="add-comment-btn" onclick="toggleCommentForm()">
+                    ✍️ Add Review
+                </button>
+            </div>
+
+            <!-- Comment Form -->
+            <form class="comment-form" id="commentForm">
+                <div class="rating-stars">
+                    <!-- Star rating inputs -->
+                </div>
+                <textarea class="comment-textarea" placeholder="Share your experience..."></textarea>
+                <button type="submit" class="submit-btn">Submit Review</button>
+            </form>
+
+            <!-- Comments List -->
+            <div class="comments-list">
+                @foreach (var comment in Model.Comments)
+                {
+                    <article class="comment-card">
+                        @if (Model.SertificationImage.StartsWith("http") || Model.SertificationImage.StartsWith("/img"))
+                        {
+                            <img src="@comment.ProfilePicture" class="user-avatar" alt="@comment.SenderName">
+                        }
+                        else
+                        {
+                            <img src="data:image/jpeg;base64,@comment.ProfilePicture" class="user-avatar" alt="@comment.SenderName">
+                        }
+                        <div class="comment-content">
+                            <div class="comment-author">@comment.SenderName</div>
+                            <div class="comment-rating">
+                                @for (int i = 0; i < comment.Rating; i++)
+                                {
+                                    <span class="star">★</span>
+                                }
+                            </div>
+                            <p class="comment-text">@comment.Content</p>
+                        </div>
+                        @if (comment.IsMine)
+                        {
+                            <div class="comment-actions">
+                                <button class="action-btn edit-btn">✏️</button>
+                                <button class="action-btn delete-btn">🗑️</button>
+                            </div>
+                        }
+                    </article>
+                }
+            </div>
+        </section>
+
+        <!-- Certification Modal -->
+        <div class="modal" id="certificationModal">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeModal()">×</button>
+                <img src="" class="certification-modal-img" id="modalCertificationImg">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleCommentForm() {
+            const form = document.getElementById('commentForm');
+            form.style.display = form.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function openCertificationModal(imgSrc) {
+            const modal = document.getElementById('certificationModal');
+            const img = document.getElementById('modalCertificationImg');
+            img.src = imgSrc;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('certificationModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('certificationModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Star rating interaction
+        document.querySelectorAll('.star-label').forEach(star => {
+            star.addEventListener('click', () => {
+                const value = star.previousElementSibling.value;
+                // Handle rating value
+            });
+        });
+    </script>
+</body>
+</html>

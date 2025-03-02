@@ -3,6 +3,7 @@ using AIFitnessProject.Core.DTOs;
 using AIFitnessProject.Core.Models.Exercise;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System.Security.Claims;
 
 namespace AIFitnessProject.Areas.Trainer.Controllers
@@ -161,6 +162,27 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             await exerciseService.AddExercise(model, GetUserId());
 
             return RedirectToAction("DetailsRejectedTrainingPlan", "TrainingPlan", new { id = model.TrainingPlanId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddNewExerciseFromEditWorkout(int workoutId,string userId)
+        {
+            var model = new CreateNewExerciseForTrainerViewModel();
+            model.UserId = userId;
+            model.WorkoutId = workoutId;
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewExerciseFromEditWorkout(CreateNewExerciseForTrainerViewModel model,string userId,int workoutId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            await exerciseService.AddFromEditWorkoutExercise(model, GetUserId());
+
+            return RedirectToAction("EditWorkoutForTrainer", "Workout", new { id = workoutId, userId = userId });
         }
 
         private string GetUserId()

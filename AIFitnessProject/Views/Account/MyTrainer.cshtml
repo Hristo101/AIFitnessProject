@@ -1,4 +1,5 @@
-﻿
+﻿@using AIFitnessProject.Core.Models.Account
+@model MyTrainerViewModel
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -157,6 +158,7 @@
         .card__btn-primary {
             background: linear-gradient(45deg, #6b48ff, #3aa0ff);
             color: white;
+            text-decoration: dashed;
             box-shadow: 0 5px 20px rgba(107, 72, 255, 0.25);
         }
 
@@ -224,10 +226,10 @@
             </div>
 
             <div class="card__wrapper">
-                <button class="card__btn card__btn-primary">
+                <a asp-action="DetailsTrainerForUser" asp-controller="Trainer" asp-route-Id="@Model.TrainerId" class="card__btn card__btn-primary">
                     <i class="fas fa-info-circle"></i>
                     Детайли
-                </button>
+                </a>
           
             </div>
         </div>

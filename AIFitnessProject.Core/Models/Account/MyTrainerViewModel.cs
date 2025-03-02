@@ -8,6 +8,7 @@ namespace AIFitnessProject.Core.Models.Account
 {
     public class MyTrainerViewModel
     {
+        public int TrainerId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

@@ -417,5 +417,45 @@ namespace AIFitnessProject.Core.Services
                 await repository.SaveChangesAsync();
             }
         }
+
+        public async Task AddFromEditWorkoutExercise(CreateNewExerciseForTrainerViewModel model, string userId)
+        {
+            var trainer = await repository.AllAsReadOnly<Infrastructure.Data.Models.Trainer>()
+         .Where(x => x.UserId == userId)
+          .FirstAsync();
+
+            var exercise = new Infrastructure.Data.Models.Exercise()
+            {
+                CreatedById = trainer.Id,
+                Description = model.Description,
+                DifficultyLevel = model.DifficultyLevel,
+                MuscleGroup = model.MuscleGroup,
+                Name = model.Name,
+                Repetitions = model.Repetitions,
+                Series = model.Series,
+                VideoUrl = model.VideoUrl,
+            };
+
+            if (model.ImageUrl != null)
+            {
+                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "img/exercises");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ImageUrl.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.ImageUrl.CopyToAsync(fileStream);
+                }
+                exercise.ImageUrl = "/img/exercises/" + uniqueFileName;
+            }
+            await repository.AddAsync(exercise);
+            await repository.SaveChangesAsync();
+        }
     }
 }

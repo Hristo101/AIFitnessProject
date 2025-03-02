@@ -1,5 +1,5 @@
 ﻿@using AIFitnessProject.Core.Models.Exercise
-@model CreateExerciseViewModel
+@model CreateNewExerciseForTrainerViewModel
 
 @{
     ViewData["Title"] = "Добавяне на упражнение";
@@ -17,8 +17,8 @@
         align-items: center;
         justify-content: flex-end;
 
-        min-height: 150px;        
-        overflow: visible;        
+        min-height: 150px;
+        overflow: visible;
         position: relative;
 
         padding: 10px;
@@ -286,11 +286,11 @@
         <i class="fas fa-dumbbell me-2"></i>@ViewData["Title"]
     </h2>
 
-    <form asp-action="AddFromEditWorkout" asp-controller="ExerciseTrainer" asp-area="Trainer"
+    <form asp-action="AddNewExerciseFromEditWorkout" asp-controller="ExerciseTrainer" asp-area="Trainer"
           method="post" enctype="multipart/form-data"
           class="needs-validation" novalidate>
-
-        <input type="hidden" name="TrainingPlanId" value="@Model.TrainingPlanId" />
+        <input type="hidden" name="userId" value="@Model.UserId" />
+        <input type="hidden" name="workoutId" value="@Model.WorkoutId" />
 
         <div class="mb-4">
             <label asp-for="Name" class="form-label">

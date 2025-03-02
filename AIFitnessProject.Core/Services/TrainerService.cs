@@ -68,6 +68,51 @@ namespace AIFitnessProject.Core.Services
             return viewModel;
         }
 
+        public async Task<DetailsTrainerForUserViewModel> GetViewModelForDetailsForUser(int trainerId,string userId)
+        {
+            var trainer = await repository.All<Trainer>()
+                                        .Where(t => t.Id == trainerId)
+                                        .Include(t => t.User)
+                                        .FirstOrDefaultAsync();
+            if (trainer == null)
+            {
+                return null;
+            }
+
+            var comments = await repository.All<UserComment>()
+                                           .Where(c => c.ReceiverId == trainer.UserId)
+                                           .Include(c =>c.Sender)
+                                           .ToListAsync();
+
+            var users = await repository.AllAsReadOnly<ApplicationUser>().ToListAsync();
+
+            var viewModel = new DetailsTrainerForUserViewModel
+            {
+                TrainerId = trainer.Id,
+                UserId = userId,
+                FirstName = trainer.User.FirstName,
+                LastName = trainer.User.LastName,
+                Bio = trainer.Bio,
+                SertificationImage = trainer.SertificateImage,
+                TrainerImage = trainer.User.ProfilePicture,
+                SertificationDetails = trainer.SertificationDetails,
+                PhoneNumber = trainer.PhoneNumber,
+                Specialization = trainer.Specialization,
+                Email = trainer.User.Email,
+                Comments = comments.Select(c => new UserCommentForTrainerViewModel
+                {
+                    Rating = c.Rating,
+                    Content = c.Content,
+                    IsMine = c.SenderId == userId,
+                    SenderName = users.FirstOrDefault(x => x.Id == c.SenderId).FirstName + " " + users.FirstOrDefault(x => x.Id == c.SenderId).LastName,
+                    Email = c.Sender.Email,
+                    ProfilePicture = c.Sender.ProfilePicture
+                }).ToList()
+            };
+
+            return viewModel;
+        }
+
         public async Task<IEnumerable<AllTrainerViewModel>> ShowAllTrainersAsync()
         {
             var models = await repository.AllAsReadOnly<Trainer>()

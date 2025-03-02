@@ -590,7 +590,9 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="background: #f9fbff; border-radius: 0 0 20px 20px;">
-                    <form asp-action="AddFromEditWorkout" asp-area="Trainer" asp-controller="ExerciseTrainer" method="get">
+                    <form asp-action="AddNewExerciseFromEditWorkout" asp-area="Trainer" asp-controller="ExerciseTrainer" method="get">
+                            <input type="hidden" name="workoutId" value="@Model.Id" />
+                            <input type="hidden" name="userId" value="@Model.UserId" />
                         <button type="submit" class="action-btn" style="background: linear-gradient(45deg, #2A2D72, #434190);">Създай упражнение</button>
                     </form>
                     <form id="attachExercisesForm" asp-action="AddNewExercisesToWorkout" asp-area="Trainer" asp-controller="Workout" method="post">

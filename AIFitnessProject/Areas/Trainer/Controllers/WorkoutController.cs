@@ -48,6 +48,7 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             return View(model);
         }
+
         [HttpPost]
         public async Task<IActionResult> AddNewExercisesToWorkout(int workoutId,string exerciseIds,string userId)
         {

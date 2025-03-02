@@ -195,6 +195,7 @@ namespace AIFitnessProject.Core.Services
 
             MyTrainerViewModel model = new MyTrainerViewModel()
             {
+                TrainerId = trainer.Id,
                 Email = trainer.User.Email,
                 FirstName = trainer.User.FirstName,
                 LastName = trainer.User.LastName,

@@ -7,5 +7,7 @@ namespace AIFitnessProject.Core.Contracts
         Task<IEnumerable<AllTrainerViewModel>> ShowAllTrainersAsync();
         Task<bool> ExistAsync(int id);
         Task<DetailsTrainerViewModel> GetViewModelForDetails(int trainerId);
+        Task<DetailsTrainerForUserViewModel> GetViewModelForDetailsForUser(int trainerId,string userId);
+        
     }
 }

@@ -19,6 +19,7 @@ namespace AIFitnessProject.Core.Contracts
         Task EditAsync(int id, EditExerciseViewModel model);
         Task EditAsyncFromWorkout(int id, EditExerciseFromWorkoutViewModel model);
         Task AddExercise(CreateExerciseViewModel model, string userId);
+        Task AddFromEditWorkoutExercise(CreateNewExerciseForTrainerViewModel model, string userId);
         Task<bool> ExistAsync(int id);
     }
 }
