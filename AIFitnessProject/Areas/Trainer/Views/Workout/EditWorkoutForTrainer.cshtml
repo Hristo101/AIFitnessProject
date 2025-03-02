@@ -103,7 +103,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Обновен стил за качване на файлове */
         .container-upload {
             --transition: 350ms;
             --folder-W: 120px;
@@ -333,7 +332,6 @@
                 transform: translateY(-5px);
             }
 
-        /* Цветове за ниво на трудност като фон */
         .difficulty-level {
             display: inline-block;
             padding: 5px 15px;
@@ -439,10 +437,10 @@
         <div class="workout-section">
             <h2 class="workout-title">Редактирай: @Model.Title</h2>
 
-            <form asp-action="Edit" method="post" enctype="multipart/form-data">
-                <input type="hidden" asp-for="Id" />
-                <input type="hidden" asp-for="TrainingPlanId" />
-                <input type="hidden" asp-for="UserId" />
+            <form asp-action="EditWorkoutForTrainer" asp-area="Trainer" asp-controller="Workout" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="workoutId" value="@Model.Id" />
+                <input type="hidden" name="trainingPlanId" value="@Model.TrainingPlanId" />
+                <input type="hidden" name="userId" value="@Model.UserId" />
 
                 <div class="form-group">
                     <label asp-for="Title">Заглавие</label>
@@ -498,7 +496,10 @@
                             </div>
                             <div class="back-side cover"></div>
                         </div>
-                        <label class="custom-file-upload" style=" margin-top: 6em; "> <input type="file" name="image" accept="image/*" onchange="previewImage(this)"> Избери файл </label>
+                        <label class="custom-file-upload" style="margin-top: 6em;">
+                            <input type="file" name="NewImageUrl" accept="image/*" onchange="previewImage(this)">
+                            Избери файл
+                        </label>
                     </div>
                     <div class="image-preview-container">
                         <img id="imagePreview" class="workout-image mt-3" style="display: none; max-width: 100%; border-radius: 20px; box-shadow: 0 5px 15px rgba(42,45,114,0.1);" alt="Предварителен преглед" />
@@ -535,12 +536,7 @@
                                 }
                                 <div class="buttons mt-3 d-flex gap-3 justify-content-center">
                                     <button type="button" class="action-btn edit-btn" onclick="editExercise(@exercise.Id)">Редактирай</button>
-                                    <form asp-action="DeleteFromWorkout" asp-area="Trainer" asp-controller="Workout" method="post" onsubmit="return confirmDelete()">
-                                        <input type="hidden" name="workoutId" value="@Model.Id" />
-                                        <input type="hidden" name="exerciseId" value="@exercise.Id" />
-                                        <input type="hidden" name="userId" value="@Model.UserId" />
-                                        <button type="submit" class="action-btn delete-btn">Изтрий</button>
-                                    </form>
+                                    <button type="button" class="action-btn delete-btn" onclick="deleteExercise(@Model.Id, @exercise.Id, '@Model.UserId')">Изтрий</button>
                                 </div>
                             </div>
                         </div>
@@ -610,6 +606,8 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script>
         let currentPage = 1;
         const exercisesPerPage = 6;
@@ -668,18 +666,18 @@
                     const difficultyClass = getDifficultyClass(ex.difficultyLevel);
                     const isSelected = selectedExercises.includes(ex.id) ? 'selected' : '';
                     container.append(`
-                                <div class="col-lg-4 col-md-6">
-                                    <div class="exercise-card ${isSelected}" data-id="${ex.id}" onclick="toggleExerciseSelection(${ex.id})">
-                                        ${ex.imageUrl ? `<img src="${ex.imageUrl}" class="exercise-image mb-3" alt="${ex.name}" />` : ''}
-                                        <h4 class="exercise-name">${ex.name}</h4>
-                                        <p style="color: #4B5EAA; line-height: 1.5;">${ex.description || 'Няма описание'}</p>
-                                        <p><strong>Мускулна група:</strong> ${ex.muscleGroup}</p>
-                                        <p><strong>Ниво:</strong> <span class="difficulty-level ${difficultyClass}">${ex.difficultyLevel}</span></p>
-                                        <p><strong>Серии:</strong> ${ex.series}, <strong>Повторения:</strong> ${ex.repetitions}</p>
-                                        ${ex.videoUrl ? `<a href="${ex.videoUrl}" target="_blank" class="action-btn edit-btn mt-2 d-inline-block">Гледай Видео</a>` : ''}
-                                    </div>
-                                </div>
-                            `);
+                        <div class="col-lg-4 col-md-6">
+                            <div class="exercise-card ${isSelected}" data-id="${ex.id}" onclick="toggleExerciseSelection(${ex.id})">
+                                ${ex.imageUrl ? `<img src="${ex.imageUrl}" class="exercise-image mb-3" alt="${ex.name}" />` : ''}
+                                <h4 class="exercise-name">${ex.name}</h4>
+                                <p style="color: #4B5EAA; line-height: 1.5;">${ex.description || 'Няма описание'}</p>
+                                <p><strong>Мускулна група:</strong> ${ex.muscleGroup}</p>
+                                <p><strong>Ниво:</strong> <span class="difficulty-level ${difficultyClass}">${ex.difficultyLevel}</span></p>
+                                <p><strong>Серии:</strong> ${ex.series}, <strong>Повторения:</strong> ${ex.repetitions}</p>
+                                ${ex.videoUrl ? `<a href="${ex.videoUrl}" target="_blank" class="action-btn edit-btn mt-2 d-inline-block">Гледай Видео</a>` : ''}
+                            </div>
+                        </div>
+                    `);
                 });
             }
 
@@ -728,8 +726,27 @@
             alert(`Редактиране на упражнение с ID: ${id}`);
         }
 
-        function confirmDelete() {
-            return confirm('Сигурни ли сте, че искате да изтриете това упражнение?');
+        function deleteExercise(workoutId, exerciseId, userId) {
+            if (confirm('Сигурни ли сте, че искате да изтриете това упражнение?')) {
+                $.ajax({
+                    url: '/Trainer/Workout/DeleteFromWorkout',
+                    type: 'POST',
+                    data: {
+                        workoutId: workoutId,
+                        exerciseId: exerciseId,
+                        userId: userId,
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {
+                        // Премахване на упражнението от DOM след успешно изтриване
+                        $('#exercise-' + exerciseId).parent().remove();
+                        alert('Упражнението е изтрито успешно!');
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Грешка при изтриване: ' + error);
+                    }
+                });
+            }
         }
     </script>
 </body>

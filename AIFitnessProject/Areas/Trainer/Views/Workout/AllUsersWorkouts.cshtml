@@ -320,8 +320,10 @@
                         </button>
                     </form>
 
-                    <form asp-action="Delete" method="post">
+                    <form asp-action="DeleteWorkoutForTrainer" asp-controller="Workout" asp-area="Trainer" method="post">
                         <input type="hidden" name="id" value="@workout.Id" />
+                        <input type="hidden" name="trainingPlanid" value="@workout.TrainingPlanId" />
+                        <input type="hidden" name="userId" value="@workout.UserId" />
                         <button type="submit" class="button delete-button">
                             <span class="button-label">Delete</span>
                             <svg class="svgIcon" viewBox="0 0 448 512">

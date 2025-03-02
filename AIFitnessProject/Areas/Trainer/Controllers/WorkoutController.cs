@@ -2,6 +2,7 @@
 using AIFitnessProject.Core.Models.Workout;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Claims;
 
 namespace AIFitnessProject.Areas.Trainer.Controllers
@@ -25,6 +26,20 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             var model = await workoutService.AllWorkousForTrainer(id);
 
             return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditWorkoutForTrainer(int trainingPlanId, int workoutId, string userId, EditWorkoutViewModelForTrainer model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var oldViewModel = await workoutService.GetEditWorkoutViewModelForTrainer(workoutId, userId, GetUserId());
+                model.ImageUrl = oldViewModel.ImageUrl;
+                model.AllExercises = oldViewModel.AllExercises;
+                model.Exercises = oldViewModel.Exercises;
+                return View(model);
+            }
+            await workoutService.EditWourkout(trainingPlanId, workoutId, model);
+            return RedirectToAction("AllUsersWorkouts", new {id =userId});
         }
         [HttpGet]
         public async Task<IActionResult> EditWorkoutForTrainer(int id,string userId)
@@ -95,6 +110,14 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             return View(model);
         }
+        [HttpPost]
+        public async Task<IActionResult> DeleteWorkoutForTrainer(int id, int trainingPlanId,string userId)
+        {
+            await workoutService.DeleteWorkoutForTrainer(id, trainingPlanId);
+
+            return RedirectToAction("AllUsersWorkouts", new { id = userId });
+        }
+
         [HttpPost]
         public async Task<IActionResult> DeleteFromWorkout(int workoutId,int exerciseId,string userId)
         {

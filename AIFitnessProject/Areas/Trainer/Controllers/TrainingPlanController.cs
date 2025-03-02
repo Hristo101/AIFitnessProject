@@ -103,6 +103,7 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             return View(model);
         }
+    
         [HttpGet]
         public async Task<IActionResult> DetailsFromExercise(int id)
         {

@@ -6,6 +6,7 @@ using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,8 @@ namespace AIFitnessProject.Core.Services
     public class WorkoutService : IWorkoutService
     {
         private readonly IRepository repository;
-        private readonly IHostingEnvironment hostingEnvironment;
-        public WorkoutService(IRepository _repository, IHostingEnvironment _hostingEnvironment)
+        private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment;
+        public WorkoutService(IRepository _repository, Microsoft.AspNetCore.Hosting.IHostingEnvironment _hostingEnvironment)
         {
             this.repository = _repository;
             this.hostingEnvironment = _hostingEnvironment;
@@ -208,6 +209,50 @@ namespace AIFitnessProject.Core.Services
                 .FirstOrDefaultAsync();
 
             repository.Delete(modelForDelete);
+            await repository.SaveChangesAsync();
+        }
+
+        public async Task DeleteWorkoutForTrainer(int id, int trainingPlanId)
+        {
+            var trainingPlanWorkout = await repository.All<TrainingPlanWorkout>()
+                .Where(x =>x.WorkoutId == id && x.TrainingPlanId == trainingPlanId)
+                .FirstOrDefaultAsync();
+
+             repository.Delete(trainingPlanWorkout);
+            await repository.SaveChangesAsync();
+        }
+
+        public async Task EditWourkout(int trainingPlanId, int workoutId, EditWorkoutViewModelForTrainer model)
+        {
+            var trainingPlanWorkouts = await repository.All<TrainingPlanWorkout>()
+                .Where( x=>x.WorkoutId == workoutId)
+                .Where(x =>x.TrainingPlanId == trainingPlanId)
+                .Include(x => x.TrainingPlan)
+                .Include(x =>x.Workout)
+                .FirstOrDefaultAsync();
+
+            trainingPlanWorkouts.Workout.Title = model.Title;
+            trainingPlanWorkouts.Workout.DayOfWeek = model.DayOfWeek;
+            trainingPlanWorkouts.Workout.DificultyLevel = model.DifficultyLevel;
+            trainingPlanWorkouts.Workout.MuscleGroup = model.MuscleGroup;
+            if (model.NewImageUrl != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "img/workouts");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.NewImageUrl.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.NewImageUrl.CopyToAsync(fileStream);
+                }
+                trainingPlanWorkouts.Workout.ImageUrl = "/img/workouts/" + uniqueFileName;
+            }
             await repository.SaveChangesAsync();
         }
 
