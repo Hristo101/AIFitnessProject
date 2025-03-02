@@ -816,49 +816,53 @@
                 if (date === eventObj.day && month + 1 === eventObj.month && year === eventObj.year) {
                     eventObj.events.forEach((event, index) => {
                         let eventHtml = `
-                                    <div class="event" data-day="${eventObj.day}" data-month="${eventObj.month}" data-year="${eventObj.year}" data-index="${index}" data-workout-id="${event.workout ? event.workout.id : (event.meal ? event.meal.id : '')}">
-                                        <div class="title">
-                                            <i class="fas fa-circle"></i>
-                                            <h3 class="event-title">${event.title}</h3>
-                                        </div>
-                                        <div class="event-time">
-                                            <span class="event-time">${event.time}</span>
-                                        </div>
-                                `;
+                            <div class="event" data-day="${eventObj.day}" data-month="${eventObj.month}" data-year="${eventObj.year}" data-index="${index}" data-workout-id="${event.workout ? event.workout.id : (event.meal ? event.meal.id : '')}">
+                                <div class="title">
+                                    <i class="fas fa-circle"></i>
+                                    <h3 class="event-title">${event.title}</h3>
+                                </div>
+                                <div class="event-time">
+                                    <span class="event-time">${event.time}</span>
+                                </div>
+                        `;
 
                         if (event.workout) {
                             eventHtml += `
-                                        <div class="event-workout">
-                                            <img src="${event.workout.imageUrl}" alt="${event.workout.name}" />
-                                            <div class="workout-details">
-                                                <p class="workout-name">${event.workout.name}</p>
-                                                <p class="workout-info"><i class="fas fa-dumbbell"></i> ${event.workout.muscleGroup} - ${event.workout.exerciseCount} Exercises</p>
-                                            </div>
-                                        </div>
-                                        <div class="buttons">
-                                            <a href="/Calendar/DetailsEvent/${event.workout.eventId}" class="details-btn">📋 Детайли</a>
-                                        </div>
-                                    `;
+                                <div class="event-workout">
+                                    <img src="${event.workout.imageUrl}" alt="${event.workout.name}" />
+                                    <div class="workout-details">
+                                        <p class="workout-name">${event.workout.name}</p>
+                                        <p class="workout-info"><i class="fas fa-dumbbell"></i> ${event.workout.muscleGroup} - ${event.workout.exerciseCount} Exercises</p>
+                                    </div>
+                                </div>
+                                <div class="buttons">
+                                    <a href="/Calendar/DetailsEvent/${event.workout.eventId}" class="details-btn">📋 Детайли</a>
+                                </div>
+                            `;
+                            eventHtml += `
+                                <button class="checkmark-btn" onclick="markWorkoutCompleted(${calendarId}, '${event.workout.id}')">✓</button>
+                            `;
                         }
 
                         if (event.meal) {
                             eventHtml += `
-                                        <div class="event-workout">
-                                            <img src="${event.meal.imageUrl}" alt="${event.meal.name}" />
-                                            <div class="workout-details">
-                                                <p class="workout-name">${event.meal.name}</p>
-                                                <p class="workout-info"><i class="fas fa-utensils"></i> ${event.meal.mealTime} - ${event.meal.calories} Calories</p>
-                                            </div>
-                                        </div>
-                                        <div class="buttons">
-                                            <a href="/Calendar/DetailsMeal/${event.meal.eventId}" class="details-btn">🍽 Детайли</a>
-                                        </div>
-                                    `;
+                                <div class="event-workout">
+                                    <img src="${event.meal.imageUrl}" alt="${event.meal.name}" />
+                                    <div class="workout-details">
+                                        <p class="workout-name">${event.meal.name}</p>
+                                        <p class="workout-info"><i class="fas fa-utensils"></i> ${event.meal.mealTime} - ${event.meal.calories} Calories</p>
+                                    </div>
+                                </div>
+                                <div class="buttons">
+                                    <a href="/Calendar/DetailsMeal/${event.meal.eventId}" class="details-btn">🍽 Детайли</a>
+                                </div>
+                            `;
+                            eventHtml += `
+                                <button class="checkmark-btn" onclick="markMealCompleted(${calendarId}, '${event.meal.id}')">✓</button>
+                            `;
                         }
 
-                        eventHtml += `
-                                    <button class="checkmark-btn" onclick="markEventCompleted(${calendarId}, '${event.workout ? event.workout.id : ''}', '${event.meal ? event.meal.id : ''}')">✓</button>
-                                </div>`;
+                        eventHtml += `</div>`;
                         events += eventHtml;
                     });
                 }
@@ -926,7 +930,7 @@
             console.log("Combined eventsArr:", eventsArr);
         }
 
-        function markEventCompleted(calendarId, workoutId, mealId) {
+        function markWorkoutCompleted(calendarId, workoutId) {
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = '/Calendar/MarkEventCompleted';
@@ -940,13 +944,37 @@
             const workoutInput = document.createElement('input');
             workoutInput.type = 'hidden';
             workoutInput.name = 'workoutId';
-            workoutInput.value = workoutId || '';
+            workoutInput.value = workoutId;
             form.appendChild(workoutInput);
+
+            const token = document.querySelector('input[name="__RequestVerificationToken"]');
+            if (token) {
+                const tokenInput = document.createElement('input');
+                tokenInput.type = 'hidden';
+                tokenInput.name = '__RequestVerificationToken';
+                tokenInput.value = token.value;
+                form.appendChild(tokenInput);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        function markMealCompleted(calendarId, mealId) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/Calendar/MarkMealCompleted';
+
+            const calendarInput = document.createElement('input');
+            calendarInput.type = 'hidden';
+            calendarInput.name = 'calendarId';
+            calendarInput.value = calendarId;
+            form.appendChild(calendarInput);
 
             const mealInput = document.createElement('input');
             mealInput.type = 'hidden';
             mealInput.name = 'mealId';
-            mealInput.value = mealId || '';
+            mealInput.value = mealId;
             form.appendChild(mealInput);
 
             const token = document.querySelector('input[name="__RequestVerificationToken"]');

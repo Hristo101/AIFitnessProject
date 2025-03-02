@@ -58,7 +58,13 @@ namespace AIFitnessProject.Controllers
 
             return View(model);
         }
+        [HttpGet]
+        public async Task<IActionResult> MyTrainer()
+        {
+            var model = await accountService.GetViewModelForMyTrainer(GetUserId());
 
+            return View(model);
+        }
         [HttpGet]
         public async Task<IActionResult> Login()
         {

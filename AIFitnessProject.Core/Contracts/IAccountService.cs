@@ -11,6 +11,7 @@ namespace AIFitnessProject.Core.Contracts
     public interface IAccountService
     {
         Task<MyProfileViewModel> GetMoldelForMyProfile(string id, bool isInRole);
+        Task<MyTrainerViewModel> GetViewModelForMyTrainer(string userId);
         Task<ICollection<AllUsersViewModel>> GetAllUsers(string userId);
         Task<ICollection<AllUsersViewModel>> GetAllDietitianClients(string userId);
         Task<EditProfileViewModel> Edit(string id);

@@ -1,0 +1,196 @@
+﻿@using AIFitnessProject.Core.Models.Account
+@model MyTrainerViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainer Profile - @Model.FirstName @Model.LastName</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {  
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f8f9fa; /* Лек фон за по-добър контраст */
+        }
+
+        .card {
+            --main-color: #212529;
+            --submain-color: #78858F;
+            --bg-color: #fff;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            position: relative;
+            width: 300px;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 20px;
+            background: var(--bg-color);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Леко по-голям сянка при ховър */
+            }
+
+        .card__img {
+            height: 192px;
+            width: 100%;
+            position: relative;
+        }
+
+            .card__img svg {
+                height: 100%;
+                width: 100%;
+                border-radius: 20px 20px 0 0;
+            }
+
+        .card__avatar {
+            position: absolute;
+            width: 114px;
+            height: 114px;
+            background: var(--bg-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 140px; /* Променена позиция, за да не покрива текста */
+            border: 4px solid var(--bg-color);
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Лека сянка за по-добър изглед */
+        }
+
+            .card__avatar:hover {
+                transform: scale(1.05);
+            }
+
+            .card__avatar img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+        .card__title {
+            margin-top: 113px;
+            font-weight: 600;
+            font-size: 20px; /* Леко увеличен шрифт */
+            color: var(--main-color);
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        .card__subtitle {
+            margin-top: 10px;
+            font-weight: 400;
+            font-size: 16px; /* Леко увеличен шрифт */
+            color: var(--submain-color);
+            text-align: center;
+        }
+
+        .card__details {
+            margin-top: 15px;
+            padding: 0 20px;
+            text-align: center;
+            font-size: 14px;
+            color: var(--main-color);
+        }
+
+            .card__details span {
+                display: block;
+                margin: 5px 0;
+                font-weight: 400;
+            }
+
+        .card__wrapper {
+            margin-top: 25px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .card__btn {
+            width: 100px;
+            height: 35px;
+            border: 2px solid var(--main-color);
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--main-color);
+            background: var(--bg-color);
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card__btn-solid {
+            background: var(--main-color);
+            color: var(--bg-color);
+        }
+
+        .card__btn:hover {
+            background: var(--main-color);
+            color: var(--bg-color);
+            transform: translateY(-2px); /* Леко вдигане при ховър */
+        }
+
+        .card__btn-solid:hover {
+            background: var(--bg-color);
+            color: var(--main-color);
+            transform: translateY(-2px); /* Леко вдигане при ховър */
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card__img">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                <rect fill="#f8f9fa" width="100%" height="100%"></rect>
+                <defs>
+                    <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="100%">
+                        <stop offset="0" stop-color="#adb5bd"></stop>
+                        <stop offset="1" stop-color="#dee2e6"></stop>
+                    </linearGradient>
+                    <pattern id="pattern" patternUnits="userSpaceOnUse" width="50" height="50" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="20" fill="rgba(173, 181, 189, 0.3)"></circle>
+                        <circle cx="25" cy="25" r="10" fill="rgba(222, 226, 230, 0.4)"></circle>
+                    </pattern>
+                </defs>
+                <rect x="0" y="0" fill="url(#gradient)" width="100%" height="100%"></rect>
+                <rect x="0" y="0" fill="url(#pattern)" width="100%" height="100%"></rect>
+            </svg>
+        </div>
+        <div class="card__avatar">
+            @if (Model.ProfilePicture.StartsWith("http") || Model.ProfilePicture.StartsWith("/img"))
+            {
+                <img src="@Model.ProfilePicture" alt="Profile Picture">
+            }
+            else
+            {
+                <img src="data:image/jpeg;base64,@Model.ProfilePicture" alt="Profile Picture">
+            }
+        </div>
+        <div class="card__title">@Model.FirstName @Model.LastName</div>
+        <div class="card__subtitle">@Model.Specialization</div>
+        <div class="card__details">
+            <span>Email: @Model.Email</span>
+            <span>Experience: @Model.Expirience years</span>
+        </div>
+        <div class="card__wrapper">
+            <button class="card__btn">Детайли</button>
+            <button class="card__btn card__btn-solid">Остави мнение</button>
+        </div>
+    </div>
+</body>
+</html>

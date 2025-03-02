@@ -394,8 +394,19 @@ namespace AIFitnessProject.Core.Services
 
             return model;
         }
-    }
+
+        public async Task DeleteMealEvenet(int mealId, int calendarId)
+        {
+            var calendarMeal = await repository.All<CalendarMeal>()
+                    .Where(x => x.MealId == mealId && x.CalendarId == calendarId)
+                    .FirstOrDefaultAsync();
+
+            repository.Delete(calendarMeal);
+            await repository.SaveChangesAsync();
+        }
 
     }
+
+}
 
 

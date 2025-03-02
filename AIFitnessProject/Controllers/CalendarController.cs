@@ -31,6 +31,13 @@ namespace AIFitnessProject.Controllers
 
             return RedirectToAction("UsersCalendar", new { id = GetUserId() });
         }
+        [HttpPost]
+        public async Task<IActionResult> MarkMealCompleted(int mealId, int calendarId)
+        {
+            await calendarService.DeleteMealEvenet(mealId, calendarId);
+
+            return RedirectToAction("UsersCalendar", new { id = GetUserId() });
+        }
         [HttpGet]
         public async Task<IActionResult> UsersCalendar(string Id)
         {

@@ -42,7 +42,7 @@ namespace AIFitnessProject.Core.Services
             }
         }
 
-        //[Post]
+
         public async Task<ApplicationUser> ChangeInformation(string id, EditProfileViewModel model)
         {
 
@@ -72,7 +72,7 @@ namespace AIFitnessProject.Core.Services
 
             return user;
         }
-        //[Get]
+
         public async Task<EditProfileViewModel> Edit(string id)
         {
            var model = await repository.AllAsReadOnly<ApplicationUser>().Where(x => x.Id == id).Select(x => new EditProfileViewModel()
@@ -182,5 +182,28 @@ namespace AIFitnessProject.Core.Services
             return model;
         }
 
+        public async Task<MyTrainerViewModel> GetViewModelForMyTrainer(string userId)
+        {
+            var trainingPlan = await repository.AllAsReadOnly<TrainingPlan>()
+                 .Where(x => x.UserId == userId)
+                 .FirstOrDefaultAsync();
+
+            var trainer = await repository.AllAsReadOnly<Trainer>()
+                .Where(x =>x.Id == trainingPlan.CreatedById)
+                .Include(x =>x.User)
+                .FirstOrDefaultAsync();
+
+            MyTrainerViewModel model = new MyTrainerViewModel()
+            {
+                Email = trainer.User.Email,
+                FirstName = trainer.User.FirstName,
+                LastName = trainer.User.LastName,
+                Expirience = trainer.Experience,
+                ProfilePicture = trainer.User.ProfilePicture,
+                Specialization = trainer.Specialization,
+            };
+
+            return model;
+        }
     }
 }
