@@ -1231,6 +1231,7 @@
             selectedWorkoutInfo = document.querySelector(".selected-workout-info");
 
         const calendarId = @Model.CalendarId;
+        const userId = '@Model.UserId'; // Added UserId from model
         let today = new Date();
         let activeDay;
         let month = today.getMonth();
@@ -1345,7 +1346,7 @@
                     updateEvents(Number(e.target.innerHTML));
                     activeDay = Number(e.target.innerHTML);
                     days.forEach((day) => day.classList.remove("active"));
-                    
+
                     if (e.target.classList.contains("prev-date")) {
                         prevMonth();
                         setTimeout(() => {
@@ -1415,49 +1416,85 @@
                 if (date === eventObj.day && month + 1 === eventObj.month && year === eventObj.year) {
                     eventObj.events.forEach((event, index) => {
                         events += `<div class="event" data-day="${eventObj.day}" data-month="${eventObj.month}" data-year="${eventObj.year}" data-index="${index}" data-workout-id="${event.workout ? event.workout.id : ''}">
-                            <div class="title">
-                                <i class="fas fa-circle"></i>
-                                <h3 class="event-title">${event.title}</h3>
-                            </div>
-                            <div class="event-time">
-                                <span class="event-time">${event.time}</span>
-                            </div>
-                            ${event.workout ? `
-                                <div class="event-workout">
-                                    <img src="${event.workout.imageUrl}" alt="${event.workout.name}" />
-                                    <div class="workout-details">
-                                        <p class="workout-name">${event.workout.name}</p>
-                                        <p class="workout-info"><i class="fas fa-dumbbell"></i> ${event.workout.muscleGroup} - ${event.workout.exerciseCount} Exercises</p>
+                                    <div class="title">
+                                        <i class="fas fa-circle"></i>
+                                        <h3 class="event-title">${event.title}</h3>
                                     </div>
-                                </div>
-                            ` : ''}
-                            <button class="delete-btn" onclick="confirmDelete(${calendarId}, '${event.workout ? event.workout.id : ''}', ${eventObj.day}, ${eventObj.month}, ${eventObj.year}, ${index})">Delete</button>
-                        </div>`;
+                                    <div class="event-time">
+                                        <span class="event-time">${event.time}</span>
+                                    </div>
+                                    ${event.workout ? `
+                                        <div class="event-workout">
+                                            <img src="${event.workout.imageUrl}" alt="${event.workout.name}" />
+                                            <div class="workout-details">
+                                                <p class="workout-name">${event.workout.name}</p>
+                                                <p class="workout-info"><i class="fas fa-dumbbell"></i> ${event.workout.muscleGroup} - ${event.workout.exerciseCount} Exercises</p>
+                                            </div>
+                                        </div>
+                                    ` : ''}
+                                    <button class="delete-btn" onclick="confirmDelete(${calendarId}, '${event.workout ? event.workout.id : ''}', '${userId}', ${eventObj.day}, ${eventObj.month}, ${eventObj.year}, ${index})">Delete</button>
+                                </div>`;
                     });
                 }
             });
             eventsContainer.innerHTML = events || `<div class="no-event"><h3>No Events</h3></div>`;
         }
 
-        function confirmDelete(calendarId, workoutId, day, month, year, index) {
+        function confirmDelete(calendarId, workoutId, userId, day, month, year, index) {
             if (confirm("Сигурни ли сте, че искате да изтриете това събитие?")) {
-                if (workoutId) {
-                    window.location.href = `/Trainer/Calendar/Delete?calendarId=${calendarId}&workoutId=${workoutId}`;
+                deleteEvent(calendarId, workoutId, userId, day, month, year, index);
+            }
+        }
+
+        function deleteEvent(calendarId, workoutId, userId, day, month, year, index) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/Trainer/Calendar/Delete';
+
+            const calendarInput = document.createElement('input');
+            calendarInput.type = 'hidden';
+            calendarInput.name = 'calendarId';
+            calendarInput.value = calendarId;
+            form.appendChild(calendarInput);
+
+            const workoutInput = document.createElement('input');
+            workoutInput.type = 'hidden';
+            workoutInput.name = 'workoutId';
+            workoutInput.value = workoutId;
+            form.appendChild(workoutInput);
+
+            const userInput = document.createElement('input');
+            userInput.type = 'hidden';
+            userInput.name = 'userId';
+            userInput.value = userId;
+            form.appendChild(userInput);
+
+            const token = document.querySelector('input[name="__RequestVerificationToken"]');
+            if (token) {
+                const tokenInput = document.createElement('input');
+                tokenInput.type = 'hidden';
+                tokenInput.name = '__RequestVerificationToken';
+                tokenInput.value = token.value;
+                form.appendChild(tokenInput);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+
+            // Client-side update (will be refreshed by server redirect, but keeping for immediate feedback)
+            const eventObj = eventsArr.find(e =>
+                e.day === day && e.month === month && e.year === year
+            );
+            if (eventObj) {
+                eventObj.events.splice(index, 1);
+                if (eventObj.events.length === 0) {
+                    const arrIndex = eventsArr.indexOf(eventObj);
+                    eventsArr.splice(arrIndex, 1);
                 }
-                const eventObj = eventsArr.find(e => 
-                    e.day === day && e.month === month && e.year === year
-                );
-                if (eventObj) {
-                    eventObj.events.splice(index, 1);
-                    if (eventObj.events.length === 0) {
-                        const arrIndex = eventsArr.indexOf(eventObj);
-                        eventsArr.splice(arrIndex, 1);
-                    }
-                    updateEvents(activeDay);
-                    const activeDayEl = document.querySelector(".day.active");
-                    if (activeDayEl && eventsArr.every(e => e.day !== day || e.month !== month || e.year !== year)) {
-                        activeDayEl.classList.remove("event");
-                    }
+                updateEvents(activeDay);
+                const activeDayEl = document.querySelector(".day.active");
+                if (activeDayEl && eventsArr.every(e => e.day !== day || e.month !== month || e.year !== year)) {
+                    activeDayEl.classList.remove("event");
                 }
             }
         }
@@ -1475,9 +1512,9 @@
         });
 
         document.addEventListener("click", (e) => {
-            if (e.target !== addEventBtn && 
+            if (e.target !== addEventBtn &&
                 e.target !== attachWorkoutBtn &&
-                !addEventWrapper.contains(e.target) && 
+                !addEventWrapper.contains(e.target) &&
                 !workoutsList.contains(e.target)) {
                 addEventWrapper.classList.remove("active");
                 workoutsList.classList.remove("active");
@@ -1514,10 +1551,10 @@
                 workoutItems.forEach(w => w.classList.remove("selected"));
                 workout.classList.add("selected");
                 selectedWorkoutId = parseInt(workout.dataset.workoutId) || null;
-                
+
                 const workoutName = workout.dataset.workoutName;
                 selectedWorkoutInfo.textContent = `Selected: ${workoutName}`;
-                
+
                 setTimeout(() => {
                     workoutsList.classList.remove("active");
                 }, 300);
@@ -1577,14 +1614,14 @@
                 });
 
                 const result = await response.json();
-                
+
                 if (result.success) {
                     const timeFrom = convertTime(eventTimeFrom);
                     const timeTo = convertTime(eventTimeTo);
 
                     let workoutDetails = null;
                     if (selectedWorkoutId) {
-                        const selectedWorkout = Array.from(workoutItems).find(w => 
+                        const selectedWorkout = Array.from(workoutItems).find(w =>
                             parseInt(w.dataset.workoutId) === selectedWorkoutId);
                         workoutDetails = {
                             id: selectedWorkoutId,
@@ -1654,22 +1691,22 @@
                 month = w.Date.Month,
                 year = w.Date.Year,
                 events = new[] {
-                    new {
-                        title = w.Name,
-                        time = (w.StartEventTime != null && w.EndEventTime != null) 
-                            ? $"{w.StartEventTime:hh\\:mm} - {w.EndEventTime:hh\\:mm}"
-                            : "Time not set",
-                        workout = new {
-                            id = w.Id,
-                            name = w.Name,
-                            imageUrl = w.ImageUrl,
-                            exerciseCount = w.ExerciseCount,
-                            muscleGroup = w.MuscleGroup
-                        }
-                    }
+                new {
+                title = w.Name,
+                time = (w.StartEventTime != null && w.EndEventTime != null)
+                ? $"{w.StartEventTime:hh\\:mm} - {w.EndEventTime:hh\\:mm}"
+                : "Time not set",
+                workout = new {
+                id = w.Id,
+                name = w.Name,
+                imageUrl = w.ImageUrl,
+                exerciseCount = w.ExerciseCount,
+                muscleGroup = w.MuscleGroup
+                }
+                }
                 }
             })));
-            
+
             eventsArr.length = 0;
             eventsArr.push(...serverEvents);
         }
