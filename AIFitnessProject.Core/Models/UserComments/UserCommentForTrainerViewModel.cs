@@ -8,6 +8,7 @@ namespace AIFitnessProject.Core.Models.UserComments
 {
     public class UserCommentForTrainerViewModel
     {
+        public int Id { get; set; }
         public int Rating { get; set; }
         public string Content { get; set; }
         public string SenderName { get; set; }

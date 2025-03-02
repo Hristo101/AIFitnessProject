@@ -17,6 +17,8 @@ namespace AIFitnessProject.Core.Services
     {
         private readonly IRepository repository;
 
+
+
         public TrainerService(IRepository _repository)
         {
             repository = _repository;
@@ -101,6 +103,7 @@ namespace AIFitnessProject.Core.Services
                 Email = trainer.User.Email,
                 Comments = comments.Select(c => new UserCommentForTrainerViewModel
                 {
+                    Id = c.Id,
                     Rating = c.Rating,
                     Content = c.Content,
                     IsMine = c.SenderId == userId,
