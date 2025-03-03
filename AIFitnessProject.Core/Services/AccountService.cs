@@ -182,6 +182,31 @@ namespace AIFitnessProject.Core.Services
             return model;
         }
 
+        public async Task<MyDietitianViewModel> GetViewModelForMyDietitian(string userId)
+        {
+            var diet = await repository.AllAsReadOnly<Diet>()
+                .Where(x => x.UserId == userId)
+                .FirstOrDefaultAsync();
+
+            var dietitian = await repository.AllAsReadOnly<Dietitian>()
+                .Where(x => x.Id == diet.CreatedById)
+                .Include(x => x.User)
+                .FirstOrDefaultAsync();
+
+            MyDietitianViewModel model = new MyDietitianViewModel()
+            {
+                DietitianId = dietitian.Id,
+                Email = dietitian.User.Email,
+                FirstName = dietitian.User.FirstName,
+                LastName = dietitian.User.LastName,
+                Expirience = dietitian.Experience,
+                ProfilePicture = dietitian.User.ProfilePicture,
+                Specialization = dietitian.Specialization,
+            };
+
+            return model;
+        }
+
         public async Task<MyTrainerViewModel> GetViewModelForMyTrainer(string userId)
         {
             var trainingPlan = await repository.AllAsReadOnly<TrainingPlan>()

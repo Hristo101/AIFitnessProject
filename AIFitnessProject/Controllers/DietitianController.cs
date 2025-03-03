@@ -2,6 +2,7 @@
 using AIFitnessProject.Core.Models.Dietitian;
 using AIFitnessProject.Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AIFitnessProject.Controllers
 {
@@ -26,7 +27,13 @@ namespace AIFitnessProject.Controllers
 
             return View(models);
         }
+        [HttpGet]
+        public async Task<IActionResult> DetailsDietitianForUser(int id)
+        {
+            var model = await dietitianService.GetDetailsDietitianViewModelForUser(id, GetUserId());
 
+            return View(model);
+        }
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
@@ -40,6 +47,11 @@ namespace AIFitnessProject.Controllers
 
             return View(model);
            
+        }
+
+        private string GetUserId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
     }

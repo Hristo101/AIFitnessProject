@@ -12,6 +12,7 @@ namespace AIFitnessProject.Core.Contracts
     {
         Task<MyProfileViewModel> GetMoldelForMyProfile(string id, bool isInRole);
         Task<MyTrainerViewModel> GetViewModelForMyTrainer(string userId);
+        Task<MyDietitianViewModel> GetViewModelForMyDietitian(string userId);
         Task<ICollection<AllUsersViewModel>> GetAllUsers(string userId);
         Task<ICollection<AllUsersViewModel>> GetAllDietitianClients(string userId);
         Task<EditProfileViewModel> Edit(string id);
