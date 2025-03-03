@@ -431,7 +431,7 @@ namespace AIFitnessProject.Core.Services
         public async Task<EditWorkoutViewModel> GetViewModelForEdit(int id,int trainingPlanId)
         {
             var model = await repository.AllAsReadOnly<TrainingPlanWorkout>()
-                .Where(x =>x.WorkoutId == id && x.TrainingPlanId == trainingPlanId)
+                .Where(x =>x.WorkoutId == id)
                 .Include(x=>x.Workout)
                 .Select(x => new EditWorkoutViewModel
                 {
