@@ -544,10 +544,10 @@
                         {
                             <div class="comment-actions">
                                 <button class="action-btn edit-btn" onclick="editComment(@comment.Id)" title="Редактирай">✏️</button>
-                                <form action="/Comment/DeleteComment" method="post" style="display:inline;" onsubmit="return confirmDelete();">
+                                <form action="/Comment/DeleteCommentForDietitian" method="post" style="display:inline;" onsubmit="return confirmDelete();">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="commentId" value="@comment.Id">
-                                    <input type="hidden" name="trainerId" value="@Model.DietitianId">
+                                    <input type="hidden" name="dietitianId" value="@Model.DietitianId">
                                     <button type="submit" class="action-btn delete-btn" title="Изтрий">🗑️</button>
                                 </form>
                             </div>
