@@ -643,9 +643,9 @@
                         <button type="submit" class="action-btn" style="background: linear-gradient(45deg, #2A2D72, #434190);">Създай храна</button>
                     </form>
 
-                    <form id="attachExercisesForm" asp-action="AddNewExercisesToWorkout" asp-area="Trainer" asp-controller="Workout" method="post">
-                        <input type="hidden" name="workoutId" value="@Model.Id" />
-                        <input type="hidden" name="exerciseIds" id="exerciseIds" />
+                    <form id="attachExercisesForm" asp-action="AddNewMealToDailyDietPlan" asp-area="Dietitian" asp-controller="DailyDietPlan" method="post">
+                        <input type="hidden" name="dailyDietPlanId" value="@Model.Id" />
+                        <input type="hidden" name="mealsIds" id="exerciseIds" />
                         <input type="hidden" name="userId" value="@Model.UserId" />
                         <button type="submit" class="action-btn" id="attachBtn" style="background: linear-gradient(45deg, #4FD1C5, #38B2AC);" disabled onclick="attachExercises()">Прикачи храна</button>
                     </form>

@@ -1,8 +1,6 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.DailyDietPlan;
-using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
-using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -62,6 +60,22 @@ namespace AIFitnessProject.Core.Services
             }
 
             await repository.SaveChangesAsync();
+        }
+
+        public async Task AttachNewMealToDailyDietPlanAsync(int dailyDietPlanId, string mealIds)
+        {
+            var items = mealIds.Split(",").Select(int.Parse).ToList();
+
+            foreach (var item in items)
+            {
+                var mealDailyDietPlan = new MealsDailyDietPlan()
+                {
+                    DailyDietPlansId = dailyDietPlanId,
+                    MealId = item
+                };
+                await repository.AddAsync(mealDailyDietPlan);
+                await repository.SaveChangesAsync();
+            }
         }
 
         public async Task<int> CreateDailyDietPlan(AddDailyDietPlanViewModel model, string userId)

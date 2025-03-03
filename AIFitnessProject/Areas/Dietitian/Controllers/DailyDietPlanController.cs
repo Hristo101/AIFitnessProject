@@ -123,6 +123,15 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             return RedirectToAction("AllUserDailyDietPlans", new { id = userId });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewMealToDailyDietPlan(int dailyDietPlanId, string mealsIds, string userId)
+        {
+            await dailyDietPlanService.AttachNewMealToDailyDietPlanAsync(dailyDietPlanId, mealsIds);
+
+            TempData["Success"] = "Храните бяха успешно прикачени!";
+            return RedirectToAction(nameof(EditDailyDietPlanForDietitian), new { id = dailyDietPlanId, userId = userId });
+        }
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
