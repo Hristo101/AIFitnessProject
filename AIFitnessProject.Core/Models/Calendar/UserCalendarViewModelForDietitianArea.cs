@@ -17,6 +17,7 @@ namespace AIFitnessProject.Core.Models.Calendar
         public List<MealCalendarViewModel> Meals { get; set; }
 
         public List<MealCalendarViewModel> DietMeal { get; set; }
+        public List<WorkoutCalendarViewModel> TrainingPlanWorkouts { get; set; }
 
         public string Email { get; set; }
 

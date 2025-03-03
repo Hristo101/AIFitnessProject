@@ -179,6 +179,7 @@ namespace AIFitnessProject.Core.Services
             var calendar = await repository.AllAsReadOnly< AIFitnessProject.Infrastructure.Data.Models.Calendar> ()
                .Where(c => c.UserId == userId)
                .Include(x => x.CalendarMeals)
+               .Include(c =>c.CalendarWorkouts)
                .Select(c => new
                {
                    c.Id,
@@ -195,7 +196,24 @@ namespace AIFitnessProject.Core.Services
                        cw.DateOnly,
                        cw.StartEventTime,
                        cw.EndEventTime
-                   }).ToList()
+                   }).ToList(),
+                   Workouts = c.CalendarWorkouts.Select(cw => new
+                   {
+                       cw.Workout,
+                       cw.EventId,
+                       cw.WorkoutId,
+                       cw.Workout.Title,
+                       cw.Workout.ImageUrl,
+                       ExerciseCount = cw.Workout.WorkoutsExercises.Count(),
+                       MuscleGroup = cw.Workout.WorkoutsExercises.FirstOrDefault() != null
+                            ? cw.Workout.WorkoutsExercises.First().Exercise.MuscleGroup
+                            : "N/A",
+                       cw.CalendarId,
+                       cw.DateOnly,
+                       cw.StartEventTime,
+                       cw.EndEventTime
+
+                   })
                })
                .FirstOrDefaultAsync();
 
@@ -210,7 +228,20 @@ namespace AIFitnessProject.Core.Services
                 .Distinct()
                 .ToListAsync();
 
-
+         var trainingPlanWorkouts = await repository.AllAsReadOnly<TrainingPlan>()
+        .Where(tp => tp.UserId == userId && tp.IsActive)
+        .SelectMany(tp => tp.TrainingPlanWorkouts)
+        .Select(tpw => new
+        {
+            tpw.WorkoutId,
+            tpw.Workout.Title,
+            tpw.Workout.ImageUrl,
+            ExerciseCount = tpw.Workout.WorkoutsExercises.Count(),
+            MuscleGroup = tpw.Workout.WorkoutsExercises.FirstOrDefault() != null
+                ? tpw.Workout.WorkoutsExercises.First().Exercise.MuscleGroup
+                : "N/A"
+        })
+        .ToListAsync();
 
             var user = await repository.AllAsReadOnly<ApplicationUser>()
                 .Where(x => x.Id == userId)
@@ -255,6 +286,15 @@ namespace AIFitnessProject.Core.Services
                     ImageUrl = tpw.ImageUrl,
                     MealTime = tpw.MealTime,
                     MealCount = meals.Count,
+                }).ToList(),
+                TrainingPlanWorkouts = trainingPlanWorkouts.Select(tpw => new WorkoutCalendarViewModel
+                {
+                    Id = tpw.WorkoutId,
+                    IsMine = false,
+                    Name = tpw.Title,
+                    ImageUrl = tpw.ImageUrl,
+                    ExerciseCount = tpw.ExerciseCount,
+                    MuscleGroup = tpw.MuscleGroup
                 }).ToList()
             };
 
