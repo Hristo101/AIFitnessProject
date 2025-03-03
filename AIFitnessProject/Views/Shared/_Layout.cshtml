@@ -7,10 +7,11 @@
 @{
     var user = await UserManager.GetUserAsync(User);
     bool hasCalendar = false;
-
+    bool hasCalendar2 = false;
     if (user != null)
     {
         hasCalendar = DbContext.TrainingPlans.Any(tp => tp.UserId == user.Id && tp.IsInCalendar);
+        hasCalendar2 = DbContext.Diets.Any(tp => tp.UserId == user.Id && tp.IsInCalendar);
     }
 }
 
@@ -156,7 +157,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" asp-area="" asp-controller="Account" asp-action="MyProfile"><i class="fa fa-envelope"></i>Моят Профил</a>
                                 </li>
-                                @if (hasCalendar)
+                                @if (hasCalendar || hasCalendar2)
                                 {
                                     <li class="nav-item">
                                         <a class="nav-link" asp-area="" asp-route-id="@user.Id" asp-controller="Calendar" asp-action="UsersCalendar"><i class="fa fa-calendar"></i> Календар</a>

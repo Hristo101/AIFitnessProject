@@ -1621,7 +1621,7 @@
                             id: selectedWorkoutId,
                             name: selectedWorkout.dataset.workoutName,
                             imageUrl: selectedWorkout.dataset.workoutImage,
-                            calories: selectedWorkout.dataset.workoutExercises, // Предполагам, че това са калориите
+                            calories: selectedWorkout.dataset.workoutExercises,
                             muscleGroup: selectedWorkout.dataset.workoutMuscle
                         };
                     }
@@ -1640,7 +1640,7 @@
                             item.year === year
                         ) {
                             item.events.push(newEvent);
-                            item.eventId = result.eventId; // Актуализираме eventId
+                            item.eventId = result.eventId; 
                             eventAdded = true;
                         }
                     });

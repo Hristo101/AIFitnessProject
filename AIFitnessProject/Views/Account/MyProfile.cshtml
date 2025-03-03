@@ -1,6 +1,21 @@
 ﻿@using AIFitnessProject.Core.Models.Account
+@using AIFitnessProject.Infrastructure.Data
+@using AIFitnessProject.Infrastructure.Data.Models
+@using Microsoft.AspNetCore.Identity
 @model MyProfileViewModel
+@inject UserManager<ApplicationUser> UserManager
+@inject ApplicationDbContext DbContext
 
+@{
+    var user = await UserManager.GetUserAsync(User);
+    bool hasTrainer = false;
+    bool hasDietitian = false;
+    if (user != null)
+    {
+        hasTrainer = DbContext.TrainingPlans.Any(tp => tp.UserId == user.Id);
+        hasDietitian = DbContext.Diets.Any(tp => tp.UserId == user.Id);
+    }
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,8 +56,14 @@
                 <a asp-controller="Account" asp-action="Edit" asp-route-Id="@Model.Id" class="button">Редактиране на информацията ✏️</a>
                 <a asp-controller="UserTrainingPlan" asp-action="AllMyTrainingPlans" class="button">Тренировъчни планове 🏋️</a>
                 <a asp-controller="UserDiet" asp-action="MyDiet" class="button">Хранителни режими 🥗</a>
-                <a asp-controller="Account" asp-action="MyTrainer" class="button">Моят треньор 🧑‍🏋️</a>
-                <a asp-controller="Account" asp-action="MyDietitian" class="button">Моят диетолог 🧑‍🥗</a>
+                @if(hasTrainer)
+                {
+                    <a asp-controller="Account" asp-action="MyTrainer" class="button">Моят треньор 🧑‍🏋️</a>
+                }
+                @if(hasDietitian)
+                {
+                    <a asp-controller="Account" asp-action="MyDietitian" class="button">Моят диетолог 🧑‍🥗</a>
+                }
             }
             else if (User.IsInRole("Trainer") == true)
             {

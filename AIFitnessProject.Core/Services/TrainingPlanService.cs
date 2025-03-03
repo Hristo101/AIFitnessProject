@@ -469,7 +469,7 @@ namespace AIFitnessProject.Core.Services
 
             if (existingCalendar != null)
             {
-                if (existingCalendar.TrainerId != null || existingCalendar.TrainerId != 0)
+                if(existingCalendar.DietitianId != null || existingCalendar.DietitianId != 0)
                 {
                     existingCalendar.TrainerId = trainingPlan.CreatedById;
                     await repository.SaveChangesAsync();
