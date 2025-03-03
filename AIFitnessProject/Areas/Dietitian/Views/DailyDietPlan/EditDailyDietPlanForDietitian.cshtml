@@ -633,7 +633,7 @@
                 </div>
                 <div class="modal-footer" style="background: #f9fbff; border-radius: 0 0 20px 20px;">
                     <form asp-action="AddFromEditDailyDietPlan" asp-area="Dietitian" asp-controller="Meal" method="get">
-                        <input type="hidden" name="dailyDietPlanId" value="@Model.Id" />
+                        <input type="hidden" name="id" value="@Model.Id" />
                         <input type="hidden" name="userId" value="@Model.UserId" />
                         <button type="submit" class="action-btn" style="background: linear-gradient(45deg, #2A2D72, #434190);">Създай храна</button>
                     </form>
