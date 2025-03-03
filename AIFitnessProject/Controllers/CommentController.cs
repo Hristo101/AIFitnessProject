@@ -23,6 +23,14 @@ namespace AIFitnessProject.Controllers
 
             return RedirectToAction("DetailsTrainerForUser", "Trainer", new {id=trainerId});
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCommentForDietitian(string senderId, int dietitianId, string content, int rating)
+        {
+            await commentService.AddNewCommentForDietitian(senderId, dietitianId, content, rating);
+
+            return RedirectToAction("DetailsDietitianForUser", "Dietitian", new { id = dietitianId });
+        }
         [HttpPost]
         public async Task<IActionResult> EditComment(int commentId,int trainerId, string content, int rating)
         {

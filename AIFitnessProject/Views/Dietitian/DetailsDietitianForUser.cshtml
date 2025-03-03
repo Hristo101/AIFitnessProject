@@ -495,7 +495,7 @@
             </div>
 
             <!-- Форма за добавяне/редактиране на коментар -->
-            <form class="comment-form" id="commentForm" action="/Comment/AddComment" method="post">
+            <form class="comment-form" id="commentForm" action="/Comment/AddCommentForDietitian" method="post">
                 @Html.AntiForgeryToken()
                 <div class="rating-stars">
                     <div class="rating">
@@ -512,7 +512,7 @@
                     </div>
                 </div>
                 <input type="hidden" name="senderId" value="@Model.UserId">
-                <input type="hidden" name="trainerId" value="@Model.DietitianId">
+                <input type="hidden" name="dietitianId" value="@Model.DietitianId">
                 <input type="hidden" name="commentId" id="commentId">
                 <textarea class="comment-textarea" name="content" placeholder="Сподели своя опит..." required></textarea>
                 <button type="submit" class="submit-btn">Запази</button>
@@ -568,7 +568,7 @@
     <script>
         function showAddCommentForm() {
             const form = document.getElementById('commentForm');
-            form.action = '/Comment/AddComment';
+            form.action = '/Comment/AddCommentForDietitian';
             form.querySelector('.comment-textarea').value = '';
             document.getElementById('commentId').value = '';
             const stars = form.querySelectorAll('.star-input');

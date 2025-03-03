@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace AIFitnessProject.Core.Services
 {
     public class CommentService : ICommentService
@@ -36,6 +37,25 @@ namespace AIFitnessProject.Core.Services
             
             await repository.AddAsync(comment);
             await repository.SaveChangesAsync();    
+        }
+
+        public async Task AddNewCommentForDietitian(string senderId, int dietitianId, string content, int rating)
+        {
+            var dietitian = await repository.AllAsReadOnly<Dietitian>()
+               .Where(x => x.Id == dietitianId)
+               .FirstOrDefaultAsync();
+
+
+            var comment = new UserComment()
+            {
+                SenderId = senderId,
+                ReceiverId = dietitian.UserId,
+                Content = content,
+                Rating = rating
+            };
+
+            await repository.AddAsync(comment);
+            await repository.SaveChangesAsync();
         }
 
         public async Task DeleteComment(int commentId)
