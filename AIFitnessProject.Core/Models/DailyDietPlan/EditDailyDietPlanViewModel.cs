@@ -8,11 +8,11 @@ namespace AIFitnessProject.Core.Models.DailyDietPlan
    
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Името е задължително.")]
+        [Required(ErrorMessage = "Заглавието е задължително.")]
         [StringLength(MaxTitleLength, MinimumLength = MinTitleLength, ErrorMessage = "Заглавието трябва да е между {2} и {1} символа.")]
         public string Title { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Описанието е задължително.")]
+        [Required(ErrorMessage = "Денят от седмицата е задължителен.")]
         [StringLength(MaxDayOfWeekLength, MinimumLength = MinDayOfWeekLength, ErrorMessage = "Деня от седмицата трябва да е между {2} и {1} символа.")]
         public string DayOfWeek { get; set; } = string.Empty;
 

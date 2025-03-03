@@ -1,12 +1,11 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.DailyDietPlan;
-using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
-using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace AIFitnessProject.Core.Services
 {
@@ -64,6 +63,22 @@ namespace AIFitnessProject.Core.Services
             await repository.SaveChangesAsync();
         }
 
+        public async Task AttachNewMealToDailyDietPlanAsync(int dailyDietPlanId, string mealIds)
+        {
+            var items = mealIds.Split(",").Select(int.Parse).ToList();
+
+            foreach (var item in items)
+            {
+                var mealDailyDietPlan = new MealsDailyDietPlan()
+                {
+                    DailyDietPlansId = dailyDietPlanId,
+                    MealId = item
+                };
+                await repository.AddAsync(mealDailyDietPlan);
+                await repository.SaveChangesAsync();
+            }
+        }
+
         public async Task<int> CreateDailyDietPlan(AddDailyDietPlanViewModel model, string userId)
         {
             var dietitian = await repository.AllAsReadOnly<Dietitian>()
@@ -118,6 +133,26 @@ namespace AIFitnessProject.Core.Services
             return model.DietId;
         }
 
+        public async Task DeleteDailyDietPlanForDietitian(int id, int dietId)
+        {
+            var dietDailyDietPlan = await repository.All<DietDailyDietPlan>()
+                .Where(x => x.DailyDietPlanId == id && x.DietId == dietId)
+                .FirstOrDefaultAsync();
+
+            repository.Delete(dietDailyDietPlan);
+            await repository.SaveChangesAsync();
+        }
+
+        public async Task DeleteMeal(int dailyDietPlanId, int mealId)
+        {
+            var modelForDelete = await repository.All<MealsDailyDietPlan>()
+            .Where(x => x.DailyDietPlansId == dailyDietPlanId && x.MealId == mealId)
+               .FirstOrDefaultAsync();
+
+            repository.Delete(modelForDelete);
+            await repository.SaveChangesAsync();
+        }
+
         public async Task EditAsync(int id, EditDailyDietPlanViewModel model)
         {
             var dailyDietPlan = await repository.All<DailyDietPlan>()
@@ -152,6 +187,39 @@ namespace AIFitnessProject.Core.Services
 
                 await repository.SaveChangesAsync();
             }
+        }
+
+        public async Task EditDailyDietPlan(int dietId, int dailyDietPlanId, EditDailyDietPlanViewModelForDietitian model)
+        {
+            var dietDailyDietPlan = await repository.All<DietDailyDietPlan>()
+                .Where(x => x.DailyDietPlanId == dailyDietPlanId)
+                .Where(x => x.DietId == dietId)
+                .Include(x => x.Diet)
+                .Include(x => x.DailyDietPlan)
+                .FirstOrDefaultAsync();
+
+            dietDailyDietPlan.DailyDietPlan.Title = model.Title;
+            dietDailyDietPlan.DailyDietPlan.DayOfWeel = model.DayOfWeek;
+            dietDailyDietPlan.DailyDietPlan.DificultyLevel = model.DifficultyLevel;
+            if (model.NewImageUrl != null)
+            {
+                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "img/dailyDietPlan");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.NewImageUrl.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.NewImageUrl.CopyToAsync(fileStream);
+                }
+                dietDailyDietPlan.DailyDietPlan.ImageUrl = "/img/dailyDietPlan/" + uniqueFileName;
+            }
+            await repository.SaveChangesAsync();
         }
 
         public async Task<bool> ExistAsync(int id)

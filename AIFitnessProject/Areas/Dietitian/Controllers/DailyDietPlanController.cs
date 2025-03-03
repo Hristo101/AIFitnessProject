@@ -81,7 +81,20 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             return View(model);
         }
-
+        [HttpPost]
+        public async Task<IActionResult> EditDailyDietPlanForDietitian(int dietId, int dailyDietPlanId, string userId, EditDailyDietPlanViewModelForDietitian model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var oldViewModel = await dailyDietPlanService.GetEditDailyDietPlanViewModelForDietitian(dailyDietPlanId, userId, GetUserId());
+                model.ImageUrl = oldViewModel.ImageUrl;
+                model.AllMeals = oldViewModel.AllMeals;
+                model.Meals = oldViewModel.Meals;
+                return View(model);
+            }
+            await dailyDietPlanService.EditDailyDietPlan(dietId, dailyDietPlanId, model);
+            return RedirectToAction(nameof(AllUserDailyDietPlans), new { id = userId });
+        }
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -115,6 +128,29 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             await dailyDietPlanService.AttachDailyDietPlan(selectedDailyDietPlanIds, dietId);
 
             return RedirectToAction("Details", "Diet", new { id = dietId });
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteDailyDietPlanForDietitian(int id, int dietId, string userId)
+        {
+            await dailyDietPlanService.DeleteDailyDietPlanForDietitian(id, dietId);
+
+            return RedirectToAction("AllUserDailyDietPlans", new { id = userId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewMealToDailyDietPlan(int dailyDietPlanId, string mealsIds, string userId)
+        {
+            await dailyDietPlanService.AttachNewMealToDailyDietPlanAsync(dailyDietPlanId, mealsIds);
+
+            TempData["Success"] = "Храните бяха успешно прикачени!";
+            return RedirectToAction(nameof(EditDailyDietPlanForDietitian), new { id = dailyDietPlanId, userId = userId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteFromDailyDietPlan(int dailyDietPlanId, int mealId, string userId)
+        {
+            await dailyDietPlanService.DeleteMeal(dailyDietPlanId, mealId);
+            return RedirectToAction(nameof(EditDailyDietPlanForDietitian), new { id = dailyDietPlanId, userId = userId });
         }
 
         private string GetUserId()
