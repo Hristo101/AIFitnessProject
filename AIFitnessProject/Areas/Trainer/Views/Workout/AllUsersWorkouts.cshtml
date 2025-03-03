@@ -307,7 +307,7 @@
             </div>
 
             <div class="button-group">
-                @if (workout.IsEdit) 
+                @if (!workout.IsEdit) 
                 {
                     <form asp-action="EditWorkoutForTrainer" asp-controller="Workout" asp-area="Trainer" asp-route-id="@workout.Id" asp-route-id="@workout.UserId" method="get">
                         <input type="hidden" name="id" value="@workout.Id" />

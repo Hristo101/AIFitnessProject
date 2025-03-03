@@ -580,7 +580,8 @@
                                     <a href="@meal.VideoUrl" target="_blank" class="action-btn edit-btn mt-2 d-inline-block">Гледай Видео</a>
                                 }
                                 <div class="buttons mt-3 d-flex gap-3 justify-content-center">
-                                    <button type="button" class="action-btn edit-btn" onclick="editMeal(@meal.Id)">Редактирай</button>
+                                    <a asp-action="UpdateMeal" asp-controller="Meal" asp-area="Dietitian" asp-route-dailyDietPlanId="@Model.Id" asp-route-userId="@Model.UserId" asp-route-mealId="@meal.Id"
+                                       class="action-btn edit-btn">Редактирай</a>
                                     <button type="button" class="action-btn delete-btn" onclick="deleteMeal(@Model.Id, @meal.Id, '@Model.UserId')">Изтрий</button>
                                 </div>
                             </div>
@@ -771,9 +772,9 @@
             return true;
         }
 
-        function editMeal(id) {
-            alert(`Редактиране на храна с ID: ${id}`);
-        }
+        // function editMeal(id) {
+        //     alert(`Редактиране на храна с ID: ${id}`);
+        // }
 
         function deleteMeal(dailyDietPlanId, mealId, userId) {
             if (confirm('Сигурни ли сте, че искате да изтриете тази храна?')) {

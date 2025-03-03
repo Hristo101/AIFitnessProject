@@ -373,6 +373,7 @@ namespace AIFitnessProject.Core.Services
                     VideoUrl = x.VideoUrl,
                     ExistingImageUrl = x.ImageUrl,
                     
+                    
                 })
                 .FirstAsync();
 

@@ -15,6 +15,8 @@ namespace AIFitnessProject.Core.Models.Meal
 
         public int DailyDietPlanId { get; set; }
 
+        public string UserId { get; set; }
+
         [Required(ErrorMessage = "Името е задължително.")]
         [StringLength(MaxNameLength, MinimumLength = MinNameLength, ErrorMessage = "Името трябва да е между {2} и {1} символа.")]
         public string Name { get; set; } = string.Empty;

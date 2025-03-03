@@ -149,12 +149,41 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             if (!ModelState.IsValid)
             {
+                var meal = await mealService.GetMealById(id);
+                model.ExistingImageUrl = meal.ImageUrl;
                 return View(model);
             }
 
             await mealService.EditAsyncFromDailyDietPlan(id, model);
 
             return RedirectToAction(nameof(Details), new { id = model.Id , dailyDietPlanId = dailyDietPlanId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateMeal(int dailyDietPlanId, int mealId, string userId)
+        {
+            var model = await mealService.GetModelFromDailyDiePlanForEdit(mealId, dailyDietPlanId);
+            model.UserId = userId;
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateMeal(EditMealFromDailyDietPlanViewModel model, int mealId, int dailyDietPlanId, string userId)
+        {
+            if (await mealService.ExistAsync(mealId) == false)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var meal = await mealService.GetMealById(mealId);
+                model.ExistingImageUrl = meal.ImageUrl;
+                return View(model);
+            }
+
+            await mealService.EditAsyncFromDailyDietPlan(mealId, model);
+
+            return RedirectToAction("EditDailyDietPlanForDietitian", "DailyDietPlan", new { id = dailyDietPlanId, userId = userId });
         }
         [HttpPost]
         public async Task<IActionResult> SwapMealInDailyDietPlan([FromBody] SwapMealRequest request)
