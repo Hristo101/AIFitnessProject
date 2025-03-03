@@ -446,7 +446,7 @@
                 <i class="fas fa-save me-2"></i>Запази промените
             </button>
             <a asp-action="EditWorkoutForTrainer" asp-controller="Workout" asp-area="Trainer"
-               asp-route-workoutId="@Model.WorkoutId" class="back-btn">
+               asp-route-id="@Model.WorkoutId" asp-route-userId="@Model.UserId" class="back-btn">
                 <i class="fas fa-arrow-left me-2"></i>Назад
             </a>
         </div>

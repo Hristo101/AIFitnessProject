@@ -1,7 +1,4 @@
-﻿@using AIFitnessProject.Core.Models.Exercise
-@model ExerciseViewModel
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="bg" class="h-100">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +11,6 @@
     <link rel="stylesheet" href="~/css/Exercise/DetailsExerciseView.css" />
 </head>
 <body class="d-flex flex-column h-100">
-
 
     <!-- Основно съдържание -->
     <main class="flex-shrink-0">
@@ -34,12 +30,12 @@
                         <div class="video-wrapper">
                             @if (!string.IsNullOrEmpty(Model.VideoUrl))
                             {
-                                var videoId = System.Text.RegularExpressions.Regex.Match(Model.VideoUrl, @"(?:v=|\/)([a-zA-Z0-9_-]{11})").Groups[1].Value;
-                                <iframe src="https://www.youtube.com/embed/@videoId"
-                                        title="Видео демонстрация - @Model.Name"
-                                        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen
-                                        aria-label="Видео демонстрация"></iframe>
+                                <a href="@Model.VideoUrl"
+                                   target="_blank"
+                                   class="btn-video"
+                                   aria-label="Гледай видео демонстрация">
+                                    <i class="fas fa-play me-2"></i>Гледай видео
+                                </a>
                             }
                             else
                             {
@@ -49,7 +45,6 @@
                                 </div>
                             }
                         </div>
-
                     </div>
 
                     <!-- Дясна колона -->
@@ -111,7 +106,7 @@
 
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container text-center">
-            <span class="text-muted">&copy; @DateTime.Now.Year - FITNESS APP</span>
+            <span class="text-muted">© @DateTime.Now.Year - FITNESS APP</span>
         </div>
     </footer>
 
