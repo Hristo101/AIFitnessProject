@@ -6,7 +6,7 @@
     --success-color: #28a745;
     --warning-color: #ffc107;
     --danger-color: #dc3545;
-    --accent-color: #ff6f61; /* Допълнителен акцент */
+    --accent-color: #ff6f61;
     --transition-speed: 0.3s;
 }
 
@@ -31,18 +31,18 @@ body {
     padding: 1rem 2rem;
     display: flex;
     align-items: center;
-    justify-content: center; /* Центриране на заглавието */
+    justify-content: center;
     border-bottom: 3px solid var(--accent-color);
 }
 
 .navbar-brand {
     font-weight: bold;
     font-size: 1.5rem;
-    color: white; /* Бял текст */
+    color: white;
     text-decoration: none;
-    letter-spacing: 2px; /* Леко разтягане на текста */
+    letter-spacing: 2px;
     text-transform: uppercase;
-    background: linear-gradient(45deg, var(--accent-color), white); /* Акцент с градиент */
+    background: linear-gradient(45deg, var(--accent-color), white);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -107,46 +107,32 @@ body {
         filter: brightness(1.05);
     }
 
-/* Видео секция */
 .video-wrapper {
-    position: relative;
-    padding-bottom: 56.25%; /* Съотношение 16:9 */
-    margin: 1rem;
-    border-radius: 15px;
-    overflow: hidden;
-    background: #000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-}
-
-    .video-wrapper:hover {
-        transform: scale(1.02);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    }
-
-    .video-wrapper iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: 0;
-    }
-
-/* Стилизация на плейсхолдъра, ако няма видео */
-.video-placeholder {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
+    margin: 6rem;
     text-align: center;
-    opacity: 0.8;
 }
 
-    .video-placeholder i {
-        font-size: 3rem;
-        margin-bottom: 0.5rem;
+.btn-video {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all var(--transition-speed) ease;
+    border: none;
+}
+
+    .btn-video:hover {
+        background: var(--secondary-color);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-video:active {
+        transform: scale(0.98);
     }
 
 /* Детайли за упражнението */
@@ -295,7 +281,7 @@ body {
         gap: 0.75rem;
     }
 
-    .btn-edit, .btn-back {
+    .btn-edit, .btn-back, .btn-video {
         width: 100%;
         justify-content: center;
     }
@@ -318,8 +304,6 @@ body {
 }
 
 /* Допълнителни визуални ефекти */
-
-/* Градиентен фон за заглавията на секциите */
 .exercise-details h1,
 .detail-item h5 {
     background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
@@ -328,7 +312,7 @@ body {
 }
 
 /* Лек ефект за бутоните при клик */
-.btn-edit:active, .btn-back:active {
+.btn-edit:active, .btn-back:active, .btn-video:active {
     transform: scale(0.98);
 }
 
