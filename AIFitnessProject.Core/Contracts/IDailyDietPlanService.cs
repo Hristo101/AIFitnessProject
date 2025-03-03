@@ -24,5 +24,6 @@ namespace AIFitnessProject.Core.Contracts
         Task<ICollection<MealViewModel>> AllMeal();
         Task DeleteDailyDietPlanForDietitian(int id, int dietId);
         Task AttachNewMealToDailyDietPlanAsync(int dailyDietPlanId, string mealIds);
+        Task EditDailyDietPlan(int dietId, int dailyDietPlanId, EditDailyDietPlanViewModelForDietitian model);
     }
 }

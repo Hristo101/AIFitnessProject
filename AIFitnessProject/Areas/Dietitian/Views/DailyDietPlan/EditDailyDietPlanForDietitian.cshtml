@@ -98,7 +98,7 @@
             margin-top: -1em;
             padding: 0 10px;
             font-size: 0.95rem;
-            color: #2A2D72;
+            color: #38B2AC;
             font-weight: 600;
             letter-spacing: 0.5px;
         }
@@ -488,10 +488,10 @@
         <div class="workout-section">
             <h2 class="workout-title">Редактирай: @Model.Title</h2>
 
-            <form asp-action="Edit" method="post" enctype="multipart/form-data">
-                <input type="hidden" asp-for="Id" />
-                <input type="hidden" asp-for="DietId" />
-                <input type="hidden" asp-for="UserId" />
+            <form asp-action="EditDailyDietPlanForDietitian" asp-area="Dietitian" asp-controller="DailyDietPlan" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="dailyDietPlanId" value="@Model.Id" />
+                <input type="hidden" name="dietId" value="@Model.DietId" />
+                <input type="hidden" name="userId" value="@Model.UserId" />
 
                 <div class="form-group">
                     <label asp-for="Title">Заглавие</label>
@@ -537,7 +537,10 @@
                             </div>
                             <div class="back-side cover"></div>
                         </div>
-                        <label class="custom-file-upload" style=" margin-top: 6em; "> <input type="file" name="image" accept="image/*" onchange="previewImage(this)"> Избери файл </label>
+                        <label class="custom-file-upload" style="margin-top: 6em;">
+                            <input type="file" name="NewImageUrl" accept="image/*" onchange="previewImage(this)">
+                            Избери файл
+                        </label>
                     </div>
                     <div class="image-preview-container">
                         <img id="imagePreview" class="workout-image mt-3" style="display: none; max-width: 100%; max-height: 680px; border-radius: 20px; box-shadow: 0 5px 15px rgba(42,45,114,0.1);" alt="Предварителен преглед" />
@@ -545,19 +548,19 @@
                     </div>
                 </div>
 
-                <h3 class="mt-5 text-center" style="font-size: 2rem; color: #38B2AC;">Упражнения</h3>
-                <div id="exercises" class="row g-4">
+                <h3 class="mt-5 text-center" style="font-size: 2rem; color: #38B2AC;">Храни</h3>
+                <div id="meals" class="row g-4">
                     @foreach (var meal in Model.Meals)
                     {
                         <div class="col-lg-4 col-md-6">
-                            <div class="exercise-card" id="exercise-@meal.Id">
-                                <input type="hidden" name="Exercises[@meal.Id].Id" value="@meal.Id" />
-                                <input type="hidden" name="Exercises[@meal.Id].Name" value="@meal.Name" />
-                                <input type="hidden" name="Exercises[@meal.Id].Recipe" value="@meal.Recipe" />
-                                <input type="hidden" name="Exercises[@meal.Id].MealTime" value="@meal.MealTime" />
-                                <input type="hidden" name="Exercises[@meal.Id].DifficultyLevel" value="@meal.DificultyLevel" />
-                                <input type="hidden" name="Exercises[@meal.Id].Calories" value="@meal.Calories" />
-                                <input type="hidden" name="Exercises[@meal.Id].VideoUrl" value="@meal.VideoUrl" />
+                            <div class="exercise-card" id="meal-@meal.Id">
+                                <input type="hidden" name="Meals[@meal.Id].Id" value="@meal.Id" />
+                                <input type="hidden" name="Meals[@meal.Id].Name" value="@meal.Name" />
+                                <input type="hidden" name="Meals[@meal.Id].Recipe" value="@meal.Recipe" />
+                                <input type="hidden" name="Meals[@meal.Id].MealTime" value="@meal.MealTime" />
+                                <input type="hidden" name="Meals[@meal.Id].DificultyLevel" value="@meal.DificultyLevel" />
+                                <input type="hidden" name="Meals[@meal.Id].Calories" value="@meal.Calories" />
+                                <input type="hidden" name="Meals[@meal.Id].VideoUrl" value="@meal.VideoUrl" />
                                 @if (!string.IsNullOrEmpty(meal.ImageUrl))
                                 {
                                     <img src="@meal.ImageUrl" class="exercise-image mb-3" alt="@meal.Name" />
@@ -569,24 +572,16 @@
                                         <i class="fas fa-chevron-down text-muted"></i>
                                     </a>
                                 </div>
-                       @*          <p style="color: #4B5EAA; line-height: 1.5;">@meal.Recipe</p> *@
                                 <p><strong>Тип хранене:</strong> @meal.MealTime</p>
                                 <p><strong>Ниво:</strong> <span class="difficulty-level @GetDifficultyClass(meal.DificultyLevel)">@meal.DificultyLevel</span></p>
-                                <p><strong>Калории:</strong> @meal.Calories </p>
-                                    @if (!string.IsNullOrEmpty(meal.VideoUrl))
+                                <p><strong>Калории:</strong> @meal.Calories</p>
+                                @if (!string.IsNullOrEmpty(meal.VideoUrl))
                                 {
-                                        <a href="@meal.VideoUrl" target="_blank" class="action-btn edit-btn mt-2 d-inline-block">Гледай Видео</a>
+                                    <a href="@meal.VideoUrl" target="_blank" class="action-btn edit-btn mt-2 d-inline-block">Гледай Видео</a>
                                 }
-
                                 <div class="buttons mt-3 d-flex gap-3 justify-content-center">
-                                        <button type="button" class="action-btn edit-btn" onclick="editExercise(@meal.Id)">Редактирай</button>
-
-                                    <form asp-action="DeleteFromWorkout" asp-area="Trainer" asp-controller="Workout" method="post" onsubmit="return confirmDelete()">
-                                        <input type="hidden" name="workoutId" value="@Model.Id" />
-                                            <input type="hidden" name="exerciseId" value="@meal.Id" />
-                                        <input type="hidden" name="userId" value="@Model.UserId" />
-                                        <button type="submit" class="action-btn delete-btn">Изтрий</button>
-                                    </form>
+                                    <button type="button" class="action-btn edit-btn" onclick="editMeal(@meal.Id)">Редактирай</button>
+                                    <button type="button" class="action-btn delete-btn" onclick="deleteMeal(@Model.Id, @meal.Id, '@Model.UserId')">Изтрий</button>
                                 </div>
                             </div>
                         </div>
@@ -594,7 +589,7 @@
                 </div>
 
                 <div class="mt-5 text-center">
-                    <button type="button" class="action-btn" style="background: linear-gradient(45deg, #2A2D72, #434190); padding: 14px 35px;" onclick="showExerciseListModal()">Добави от списък</button>
+                    <button type="button" class="action-btn" style="background: linear-gradient(45deg, #2A2D72, #434190); padding: 14px 35px;" onclick="showMealListModal()">Добави от списък</button>
                 </div>
 
                 <div class="text-center mt-5">
@@ -605,16 +600,16 @@
     </div>
 
     <!-- Модал за добавяне от списък -->
-    <div class="modal fade" id="exerciseListModal" tabindex="-1" aria-labelledby="exerciseListModalLabel" aria-hidden="true">
+    <div class="modal fade" id="mealListModal" tabindex="-1" aria-labelledby="mealListModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header" style="background: linear-gradient(45deg, #2A2D72, #434190); color: white; border-radius: 20px 20px 0 0;">
-                    <h5 class="modal-title" id="exerciseListModalLabel">Избери храни от списъка</h5>
+                    <h5 class="modal-title" id="mealListModalLabel">Избери храни от списъка</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="filter-group">
-                        <select id="muscleGroupFilter" class="form-control" onchange="applyFilters()">
+                        <select id="mealTimeFilter" class="form-control" onchange="applyFilters()">
                             <option value="">Всички типове хранене</option>
                             <option value="Закуска">Закуска</option>
                             <option value="Обяд">Обяд</option>
@@ -629,7 +624,7 @@
                             <option value="Трудно">Трудно</option>
                         </select>
                     </div>
-                    <div class="row g-4" id="exerciseList"></div>
+                    <div class="row g-4" id="mealList"></div>
                     <div class="pagination">
                         <button class="pagination-btn" onclick="changePage(-1)">Предишна</button>
                         <span class="pagination-info" id="pageInfo"></span>
@@ -637,17 +632,16 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="background: #f9fbff; border-radius: 0 0 20px 20px;">
-                    <form asp-action="AddFromEditDailyDietPlan" asp-area="Dietitian" asp-controller="Meal" asp-route-id="@Model.Id" asp-route-id="@Model.UserId" method="get">
-                        <input type="hidden" name="id" value="@Model.Id" />
+                    <form asp-action="AddFromEditDailyDietPlan" asp-area="Dietitian" asp-controller="Meal" method="get">
+                        <input type="hidden" name="dailyDietPlanId" value="@Model.Id" />
                         <input type="hidden" name="userId" value="@Model.UserId" />
                         <button type="submit" class="action-btn" style="background: linear-gradient(45deg, #2A2D72, #434190);">Създай храна</button>
                     </form>
-
-                    <form id="attachExercisesForm" asp-action="AddNewMealToDailyDietPlan" asp-area="Dietitian" asp-controller="DailyDietPlan" method="post">
+                    <form id="attachMealsForm" asp-action="AddNewMealToDailyDietPlan" asp-area="Dietitian" asp-controller="DailyDietPlan" method="post">
                         <input type="hidden" name="dailyDietPlanId" value="@Model.Id" />
-                        <input type="hidden" name="mealsIds" id="exerciseIds" />
+                        <input type="hidden" name="mealsIds" id="mealIds" />
                         <input type="hidden" name="userId" value="@Model.UserId" />
-                        <button type="submit" class="action-btn" id="attachBtn" style="background: linear-gradient(45deg, #4FD1C5, #38B2AC);" disabled onclick="attachExercises()">Прикачи храна</button>
+                        <button type="submit" class="action-btn" id="attachBtn" style="background: linear-gradient(45deg, #4FD1C5, #38B2AC);" disabled onclick="attachMeals()">Прикачи храни</button>
                     </form>
                 </div>
             </div>
@@ -656,31 +650,16 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script>
-
-        function toggleDescription(button) {
-            const wrapper = button.closest('.recipe-wrapper');
-            const text = wrapper.querySelector('.text-secondary');
-            const icon = button.querySelector('i');
-
-            text.classList.toggle('expanded');
-            icon.classList.toggle('fa-chevron-down');
-            icon.classList.toggle('fa-chevron-up');
-
-            if (text.classList.contains('expanded')) {
-                const card = wrapper.closest('.exercise-card');
-                const cardTop = card.getBoundingClientRect().top;
-                const offset = window.pageYOffset + cardTop - 20;
-                window.scrollTo({ top: offset, behavior: 'smooth' });
-            }
-        }
         let currentPage = 1;
-        const exercisesPerPage = 6;
-        let selectedExercises = [];
-        let filteredExercises = [];
+        const mealsPerPage = 6;
+        let selectedMeals = [];
+        let filteredMeals = [];
 
-        // Предаване на AllExercises от модела към JavaScript
-        const allExercises = @Html.Raw(Json.Serialize(Model.AllMeals));
+        // Предаване на AllMeals от модела към JavaScript
+        const allMeals = @Html.Raw(Json.Serialize(Model.AllMeals));
 
         function previewImage(input) {
             if (input.files && input.files[0]) {
@@ -699,54 +678,59 @@
             $('input[type="file"]').val('');
         }
 
-        function showExerciseListModal() {
+        function showMealListModal() {
             applyFilters();
-            $('#exerciseListModal').modal('show');
+            $('#mealListModal').modal('show');
         }
 
         function applyFilters() {
-            const muscleGroup = $('#muscleGroupFilter').val();
+            const mealTime = $('#mealTimeFilter').val();
             const difficulty = $('#difficultyFilter').val();
 
-            filteredExercises = allExercises.filter(ex => {
-                return (!muscleGroup || ex.mealTime === muscleGroup) &&
-                    (!difficulty || ex.dificultyLevel === difficulty);
+            filteredMeals = allMeals.filter(meal => {
+                return (!mealTime || meal.mealTime === mealTime) &&
+                    (!difficulty || meal.dificultyLevel === difficulty);
             });
 
             currentPage = 1;
-            renderExerciseList();
+            renderMealList();
         }
 
-        function renderExerciseList() {
-            const start = (currentPage - 1) * exercisesPerPage;
-            const end = start + exercisesPerPage;
-            const paginatedExercises = filteredExercises.slice(start, end);
-            const container = $('#exerciseList');
+        function renderMealList() {
+            const start = (currentPage - 1) * mealsPerPage;
+            const end = start + mealsPerPage;
+            const paginatedMeals = filteredMeals.slice(start, end);
+            const container = $('#mealList');
             container.empty();
 
-            if (paginatedExercises.length === 0) {
+            if (paginatedMeals.length === 0) {
                 container.append('<p class="text-center" style="color: #4B5EAA; font-size: 1.2rem;">Няма намерени храни.</p>');
             } else {
-                paginatedExercises.forEach(ex => {
-                    const difficultyClass = getDifficultyClass(ex.dificultyLevel);
-                    const isSelected = selectedExercises.includes(ex.id) ? 'selected' : '';
+                paginatedMeals.forEach(meal => {
+                    const difficultyClass = getDifficultyClass(meal.dificultyLevel);
+                    const isSelected = selectedMeals.includes(meal.id) ? 'selected' : '';
                     container.append(`
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="exercise-card ${isSelected}" data-id="${ex.id}" onclick="toggleExerciseSelection(${ex.id})">
-                                                ${ex.imageUrl ? `<img src="${ex.imageUrl}" class="exercise-image mb-3" alt="${ex.name}" />` : ''}
-                                                <h4 class="exercise-name">${ex.name}</h4>
-                                                <p style="color: #4B5EAA; line-height: 1.5;">${ex.recipe || 'Няма рецепта'}</p>
-                                                <p><strong>Мускулна група:</strong> ${ex.mealTime}</p>
-                                                <p><strong>Ниво:</strong> <span class="difficulty-level ${difficultyClass}">${ex.dificultyLevel}</span></p>
-                                                <p><strong>Коларии:</strong> ${ex.calories}</p>
-                                                ${ex.videoUrl ? `<a href="${ex.videoUrl}" target="_blank" class="action-btn edit-btn mt-2 d-inline-block">Гледай Видео</a>` : ''}
-                                            </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="exercise-card ${isSelected}" data-id="${meal.id}" onclick="toggleMealSelection(${meal.id})">
+                                        ${meal.imageUrl ? `<img src="${meal.imageUrl}" class="exercise-image mb-3" alt="${meal.name}" />` : ''}
+                                        <h4 class="exercise-name">${meal.name}</h4>
+                                        <div class="recipe-wrapper">
+                                            <p class="text-secondary">${meal.recipe || 'Няма рецепта'}</p>
+                                            <a class="expand-button" onclick="toggleDescription(this)">
+                                                <i class="fas fa-chevron-down text-muted"></i>
+                                            </a>
                                         </div>
-                                    `);
+                                        <p><strong>Тип хранене:</strong> ${meal.mealTime}</p>
+                                        <p><strong>Ниво:</strong> <span class="difficulty-level ${difficultyClass}">${meal.dificultyLevel}</span></p>
+                                        <p><strong>Калории:</strong> ${meal.calories}</p>
+                                        ${meal.videoUrl ? `<a href="${meal.videoUrl}" target="_blank" class="action-btn edit-btn mt-2 d-inline-block">Гледай Видео</a>` : ''}
+                                    </div>
+                                </div>
+                            `);
                 });
             }
 
-            const totalPages = Math.ceil(filteredExercises.length / exercisesPerPage);
+            const totalPages = Math.ceil(filteredMeals.length / mealsPerPage);
             $('#pageInfo').text(`Страница ${currentPage} от ${totalPages || 1}`);
             $('.pagination-btn').eq(0).prop('disabled', currentPage === 1);
             $('.pagination-btn').eq(1).prop('disabled', currentPage === totalPages || totalPages === 0);
@@ -763,36 +747,71 @@
 
         function changePage(delta) {
             currentPage += delta;
-            renderExerciseList();
+            renderMealList();
         }
 
-        function toggleExerciseSelection(id) {
-            const index = selectedExercises.indexOf(id);
+        function toggleMealSelection(id) {
+            const index = selectedMeals.indexOf(id);
             if (index === -1) {
-                selectedExercises.push(id);
+                selectedMeals.push(id);
             } else {
-                selectedExercises.splice(index, 1);
+                selectedMeals.splice(index, 1);
             }
-            renderExerciseList();
-            $('#attachBtn').prop('disabled', selectedExercises.length === 0);
+            renderMealList();
+            $('#attachBtn').prop('disabled', selectedMeals.length === 0);
         }
 
-        function attachExercises() {
-            if (selectedExercises.length === 0) {
+        function attachMeals() {
+            if (selectedMeals.length === 0) {
                 alert('Моля, изберете поне една храна за прикачване.');
                 return false;
             }
-            $('#exerciseIds').val(selectedExercises.join(','));
-            $('#exerciseListModal').modal('hide');
+            $('#mealIds').val(selectedMeals.join(','));
+            $('#mealListModal').modal('hide');
             return true;
         }
 
-        function editExercise(id) {
+        function editMeal(id) {
             alert(`Редактиране на храна с ID: ${id}`);
         }
 
-        function confirmDelete() {
-            return confirm('Сигурни ли сте, че искате да изтриете тази храна?');
+        function deleteMeal(dailyDietPlanId, mealId, userId) {
+            if (confirm('Сигурни ли сте, че искате да изтриете тази храна?')) {
+                $.ajax({
+                    url: '/Dietitian/DailyDietPlan/DeleteFromDailyDietPlan',
+                    type: 'POST',
+                    data: {
+                        dailyDietPlanId: dailyDietPlanId,
+                        mealId: mealId,
+                        userId: userId,
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {
+                        $('#meal-' + mealId).parent().remove();
+                        alert('Храната е изтрита успешно!');
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Грешка при изтриване: ' + error);
+                    }
+                });
+            }
+        }
+
+        function toggleDescription(button) {
+            const wrapper = button.closest('.recipe-wrapper');
+            const text = wrapper.querySelector('.text-secondary');
+            const icon = button.querySelector('i');
+
+            text.classList.toggle('expanded');
+            icon.classList.toggle('fa-chevron-down');
+            icon.classList.toggle('fa-chevron-up');
+
+            if (text.classList.contains('expanded')) {
+                const card = wrapper.closest('.exercise-card');
+                const cardTop = card.getBoundingClientRect().top;
+                const offset = window.pageYOffset + cardTop - 20;
+                window.scrollTo({ top: offset, behavior: 'smooth' });
+            }
         }
     </script>
 </body>

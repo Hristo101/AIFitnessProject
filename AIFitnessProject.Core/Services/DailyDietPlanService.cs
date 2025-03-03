@@ -6,6 +6,7 @@ using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace AIFitnessProject.Core.Services
 {
     public class DailyDietPlanService : IDailyDietPlanService
@@ -176,6 +177,39 @@ namespace AIFitnessProject.Core.Services
 
                 await repository.SaveChangesAsync();
             }
+        }
+
+        public async Task EditDailyDietPlan(int dietId, int dailyDietPlanId, EditDailyDietPlanViewModelForDietitian model)
+        {
+            var dietDailyDietPlan = await repository.All<DietDailyDietPlan>()
+                .Where(x => x.DailyDietPlanId == dailyDietPlanId)
+                .Where(x => x.DietId == dietId)
+                .Include(x => x.Diet)
+                .Include(x => x.DailyDietPlan)
+                .FirstOrDefaultAsync();
+
+            dietDailyDietPlan.DailyDietPlan.Title = model.Title;
+            dietDailyDietPlan.DailyDietPlan.DayOfWeel = model.DayOfWeek;
+            dietDailyDietPlan.DailyDietPlan.DificultyLevel = model.DifficultyLevel;
+            if (model.NewImageUrl != null)
+            {
+                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "img/dailyDietPlan");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.NewImageUrl.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.NewImageUrl.CopyToAsync(fileStream);
+                }
+                dietDailyDietPlan.DailyDietPlan.ImageUrl = "/img/dailyDietPlan/" + uniqueFileName;
+            }
+            await repository.SaveChangesAsync();
         }
 
         public async Task<bool> ExistAsync(int id)
