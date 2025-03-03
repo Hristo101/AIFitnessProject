@@ -145,6 +145,14 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             TempData["Success"] = "Храните бяха успешно прикачени!";
             return RedirectToAction(nameof(EditDailyDietPlanForDietitian), new { id = dailyDietPlanId, userId = userId });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteFromDailyDietPlan(int dailyDietPlanId, int mealId, string userId)
+        {
+            await dailyDietPlanService.DeleteMeal(dailyDietPlanId, mealId);
+            return RedirectToAction(nameof(EditDailyDietPlanForDietitian), new { id = dailyDietPlanId, userId = userId });
+        }
+
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
