@@ -118,6 +118,16 @@ namespace AIFitnessProject.Core.Services
             return model.DietId;
         }
 
+        public async Task DeleteDailyDietPlanForDietitian(int id, int dietId)
+        {
+            var dietDailyDietPlan = await repository.All<DietDailyDietPlan>()
+                .Where(x => x.DailyDietPlanId == id && x.DietId == dietId)
+                .FirstOrDefaultAsync();
+
+            repository.Delete(dietDailyDietPlan);
+            await repository.SaveChangesAsync();
+        }
+
         public async Task EditAsync(int id, EditDailyDietPlanViewModel model)
         {
             var dailyDietPlan = await repository.All<DailyDietPlan>()

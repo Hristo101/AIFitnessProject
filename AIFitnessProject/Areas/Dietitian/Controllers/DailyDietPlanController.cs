@@ -116,7 +116,13 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             return RedirectToAction("Details", "Diet", new { id = dietId });
         }
+        [HttpPost]
+        public async Task<IActionResult> DeleteDailyDietPlanForDietitian(int id, int dietId, string userId)
+        {
+            await dailyDietPlanService.DeleteDailyDietPlanForDietitian(id, dietId);
 
+            return RedirectToAction("AllUserDailyDietPlans", new { id = userId });
+        }
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
