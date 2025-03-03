@@ -22,7 +22,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     Id = 1,
                     Name = "Лицеви опори",
                     Description = "Упражнение за гърди, рамене и трицепс.",
-                    ImageUrl = "https://example.com/images/pushups.jpg",
+                    ImageUrl = "https://training.fit/wp-content/uploads/2020/02/liegestuetze.png",
                     VideoUrl = "https://www.youtube.com/watch?v=k11CvzGtRGE",
                     Series = 4,
                     Repetitions = 10,
@@ -98,7 +98,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                 new Exercise
                 {
                     Id = 7,
-                    Name = "Горен скрипец с широк хват",
+                    Name = "Вертикален скрипец с тесен хват",
                     Description = "Упражнение за средната и долната част на гърба.",
                     ImageUrl = "https://www.mybodycreator.com/content/files/2023/05/25/403_M.png",
                     VideoUrl = "https://www.youtube.com/watch?v=LWBxwyp9zJg",
