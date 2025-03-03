@@ -2,13 +2,14 @@
 @model EditExerciseFromWorkoutViewModel
 
 <div class="edit-container">
-    <form asp-action="EditFromWorkout" method="post" asp-route-id="@Model.Id" asp-controller="ExerciseTrainer" enctype="multipart/form-data" class="edit-form">
+    <form asp-action="EditFromWorkout" method="post" asp-route-id="@Model.Id" asp-route-workoutId="@Model.WorkoutId" asp-controller="ExerciseTrainer" enctype="multipart/form-data" class="edit-form">
         <div class="form-header">
             <h2>Редактиране на упражнение</h2>
             <div class="header-decoration"></div>
         </div>
 
         <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="WorkoutId" />
 
         <div class="form-group image-section">
             <label class="section-label">Снимка на упражнението</label>

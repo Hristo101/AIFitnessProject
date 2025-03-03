@@ -15,7 +15,6 @@
 </head>
 <body class="d-flex flex-column h-100">
 
-
     <!-- Основно съдържание -->
     <main class="flex-shrink-0">
         <div class="container py-5">
@@ -32,24 +31,13 @@
                         </div>
 
                         <div class="video-wrapper">
-                            @if (!string.IsNullOrEmpty(Model.VideoUrl))
-                            {
-                                var videoId = System.Text.RegularExpressions.Regex.Match(Model.VideoUrl, @"(?:v=|\/)([a-zA-Z0-9_-]{11})").Groups[1].Value;
-                                <iframe src="https://www.youtube.com/embed/@videoId"
-                                        title="Видео демонстрация - @Model.Name"
-                                        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen
-                                        aria-label="Видео демонстрация"></iframe>
-                            }
-                            else
-                            {
-                                <div class="video-placeholder">
-                                    <i class="fas fa-video-slash"></i>
-                                    <p>Няма налично видео</p>
-                                </div>
-                            }
+                            <a href="@Model.VideoUrl"
+                               target="_blank"
+                               class="btn btn-primary btn-video"
+                               aria-label="Гледай видео демонстрация в YouTube">
+                                <i class="fas fa-play me-2"></i>Гледай видеото
+                            </a>
                         </div>
-
                     </div>
 
                     <!-- Дясна колона -->
@@ -85,6 +73,7 @@
                                 </div>
                             </div>
 
+                            <!-- Ниво на трудност -->
                             <div class="detail-item">
                                 <h5 class="text-muted mb-3"><i class="fas fa-tachometer-alt me-2"></i>Ниво на трудност</h5>
                                 <div class="difficulty-badge difficulty-@Model.DifficultyLevel?.ToLower()">
@@ -92,11 +81,13 @@
                                 </div>
                             </div>
 
+                            <!-- Действия -->
                             <div class="action-buttons">
                                 <a asp-controller="ExerciseTrainer"
                                    asp-area="Trainer"
                                    asp-action="Edit"
                                    asp-route-id="@Model.Id"
+                                   asp-route-trainingPlanId="@Model.TrainingPlanId"
                                    class="btn-edit"
                                    aria-label="Редактирай упражнение">
                                     <i class="fas fa-edit me-2"></i>Редактирай
@@ -104,8 +95,8 @@
                                 <a asp-action="Details"
                                    asp-controller="TrainingPlan"
                                    asp-route-id="@Model.TrainingPlanId"
-                                        class="btn btn-back"
-                                        aria-label="Върни се назад">
+                                   class="btn btn-back"
+                                   aria-label="Върни се назад">
                                     <i class="fas fa-arrow-left me-2"></i>Назад
                                 </a>
                             </div>
@@ -116,9 +107,10 @@
         </div>
     </main>
 
+    <!-- Футър -->
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container text-center">
-            <span class="text-muted">&copy; @DateTime.Now.Year - FITNESS APP</span>
+            <span class="text-muted">© @DateTime.Now.Year - FITNESS APP</span>
         </div>
     </footer>
 

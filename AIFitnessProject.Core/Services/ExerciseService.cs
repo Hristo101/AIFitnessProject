@@ -112,10 +112,10 @@ namespace AIFitnessProject.Core.Services
                 .AnyAsync(x => x.Id == id);
         }
 
-        public async Task<DetailsExerciseViewModel> GetModelForDetailsFromWorkouts(int id)
+        public async Task<DetailsExerciseViewModel> GetModelForDetailsFromWorkouts(int id, int workoutId)
         {
             var workoutExercise = await repository.AllAsReadOnly<WorkoutsExercise>()
-                .Where(x => x.ExcersiceId == id)
+                .Where(x => x.ExcersiceId == id && x.WorkoutId == workoutId)
                 .Include(x => x.Workout)
                     .ThenInclude(w => w.TrainingPlanWorkouts)
                         .ThenInclude(tpw => tpw.TrainingPlan)
@@ -154,7 +154,7 @@ namespace AIFitnessProject.Core.Services
 
 
 
-        public async Task<ExerciseViewModel> GetModelForDetails(int id, string userId)
+        public async Task<ExerciseViewModel> GetModelForDetails(int id, string userId,int trainingPlanId)
         {
             var trainer = await repository.AllAsReadOnly<Trainer>()
                 .Where(x => x.UserId == userId)
@@ -174,11 +174,6 @@ namespace AIFitnessProject.Core.Services
                 return null;
             }
 
-            var trainingPlanId = workoutExercise.Workout.TrainingPlanWorkouts
-                .Where(x => x.TrainingPlan.IsActive == false)
-                .Where(x => x.TrainingPlan.UserId == userId)
-                .Select(tp => tp.TrainingPlanId)
-                .FirstOrDefault();
 
             var exercise = await repository.AllAsReadOnly<Exercise>()
                 .Where(x => x.Id == id)
@@ -312,10 +307,11 @@ namespace AIFitnessProject.Core.Services
             return changes > 0;
         }
 
-        public async Task<EditExerciseFromWorkoutViewModel> GetModelFromWorkoutForEdit(int id)
+        public async Task<EditExerciseFromWorkoutViewModel> GetModelFromWorkoutForEdit(int id,int workoutId)
         {
             var workout = await repository.AllAsReadOnly<WorkoutsExercise>()
                  .Where(x => x.ExcersiceId == id)
+                 .Where(x =>x.WorkoutId == workoutId)
                  .Include(x => x.Workout)
                  .FirstAsync();
 
@@ -342,7 +338,7 @@ namespace AIFitnessProject.Core.Services
             return exercise;
         }
 
-        public async Task<EditExerciseViewModel> GetModelForEdit(int id)
+        public async Task<EditExerciseViewModel> GetModelForEdit(int id, int trainingPlanId)
         {
             var workoutExercise = await repository.AllAsReadOnly<WorkoutsExercise>()
                 .Where(x => x.ExcersiceId == id)
@@ -355,9 +351,6 @@ namespace AIFitnessProject.Core.Services
                 return null;
             }
 
-            var trainingPlanId = workoutExercise.Workout.TrainingPlanWorkouts
-                .Select(tp => tp.TrainingPlanId)
-                .FirstOrDefault();
 
             var exercise = await repository.AllAsReadOnly<Exercise>()
                 .Where(x => x.Id == id)
