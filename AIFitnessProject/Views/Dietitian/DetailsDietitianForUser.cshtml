@@ -1,0 +1,620 @@
+﻿@using AIFitnessProject.Core.Models.Dietitian
+@using System.Web
+@model DetailsDietitianForUserViewModel
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профил на Треньор</title>
+    <style>
+        :root {
+            --primary: #2e8b57;
+            --secondary: #FF6B6B;
+            --accent: #78C49D;
+            --background: #F0F4F8;
+            --text: #2D3436;
+            --card-bg: #FFFFFF;
+            --shadow: 0 12px 24px rgba(0,0,0,0.1);
+            --radius: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient: linear-gradient(135deg, #2e8b57, #78C49D);
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            margin-bottom: 2rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+            .back-btn:hover {
+                transform: translateY(-3px);
+                background: var(--primary);
+                color: white;
+            }
+
+        .trainer-profile {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 3rem;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+            position: relative;
+            background: linear-gradient(145deg, #fff, #f8f9fa);
+        }
+
+            .trainer-profile::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 6px;
+                height: 100%;
+                background: var(--gradient);
+            }
+
+        .trainer-media {
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .trainer-image {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+            .trainer-image:hover {
+                transform: scale(1.02);
+            }
+
+        .certification-badge {
+            position: absolute;
+            bottom: -2rem;
+            right: -2rem;
+            width: 260px;
+            height: 200px;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 4px solid var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+
+            .certification-badge:hover {
+                transform: scale(1.05) rotate(4deg);
+            }
+
+        .certification-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .trainer-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .trainer-header h1 {
+            font-size: 2.8rem;
+            margin: 0;
+            color: var(--primary);
+            line-height: 1.2;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .specialization {
+            font-size: 1.4rem;
+            color: var(--accent);
+            font-weight: 700;
+            background: rgba(78, 205, 196, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .bio {
+            font-size: 1.15rem;
+            color: #555;
+            max-width: 70ch;
+            background: rgba(0,0,0,0.02);
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem;
+            background: var(--gradient);
+            color: white;
+            border-radius: 12px;
+            transition: var(--transition);
+            flex: 1;
+        }
+
+            .contact-item:hover {
+                transform: translateY(-4px);
+                box-shadow: var(--shadow);
+            }
+
+        .comments-section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            background: linear-gradient(145deg, #fff, #f8f9fa);
+        }
+
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 1rem;
+        }
+
+        .add-comment-btn {
+            background: var(--primary);
+            color: white;
+            padding: 0.875rem 2rem;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: var(--transition);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+            .add-comment-btn:hover {
+                background: var(--accent);
+                transform: translateY(-3px);
+                box-shadow: var(--shadow);
+            }
+
+        .comment-card {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: var(--background);
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+            .comment-card:hover {
+                transform: translateX(12px);
+                box-shadow: var(--shadow);
+            }
+
+        .user-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            padding: 3px;
+            transition: var(--transition);
+        }
+
+            .user-avatar:hover {
+                transform: rotate(5deg);
+            }
+
+        .comment-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .comment-author {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .comment-rating {
+            display: flex;
+            gap: 0.35rem;
+        }
+
+        .star {
+            color: #FFD700;
+            font-size: 1.5rem;
+        }
+
+        .comment-text {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        .comment-actions {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .comment-card:hover .comment-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+            padding: 0.6rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .edit-btn {
+            background: var(--accent);
+            color: white;
+        }
+
+        .delete-btn {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            max-width: 900px;
+            width: 90%;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+            .close-btn:hover {
+                color: var(--secondary);
+                transform: rotate(90deg);
+            }
+
+        .comment-form {
+            display: none;
+            background: var(--background);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            margin-top: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .rating {
+            display: inline-block;
+            direction: rtl;
+        }
+
+            .rating input {
+                display: none;
+            }
+
+            .rating label {
+                cursor: pointer;
+                transition: color 0.3s;
+            }
+
+                .rating label:before {
+                    content: "\2605";
+                    font-size: 2.5rem;
+                    color: #ddd;
+                }
+
+                .rating input:checked ~ label:before,
+                .rating label:hover:before,
+                .rating label:hover ~ label:before {
+                    color: #FFD700;
+                    transition: color 0.3s;
+                }
+
+        .comment-textarea {
+            width: 100%;
+            padding: 1.5rem;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            min-height: 160px;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+            .comment-textarea:focus {
+                border-color: var(--primary);
+                box-shadow: 0 0 10px rgba(42, 42, 114, 0.2);
+                outline: none;
+            }
+
+        .submit-btn {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+
+            .submit-btn:hover {
+                transform: translateY(-4px);
+                box-shadow: var(--shadow);
+            }
+
+        @@media (max-width: 768px) {
+            .trainer-profile {
+                grid-template-columns: 1fr;
+                padding: 2rem;
+            }
+
+            .certification-badge {
+                right: -1rem;
+                bottom: -1rem;
+                width: 200px;
+                height: 150px;
+            }
+
+            .contact-info {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="#" class="back-btn" onclick="history.back()">
+            ← Назад
+        </a>
+
+        <!-- Профил на треньора -->
+        <section class="trainer-profile">
+            <div class="trainer-media">
+                @if (Model.DietitianImage.StartsWith("http") || Model.DietitianImage.StartsWith("/img"))
+                {
+                    <img src="@Model.DietitianImage" class="trainer-image" alt="Снимка на диетолога">
+                }
+                else
+                {
+                    <img src="data:image/jpeg;base64,@Model.DietitianImage" class="trainer-image" alt="Снимка на диетолога">
+                }
+                <div class="certification-badge" onclick="openCertificationModal('@Model.SertificationImage')">
+                    @if (Model.SertificationImage.StartsWith("http") || Model.SertificationImage.StartsWith("/img"))
+                    {
+                        <img src="@Model.SertificationImage" class="certification-image" alt="Сертификат">
+                    }
+                    else
+                    {
+                        <img src="data:image/jpeg;base64,@Model.SertificationImage" class="certification-image" alt="Сертификат">
+                    }
+                </div>
+            </div>
+
+            <div class="trainer-info">
+                <div class="trainer-header">
+                    <h1>@Model.FirstName @Model.LastName</h1>
+                    <div class="specialization">@Model.Specialization</div>
+                </div>
+
+                <p class="bio">@Model.Bio</p>
+
+                <div class="contact-info">
+                    <div class="contact-item">
+                        📧 @Model.Email
+                    </div>
+                    <div class="contact-item">
+                        📱 @Model.PhoneNumber
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="comments-section">
+            <div class="comments-header">
+                <h2>Отзиви от клиенти (@Model.Comments.Count)</h2>
+                <button class="add-comment-btn" onclick="showAddCommentForm()">
+                    ✍️ Добави отзив
+                </button>
+            </div>
+
+            <!-- Форма за добавяне/редактиране на коментар -->
+            <form class="comment-form" id="commentForm" action="/Comment/AddComment" method="post">
+                @Html.AntiForgeryToken()
+                <div class="rating-stars">
+                    <div class="rating">
+                        <input type="radio" id="star5" name="rating" value="5" class="star-input" />
+                        <label for="star5" class="star-label"></label>
+                        <input type="radio" id="star4" name="rating" value="4" class="star-input" />
+                        <label for="star4" class="star-label"></label>
+                        <input type="radio" id="star3" name="rating" value="3" class="star-input" />
+                        <label for="star3" class="star-label"></label>
+                        <input type="radio" id="star2" name="rating" value="2" class="star-input" />
+                        <label for="star2" class="star-label"></label>
+                        <input type="radio" id="star1" name="rating" value="1" class="star-input" />
+                        <label for="star1" class="star-label"></label>
+                    </div>
+                </div>
+                <input type="hidden" name="senderId" value="@Model.UserId">
+                <input type="hidden" name="trainerId" value="@Model.DietitianId">
+                <input type="hidden" name="commentId" id="commentId">
+                <textarea class="comment-textarea" name="content" placeholder="Сподели своя опит..." required></textarea>
+                <button type="submit" class="submit-btn">Запази</button>
+            </form>
+
+            <div class="comments-list">
+                @foreach (var comment in Model.Comments)
+                {
+                    <article class="comment-card" data-comment-id="@comment.Id" data-content="@Html.Raw(HttpUtility.HtmlEncode(comment.Content))" data-rating="@comment.Rating">
+                        @if (comment.ProfilePicture.StartsWith("http") || comment.ProfilePicture.StartsWith("/img"))
+                        {
+                            <img src="@comment.ProfilePicture" class="user-avatar" alt="@comment.SenderName">
+                        }
+                        else
+                        {
+                            <img src="data:image/jpeg;base64,@comment.ProfilePicture" class="user-avatar" alt="@comment.SenderName">
+                        }
+                        <div class="comment-content">
+                            <div class="comment-author">@comment.SenderName</div>
+                            <div class="comment-rating">
+                                @for (int i = 0; i < comment.Rating; i++)
+                                {
+                                    <span class="star">★</span>
+                                }
+                            </div>
+                            <p class="comment-text">@comment.Content</p>
+                        </div>
+                        @if (comment.IsMine)
+                        {
+                            <div class="comment-actions">
+                                <button class="action-btn edit-btn" onclick="editComment(@comment.Id)" title="Редактирай">✏️</button>
+                                <form action="/Comment/DeleteComment" method="post" style="display:inline;" onsubmit="return confirmDelete();">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="commentId" value="@comment.Id">
+                                    <input type="hidden" name="trainerId" value="@Model.DietitianId">
+                                    <button type="submit" class="action-btn delete-btn" title="Изтрий">🗑️</button>
+                                </form>
+                            </div>
+                        }
+                    </article>
+                }
+            </div>
+        </section>
+
+        <div class="modal" id="certificationModal">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeModal()">×</button>
+                <img src="" class="certification-modal-img" id="modalCertificationImg">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showAddCommentForm() {
+            const form = document.getElementById('commentForm');
+            form.action = '/Comment/AddComment';
+            form.querySelector('.comment-textarea').value = '';
+            document.getElementById('commentId').value = '';
+            const stars = form.querySelectorAll('.star-input');
+            stars.forEach(star => star.checked = false);
+            form.style.display = 'block';
+        }
+
+        function editComment(commentId) {
+            const commentCard = document.querySelector(`.comment-card[data-comment-id="${commentId}"]`);
+            const content = commentCard.getAttribute('data-content');
+            const rating = commentCard.getAttribute('data-rating');
+
+            const form = document.getElementById('commentForm');
+            form.action = '/Comment/EditComment';
+            form.querySelector('.comment-textarea').value = content;
+            document.getElementById('commentId').value = commentId;
+
+            const starInput = form.querySelector(`#star${rating}`);
+            if (starInput) {
+                starInput.checked = true;
+            }
+
+            form.style.display = 'block';
+        }
+
+        function confirmDelete() {
+            return confirm("Сигурни ли сте, че искате да изтриете този коментар?");
+        }
+
+        function openCertificationModal(imgSrc) {
+            const modal = document.getElementById('certificationModal');
+            const img = document.getElementById('modalCertificationImg');
+            img.src = imgSrc;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('certificationModal').style.display = 'none';
+        }
+
+        window.onclick = function (event) {
+            const modal = document.getElementById('certificationModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

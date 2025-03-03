@@ -5,9 +5,6 @@ using AIFitnessProject.Core.Models.UserComments;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
-
-
 
 
 namespace AIFitnessProject.Core.Services
@@ -83,6 +80,52 @@ namespace AIFitnessProject.Core.Services
         {
             return await repository.AllAsReadOnly<Dietitian>()
                 .AnyAsync(x=>x.Id == id);
+        }
+
+        public async Task<DetailsDietitianForUserViewModel> GetDetailsDietitianViewModelForUser(int dietitianId, string userId)
+        {
+            var dietitian = await repository.All<Dietitian>()
+                                       .Where(t => t.Id == dietitianId)
+                                       .Include(t => t.User)
+                                       .FirstOrDefaultAsync();
+            if (dietitian == null)
+            {
+                return null;
+            }
+
+            var comments = await repository.All<UserComment>()
+                                           .Where(c => c.ReceiverId == dietitian.UserId)
+                                           .Include(c => c.Sender)
+                                           .ToListAsync();
+
+            var users = await repository.AllAsReadOnly<ApplicationUser>().ToListAsync();
+
+            var viewModel = new DetailsDietitianForUserViewModel
+            {
+                DietitianId = dietitian.Id,
+                UserId = userId,
+                FirstName = dietitian.User.FirstName,
+                LastName = dietitian.User.LastName,
+                Bio = dietitian.Bio,
+                SertificationImage = dietitian.SertificateImage,
+                DietitianImage = dietitian.User.ProfilePicture,
+                SertificationDetails = dietitian.SertificationDetails,
+                PhoneNumber = dietitian.PhoneNumber,
+                Specialization = dietitian.Specialization,
+                Email = dietitian.User.Email,
+                Comments = comments.Select(c => new UserCommentForDietitianViewModel
+                {
+                    Id = c.Id,
+                    Rating = c.Rating,
+                    Content = c.Content,
+                    IsMine = c.SenderId == userId,
+                    SenderName = users.FirstOrDefault(x => x.Id == c.SenderId).FirstName + " " + users.FirstOrDefault(x => x.Id == c.SenderId).LastName,
+                    Email = c.Sender.Email,
+                    ProfilePicture = c.Sender.ProfilePicture
+                }).ToList()
+            };
+
+            return viewModel;
         }
     }
 }

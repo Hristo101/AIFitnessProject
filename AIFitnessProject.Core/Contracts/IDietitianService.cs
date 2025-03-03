@@ -1,4 +1,5 @@
 ﻿using AIFitnessProject.Core.Models.Dietitian;
+using AIFitnessProject.Core.Models.Trainer;
 
 namespace AIFitnessProject.Core.Contracts
 {
@@ -7,7 +8,7 @@ namespace AIFitnessProject.Core.Contracts
         Task<IEnumerable<AllDietitianViewModel>> AllDietitianAsync();
 
         Task<bool> ExistAsync(int id);
-
+        Task<DetailsDietitianForUserViewModel> GetDetailsDietitianViewModelForUser(int dietitianId, string userId);
         Task<DetailsDietitianViewModel> DetailsDietitianAsync(int id);
     }
 }
