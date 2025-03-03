@@ -151,7 +151,30 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             var model = new CreateExerciseViewModel();
             return View(model);
         }
+        [HttpGet]
+        public async Task<IActionResult> UpdateExercise(int workoutId, int exerciseId,string userId)
+        {
+            var model = await exerciseService.GetModelFromWorkoutForEdit(exerciseId, workoutId);
+            model.UserId = userId;
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateExercise(EditExerciseFromWorkoutViewModel model,int exerciseId,int workoutId,string userId)
+        {
+            if (await exerciseService.ExistAsync(exerciseId) == false)
+            {
+                return BadRequest();
+            }
 
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await exerciseService.EditAsyncFromWorkout(exerciseId, model);
+
+            return RedirectToAction("EditWorkoutForTrainer","Workout",new {id = workoutId,userId = userId});
+        }
         [HttpPost]
         public async Task<IActionResult> AddFromEditWorkout(CreateExerciseViewModel model)
         {

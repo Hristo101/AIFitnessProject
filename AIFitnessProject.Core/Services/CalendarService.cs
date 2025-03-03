@@ -27,7 +27,7 @@ namespace AIFitnessProject.Core.Services
             var calendar = await repository.AllAsReadOnly<AIFitnessProject.Infrastructure.Data.Models.Calendar>()
                 .Where(c => c.UserId == userId)
                 .Include(x => x.CalendarWorkouts)
-                .Include(x => x.CalendarMeals) // Added meals include
+                .Include(x => x.CalendarMeals) 
                 .Select(c => new
                 {
                     c.Id,

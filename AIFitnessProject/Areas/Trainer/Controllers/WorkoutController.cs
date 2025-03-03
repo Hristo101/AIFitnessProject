@@ -42,6 +42,25 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             return RedirectToAction("AllUsersWorkouts", new {id =userId});
         }
         [HttpGet]
+        public async Task<IActionResult> Edit(int id,int trainingPlanId)
+        {
+            var model = await workoutService.GetViewModelForEdit(id, trainingPlanId);
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditWorkoutViewModel model,int workoutId,int trainingPlanId)
+        {
+            if (!ModelState.IsValid)
+            {
+                var oldModel = await workoutService.GetViewModelForEdit(workoutId, trainingPlanId);
+                model.ImageUrl = oldModel.ImageUrl;
+                return View(model);
+            }
+            await workoutService.EditWourkoutAsync(workoutId,model);
+            return RedirectToAction("All", new { id = trainingPlanId });
+        }
+        [HttpGet]
         public async Task<IActionResult> EditWorkoutForTrainer(int id,string userId)
         {
             var model = await workoutService.GetEditWorkoutViewModelForTrainer(id,userId,GetUserId());

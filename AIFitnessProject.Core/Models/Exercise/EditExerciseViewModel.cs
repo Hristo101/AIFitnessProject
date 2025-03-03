@@ -11,6 +11,7 @@ namespace AIFitnessProject.Core.Models.Exercise
     public class EditExerciseViewModel
     {
         public int? Id { get; set; }
+        public string? UserId { get; set; }
         public int? TrainingPlanId { get; set; }
 
         [Required(ErrorMessage = "Името е задължително.")]

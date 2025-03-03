@@ -105,6 +105,8 @@ namespace AIFitnessProject.Core.Services
                 .Include(x => x.User)
                 .Select(x => new DetailsSurveyModel()
                 {
+                    Id = x.Id,
+                    UserId = x.User.Id,
                     Email = x.User.Email,
                     ProfilePicture = x.User.ProfilePicture,
                     FirstName= x.User.FirstName,

@@ -1,4 +1,6 @@
-﻿<style>
+﻿@using AIFitnessProject.Core.Models.RequestsToCoach
+@model DetailsSurveyModel
+<style>
     :root {
         --primary: #2A2D72;
         --secondary: #4ECDC4;
@@ -239,9 +241,9 @@
             <a asp-action="All" asp-controller="MyRequests" class="btn-custom btn-back">
                 <i class="fas fa-arrow-left me-2"></i>Назад
             </a>
-            <button class="btn-custom btn-plan">
+            <a asp-action="Create" asp-controller="TrainingPlan" asp-route-userId="@Model.UserId" asp-route-surveyId="@Model.Id" class="btn-custom btn-plan">
                 <i class="fas fa-calendar-check me-2"></i>Създай тренировъчен план
-            </button>
+            </a>
         </div>
     </div>
 </div>

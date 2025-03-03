@@ -256,6 +256,39 @@ namespace AIFitnessProject.Core.Services
             await repository.SaveChangesAsync();
         }
 
+        public async Task EditWourkoutAsync(int workoutId, EditWorkoutViewModel model)
+        {
+           var workout = await repository.All<Workout>()
+                .Where(x =>x.Id == workoutId)
+                .FirstOrDefaultAsync();
+
+            workout.Title = model.Title;
+            workout.OrderInWorkout = model.OrderInWorkout;
+            workout.DayOfWeek = model.DayOfWeek;
+            workout.DificultyLevel = model.DifficultyLevel;
+            workout.MuscleGroup = model.MuscleGroup;
+
+            if (model.NewImageUrl != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "img/workouts");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.NewImageUrl.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.NewImageUrl.CopyToAsync(fileStream);
+                }
+                workout.ImageUrl = "/img/workouts/" + uniqueFileName;
+            }
+            await repository.SaveChangesAsync();
+        }
+
         public async Task<DetailsWorkoutViewModelForTrainer> GetDetailsWorkoutViewModelForTrainer(int id,string userId)
         {
            var user = await repository.AllAsReadOnly<ApplicationUser>()
@@ -395,6 +428,27 @@ namespace AIFitnessProject.Core.Services
             return model;
         }
 
+        public async Task<EditWorkoutViewModel> GetViewModelForEdit(int id,int trainingPlanId)
+        {
+            var model = await repository.AllAsReadOnly<TrainingPlanWorkout>()
+                .Where(x =>x.WorkoutId == id && x.TrainingPlanId == trainingPlanId)
+                .Include(x=>x.Workout)
+                .Select(x => new EditWorkoutViewModel
+                {
+                    DayOfWeek = x.Workout.DayOfWeek,
+                    DifficultyLevel = x.Workout.DificultyLevel,
+                    ImageUrl= x.Workout.ImageUrl,
+                    MuscleGroup = x.Workout.MuscleGroup,
+                    Id = x.Workout.Id,
+                    TrainingPlanId = trainingPlanId,
+                    OrderInWorkout = x.Workout.OrderInWorkout,
+                    Title = x.Workout.Title,
+                })
+                .FirstOrDefaultAsync();
+
+
+            return model;
+        }
 
         public async Task<ICollection<ExerciseViewModel>> ReturnAllExerciseViewModel(string userId)
         {

@@ -52,13 +52,14 @@
                 <!-- Бутоните ДЕТАЙЛИ и РЕДАКТИРАЙ -->
                 <div class="workout-actions">
                     <a asp-action="Details" asp-controller="Workout" asp-route-id="@workout.Id" class="btn btn-details">Детайли</a>
-                    <button class="btn btn-edit">Редактирай</button>
+                    <a asp-action="Edit" asp-controller="Workout" asp-route-id="@workout.Id" asp-route-trainingPlanId="@workout.TrainingPlanId" class="btn btn-edit">Редактирай</a>
                 </div>
             </div>
         }
     </div>
 
     <div class="button-container">
+        <a asp-controller="TrainingPlan" asp-action="Details" asp-route-id="@Model.FirstOrDefault()?.TrainingPlanId" class="btn btn-back">⬅ Назад</a>
         <form id="attachWorkoutForm" method="post" asp-action="AttachWorkouts" asp-controller="Workout">
             <input type="hidden" name="selectedWorkoutIds" id="selectedWorkoutIds" />
             <input type="hidden" id="trainingPlanId" name="trainingPlanId" value="@Model.FirstOrDefault()?.TrainingPlanId" />
@@ -85,11 +86,9 @@
         }
     });
 
-
     document.querySelectorAll('select').forEach(select => {
         select.addEventListener('change', filterWorkouts);
     });
-
 
     function filterWorkouts() {
         const muscleGroup = document.getElementById('muscleGroupFilter').value;
@@ -106,7 +105,6 @@
         });
     }
 
-    // Обновяване на бутона при маркиране на тренировки
     document.querySelectorAll('.workout-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', updateSelection);
     });
