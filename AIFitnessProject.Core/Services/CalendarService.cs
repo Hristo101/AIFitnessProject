@@ -185,6 +185,7 @@ namespace AIFitnessProject.Core.Services
                    Meals = c.CalendarMeals.Select(cw => new
                    {
                        cw.MealId,
+                       cw.EventId,
                        cw.Meal.Name,
                        cw.Meal.ImageUrl,
                        cw.Meal.MealTime,
@@ -237,6 +238,7 @@ namespace AIFitnessProject.Core.Services
                 {
                     Id = cw.MealId,
                     Name = cw.Name,
+                    EventId = cw.EventId,
                     ImageUrl = cw.ImageUrl,
                     MealTime = cw.MealTime,
                     Calories = cw.Calories,

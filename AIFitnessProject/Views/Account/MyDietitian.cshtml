@@ -1,0 +1,239 @@
+﻿@using AIFitnessProject.Core.Models.Account
+@model MyDietitianViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainer Profile - @Model.FirstName @Model.LastName</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .card {
+            position: relative;
+            width: 420px;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: cardEntrance 0.8s ease-out;
+        }
+
+            .card:hover {
+                transform: translateY(-10px) scale(1.02);
+                box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+            }
+
+        .card__header {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(45deg, #2e8b57, #3cb371);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 40px;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        .card__avatar {
+            position: absolute;
+            bottom: 23px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            background: white;
+            overflow: hidden;
+        }
+
+            .card__avatar img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .card__avatar:hover {
+                transform: scale(1.05);
+                box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            }
+
+        .card__content {
+            padding: 90px 35px 35px;
+            text-align: center;
+        }
+
+        .card__title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .card__subtitle {
+            color: #6c757d;
+            font-weight: 500;
+            font-size: 18px;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+
+            .card__subtitle::after {
+                content: '';
+                position: absolute;
+                bottom: -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 50px;
+                height: 2px;
+                background:  #2e8b57;
+                border-radius: 2px;
+            }
+
+        .card__details {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+            .detail-item:hover {
+                background: #f1f3f5;
+                transform: translateX(5px);
+            }
+
+            .detail-item i {
+                margin-right: 10px;
+                color: #2e8b57;
+                font-size: 18px;
+            }
+
+        .card__wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .card__btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card__btn-primary {
+            background: linear-gradient(45deg, #2e8b57, #3cb371);
+            color: white;
+            text-decoration: dashed;
+            box-shadow: 0 5px 20px rgba(107, 72, 255, 0.25);
+        }
+
+        .card__btn-secondary {
+            background: #f1f3f5;
+            color: #2c3e50;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .card__btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(107, 72, 255, 0.3);
+        }
+
+        .card__btn-secondary:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        @@keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @@media (max-width: 480px) {
+            .card {
+                width: 90%;
+                max-width: 380px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card__header">
+            <div class="card__avatar">
+                @if (Model.ProfilePicture.StartsWith("http") || Model.ProfilePicture.StartsWith("/img"))
+                {
+                    <img src="@Model.ProfilePicture" alt="Profile Picture">
+                }
+                else
+                {
+                    <img src="data:image/jpeg;base64,@Model.ProfilePicture" alt="Profile Picture">
+                }
+            </div>
+        </div>
+        <div class="card__content">
+            <h2 class="card__title">@Model.FirstName @Model.LastName</h2>
+            <p class="card__subtitle">@Model.Specialization</p>
+
+            <div class="card__details">
+                <div class="detail-item">
+                    <i class="fas fa-envelope"></i>
+                    <span style="color:black;">@Model.Email</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-trophy"></i>
+                    <span style="color:black;">Опит: @Model.Expirience години</span>
+                </div>
+            </div>
+
+            <div class="card__wrapper">
+                <a asp-action="DetailsTrainerForUser" asp-controller="Trainer" asp-route-Id="@Model.DietitianId" class="card__btn card__btn-primary">
+                    <i class="fas fa-info-circle"></i>
+                    Детайли
+                </a>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
