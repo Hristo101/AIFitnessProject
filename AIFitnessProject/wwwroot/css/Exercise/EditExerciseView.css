@@ -4,6 +4,7 @@
     --secondary-color: #f8f9fa;
     --background-gradient: linear-gradient(135deg, #f5f7fa, #c3cfe2);
     --text-color: #2c3e50;
+    --button-shadow: rgba(0, 123, 255, 0.2);
 }
 
 /* Фонов градиент и основен шрифт за страницата */
@@ -146,35 +147,49 @@ label {
         margin-bottom: 0.5rem;
     }
 
-/* Стилове за видео контейнера (НЕ СЕ МЕНЯВА) */
+/* Стилове за видео контейнера и бутона */
 .video-container {
     margin: 2rem 0;
-    border-radius: 12px;
-    overflow: hidden;
-    background: #000;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    text-align: center;
 }
 
-.video-wrapper {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 */
-    height: 0;
+.btn-video {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px var(--button-shadow);
+    border: none;
 }
 
-.video-frame {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-}
+    .btn-video:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px var(--button-shadow);
+    }
 
-/* Стилове за бутона с ефект при клик (ripple) */
+    .btn-video:active {
+        transform: scale(0.98);
+        box-shadow: 0 2px 4px var(--button-shadow);
+    }
+
+    .btn-video i {
+        margin-right: 0.5rem;
+        font-size: 1rem;
+    }
+
+/* Стилове за бутона с ефект при клик */
 .submit-btn {
     background: var(--primary-color);
     color: white;
-    padding: 1rem 2rem;
+    padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 8px;
     font-weight: 600;
@@ -184,29 +199,18 @@ label {
     gap: 0.5rem;
     transition: all 0.3s ease;
     margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-    font-size: 1rem;
+    box-shadow: 0 4px 6px var(--button-shadow);
 }
 
     .submit-btn:hover {
         background: var(--primary-dark);
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+        box-shadow: 0 6px 12px var(--button-shadow);
     }
 
-    .submit-btn:active::after {
-        content: "";
-        position: absolute;
-        width: 200%;
-        height: 200%;
-        top: 50%;
-        left: 50%;
-        pointer-events: none;
-        background: rgba(255, 255, 255, 0.3);
-        transform: translate(-50%, -50%) scale(0);
-        border-radius: 50%;
-        animation: ripple 0.6s linear;
+    .submit-btn:active {
+        transform: scale(0.98);
+        box-shadow: 0 2px 4px var(--button-shadow);
     }
 
 /* Анимации */
@@ -236,73 +240,57 @@ label {
     }
 }
 
-@keyframes ripple {
-    to {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0;
-    }
-}
-
-/* ─── ДОБАВЕНИ ИКОНИ КЪМ ВСИЧКИ ЕТИКЕТИ ───────────────────────────── */
-/* Изисква Font Awesome 5 Free да е зареден в страницата */
-
-/* 1. Име */
+/* Икони към етикетите */
 .form-grid .form-group:nth-child(1) label::before {
-    content: "\f007"; /* User icon */
+    content: "\f007";
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
     color: var(--primary-color);
 }
 
-/* 2. Описание */
 .form-grid .form-group:nth-child(2) label::before {
-    content: "\f036"; /* Align left icon */
+    content: "\f036";
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
     color: var(--primary-color);
 }
 
-/* 3. Мускулна група */
 .form-grid .form-group:nth-child(3) label::before {
-    content: "\f21e"; /* Heartbeat icon */
+    content: "\f21e";
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
     color: var(--primary-color);
 }
 
-/* 4. Видео линк */
 .form-grid .form-group:nth-child(4) label::before {
-    content: "\f03d"; /* Video icon */
+    content: "\f03d";
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
     color: var(--primary-color);
 }
 
-/* 5. Ниво на трудност */
 .form-grid .form-group:nth-child(5) label::before {
-    content: "\f012"; /* Signal icon */
+    content: "\f012";
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
     color: var(--primary-color);
 }
 
-/* 6. Серии */
 .form-grid .form-group:nth-child(6) label::before {
-    content: "\f0cb"; /* Ordered list icon */
+    content: "\f0cb";
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
     color: var(--primary-color);
 }
 
-/* 7. Повторения */
 .form-grid .form-group:nth-child(7) label::before {
-    content: "\f2f9"; /* Redo icon */
+    content: "\f2f9";
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
