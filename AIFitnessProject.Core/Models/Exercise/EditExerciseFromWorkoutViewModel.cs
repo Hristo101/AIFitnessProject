@@ -12,7 +12,7 @@ namespace AIFitnessProject.Core.Models.Exercise
     {
         public int? Id { get; set; }
         public int? WorkoutId { get; set; }
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
 
         [Required(ErrorMessage = "Името е задължително.")]
         [StringLength(100, ErrorMessage = "Името трябва да е между {2} и {1} символа.", MinimumLength = 3)]

@@ -121,6 +121,8 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             if (!ModelState.IsValid)
             {
+                var oldModel = await exerciseService.GetModelFromWorkoutForEdit(id, workoutId);
+                model.ExistingImageUrl = oldModel.ExistingImageUrl;
                 return View(model);
             }
 

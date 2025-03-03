@@ -21,11 +21,17 @@
                 }
                 <div class="upload-box">
                     <input asp-for="NewImage" type="file" class="upload-input"
-                           accept="image/*" id="imageUpload" />
+                           accept="image/*" id="imageUpload" onchange="previewImage(event)" />
                     <label for="imageUpload" class="upload-label">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <span>Изберете нова снимка</span>
                     </label>
+                    <div id="imagePreview" class="preview-container" style="display: none;">
+                        <img id="previewImg" src="" alt="Image Preview" class="preview-image" />
+                        <button type="button" class="remove-image-btn" onclick="removeImage()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -109,4 +115,38 @@
         return query.AllKeys.Contains("v") ? query["v"] : uri.Segments.Last();
     }
 }
+
+@section Scripts {
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const previewContainer = document.getElementById('imagePreview');
+            const previewImg = document.getElementById('previewImg');
+            const uploadLabel = document.querySelector('.upload-label');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImg.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                    uploadLabel.style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeImage() {
+            const previewContainer = document.getElementById('imagePreview');
+            const previewImg = document.getElementById('previewImg');
+            const uploadInput = document.getElementById('imageUpload');
+            const uploadLabel = document.querySelector('.upload-label');
+
+            previewContainer.style.display = 'none';
+            previewImg.src = '';
+            uploadInput.value = '';
+            uploadLabel.style.display = 'block';
+        }
+    </script>
+}
+
 <link rel="stylesheet" href="~/css/Exercise/EditExerciseView.css" />
