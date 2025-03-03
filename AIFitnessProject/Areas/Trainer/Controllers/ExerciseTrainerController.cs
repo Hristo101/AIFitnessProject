@@ -92,9 +92,9 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             return View(model);
         }
         [HttpGet]
-        public async Task<IActionResult> DetailsTrainingPlan(int id)
+        public async Task<IActionResult> DetailsTrainingPlan(int id,int trainingPlanId)
         {
-            var model = await exerciseService.GetModelForDetails(id,GetUserId());
+            var model = await exerciseService.GetModelForDetails(id,GetUserId(),trainingPlanId);
 
             return View(model);
         }
@@ -106,13 +106,13 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             return View(model);
         }
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id, int trainingPlanId)
         {
-            var model = await exerciseService.GetModelForEdit(id);
+            var model = await exerciseService.GetModelForEdit(id, trainingPlanId);
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> EditFromWorkout(EditExerciseFromWorkoutViewModel model,int id)
+        public async Task<IActionResult> EditFromWorkout(EditExerciseFromWorkoutViewModel model,int id,int workoutId)
         {
             if (await exerciseService.ExistAsync(id) == false)
             {
@@ -126,10 +126,10 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             await exerciseService.EditAsyncFromWorkout(id, model);
 
-            return RedirectToAction("Details",new { id = model.Id });
+            return RedirectToAction("Details",new { id = model.Id,workoutId = workoutId });
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(EditExerciseViewModel model,int id)
+        public async Task<IActionResult> Edit(EditExerciseViewModel model,int id,int trainingPlanId)
         {
             if (await exerciseService.ExistAsync(id) == false)
             {
@@ -143,7 +143,7 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             await exerciseService.EditAsync(id, model);
 
-            return RedirectToAction("DetailsTrainingPlan", "ExerciseTrainer", new { id = model.Id });
+            return RedirectToAction("DetailsTrainingPlan", "ExerciseTrainer", new { id = model.Id, trainingPlanId = trainingPlanId });
         }
         [HttpGet]
         public async Task<IActionResult> AddFromEditWorkout()

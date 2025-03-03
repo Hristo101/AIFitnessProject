@@ -1353,14 +1353,14 @@
             }
 
             for (let i = 1; i <= lastDate; i++) {
-                let event = false;
+                let hasEvent = false;
                 eventsArr.forEach((eventObj) => {
                     if (
                         eventObj.day === i &&
                         eventObj.month === month + 1 &&
                         eventObj.year === year
                     ) {
-                        event = true;
+                        hasEvent = true;
                     }
                 });
                 if (
@@ -1371,9 +1371,9 @@
                     activeDay = i;
                     getActiveDay(i);
                     updateEvents(i);
-                    days += event ? `<div class="day today active event">${i}</div>` : `<div class="day today active">${i}</div>`;
+                    days += hasEvent ? `<div class="day today active event">${i}</div>` : `<div class="day today active">${i}</div>`;
                 } else {
-                    days += event ? `<div class="day event">${i}</div>` : `<div class="day">${i}</div>`;
+                    days += hasEvent ? `<div class="day event">${i}</div>` : `<div class="day">${i}</div>`;
                 }
             }
 
@@ -1426,33 +1426,38 @@
             const days = document.querySelectorAll(".day");
             days.forEach((day) => {
                 day.addEventListener("click", (e) => {
+                    // Remove 'active' class from all days first
+                    days.forEach(d => d.classList.remove("active"));
+                    
                     getActiveDay(e.target.innerHTML);
                     updateEvents(Number(e.target.innerHTML));
                     activeDay = Number(e.target.innerHTML);
-                    days.forEach((day) => day.classList.remove("active"));
+
+                    // Add 'active' class only to the clicked day
+                    if (e.target.classList.contains("day")) {
+                        e.target.classList.add("active");
+                    }
 
                     if (e.target.classList.contains("prev-date")) {
                         prevMonth();
                         setTimeout(() => {
-                            const days = document.querySelectorAll(".day");
-                            days.forEach((day) => {
-                                if (!day.classList.contains("prev-date") && day.innerHTML === e.target.innerHTML) {
-                                    day.classList.add("active");
+                            const newDays = document.querySelectorAll(".day");
+                            newDays.forEach((d) => {
+                                if (!d.classList.contains("prev-date") && d.innerHTML === e.target.innerHTML) {
+                                    d.classList.add("active");
                                 }
                             });
                         }, 100);
                     } else if (e.target.classList.contains("next-date")) {
                         nextMonth();
                         setTimeout(() => {
-                            const days = document.querySelectorAll(".day");
-                            days.forEach((day) => {
-                                if (!day.classList.contains("next-date") && day.innerHTML === e.target.innerHTML) {
-                                    day.classList.add("active");
+                            const newDays = document.querySelectorAll(".day");
+                            newDays.forEach((d) => {
+                                if (!d.classList.contains("next-date") && d.innerHTML === e.target.innerHTML) {
+                                    d.classList.add("active");
                                 }
                             });
                         }, 100);
-                    } else {
-                        e.target.classList.add("active");
                     }
                 });
             });
@@ -1497,9 +1502,11 @@
         function updateEvents(date) {
             let workouts = "";
             let meals = "";
+            let hasAnyEvent = false;
             
             eventsArr.forEach((eventObj) => {
                 if (date === eventObj.day && month + 1 === eventObj.month && year === eventObj.year) {
+                    hasAnyEvent = true;
                     eventObj.events.forEach((event, index) => {
                         let eventContent = '';
                         let section = '';
@@ -1556,9 +1563,28 @@
                 }
             });
 
-            // Update sections
-            workoutsSection.innerHTML = workouts ? `<h2>Тренировки</h2>${workouts}` : '<div class="no-event"><h3>No Workouts</h3></div>';
-            mealsSection.innerHTML = meals ? `<h2>Ястия</h2>${meals}` : '<div class="no-event"><h3>No Meals</h3></div>';
+            // Update sections only if there are events of that type
+            if (workouts) {
+                workoutsSection.innerHTML = `<h2>Тренировки</h2>${workouts}`;
+            } else {
+                workoutsSection.innerHTML = '';
+            }
+
+            if (meals) {
+                mealsSection.innerHTML = `<h2>Ястия</h2>${meals}`;
+            } else {
+                mealsSection.innerHTML = '';
+            }
+
+            // Ensure the day is marked as an event only if there are any events (workouts or meals)
+            const activeDayEl = document.querySelector(".day.active");
+            if (activeDayEl) {
+                if (hasAnyEvent) {
+                    activeDayEl.classList.add("event");
+                } else {
+                    activeDayEl.classList.remove("event");
+                }
+            }
         }
 
         function confirmDelete(eventId, userId, day, month, year, index) {
@@ -1744,7 +1770,8 @@
                     const newEvent = {
                         title: eventTitle,
                         time: `${timeFrom} - ${timeTo}`,
-                        workout: workoutDetails
+                        type: selectedWorkoutId ? "workout" : "meal", // Assuming meal if no workoutId
+                        [selectedWorkoutId ? "workout" : "meal"]: workoutDetails
                     };
 
                     let eventAdded = false;
@@ -1771,6 +1798,13 @@
                         });
                     }
 
+                    // Update the calendar and events immediately
+                    updateEvents(activeDay);
+                    const activeDayEl = document.querySelector(".day.active");
+                    if (!activeDayEl.classList.contains("event")) {
+                        activeDayEl.classList.add("event");
+                    }
+
                     addEventWrapper.classList.remove("active");
                     workoutsList.classList.remove("active");
                     addEventTitle.value = "";
@@ -1779,12 +1813,6 @@
                     selectedWorkoutInfo.textContent = "";
                     workoutItems.forEach(w => w.classList.remove("selected"));
                     selectedWorkoutId = null;
-
-                    updateEvents(activeDay);
-                    const activeDayEl = document.querySelector(".day.active");
-                    if (!activeDayEl.classList.contains("event")) {
-                        activeDayEl.classList.add("event");
-                    }
 
                     alert("Event added successfully!");
                 } else {
