@@ -1,5 +1,6 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
 namespace AIFitnessProject.Controllers
@@ -33,16 +34,16 @@ namespace AIFitnessProject.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> MarkEventCompleted(int workoutId,int calendarId)
+        public async Task<IActionResult> MarkEventCompleted(int eventId)
         {
-            await calendarService.DeleteEvenet(workoutId, calendarId);
+            await calendarService.DeleteEvenet(eventId);
 
             return RedirectToAction("UsersCalendar", new { id = GetUserId() });
         }
         [HttpPost]
-        public async Task<IActionResult> MarkMealCompleted(int mealId, int calendarId)
+        public async Task<IActionResult> MarkMealCompleted(int eventId)
         {
-            await calendarService.DeleteMealEvenet(mealId, calendarId);
+            await calendarService.DeleteMealEvenet(eventId);
 
             return RedirectToAction("UsersCalendar", new { id = GetUserId() });
         }

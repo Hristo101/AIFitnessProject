@@ -23,10 +23,11 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
         [HttpGet]
         public async Task<IActionResult> UserCalendar(string id)
         {
-            var model = await calendarService.GetModeForUserCalendar(id);
+            var model = await calendarService.GetModeForUserCalendar(id,GetUserId());
 
             return View(model);
         }
+
         [HttpPost]
         public async Task<IActionResult> AddEvent([FromBody] AddEventViewModel model)
         {
@@ -37,16 +38,9 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
                     return Json(new { success = false, message = "Invalid data provided" });
                 }
 
-                var success = await calendarService.AddCalendarEventAsync(model);
+                var eventId = await calendarService.AddCalendarEventAsync(model);
 
-                if (success)
-                {
-                    return Json(new { success = true, message = "Event added successfully" });
-                }
-                else
-                {
-                    return Json(new { success = false, message = "Failed to add event" });
-                }
+                return Json(new { success = true, message = "Event added successfully", eventId });
             }
             catch (Exception ex)
             {
@@ -54,9 +48,9 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Delete(int calendarId,int workoutId,string userId)
+        public async Task<IActionResult> Delete(int eventId, string userId)
         {
-            await calendarService.DeleteEvenet(workoutId, calendarId);
+            await calendarService.DeleteEvenet(eventId);
 
             return RedirectToAction("UserCalendar", new { id = userId });
         }

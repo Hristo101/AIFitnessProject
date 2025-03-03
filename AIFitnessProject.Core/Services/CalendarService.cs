@@ -18,16 +18,22 @@ namespace AIFitnessProject.Core.Services
             this.repository = _repository;
         }
 
-        public async Task<UserCalendarViewModel> GetModeForUserCalendar(string userId)
+        public async Task<UserCalendarViewModel> GetModeForUserCalendar(string userId, string trainerId)
         {
-            var calendar = await repository.AllAsReadOnly< AIFitnessProject.Infrastructure.Data.Models.Calendar>()
+            var trainer = await repository.AllAsReadOnly<Trainer>()
+                .Where(x => x.UserId == trainerId)
+                .FirstOrDefaultAsync();
+
+            var calendar = await repository.AllAsReadOnly<AIFitnessProject.Infrastructure.Data.Models.Calendar>()
                 .Where(c => c.UserId == userId)
                 .Include(x => x.CalendarWorkouts)
+                .Include(x => x.CalendarMeals) // Added meals include
                 .Select(c => new
                 {
                     c.Id,
                     Workouts = c.CalendarWorkouts.Select(cw => new
                     {
+                        cw.Workout,
                         cw.EventId,
                         cw.WorkoutId,
                         cw.Workout.Title,
@@ -40,6 +46,20 @@ namespace AIFitnessProject.Core.Services
                         cw.DateOnly,
                         cw.StartEventTime,
                         cw.EndEventTime
+                    }).ToList(),
+                    Meals = c.CalendarMeals.Select(cm => new
+                    {
+                        cm.Meal,
+                        cm.EventId,
+                        cm.MealId,
+                        cm.Meal.Name,
+                        cm.Meal.ImageUrl,
+                        cm.Meal.Calories,
+                        MealCount = cm.Meal.MealsDailyDietPlans.Count(), 
+                        cm.CalendarId,
+                        cm.DateOnly,
+                        cm.StartEventTime,
+                        cm.EndEventTime
                     }).ToList()
                 })
                 .FirstOrDefaultAsync();
@@ -75,7 +95,7 @@ namespace AIFitnessProject.Core.Services
             }
 
             var model = new UserCalendarViewModel
-            {          
+            {
                 UserId = userId,
                 CalendarId = calendar?.Id ?? 0,
                 Email = user.Email,
@@ -83,6 +103,8 @@ namespace AIFitnessProject.Core.Services
                 ProfilePictureUrl = user.ProfilePicture,
                 Workouts = calendar?.Workouts.Select(cw => new WorkoutCalendarViewModel
                 {
+                    CreatedById = cw.Workout.CreatorId,
+                    IsMine = cw.Workout.CreatorId == trainer.Id,
                     Id = cw.WorkoutId,
                     EventId = cw.EventId,
                     Name = cw.Title,
@@ -101,13 +123,29 @@ namespace AIFitnessProject.Core.Services
                     ImageUrl = tpw.ImageUrl,
                     ExerciseCount = tpw.ExerciseCount,
                     MuscleGroup = tpw.MuscleGroup
-                }).ToList()
+                }).ToList(),
+                Meals = calendar?.Meals.Select(cm => new MealCalendarViewModel
+                {
+                    CreatedById = cm.Meal.CreatedById,
+                    IsMine = false,
+                    Id = cm.MealId,
+                    EventId = cm.EventId,
+                    Name = cm.Name,
+                    ImageUrl = cm.ImageUrl,
+                    Calories = cm.Calories,
+                    MealCount = cm.MealCount,
+                    CalendarId = cm.CalendarId,
+                    Date = cm.DateOnly,
+                    StartEventTime = cm.StartEventTime,
+                    EndEventTime = cm.EndEventTime,
+                    MealTime = cm.StartEventTime.ToString() 
+                }).ToList() ?? new List<MealCalendarViewModel>()
             };
 
             return model;
         }
 
-        public async Task<bool> AddCalendarEventAsync(AddEventViewModel model)
+        public async Task<int> AddCalendarEventAsync(AddEventViewModel model)
         {
             try
             {
@@ -127,11 +165,11 @@ namespace AIFitnessProject.Core.Services
                 await repository.AddAsync(calendarWorkout);
                 await repository.SaveChangesAsync();
 
-                return true;
+                return calendarWorkout.EventId; 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                throw new Exception("Failed to add calendar event", ex); 
             }
         }
 
@@ -190,6 +228,7 @@ namespace AIFitnessProject.Core.Services
 
             var model = new UserCalendarViewModelForDietitianArea
             {
+                UserId = userId,
                 CalendarId = calendar?.Id ?? 0,
                 Email = user.Email,
                 FullName = user.FullName,
@@ -220,7 +259,7 @@ namespace AIFitnessProject.Core.Services
             return model;
         }
 
-        public async Task<bool> AddCalendarMealEventAsync(AddEventFromDietitianViewModel model)
+        public async Task<int> AddCalendarMealEventAsync(AddEventFromDietitianViewModel model)
         {
             try
             {
@@ -240,11 +279,11 @@ namespace AIFitnessProject.Core.Services
                 await repository.AddAsync(calendarWorkout);
                 await repository.SaveChangesAsync();
 
-                return true;
+                return calendarWorkout.EventId;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                throw new Exception("Failed to add calendar event", ex);
             }
 
         }
@@ -287,10 +326,10 @@ namespace AIFitnessProject.Core.Services
         }
 
 
-            public async Task DeleteEvenet(int workoutId, int calendarId)
+            public async Task DeleteEvenet(int eventId)
             {
                 var calendarWorkout = await repository.All<CalendarWorkout>()
-                     .Where(x => x.WorkoutId == workoutId && x.CalendarId == calendarId)
+                     .Where(x => x.EventId == eventId)
                      .FirstOrDefaultAsync();
 
                 repository.Delete(calendarWorkout);
@@ -397,10 +436,10 @@ namespace AIFitnessProject.Core.Services
         }
 
 
-        public async Task DeleteMealEvenet(int mealId, int calendarId)
+        public async Task DeleteMealEvenet(int eventId)
         {
             var calendarMeal = await repository.All<CalendarMeal>()
-                    .Where(x => x.MealId == mealId && x.CalendarId == calendarId)
+                    .Where(x => x.EventId == eventId)
                     .FirstOrDefaultAsync();
 
             repository.Delete(calendarMeal);

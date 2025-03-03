@@ -11,7 +11,8 @@ namespace AIFitnessProject.Core.Models.Calendar
         public int Id { get; set; }
 
         public int EventId { get; set; }
-
+        public bool IsMine { get; set; }
+        public int CreatedById { get; set; }
         public string Name { get; set; }
 
         public string ImageUrl { get; set; }
@@ -22,12 +23,12 @@ namespace AIFitnessProject.Core.Models.Calendar
 
         public string MealTime { get; set; }
 
-        public DateOnly Date { get; set; } // Добавяме дата за събитието
+        public DateOnly Date { get; set; } 
 
-        public TimeOnly StartEventTime { get; set; } // Начало на събитието
+        public TimeOnly StartEventTime { get; set; } 
 
-        public TimeOnly EndEventTime { get; set; } // Край на събитието
+        public TimeOnly EndEventTime { get; set; } 
 
-        public int CalendarId { get; set; } // ID на календара
+        public int CalendarId { get; set; }
     }
 }

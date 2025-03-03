@@ -52,7 +52,7 @@
                                                 <a href="@exercise.VideoUrl" target="_blank" class="btn btn-custom btn-primary btn-sm">
                                                     <i class="fas fa-play-circle me-2"></i>Видео
                                                 </a>
-                                                <a asp-action="Details" asp-controller="ExerciseTrainer" asp-route-id="@exercise.Id" class="btn btn-custom btn-info btn-sm">
+                                                <a asp-action="Details" asp-controller="ExerciseTrainer" asp-route-id="@exercise.Id" asp-route-workoutId="@Model.Id" class="btn btn-custom btn-info btn-sm">
                                                     <i class="fas fa-info-circle me-2"></i>Подробности
                                                 </a>
                                             </div>

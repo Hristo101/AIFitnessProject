@@ -85,9 +85,9 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             return RedirectToAction("Add","Workout", new { trainingPlanId = model.TrainingPlanId });
         }
         [HttpGet]
-        public async Task<IActionResult> Details(int id,int trainingPlanId)
+        public async Task<IActionResult> Details(int id,int workoutId)
         {
-            var model = await exerciseService.GetModelForDetailsFromWorkouts(id);
+            var model = await exerciseService.GetModelForDetailsFromWorkouts(id, workoutId);
             
             return View(model);
         }
@@ -99,9 +99,9 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
             return View(model);
         }
         [HttpGet]
-        public async Task<IActionResult> EditFromWorkout(int id)
+        public async Task<IActionResult> EditFromWorkout(int id,int workoutId)
         {
-            var model = await exerciseService.GetModelFromWorkoutForEdit(id);
+            var model = await exerciseService.GetModelFromWorkoutForEdit(id, workoutId);
 
             return View(model);
         }

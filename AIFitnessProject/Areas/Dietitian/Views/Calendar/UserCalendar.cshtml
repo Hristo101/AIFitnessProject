@@ -1230,6 +1230,7 @@
             selectedWorkoutInfo = document.querySelector(".selected-workout-info");
 
         const calendarId = @Model.CalendarId;
+        const userId = '@Model.UserId'; // Добавяме userId от модела
         let today = new Date();
         let activeDay;
         let month = today.getMonth();
@@ -1321,7 +1322,7 @@
                 item.classList.toggle("hidden", index < startIndex || index >= endIndex);
             });
 
-            pageInfo.textContent = `Workout ${currentPage} of ${totalPages}`;
+            pageInfo.textContent = `Meal ${currentPage} of ${totalPages}`;
             prevPageBtn.classList.toggle("disabled", currentPage === 1);
             nextPageBtn.classList.toggle("disabled", currentPage === totalPages);
         }
@@ -1413,7 +1414,13 @@
             eventsArr.forEach((eventObj) => {
                 if (date === eventObj.day && month + 1 === eventObj.month && year === eventObj.year) {
                     eventObj.events.forEach((event, index) => {
-                        events += `<div class="event" data-day="${eventObj.day}" data-month="${eventObj.month}" data-year="${eventObj.year}" data-index="${index}" data-workout-id="${event.workout ? event.workout.id : ''}">
+                        events += `
+                                <div class="event"
+                                     data-day="${eventObj.day}"
+                                     data-month="${eventObj.month}"
+                                     data-year="${eventObj.year}"
+                                     data-index="${index}"
+                                     data-event-id="${eventObj.eventId}">
                                     <div class="title">
                                         <i class="fas fa-circle"></i>
                                         <h3 class="event-title">${event.title}</h3>
@@ -1430,7 +1437,7 @@
                                             </div>
                                         </div>
                                     ` : ''}
-                                    <button class="delete-btn" onclick="confirmDelete(${calendarId}, '${event.workout ? event.workout.id : ''}', ${eventObj.day}, ${eventObj.month}, ${eventObj.year}, ${index})">Delete</button>
+                                    <button class="delete-btn" onclick="confirmDelete(${eventObj.eventId}, '${userId}', ${eventObj.day}, ${eventObj.month}, ${eventObj.year}, ${index})">Delete</button>
                                 </div>`;
                     });
                 }
@@ -1438,26 +1445,51 @@
             eventsContainer.innerHTML = events || `<div class="no-event"><h3>No Events</h3></div>`;
         }
 
-        function confirmDelete(calendarId, workoutId, day, month, year, index) {
+        function confirmDelete(eventId, userId, day, month, year, index) {
             if (confirm("Сигурни ли сте, че искате да изтриете това събитие?")) {
-                if (workoutId) {
-                    window.location.href = `/Trainer/Calendar/Delete?calendarId=${calendarId}&workoutId=${workoutId}`;
+                deleteEvent(eventId, userId, day, month, year, index);
+            }
+        }
+
+        async function deleteEvent(eventId, userId, day, month, year, index) {
+            try {
+                const formData = new FormData();
+                formData.append('eventId', eventId);
+                formData.append('userId', userId);
+
+                const token = document.querySelector('input[name="__RequestVerificationToken"]');
+                if (token) {
+                    formData.append('__RequestVerificationToken', token.value);
                 }
-                const eventObj = eventsArr.find(e =>
-                    e.day === day && e.month === month && e.year === year
-                );
-                if (eventObj) {
-                    eventObj.events.splice(index, 1);
-                    if (eventObj.events.length === 0) {
-                        const arrIndex = eventsArr.indexOf(eventObj);
-                        eventsArr.splice(arrIndex, 1);
+
+                const response = await fetch('/Dietitian/Calendar/Delete', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    // Client-side update
+                    const eventObj = eventsArr.find(e =>
+                        e.day === day && e.month === month && e.year === year
+                    );
+                    if (eventObj) {
+                        eventObj.events.splice(index, 1);
+                        if (eventObj.events.length === 0) {
+                            const arrIndex = eventsArr.indexOf(eventObj);
+                            eventsArr.splice(arrIndex, 1);
+                        }
+                        updateEvents(activeDay);
+                        const activeDayEl = document.querySelector(".day.active");
+                        if (activeDayEl && eventsArr.every(e => e.day !== day || e.month !== month || e.year !== year)) {
+                            activeDayEl.classList.remove("event");
+                        }
                     }
-                    updateEvents(activeDay);
-                    const activeDayEl = document.querySelector(".day.active");
-                    if (activeDayEl && eventsArr.every(e => e.day !== day || e.month !== month || e.year !== year)) {
-                        activeDayEl.classList.remove("event");
-                    }
+                } else {
+                    alert("Failed to delete event. Please try again.");
                 }
+            } catch (error) {
+                console.error("Error deleting event:", error);
+                alert("An error occurred while deleting the event.");
             }
         }
 
@@ -1496,7 +1528,7 @@
         addEventTo.addEventListener("input", (e) => {
             addEventTo.value = addEventTo.value.replace(/[^0-9:]/g, "");
             if (addEventTo.value.length === 2) addEventTo.value += ":";
-            if (addEventTo.value.length > 5) addEventTo.value = addEventFrom.value.slice(0, 5);
+            if (addEventTo.value.length > 5) addEventTo.value = addEventTo.value.slice(0, 5);
         });
 
         attachWorkoutBtn.addEventListener("click", (e) => {
@@ -1585,11 +1617,11 @@
                     if (selectedWorkoutId) {
                         const selectedWorkout = Array.from(workoutItems).find(w =>
                             parseInt(w.dataset.workoutId) === selectedWorkoutId);
-                            workoutDetails = {
+                        workoutDetails = {
                             id: selectedWorkoutId,
                             name: selectedWorkout.dataset.workoutName,
                             imageUrl: selectedWorkout.dataset.workoutImage,
-                            calories: selectedWorkout.dataset.calories,
+                            calories: selectedWorkout.dataset.workoutExercises, // Предполагам, че това са калориите
                             muscleGroup: selectedWorkout.dataset.workoutMuscle
                         };
                     }
@@ -1608,6 +1640,7 @@
                             item.year === year
                         ) {
                             item.events.push(newEvent);
+                            item.eventId = result.eventId; // Актуализираме eventId
                             eventAdded = true;
                         }
                     });
@@ -1617,7 +1650,8 @@
                             day: activeDay,
                             month: month + 1,
                             year: year,
-                            events: [newEvent],
+                            eventId: result.eventId, // Добавяме eventId от сървъра
+                            events: [newEvent]
                         });
                     }
 
@@ -1652,6 +1686,7 @@
                 day = w.Date.Day,
                 month = w.Date.Month,
                 year = w.Date.Year,
+                eventId = w.EventId, // Уверете се, че това поле съществува в модела
                 events = new[] {
                 new {
                 title = w.Name,
@@ -1662,7 +1697,6 @@
                 id = w.Id,
                 name = w.Name,
                 imageUrl = w.ImageUrl,
-                exerciseCount = w.MealCount,
                 calories = w.Calories,
                 muscleGroup = w.MealTime
                 }

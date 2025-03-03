@@ -1,8 +1,11 @@
-﻿@using AIFitnessProject.Core.Models.Calendar
+﻿@* Keep the existing using and model declarations *@
+@using AIFitnessProject.Core.Models.Calendar
 @model UserCalendarViewModel
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    @* Keep existing head content *@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -101,7 +104,10 @@
                 <div class="event-day">Wed</div>
                 <div class="event-date">12th December 2022</div>
             </div>
-            <div class="events"></div>
+            <div class="events">
+                <div class="workouts-section"></div>
+                <div class="meals-section"></div>
+            </div>
             <div class="add-event-wrapper">
                 <div class="add-event-header">
                     <div class="title">Add Event</div>
@@ -136,6 +142,7 @@
     </div>
 
     <style>
+        @* Keep existing styles *@
         :root {
             --primary-clr: #b38add;
             --secondary-clr: #8a54c5;
@@ -507,6 +514,21 @@
             padding: 0 20px;
         }
 
+        .workouts-section, .meals-section {
+            margin-bottom: 20px;
+        }
+
+        .workouts-section h2, .meals-section h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--primary-clr);
+            padding-bottom: 5px;
+        }
+
+        @* Keep existing event, event-workout, and event-meal styles *@
         .event {
             position: relative;
             width: 100%;
@@ -619,6 +641,67 @@
         }
 
         .event-workout:hover .workout-info i {
+            color: #fff;
+        }
+
+        .event-meal {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid var(--primary-clr);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .event-meal:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px var(--shadow-clr);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .event-meal img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+            border: 2px solid var(--secondary-clr);
+            transition: transform 0.3s ease;
+        }
+
+        .event-meal:hover img {
+            transform: scale(1.05);
+        }
+
+        .event-meal .meal-details {
+            flex: 1;
+        }
+
+        .event-meal .meal-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+        }
+
+        .event-meal .meal-info {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .event-meal .meal-info i {
+            color: var(--primary-clr);
+            font-size: 0.9rem;
+        }
+
+        .event-meal:hover .meal-info i {
             color: #fff;
         }
 
@@ -1214,7 +1297,8 @@
             dateInput = document.querySelector(".date-input"),
             eventDay = document.querySelector(".event-day"),
             eventDate = document.querySelector(".event-date"),
-            eventsContainer = document.querySelector(".events"),
+            workoutsSection = document.querySelector(".workouts-section"),
+            mealsSection = document.querySelector(".meals-section"),
             addEventBtn = document.querySelector(".add-event"),
             addEventWrapper = document.querySelector(".add-event-wrapper"),
             addEventCloseBtn = document.querySelector(".close"),
@@ -1231,7 +1315,7 @@
             selectedWorkoutInfo = document.querySelector(".selected-workout-info");
 
         const calendarId = @Model.CalendarId;
-        const userId = '@Model.UserId'; // Added UserId from model
+        const userId = '@Model.UserId';
         let today = new Date();
         let activeDay;
         let month = today.getMonth();
@@ -1411,91 +1495,116 @@
         }
 
         function updateEvents(date) {
-            let events = "";
+            let workouts = "";
+            let meals = "";
+            
             eventsArr.forEach((eventObj) => {
                 if (date === eventObj.day && month + 1 === eventObj.month && year === eventObj.year) {
                     eventObj.events.forEach((event, index) => {
-                        events += `<div class="event" data-day="${eventObj.day}" data-month="${eventObj.month}" data-year="${eventObj.year}" data-index="${index}" data-workout-id="${event.workout ? event.workout.id : ''}">
-                                    <div class="title">
-                                        <i class="fas fa-circle"></i>
-                                        <h3 class="event-title">${event.title}</h3>
+                        let eventContent = '';
+                        let section = '';
+                        if (event.type === "workout" && event.workout) {
+                            eventContent = `
+                                <div class="event-workout">
+                                    <img src="${event.workout.imageUrl}" alt="${event.workout.name}" />
+                                    <div class="workout-details">
+                                        <p class="workout-name">${event.workout.name}</p>
+                                        <p class="workout-info"><i class="fas fa-dumbbell"></i> ${event.workout.muscleGroup} - ${event.workout.exerciseCount} Exercises</p>
                                     </div>
-                                    <div class="event-time">
-                                        <span class="event-time">${event.time}</span>
+                                </div>
+                            `;
+                            section = 'workouts';
+                        } else if (event.type === "meal" && event.meal) {
+                            eventContent = `
+                                <div class="event-meal">
+                                    <img src="${event.meal.imageUrl}" alt="${event.meal.name}" />
+                                    <div class="meal-details">
+                                        <p class="meal-name">${event.meal.name}</p>
+                                        <p class="meal-info"><i class="fas fa-utensils"></i> ${event.meal.calories} Calories - ${event.meal.mealCount} Items</p>
                                     </div>
-                                    ${event.workout ? `
-                                        <div class="event-workout">
-                                            <img src="${event.workout.imageUrl}" alt="${event.workout.name}" />
-                                            <div class="workout-details">
-                                                <p class="workout-name">${event.workout.name}</p>
-                                                <p class="workout-info"><i class="fas fa-dumbbell"></i> ${event.workout.muscleGroup} - ${event.workout.exerciseCount} Exercises</p>
-                                            </div>
-                                        </div>
-                                    ` : ''}
-                                    <button class="delete-btn" onclick="confirmDelete(${calendarId}, '${event.workout ? event.workout.id : ''}', '${userId}', ${eventObj.day}, ${eventObj.month}, ${eventObj.year}, ${index})">Delete</button>
-                                </div>`;
+                                </div>
+                            `;
+                            section = 'meals';
+                        }
+
+                        const eventHtml = `
+                            <div class="event"
+                                 data-day="${eventObj.day}"
+                                 data-month="${eventObj.month}"
+                                 data-year="${eventObj.year}"
+                                 data-index="${index}"
+                                 data-event-id="${eventObj.eventId}">
+                                <div class="title">
+                                    <i class="fas fa-circle"></i>
+                                    <h3 class="event-title">${event.title}</h3>
+                                </div>
+                                <div class="event-time">
+                                    <span class="event-time">${event.time}</span>
+                                </div>
+                                ${eventContent}
+                                ${eventObj.isMine ? `
+                                    <button class="delete-btn" onclick="confirmDelete(${eventObj.eventId}, '${userId}', ${eventObj.day}, ${eventObj.month}, ${eventObj.year}, ${index})">Delete</button>
+                                ` : ''}
+                            </div>`;
+
+                        if (section === 'workouts') {
+                            workouts += eventHtml;
+                        } else if (section === 'meals') {
+                            meals += eventHtml;
+                        }
                     });
                 }
             });
-            eventsContainer.innerHTML = events || `<div class="no-event"><h3>No Events</h3></div>`;
+
+            // Update sections
+            workoutsSection.innerHTML = workouts ? `<h2>Тренировки</h2>${workouts}` : '<div class="no-event"><h3>No Workouts</h3></div>';
+            mealsSection.innerHTML = meals ? `<h2>Ястия</h2>${meals}` : '<div class="no-event"><h3>No Meals</h3></div>';
         }
 
-        function confirmDelete(calendarId, workoutId, userId, day, month, year, index) {
+        function confirmDelete(eventId, userId, day, month, year, index) {
             if (confirm("Сигурни ли сте, че искате да изтриете това събитие?")) {
-                deleteEvent(calendarId, workoutId, userId, day, month, year, index);
+                deleteEvent(eventId, userId, day, month, year, index);
             }
         }
 
-        function deleteEvent(calendarId, workoutId, userId, day, month, year, index) {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/Trainer/Calendar/Delete';
+        async function deleteEvent(eventId, userId, day, month, year, index) {
+            try {
+                const formData = new FormData();
+                formData.append('eventId', eventId);
+                formData.append('userId', userId);
 
-            const calendarInput = document.createElement('input');
-            calendarInput.type = 'hidden';
-            calendarInput.name = 'calendarId';
-            calendarInput.value = calendarId;
-            form.appendChild(calendarInput);
-
-            const workoutInput = document.createElement('input');
-            workoutInput.type = 'hidden';
-            workoutInput.name = 'workoutId';
-            workoutInput.value = workoutId;
-            form.appendChild(workoutInput);
-
-            const userInput = document.createElement('input');
-            userInput.type = 'hidden';
-            userInput.name = 'userId';
-            userInput.value = userId;
-            form.appendChild(userInput);
-
-            const token = document.querySelector('input[name="__RequestVerificationToken"]');
-            if (token) {
-                const tokenInput = document.createElement('input');
-                tokenInput.type = 'hidden';
-                tokenInput.name = '__RequestVerificationToken';
-                tokenInput.value = token.value;
-                form.appendChild(tokenInput);
-            }
-
-            document.body.appendChild(form);
-            form.submit();
-
-            // Client-side update (will be refreshed by server redirect, but keeping for immediate feedback)
-            const eventObj = eventsArr.find(e =>
-                e.day === day && e.month === month && e.year === year
-            );
-            if (eventObj) {
-                eventObj.events.splice(index, 1);
-                if (eventObj.events.length === 0) {
-                    const arrIndex = eventsArr.indexOf(eventObj);
-                    eventsArr.splice(arrIndex, 1);
+                const token = document.querySelector('input[name="__RequestVerificationToken"]');
+                if (token) {
+                    formData.append('__RequestVerificationToken', token.value);
                 }
-                updateEvents(activeDay);
-                const activeDayEl = document.querySelector(".day.active");
-                if (activeDayEl && eventsArr.every(e => e.day !== day || e.month !== month || e.year !== year)) {
-                    activeDayEl.classList.remove("event");
+
+                const response = await fetch('/Trainer/Calendar/Delete', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const eventObj = eventsArr.find(e =>
+                        e.day === day && e.month === month && e.year === year
+                    );
+                    if (eventObj) {
+                        eventObj.events.splice(index, 1);
+                        if (eventObj.events.length === 0) {
+                            const arrIndex = eventsArr.indexOf(eventObj);
+                            eventsArr.splice(arrIndex, 1);
+                        }
+                        updateEvents(activeDay);
+                        const activeDayEl = document.querySelector(".day.active");
+                        if (activeDayEl && eventsArr.every(e => e.day !== day || e.month !== month || e.year !== year)) {
+                            activeDayEl.classList.remove("event");
+                        }
+                    }
+                } else {
+                    alert("Failed to delete event. Please try again.");
                 }
+            } catch (error) {
+                console.error("Error deleting event:", error);
+                alert("An error occurred while deleting the event.");
             }
         }
 
@@ -1534,7 +1643,7 @@
         addEventTo.addEventListener("input", (e) => {
             addEventTo.value = addEventTo.value.replace(/[^0-9:]/g, "");
             if (addEventTo.value.length === 2) addEventTo.value += ":";
-            if (addEventTo.value.length > 5) addEventTo.value = addEventFrom.value.slice(0, 5);
+            if (addEventTo.value.length > 5) addEventTo.value = addEventTo.value.slice(0, 5);
         });
 
         attachWorkoutBtn.addEventListener("click", (e) => {
@@ -1646,6 +1755,7 @@
                             item.year === year
                         ) {
                             item.events.push(newEvent);
+                            item.eventId = result.eventId;
                             eventAdded = true;
                         }
                     });
@@ -1655,7 +1765,9 @@
                             day: activeDay,
                             month: month + 1,
                             year: year,
+                            eventId: result.eventId,
                             events: [newEvent],
+                            isMine: true // Assuming new events are mine
                         });
                     }
 
@@ -1685,30 +1797,58 @@
         });
 
         function getEvents() {
-            const serverEvents = @Html.Raw(Json.Serialize(Model.Workouts.Select(w => new
+            const serverWorkoutEvents = @Html.Raw(Json.Serialize(Model.Workouts.Select(w => new
             {
                 day = w.Date.Day,
                 month = w.Date.Month,
                 year = w.Date.Year,
+                eventId = w.EventId,
+                isMine = w.IsMine,
                 events = new[] {
-                new {
-                title = w.Name,
-                time = (w.StartEventTime != null && w.EndEventTime != null)
-                ? $"{w.StartEventTime:hh\\:mm} - {w.EndEventTime:hh\\:mm}"
-                : "Time not set",
-                workout = new {
-                id = w.Id,
-                name = w.Name,
-                imageUrl = w.ImageUrl,
-                exerciseCount = w.ExerciseCount,
-                muscleGroup = w.MuscleGroup
+                    new {
+                        type = "workout",
+                        title = w.Name,
+                        time = (w.StartEventTime != null && w.EndEventTime != null)
+                            ? $"{w.StartEventTime:hh\\:mm} - {w.EndEventTime:hh\\:mm}"
+                            : "Time not set",
+                        workout = new {
+                            id = w.Id,
+                            name = w.Name,
+                            imageUrl = w.ImageUrl,
+                            exerciseCount = w.ExerciseCount,
+                            muscleGroup = w.MuscleGroup
+                        }
+                    }
                 }
-                }
+            })));
+
+            const serverMealEvents = @Html.Raw(Json.Serialize(Model.Meals.Select(m => new
+            {
+                day = m.Date.Day,
+                month = m.Date.Month,
+                year = m.Date.Year,
+                eventId = m.EventId,
+                isMine = m.IsMine,
+                events = new[] {
+                    new {
+                        type = "meal",
+                        title = m.Name,
+                        time = (m.StartEventTime != null && m.EndEventTime != null)
+                            ? $"{m.StartEventTime:hh\\:mm} - {m.EndEventTime:hh\\:mm}"
+                            : m.MealTime ?? "Time not set",
+                        meal = new {
+                            id = m.Id,
+                            name = m.Name,
+                            imageUrl = m.ImageUrl,
+                            calories = m.Calories,
+                            mealCount = m.MealCount
+                        }
+                    }
                 }
             })));
 
             eventsArr.length = 0;
-            eventsArr.push(...serverEvents);
+            eventsArr.push(...serverWorkoutEvents, ...serverMealEvents);
         }
 
         function convertTime(time) {

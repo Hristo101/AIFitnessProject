@@ -112,10 +112,10 @@ namespace AIFitnessProject.Core.Services
                 .AnyAsync(x => x.Id == id);
         }
 
-        public async Task<DetailsExerciseViewModel> GetModelForDetailsFromWorkouts(int id)
+        public async Task<DetailsExerciseViewModel> GetModelForDetailsFromWorkouts(int id, int workoutId)
         {
             var workoutExercise = await repository.AllAsReadOnly<WorkoutsExercise>()
-                .Where(x => x.ExcersiceId == id)
+                .Where(x => x.ExcersiceId == id && x.WorkoutId == workoutId)
                 .Include(x => x.Workout)
                     .ThenInclude(w => w.TrainingPlanWorkouts)
                         .ThenInclude(tpw => tpw.TrainingPlan)
@@ -312,10 +312,11 @@ namespace AIFitnessProject.Core.Services
             return changes > 0;
         }
 
-        public async Task<EditExerciseFromWorkoutViewModel> GetModelFromWorkoutForEdit(int id)
+        public async Task<EditExerciseFromWorkoutViewModel> GetModelFromWorkoutForEdit(int id,int workoutId)
         {
             var workout = await repository.AllAsReadOnly<WorkoutsExercise>()
                  .Where(x => x.ExcersiceId == id)
+                 .Where(x =>x.WorkoutId == workoutId)
                  .Include(x => x.Workout)
                  .FirstAsync();
 

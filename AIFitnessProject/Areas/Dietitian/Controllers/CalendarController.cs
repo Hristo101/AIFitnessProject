@@ -32,26 +32,20 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
                     return Json(new { success = false, message = "Invalid data provided" });
                 }
 
-                var success = await calendarService.AddCalendarMealEventAsync(model);
+                var eventId = await calendarService.AddCalendarMealEventAsync(model);
 
-                if (success)
-                {
-                    return Json(new { success = true, message = "Event added successfully" });
-                }
-                else
-                {
-                    return Json(new { success = false, message = "Failed to add event" });
-                }
+                return Json(new { success = true, message = "Event added successfully", eventId });
             }
             catch (Exception ex)
             {
                 return Json(new { success = false, message = $"Error: {ex.Message}" });
             }
         }
-
-        public async Task<IActionResult> Delete(int calendarId, int workoutId)
+        [HttpPost]
+        public async Task<IActionResult> Delete(int eventId,string userId)
         {
-            return View();
+            await calendarService.DeleteMealEvenet(eventId);
+            return RedirectToAction("UserCalendar", new { id = userId });
         }
     }
 }
