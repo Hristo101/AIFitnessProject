@@ -83,15 +83,15 @@
                                        asp-controller="Meal"
                                        asp-action="DetailsMealFromCalendar"
                                        asp-route-id="@meal.Id"
-                                       class="details-btn">Details</a>
+                                       class="details-btn">Детайли</a>
                                 </div>
                             </div>
                         }
                     </div>
                     <div class="pagination">
-                        <button class="prev-page-btn"><i class="fas fa-angle-left"></i> Previous</button>
+                        <button class="prev-page-btn"><i class="fas fa-angle-left"></i> Предишна</button>
                         <span class="page-info"></span>
-                        <button class="next-page-btn">Next <i class="fas fa-angle-right"></i></button>
+                        <button class="next-page-btn">Следваща <i class="fas fa-angle-right"></i></button>
                     </div>
                 </div>
             </div>
@@ -104,18 +104,18 @@
             <div class="events"></div>
             <div class="add-event-wrapper">
                 <div class="add-event-header">
-                    <div class="title">Add Event</div>
+                    <div class="title">Добави събитие</div>
                     <i class="fas fa-times close"></i>
                 </div>
                 <div class="add-event-body">
                     <div class="add-event-input">
-                        <input type="text" placeholder="Event Name" class="event-name" />
+                        <input type="text" placeholder="Име на събитието" class="event-name" />
                     </div>
                     <div class="add-event-input">
-                        <input type="text" placeholder="Event Time From" class="event-time-from" />
+                        <input type="text" placeholder="Начало на събитието" class="event-time-from" />
                     </div>
                     <div class="add-event-input">
-                        <input type="text" placeholder="Event Time To" class="event-time-to" />
+                        <input type="text" placeholder="Край на събитието" class="event-time-to" />
                     </div>
                     <div class="add-event-input workout-input">
                         <button class="attach-workout-btn">
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="add-event-footer">
-                    <button class="add-event-btn">Add Event</button>
+                    <button class="add-event-btn">Добави събитие</button>
                 </div>
             </div>
         </div>
@@ -1437,12 +1437,12 @@
                                             </div>
                                         </div>
                                     ` : ''}
-                                    <button class="delete-btn" onclick="confirmDelete(${eventObj.eventId}, '${userId}', ${eventObj.day}, ${eventObj.month}, ${eventObj.year}, ${index})">Delete</button>
+                                    <button class="delete-btn" onclick="confirmDelete(${eventObj.eventId}, '${userId}', ${eventObj.day}, ${eventObj.month}, ${eventObj.year}, ${index})">Изтрий</button>
                                 </div>`;
                     });
                 }
             });
-            eventsContainer.innerHTML = events || `<div class="no-event"><h3>No Events</h3></div>`;
+            eventsContainer.innerHTML = events || `<div class="no-event"><h3>Няма събития</h3></div>`;
         }
 
         function confirmDelete(eventId, userId, day, month, year, index) {
