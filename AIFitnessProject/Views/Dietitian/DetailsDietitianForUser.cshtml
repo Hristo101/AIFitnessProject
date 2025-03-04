@@ -440,10 +440,10 @@
 </head>
 <body>
     <div class="container">
-        <a href="#" class="back-btn" onclick="history.back()">
+      
+        <a class="back-btn" asp-controller="Account" asp-action="MyDietitian">
             ← Назад
         </a>
-
     
         <section class="trainer-profile">
             <div class="trainer-media">
@@ -455,7 +455,7 @@
                 {
                     <img src="data:image/jpeg;base64,@Model.DietitianImage" class="trainer-image" alt="Снимка на диетолога">
                 }
-                <div class="certification-badge" onclick="openCertificationModal('@Model.SertificationImage')">
+                <div class="certification-badge">
                     @if (Model.SertificationImage.StartsWith("http") || Model.SertificationImage.StartsWith("/img"))
                     {
                         <img src="@Model.SertificationImage" class="certification-image" alt="Сертификат">
