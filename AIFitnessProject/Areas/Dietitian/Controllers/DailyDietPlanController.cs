@@ -116,7 +116,7 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             await dailyDietPlanService.EditAsync(id, model);
 
-            return RedirectToAction(nameof(Details), new { id = model.Id });
+            return RedirectToAction(nameof(All), new { id = model.Id });
         }
 
         [HttpPost]
