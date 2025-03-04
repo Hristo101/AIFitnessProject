@@ -90,7 +90,7 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             await dietService.EditAsync(id, model);
 
-            return RedirectToAction(nameof(Details), new { id = model.Id });
+            return RedirectToAction(nameof(All), new { id = model.Id });
         }
 
         [HttpGet]
