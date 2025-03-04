@@ -296,3 +296,31 @@ label {
     margin-right: 0.5rem;
     color: var(--primary-color);
 }
+.video-button-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.video-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ff0000; 
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+    .video-btn:hover {
+        background-color: #cc0000;
+        color: white;
+    }
+
+    .video-btn .btn-text {
+        margin-right: 10px;
+    }
+
+    .video-btn .btn-icon {
+        font-size: 16px;
+    }

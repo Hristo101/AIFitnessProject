@@ -298,7 +298,7 @@ a {
         </div>
         <div class="card-body p-4">
           
-            <form asp-action="Add"  asp-controller="Workout" asp-route-trainingPlanId="@Model.TrainingPlanId" asp-area="Trainer" method="post" enctype="multipart/form-data">
+            <form asp-action="Create" asp-controller="Workout" asp-area="Trainer" method="post" enctype="multipart/form-data">
                 <input type="hidden" asp-for="TrainingPlanId" />
            
                 <div class="row g-4 mb-5 animate__animated animate__fadeIn">

@@ -1,5 +1,5 @@
-﻿@using AIFitnessProject.Core.Models.Diet
-@model DietDetailsViewModel
+﻿@using AIFitnessProject.Core.Models.TrainingPlan
+@model TrainingPlanDetailsViewModel
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 @{
     ViewData["Title"] = Model.Name;
@@ -13,14 +13,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@Model.Name - AI Fitness</title>
 
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #28b765;
-            --secondary-color: #2ecc71;
+            --primary-color: #6366f1;
+            --secondary-color: #3b82f6;
             --accent-color: #f59e0b;
             --dark-color: #1e293b;
             --light-color: #f8fafc;
@@ -34,7 +33,7 @@
         }
 
         .fw-bold {
-            color: #3CB371;
+            color: black;
             font-weight: 700 !important;
         }
 
@@ -261,7 +260,6 @@
             gap: 15px;
         }
 
-      
         #posted-comment-section {
             display: flex;
             gap: 10px;
@@ -305,7 +303,6 @@
             margin-right: 6px;
         }
 
-       
         @@keyframes buttonHover {
             0% {
                 transform: translateY(0);
@@ -345,7 +342,7 @@
             padding: 8px 16px;
             transform: translateY(0);
             color: #fff;
-            background-image: linear-gradient(145deg, #2ecc71, #28b765);
+            background-image: linear-gradient(145deg, #6a11cb, #2575fc);
             text-shadow: 0 -1px rgba(0, 0, 0, 0.25);
             border-radius: 20px;
             transition: transform 0.3s, border-radius 0.3s, background 10s;
@@ -354,7 +351,7 @@
         .button-3d:active .button-top {
             border-radius: 10px 10px 8px 8px / 8px;
             transform: translateY(2px);
-            background-image: linear-gradient(145deg, #28b765, #2ecc71);
+            background-image: linear-gradient(145deg, #2575fc, #6a11cb);
         }
 
         .button-bottom {
@@ -366,7 +363,7 @@
             padding-top: 6px;
             width: calc(100% - 8px);
             height: calc(100% - 10px);
-            background-image: linear-gradient(145deg, #28b765, #2ecc71);
+            background-image: linear-gradient(145deg, #2575fc, #6a11cb);
             box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
             transition: border-radius 0.2s, padding-top 0.2s;
         }
@@ -383,129 +380,105 @@
             box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.35);
             transition: transform 0.2s;
         }
-
-        .day {
-            --bs-bg-opacity: 1;
-            background-color: #1e6b38 !important;
-        }
-
-        .alert-info {
-            --bs-alert-color: var(--bs-info-text-emphasis);
-            --bs-alert-bg: rgba(40, 167, 69, 0.1) !important;
-            --bs-alert-border-color: #28a745;
-            --bs-alert-link-color: var(--bs-info-text-emphasis);
-        }
     </style>
 </head>
 <body>
-   
     <input type="hidden" id="__RequestVerificationToken" name="__RequestVerificationToken" value="@requestToken">
 
-  
     <section class="hero-section">
         <div class="container text-center text-white" data-aos="zoom-in">
             <h1 class="display-3 fw-bold mb-4">@Model.Name</h1>
             <p class="lead mb-5 opacity-90">@Model.Description</p>
             <div class="training-image-container">
                 <div id="particles-below"></div>
-                <img src="@Model.ImageUrl" alt="Training Plan" class="plan-image img-fluid" data-aos="fade-up">
+                @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("/img"))
+                {
+                    <img src="@Model.ImageUrl" alt="Training Plan" class="plan-image img-fluid" data-aos="fade-up">
+                }
+                else
+                {
+                    <img src="data:image/jpeg;base64,@Model.ImageUrl" alt="Training Plan" class="plan-image img-fluid" data-aos="fade-up">
+                }
                 <div id="particles-above"></div>
             </div>
         </div>
     </section>
 
-   
     <div class="container py-6">
         <div class="alert alert-info mb-5" role="alert">
-            🚨 Ако не сте съгласни с някое от храненията, моля маркирайте го и напишете вашите забележки в полето за коментар.
+            🚨 Ако не сте съгласни с някое от упражненията, моля маркирайте го и напишете вашите забележки в полето за коментар.
         </div>
+
         <div id="workouts-container" class="row g-4">
-            @foreach (var dailyDietPlan in Model.DailyDietPlans)
+            @foreach (var workout in Model.Workouts)
             {
                 <div class="col-12 workout-card-container" data-aos="fade-up">
                     <div class="workout-card p-5">
                         <div class="d-flex justify-content-between align-items-center mb-5">
                             <div>
-                                <h2 class="h1 fw-bold mb-2">@dailyDietPlan.Title</h2>
+                                <h2 class="h1 fw-bold mb-2">@workout.Title</h2>
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="badge day">@dailyDietPlan.DayOfWeek</span>
-                                    <span class="text-muted">@dailyDietPlan.Meals.Count хранения</span>
+                                    <span class="badge bg-primary">@workout.DayOfWeek</span>
+                                    <span class="text-muted">@workout.Exercises.Count упражнения</span>
                                 </div>
                             </div>
-
-                            @if (dailyDietPlan.ImageUrl.StartsWith("http") || dailyDietPlan.ImageUrl.StartsWith("/img"))
-                            {
-                                <img src="@dailyDietPlan.ImageUrl" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 10px rgba(0,0,0,0.2);" alt="@dailyDietPlan.Title">
-                            }
-                            else
-                            {
-                                <img src="data:image/jpeg;base64,@dailyDietPlan.ImageUrl" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 10px rgba(0,0,0,0.2);" alt="@dailyDietPlan.Title">
-                            }
-
+                            <img src="@workout.ImageUrl" alt="@workout.Title" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
                         </div>
 
                         <div class="row g-4">
-                            @foreach (var meal in dailyDietPlan.Meals)
+                            @foreach (var exercise in workout.Exercises)
                             {
                                 <div class="col-md-6 col-lg-4">
                                     <div class="exercise-card">
                                         <input type="checkbox" class="exercise-checkbox"
-                                               id="ex-check-@meal.Id-@dailyDietPlan.Id"
-                                               onchange="toggleComment(@meal.Id,@dailyDietPlan.Id)">
-
+                                               id="ex-check-@exercise.Id-@workout.Id"
+                                               onchange="toggleComment(@exercise.Id, @workout.Id)">
+                                        <span class="difficulty-badge @exercise.DifficultyLevel.ToLower()">
+                                            @exercise.DifficultyLevel
+                                        </span>
                                         <div class="hover-zoom mb-3">
-
-                                            @if (meal.ImageUrl.StartsWith("http") || meal.ImageUrl.StartsWith("/img"))
-                                            {
-                                                <img src="@meal.ImageUrl" class="img-fluid" alt="@meal.Name">
-                                            }
-                                            else
-                                            {
-                                                <img src="data:image/jpeg;base64,@meal.ImageUrl" class="img-fluid" alt="@meal.Name">
-                                            }
+                                            <img src="@exercise.ImageUrl" class="img-fluid" alt="@exercise.Name">
                                         </div>
-
-                                        <h5 class="fw-bold mb-2">@meal.Name</h5>
-                                        <p class="text-muted mb-3">@meal.MealTime</p>
-
+                                        <h5 class="fw-bold mb-2">@exercise.Name</h5>
+                                        <p class="text-muted mb-3">@exercise.Description</p>
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <div>
                                                 <span class="badge highlight-badge me-2">
-                                                    <i class="fas fa-redo me-1"></i>@meal.Calories колории
+                                                    <i class="fas fa-redo me-1"></i>@exercise.Series серии
                                                 </span>
-                                                <span class="badge highlight-badge me-2">@meal.DificultyLevel</span>
+                                                <span class="badge highlight-badge">
+                                                    <i class="fas fa-sync-alt me-1"></i>@exercise.Repetitions повторения
+                                                </span>
                                             </div>
                                         </div>
-
                                         <div class="d-flex gap-2">
-                                            <a href="@meal.VideoUrl" target="_blank" class="btn btn-gradient flex-grow-1">
+                                            <a href="@exercise.VideoUrl" target="_blank" class="btn btn-gradient flex-grow-1">
                                                 <i class="fas fa-play me-2"></i>Видео
                                             </a>
-                                            <a href="/Meal/DetailsFromRejectedDiet/@meal.Id" class="btn btn-outline-dark flex-grow-1">
+                                            <a href="/Exercise/Details/@exercise.Id" class="btn btn-outline-dark flex-grow-1">
                                                 <i class="fas fa-info-circle me-2"></i>Детайли
                                             </a>
                                         </div>
-
-                                        <div class="comment-section" id="comment-section-@meal.Id-@dailyDietPlan.Id">
+                                        <div class="comment-section" id="comment-section-@exercise.Id-@workout.Id">
                                             <div class="container input-container">
                                                 <input required="required"
                                                        class="inp"
-                                                       id="comment-@meal.Id-@dailyDietPlan.Id"
+                                                       id="comment-@exercise.Id-@workout.Id"
                                                        placeholder=" ">
                                                 <span class="content">Коментар</span>
                                             </div>
                                             <button class="submit-comment-btn"
-                                                    id="submit-btn-@meal.Id-@dailyDietPlan.Id"
-                                                    onclick="submitComment(@meal.Id,@dailyDietPlan.Id)">
+                                                    id="submit-btn-@exercise.Id-@workout.Id"
+                                                    onclick="submitComment(@exercise.Id, @workout.Id)">
                                                 <i class="fas fa-paper-plane me-2"></i>Изпрати забележка
                                             </button>
                                         </div>
-                                        <div class="disagree-text" id="disagree-text-@meal.Id-@dailyDietPlan.Id">
+                                        <div class="disagree-text" id="disagree-text-@exercise.Id-@workout.Id">
                                             ⚠️ Маркирахте, че не сте съгласни с това упражнение
                                         </div>
-                                        <div id="posted-comment-section-@meal.Id-@dailyDietPlan.Id" style="display: none; margin-top:10px;">
-                                            <div id="posted-comment-@meal.Id-@dailyDietPlan.Id" style="font-weight: bold; margin-bottom: 10px;"></div>
-                                            <button class="btn-edit" onclick="editComment(@meal.Id,@dailyDietPlan.Id)">
+                                        <div id="posted-comment-section-@exercise.Id-@workout.Id" style="display: none; margin-top:10px;">
+                                            <div id="posted-comment-@exercise.Id-@workout.Id" style="font-weight: bold; margin-bottom: 10px;"></div>
+                                            <button class="btn-edit" onclick="editComment(@exercise.Id, @workout.Id)">
                                                 <div class="svg-wrapper">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                                                         <path fill="none" d="M0 0h24v24H0z" />
@@ -514,8 +487,7 @@
                                                 </div>
                                                 <span>Редактирай</span>
                                             </button>
-
-                                            <button class="btn-delete" onclick="deleteComment(@meal.Id,@dailyDietPlan.Id)">
+                                            <button class="btn-delete" onclick="deleteComment(@exercise.Id, @workout.Id)">
                                                 <div class="svg-wrapper">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                                                         <path fill="none" d="M0 0h24v24H0z" />
@@ -534,10 +506,6 @@
             }
         </div>
 
-
-
-
-     
         <div class="button-container">
             <button class="button-3d" id="prev-btn" disabled>
                 <div class="button-top">
@@ -556,14 +524,13 @@
         </div>
 
         <div class="text-center mt-6 d-flex justify-content-center gap-3" data-aos="fade-up">
-            <form method="post" asp-action="SendEditDiet" asp-controller="UserDiet">
+            <form method="post" asp-action="SendEditTrainingPlan" asp-controller="UserTrainingPlan">
                 <input type="hidden" name="id" value="@Model.Id" />
                 <button type="submit" class="btn-gradient">
                     <i class="fas fa-check-circle me-2"></i>Изпрати плана
                 </button>
             </form>
-
-            <a asp-action="Details" asp-controller="UserDiet" asp-route-id="@Model.Id" class="btn btn-outline-dark px-4">
+            <a asp-action="Details" asp-controller="UserTrainingPlan" asp-route-id="@Model.Id" class="btn btn-outline-dark px-4">
                 <i class="fas fa-times-circle me-2"></i>Отказ
             </a>
         </div>
@@ -579,7 +546,6 @@
             easing: 'ease-out-quart'
         });
 
-        
         const workoutsPerPage = 1;
         let currentPage = 1;
         const workouts = document.querySelectorAll('.workout-card-container');
@@ -608,14 +574,10 @@
         });
         showPage(currentPage);
 
-        
         document.addEventListener("DOMContentLoaded", function () {
             var particlesConfig = {
                 "particles": {
-                    "number": {
-                        "value": 30,
-                        "density": { "enable": true, "value_area": 800 }
-                    },
+                    "number": { "value": 30, "density": { "enable": true, "value_area": 800 } },
                     "color": { "value": "#ffffff" },
                     "opacity": { "value": 0.3 },
                     "size": { "value": 3 },
@@ -631,11 +593,10 @@
             particlesJS("particles-above", particlesConfig);
         });
 
-        
-        function toggleComment(mealId,dailyDietPlanId) {
-            const commentSection = document.getElementById(`comment-section-${mealId}-${dailyDietPlanId}`);
-            const disagreeText = document.getElementById(`disagree-text-${mealId}-${dailyDietPlanId}`);
-            const checkbox = document.getElementById(`ex-check-${mealId}-${dailyDietPlanId}`);
+        function toggleComment(exerciseId, workoutId) {
+            const commentSection = document.getElementById(`comment-section-${exerciseId}-${workoutId}`);
+            const disagreeText = document.getElementById(`disagree-text-${exerciseId}-${workoutId}`);
+            const checkbox = document.getElementById(`ex-check-${exerciseId}-${workoutId}`);
 
             if (checkbox.checked) {
                 commentSection.classList.add('active');
@@ -647,8 +608,8 @@
         }
 
         let editingCommentId = null;
-        async function submitComment(mealId,dailyDietPlanId) {
-            const commentInput = document.getElementById(`comment-${mealId}-${dailyDietPlanId}`);
+        async function submitComment(exerciseId, workoutId) {
+            const commentInput = document.getElementById(`comment-${exerciseId}-${workoutId}`);
             const comment = commentInput.value.trim();
 
             if (!comment) {
@@ -657,17 +618,18 @@
             }
 
             const isEditing = editingCommentId !== null;
-            const url = isEditing ? '/MealFeedback/UpdateComment' : '/MealFeedback/SubmitComment';
+            const url = isEditing ? '/ExerciseFeedback/UpdateComment' : '/ExerciseFeedback/SubmitComment';
             const method = isEditing ? 'PUT' : 'POST';
 
             const requestData = {
-                mealId: mealId,
-                dietId: @Model.Id,  
+                exerciseId: exerciseId,
+                workoutId: workoutId,
+                trainingPlanId: @Model.Id,
                 content: comment
             };
 
             if (isEditing) {
-                requestData.commentId = editingCommentId;
+                requestData.commentId = parseInt(editingCommentId);
             }
 
             try {
@@ -675,6 +637,7 @@
                     method: method,
                     headers: {
                         'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
                         'RequestVerificationToken': document.querySelector('#__RequestVerificationToken').value
                     },
                     body: JSON.stringify(requestData)
@@ -682,20 +645,25 @@
 
                 const data = await response.json();
 
-                if (!response.ok) throw new Error(data.error || 'Неизвестна грешка');
+                if (!response.ok) {
+                    throw new Error(data.error || 'Неизвестна грешка при изпращане');
+                }
 
                 if (data.success) {
-
-                    document.getElementById(`posted-comment-${mealId}-${dailyDietPlanId}`).textContent = comment;
-                    document.getElementById(`posted-comment-section-${mealId}-${dailyDietPlanId}`).style.display = 'block';
+                    const postedComment = document.getElementById(`posted-comment-${exerciseId}-${workoutId}`);
+                    postedComment.textContent = comment;
+                    postedComment.dataset.commentId = data.commentId;
+                    document.getElementById(`posted-comment-section-${exerciseId}-${workoutId}`).style.display = 'block';
 
                     commentInput.value = '';
                     editingCommentId = null;
 
-                    document.getElementById(`comment-section-${mealId}-${dailyDietPlanId}`).classList.remove('active');
-                    document.getElementById(`disagree-text-${mealId}-${dailyDietPlanId}`).style.display = 'none';
+  
+                    document.getElementById(`ex-check-${exerciseId}-${workoutId}`).checked = false;
+                    document.getElementById(`comment-section-${exerciseId}-${workoutId}`).classList.remove('active');
+                    document.getElementById(`disagree-text-${exerciseId}-${workoutId}`).style.display = 'none';
 
-                    const submitBtn = document.getElementById(`submit-btn-${mealId}-${dailyDietPlanId}`);
+                    const submitBtn = document.getElementById(`submit-btn-${exerciseId}-${workoutId}`);
                     submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Изпрати забележка';
                 }
             } catch (err) {
@@ -704,40 +672,49 @@
             }
         }
 
-        async function editComment(mealId,dailyDietPlanId) {
-            const commentElement = document.getElementById(`posted-comment-${mealId}-${dailyDietPlanId}`);
+        async function editComment(exerciseId, workoutId) {
+            const commentElement = document.getElementById(`posted-comment-${exerciseId}-${workoutId}`);
             editingCommentId = commentElement.dataset.commentId;
 
-            const submitBtn = document.getElementById(`submit-btn-${mealId}-${dailyDietPlanId}`);
+            if (!editingCommentId) {
+                alert('Няма коментар за редакция!');
+                return;
+            }
+
+            const submitBtn = document.getElementById(`submit-btn-${exerciseId}-${workoutId}`);
             submitBtn.innerHTML = '<i class="fas fa-edit me-2"></i>Запази промените';
 
-          
-            document.getElementById(`comment-${mealId}-${dailyDietPlanId}`).value = commentElement.textContent;
-            document.getElementById(`ex-check-${mealId}-${dailyDietPlanId}`).checked = true;
-            document.getElementById(`comment-section-${mealId}-${dailyDietPlanId}`).classList.add('active');
-            document.getElementById(`disagree-text-${mealId}-${dailyDietPlanId}`).style.display = 'block';
-            document.getElementById(`posted-comment-section-${mealId}-${dailyDietPlanId}`).style.display = 'none';
-
-            commentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            document.getElementById(`comment-${exerciseId}-${workoutId}`).value = commentElement.textContent;
+            document.getElementById(`ex-check-${exerciseId}-${workoutId}`).checked = true;
+            document.getElementById(`comment-section-${exerciseId}-${workoutId}`).classList.add('active');
+            document.getElementById(`disagree-text-${exerciseId}-${workoutId}`).style.display = 'block';
+            document.getElementById(`posted-comment-section-${exerciseId}-${workoutId}`).style.display = 'none';
         }
 
-        
-        async function deleteComment(mealId,dailyDietPlanId) {
+        async function deleteComment(exerciseId, workoutId) {
             if (!confirm('Сигурни ли сте, че искате да изтриете коментара?')) return;
 
-            const commentId = document.getElementById(`posted-comment-${mealId}-${dailyDietPlanId}`).dataset.commentId;
+            const commentId = document.getElementById(`posted-comment-${exerciseId}-${workoutId}`).dataset.commentId;
+
+            if (!commentId) {
+                alert('Няма коментар за изтриване!');
+                return;
+            }
 
             try {
-                const response = await fetch('/MealFeedback/DeleteComment', {
+                const response = await fetch('/ExerciseFeedback/DeleteComment', {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
                         'RequestVerificationToken': document.querySelector('#__RequestVerificationToken').value
                     },
                     body: JSON.stringify({
-                        mealId: mealId,
-                        dietId: @Model.Id  
-                                        })
+                        commentId: parseInt(commentId),
+                        exerciseId: exerciseId,
+                        workoutId: workoutId,
+                        trainingPlanId: @Model.Id
+                            })
                 });
 
                 const data = await response.json();
@@ -745,9 +722,9 @@
                 if (!response.ok) throw new Error(data.error || 'Неизвестна грешка');
 
                 if (data.success) {
-                    document.getElementById(`posted-comment-section-${mealId}-${dailyDietPlanId}`).style.display = 'none';
-                    document.getElementById(`ex-check-${mealId}-${dailyDietPlanId}`).checked = false;
-                    toggleComment(mealId,dailyDietPlanId);
+                    document.getElementById(`posted-comment-section-${exerciseId}-${workoutId}`).style.display = 'none';
+                    document.getElementById(`ex-check-${exerciseId}-${workoutId}`).checked = false;
+                    toggleComment(exerciseId, workoutId);
                 }
             } catch (err) {
                 console.error('Delete error:', err);
@@ -755,6 +732,5 @@
             }
         }
     </script>
-
 </body>
 </html>

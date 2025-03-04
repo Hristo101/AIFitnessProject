@@ -57,7 +57,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                 new Exercise
                 {
                     Id = 4,
-                    Name = "Кофички",
+                    Name = "Флайс",
                     Description = "Упражнение за средната част на гърдите.",
                     ImageUrl = "https://www.mybodycreator.com/content/files/2023/05/28/399_M.png",
                     VideoUrl = "https://www.youtube.com/watch?v=GhG-UXc2v1Y",

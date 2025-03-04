@@ -202,9 +202,9 @@
 
                   
                     <div class="user-section">
-                        @if (plan.UserImageUrl.StartsWith("http") || plan.UserImageUrl.StartsWith("/img"))
+                        @if (plan.UserImageUrl.StartsWith("http") || plan.UserImageUrl.StartsWith("/img") || plan.UserImageUrl.StartsWith("~/img"))
                         {
-                            <img src="@plan.UserImageUrl" class="user-image" alt="@plan.UserImageUrl">
+                            <img src="@Url.Content(plan.UserImageUrl)" class="user-image" alt="@plan.UserImageUrl">
                         }
                         else
                         {

@@ -115,9 +115,9 @@
      <form asp-action="SendConfrimed" method="post" asp-route-id="@Model.Id" class="needs-validation" enctype="multipart/form-data" novalidate>
     <div class="container confirmation-container">
         <div class="card">
-                @if (Model.ImageUrlTrainingPlan.StartsWith("http") || Model.ImageUrlTrainingPlan.StartsWith("/img"))
+                @if (Model.ImageUrlTrainingPlan.StartsWith("http") || Model.ImageUrlTrainingPlan.StartsWith("/img") || Model.ImageUrlTrainingPlan.StartsWith("~/img"))
                         {
-                    <img src="@Model.ImageUrlTrainingPlan" class="training-plan-image" alt="Training Plan">
+                    <img src="@Url.Content(Model.ImageUrlTrainingPlan)" class="training-plan-image" alt="Training Plan">
                 }
                 else
                 {
