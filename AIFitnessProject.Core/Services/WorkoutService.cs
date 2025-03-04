@@ -422,19 +422,18 @@ namespace AIFitnessProject.Core.Services
 
         public async Task<EditWorkoutViewModel> GetViewModelForEdit(int id,int trainingPlanId)
         {
-            var model = await repository.AllAsReadOnly<TrainingPlanWorkout>()
-                .Where(x =>x.WorkoutId == id)
-                .Include(x=>x.Workout)
+            var model = await repository.AllAsReadOnly<Workout>()
+                .Where(x =>x.Id == id)
                 .Select(x => new EditWorkoutViewModel
                 {
-                    DayOfWeek = x.Workout.DayOfWeek,
-                    DifficultyLevel = x.Workout.DificultyLevel,
-                    ImageUrl= x.Workout.ImageUrl,
-                    MuscleGroup = x.Workout.MuscleGroup,
-                    Id = x.Workout.Id,
+                    DayOfWeek = x.DayOfWeek,
+                    DifficultyLevel = x.DificultyLevel,
+                    ImageUrl= x.ImageUrl,
+                    MuscleGroup = x.MuscleGroup,
+                    Id = x.Id,
                     TrainingPlanId = trainingPlanId,
-                    OrderInWorkout = x.Workout.OrderInWorkout,
-                    Title = x.Workout.Title,
+                    OrderInWorkout = x.OrderInWorkout,
+                    Title = x.Title,
                 })
                 .FirstOrDefaultAsync();
 

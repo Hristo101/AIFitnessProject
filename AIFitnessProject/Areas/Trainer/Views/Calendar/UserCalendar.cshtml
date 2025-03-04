@@ -1,11 +1,9 @@
-﻿
-@using AIFitnessProject.Core.Models.Calendar
+﻿@using AIFitnessProject.Core.Models.Calendar
 @model UserCalendarViewModel
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
- 
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -65,10 +63,10 @@
                     <div class="workouts-container">
                         @foreach (var workout in Model.TrainingPlanWorkouts)
                         {
-                            <div class="workout-item" data-workout-id="@workout.Id" 
-                                 data-workout-name="@workout.Name" 
-                                 data-workout-image="@workout.ImageUrl" 
-                                 data-workout-exercises="@workout.ExerciseCount" 
+                            <div class="workout-item" data-workout-id="@workout.Id"
+                                 data-workout-name="@workout.Name"
+                                 data-workout-image="@workout.ImageUrl"
+                                 data-workout-exercises="@workout.ExerciseCount"
                                  data-workout-muscle="@workout.MuscleGroup">
                                 <div class="workout-image">
                                     <img src="@workout.ImageUrl" alt="@workout.Name" class="workout-img" />
@@ -82,10 +80,10 @@
                                     <div class="workout-stats">
                                         <span><i class="fas fa-dumbbell"></i> @workout.MuscleGroup</span>
                                     </div>
-                                    <a asp-area="Trainer" 
-                                       asp-controller="Workout" 
-                                       asp-action="WorkoutDetailsFromCalendar" 
-                                       asp-route-id="@workout.Id" 
+                                    <a asp-area="Trainer"
+                                       asp-controller="Workout"
+                                       asp-action="WorkoutDetailsFromCalendar"
+                                       asp-route-id="@workout.Id"
                                        class="details-btn">Details</a>
                                 </div>
                             </div>
@@ -142,7 +140,6 @@
     </div>
 
     <style>
-       
         :root {
             --primary-clr: #b38add;
             --secondary-clr: #8a54c5;
@@ -211,15 +208,15 @@
             transition: transform 0.3s ease;
         }
 
-        .profile-picture img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+            .profile-picture img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
 
-        .profile-picture:hover {
-            transform: scale(1.05);
-        }
+            .profile-picture:hover {
+                transform: scale(1.05);
+            }
 
         .user-info {
             text-align: center;
@@ -261,58 +258,58 @@
             background-color: #fff;
         }
 
-        .calendar::before,
-        .calendar::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 100%;
-            width: 12px;
-            height: 97%;
-            border-radius: 0 5px 5px 0;
-            background-color: #d3d4d6d7;
-            transform: translateY(-50%);
-        }
+            .calendar::before,
+            .calendar::after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 100%;
+                width: 12px;
+                height: 97%;
+                border-radius: 0 5px 5px 0;
+                background-color: #d3d4d6d7;
+                transform: translateY(-50%);
+            }
 
-        .calendar::before {
-            height: 94%;
-            left: calc(100% + 12px);
-            background-color: rgb(153, 153, 153);
-        }
+            .calendar::before {
+                height: 94%;
+                left: calc(100% + 12px);
+                background-color: rgb(153, 153, 153);
+            }
 
-        .calendar .month {
-            width: 100%;
-            height: 150px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 50px;
-            font-size: 1.2rem;
-            font-weight: 500;
-            text-transform: capitalize;
-        }
+            .calendar .month {
+                width: 100%;
+                height: 150px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 50px;
+                font-size: 1.2rem;
+                font-weight: 500;
+                text-transform: capitalize;
+            }
 
-        .calendar .month .prev,
-        .calendar .month .next {
-            cursor: pointer;
-        }
+                .calendar .month .prev,
+                .calendar .month .next {
+                    cursor: pointer;
+                }
 
-        .calendar .month .prev:hover,
-        .calendar .month .next:hover {
-            color: var(--primary-clr);
-        }
+                    .calendar .month .prev:hover,
+                    .calendar .month .next:hover {
+                        color: var(--primary-clr);
+                    }
 
-        .calendar .weekdays {
-            width: 100%;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            font-size: 1rem;
-            font-weight: 500;
-            text-transform: capitalize;
-        }
+            .calendar .weekdays {
+                width: 100%;
+                height: 100px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 20px;
+                font-size: 1rem;
+                font-weight: 500;
+                text-transform: capitalize;
+            }
 
         .weekdays div {
             width: 14.28%;
@@ -333,91 +330,91 @@
             margin-bottom: 20px;
         }
 
-        .calendar .days .day {
-            width: 14.28%;
-            height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--primary-clr);
-            border: 1px solid #f5f5f5;
-        }
+            .calendar .days .day {
+                width: 14.28%;
+                height: 90px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                color: var(--primary-clr);
+                border: 1px solid #f5f5f5;
+            }
 
-        .calendar .days .day:nth-child(7n + 1) {
-            border-left: 2px solid #f5f5f5;
-        }
+                .calendar .days .day:nth-child(7n + 1) {
+                    border-left: 2px solid #f5f5f5;
+                }
 
-        .calendar .days .day:nth-child(7n) {
-            border-right: 2px solid #f5f5f5;
-        }
+                .calendar .days .day:nth-child(7n) {
+                    border-right: 2px solid #f5f5f5;
+                }
 
-        .calendar .days .day:nth-child(-n + 7) {
-            border-top: 2px solid #f5f5f5;
-        }
+                .calendar .days .day:nth-child(-n + 7) {
+                    border-top: 2px solid #f5f5f5;
+                }
 
-        .calendar .days .day:nth-child(n + 29) {
-            border-bottom: 2px solid #f5f5f5;
-        }
+                .calendar .days .day:nth-child(n + 29) {
+                    border-bottom: 2px solid #f5f5f5;
+                }
 
-        .calendar .days .day:not(.prev-date, .next-date):hover {
-            color: #fff;
-            background-color: var(--primary-clr);
-        }
+                .calendar .days .day:not(.prev-date, .next-date):hover {
+                    color: #fff;
+                    background-color: var(--primary-clr);
+                }
 
-        .calendar .days .prev-date,
-        .calendar .days .next-date {
-            color: #b3b3b3;
-        }
+            .calendar .days .prev-date,
+            .calendar .days .next-date {
+                color: #b3b3b3;
+            }
 
-        .calendar .days .active {
-            position: relative;
-            font-size: 2rem;
-            color: #fff;
-            background-color: var(--primary-clr);
-        }
+            .calendar .days .active {
+                position: relative;
+                font-size: 2rem;
+                color: #fff;
+                background-color: var(--primary-clr);
+            }
 
-        .calendar .days .active::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            box-shadow: 0 0 10px 2px var(--primary-clr);
-        }
+                .calendar .days .active::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    box-shadow: 0 0 10px 2px var(--primary-clr);
+                }
 
-        .calendar .days .today {
-            font-size: 2rem;
-        }
+            .calendar .days .today {
+                font-size: 2rem;
+            }
 
-        .calendar .days .event {
-            position: relative;
-        }
+            .calendar .days .event {
+                position: relative;
+            }
 
-        .calendar .days .event::after {
-            content: "";
-            position: absolute;
-            bottom: 10%;
-            left: 50%;
-            width: 75%;
-            height: 2px;
-            transform: translateX(-50%);
-            background-color: var(--primary-clr);
-        }
+                .calendar .days .event::after {
+                    content: "";
+                    position: absolute;
+                    bottom: 10%;
+                    left: 50%;
+                    width: 75%;
+                    height: 2px;
+                    transform: translateX(-50%);
+                    background-color: var(--primary-clr);
+                }
 
-        .calendar .days .day:hover.event::after {
-            background-color: #fff;
-        }
+            .calendar .days .day:hover.event::after {
+                background-color: #fff;
+            }
 
-        .calendar .days .active.event::after {
-            background-color: #fff;
-            bottom: 20%;
-        }
+            .calendar .days .active.event::after {
+                background-color: #fff;
+                bottom: 20%;
+            }
 
-        .calendar .days .active.event {
-            padding-bottom: 10px;
-        }
+            .calendar .days .active.event {
+                padding-bottom: 10px;
+            }
 
         .calendar .goto-today {
             width: 100%;
@@ -431,44 +428,44 @@
             color: var(--primary-clr);
         }
 
-        .calendar .goto-today .goto {
-            display: flex;
-            align-items: center;
-            border-radius: 5px;
-            overflow: hidden;
-            border: 1px solid var(--primary-clr);
-        }
+            .calendar .goto-today .goto {
+                display: flex;
+                align-items: center;
+                border-radius: 5px;
+                overflow: hidden;
+                border: 1px solid var(--primary-clr);
+            }
 
-        .calendar .goto-today .goto input {
-            width: 100%;
-            height: 30px;
-            outline: none;
-            border: none;
-            border-radius: 5px;
-            padding: 0 20px;
-            color: var(--primary-clr);
-            border-radius: 5px;
-        }
+                .calendar .goto-today .goto input {
+                    width: 100%;
+                    height: 30px;
+                    outline: none;
+                    border: none;
+                    border-radius: 5px;
+                    padding: 0 20px;
+                    color: var(--primary-clr);
+                    border-radius: 5px;
+                }
 
-        .calendar .goto-today button {
-            padding: 5px 10px;
-            border: 1px solid var(--primary-clr);
-            border-radius: 5px;
-            background-color: transparent;
-            cursor: pointer;
-            color: var(--primary-clr);
-        }
+            .calendar .goto-today button {
+                padding: 5px 10px;
+                border: 1px solid var(--primary-clr);
+                border-radius: 5px;
+                background-color: transparent;
+                cursor: pointer;
+                color: var(--primary-clr);
+            }
 
-        .calendar .goto-today button:hover {
-            color: #fff;
-            background-color: var(--primary-clr);
-        }
+                .calendar .goto-today button:hover {
+                    color: #fff;
+                    background-color: var(--primary-clr);
+                }
 
-        .calendar .goto-today .goto button {
-            border: none;
-            border-left: 1px solid var(--primary-clr);
-            border-radius: 0;
-        }
+            .calendar .goto-today .goto button {
+                border: none;
+                border-left: 1px solid var(--primary-clr);
+                border-radius: 0;
+            }
 
         .container .right {
             position: relative;
@@ -492,16 +489,16 @@
             text-transform: capitalize;
         }
 
-        .right .today-date .event-day {
-            font-size: 2rem;
-            font-weight: 500;
-        }
+            .right .today-date .event-day {
+                font-size: 2rem;
+                font-weight: 500;
+            }
 
-        .right .today-date .event-date {
-            font-size: 1rem;
-            font-weight: 400;
-            color: #878895;
-        }
+            .right .today-date .event-date {
+                font-size: 1rem;
+                font-weight: 400;
+                color: #878895;
+            }
 
         .events {
             width: 100%;
@@ -518,17 +515,16 @@
             margin-bottom: 20px;
         }
 
-        .workouts-section h2, .meals-section h2 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            border-bottom: 2px solid var(--primary-clr);
-            padding-bottom: 5px;
-        }
+            .workouts-section h2, .meals-section h2 {
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: #fff;
+                margin-bottom: 10px;
+                text-transform: uppercase;
+                border-bottom: 2px solid var(--primary-clr);
+                padding-bottom: 5px;
+            }
 
-       
         .event {
             position: relative;
             width: 100%;
@@ -540,48 +536,48 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .event:nth-child(even) {
-            background: rgba(63, 68, 88, 0.7);
-        }
+            .event:nth-child(even) {
+                background: rgba(63, 68, 88, 0.7);
+            }
 
-        .event:hover {
-            background: linear-gradient(90deg, var(--primary-clr), rgba(63, 68, 88, 0.9));
-            box-shadow: 0 4px 15px var(--shadow-clr);
-            transform: translateY(-2px);
-        }
+            .event:hover {
+                background: linear-gradient(90deg, var(--primary-clr), rgba(63, 68, 88, 0.9));
+                box-shadow: 0 4px 15px var(--shadow-clr);
+                transform: translateY(-2px);
+            }
 
-        .event .title {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
+            .event .title {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
 
-        .event .title i {
-            color: var(--primary-clr);
-            font-size: 0.5rem;
-        }
+                .event .title i {
+                    color: var(--primary-clr);
+                    font-size: 0.5rem;
+                }
 
-        .event:hover .title i {
-            color: #fff;
-        }
+            .event:hover .title i {
+                color: #fff;
+            }
 
-        .event .title .event-title {
-            font-size: 1.2rem;
-            font-weight: 500;
-            margin-left: 15px;
-            color: #fff;
-        }
+            .event .title .event-title {
+                font-size: 1.2rem;
+                font-weight: 500;
+                margin-left: 15px;
+                color: #fff;
+            }
 
-        .event .event-time {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-left: 15px;
-            margin-bottom: 10px;
-        }
+            .event .event-time {
+                font-size: 0.9rem;
+                color: rgba(255, 255, 255, 0.8);
+                margin-left: 15px;
+                margin-bottom: 10px;
+            }
 
-        .event:hover .event-time {
-            color: #fff;
-        }
+            .event:hover .event-time {
+                color: #fff;
+            }
 
         .event-workout {
             background: rgba(255, 255, 255, 0.15);
@@ -595,54 +591,54 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .event-workout:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 15px var(--shadow-clr);
-            background: rgba(255, 255, 255, 0.25);
-        }
+            .event-workout:hover {
+                transform: scale(1.02);
+                box-shadow: 0 4px 15px var(--shadow-clr);
+                background: rgba(255, 255, 255, 0.25);
+            }
 
-        .event-workout img {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-right: 15px;
-            border: 2px solid var(--secondary-clr);
-            transition: transform 0.3s ease;
-        }
+            .event-workout img {
+                width: 70px;
+                height: 70px;
+                object-fit: cover;
+                border-radius: 5px;
+                margin-right: 15px;
+                border: 2px solid var(--secondary-clr);
+                transition: transform 0.3s ease;
+            }
 
-        .event-workout:hover img {
-            transform: scale(1.05);
-        }
+            .event-workout:hover img {
+                transform: scale(1.05);
+            }
 
-        .event-workout .workout-details {
-            flex: 1;
-        }
+            .event-workout .workout-details {
+                flex: 1;
+            }
 
-        .event-workout .workout-name {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #fff;
-            margin: 0 0 5px 0;
-            text-transform: uppercase;
-        }
+            .event-workout .workout-name {
+                font-size: 1rem;
+                font-weight: 600;
+                color: #fff;
+                margin: 0 0 5px 0;
+                text-transform: uppercase;
+            }
 
-        .event-workout .workout-info {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.9);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+            .event-workout .workout-info {
+                font-size: 0.85rem;
+                color: rgba(255, 255, 255, 0.9);
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
 
-        .event-workout .workout-info i {
-            color: var(--primary-clr);
-            font-size: 0.9rem;
-        }
+                .event-workout .workout-info i {
+                    color: var(--primary-clr);
+                    font-size: 0.9rem;
+                }
 
-        .event-workout:hover .workout-info i {
-            color: #fff;
-        }
+            .event-workout:hover .workout-info i {
+                color: #fff;
+            }
 
         .event-meal {
             background: rgba(255, 255, 255, 0.15);
@@ -656,54 +652,54 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .event-meal:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 15px var(--shadow-clr);
-            background: rgba(255, 255, 255, 0.25);
-        }
+            .event-meal:hover {
+                transform: scale(1.02);
+                box-shadow: 0 4px 15px var(--shadow-clr);
+                background: rgba(255, 255, 255, 0.25);
+            }
 
-        .event-meal img {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-right: 15px;
-            border: 2px solid var(--secondary-clr);
-            transition: transform 0.3s ease;
-        }
+            .event-meal img {
+                width: 70px;
+                height: 70px;
+                object-fit: cover;
+                border-radius: 5px;
+                margin-right: 15px;
+                border: 2px solid var(--secondary-clr);
+                transition: transform 0.3s ease;
+            }
 
-        .event-meal:hover img {
-            transform: scale(1.05);
-        }
+            .event-meal:hover img {
+                transform: scale(1.05);
+            }
 
-        .event-meal .meal-details {
-            flex: 1;
-        }
+            .event-meal .meal-details {
+                flex: 1;
+            }
 
-        .event-meal .meal-name {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #fff;
-            margin: 0 0 5px 0;
-            text-transform: uppercase;
-        }
+            .event-meal .meal-name {
+                font-size: 1rem;
+                font-weight: 600;
+                color: #fff;
+                margin: 0 0 5px 0;
+                text-transform: uppercase;
+            }
 
-        .event-meal .meal-info {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.9);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+            .event-meal .meal-info {
+                font-size: 0.85rem;
+                color: rgba(255, 255, 255, 0.9);
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
 
-        .event-meal .meal-info i {
-            color: var(--primary-clr);
-            font-size: 0.9rem;
-        }
+                .event-meal .meal-info i {
+                    color: var(--primary-clr);
+                    font-size: 0.9rem;
+                }
 
-        .event-meal:hover .meal-info i {
-            color: #fff;
-        }
+            .event-meal:hover .meal-info i {
+                color: #fff;
+            }
 
         .event .delete-btn {
             background: transparent;
@@ -719,16 +715,16 @@
             margin-left: auto;
         }
 
-        .event .delete-btn:hover {
-            background: var(--primary-clr);
-            color: #fff;
-            border-color: var(--primary-clr);
-            box-shadow: 0 2px 8px var(--shadow-clr);
-        }
+            .event .delete-btn:hover {
+                background: var(--primary-clr);
+                color: #fff;
+                border-color: var(--primary-clr);
+                box-shadow: 0 2px 8px var(--shadow-clr);
+            }
 
-        .event .delete-btn:active {
-            transform: scale(0.95);
-        }
+            .event .delete-btn:active {
+                transform: scale(0.95);
+            }
 
         .add-event {
             position: absolute;
@@ -748,13 +744,13 @@
             cursor: pointer;
         }
 
-        .add-event:hover {
-            opacity: 1;
-        }
+            .add-event:hover {
+                opacity: 1;
+            }
 
-        .add-event i {
-            pointer-events: none;
-        }
+            .add-event i {
+                pointer-events: none;
+            }
 
         .events .no-event {
             width: 100%;
@@ -780,9 +776,9 @@
             transition: max-height 0.5s ease;
         }
 
-        .add-event-wrapper.active {
-            max-height: 450px;
-        }
+            .add-event-wrapper.active {
+                max-height: 450px;
+            }
 
         .add-event-header {
             width: 100%;
@@ -795,19 +791,19 @@
             border-bottom: 1px solid #f5f5f5;
         }
 
-        .add-event-header .close {
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
+            .add-event-header .close {
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
 
-        .add-event-header .close:hover {
-            color: var(--primary-clr);
-        }
+                .add-event-header .close:hover {
+                    color: var(--primary-clr);
+                }
 
-        .add-event-header .title {
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
+            .add-event-header .title {
+                font-size: 1.2rem;
+                font-weight: 500;
+            }
 
         .add-event-body {
             width: 100%;
@@ -818,37 +814,37 @@
             padding: 20px;
         }
 
-        .add-event-body .add-event-input {
-            width: 100%;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+            .add-event-body .add-event-input {
+                width: 100%;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
 
-        .add-event-body .add-event-input input {
-            width: 100%;
-            height: 100%;
-            outline: none;
-            border: none;
-            border-bottom: 1px solid #f5f5f5;
-            padding: 0 10px;
-            font-size: 1rem;
-            font-weight: 400;
-            color: #373c4f;
-        }
+                .add-event-body .add-event-input input {
+                    width: 100%;
+                    height: 100%;
+                    outline: none;
+                    border: none;
+                    border-bottom: 1px solid #f5f5f5;
+                    padding: 0 10px;
+                    font-size: 1rem;
+                    font-weight: 400;
+                    color: #373c4f;
+                }
 
-        .add-event-body .add-event-input input::placeholder {
-            color: #a5a5a5;
-        }
+                    .add-event-body .add-event-input input::placeholder {
+                        color: #a5a5a5;
+                    }
 
-        .add-event-body .add-event-input input:focus {
-            border-bottom: 1px solid var(--primary-clr);
-        }
+                    .add-event-body .add-event-input input:focus {
+                        border-bottom: 1px solid var(--primary-clr);
+                    }
 
-        .add-event-body .add-event-input input:focus::placeholder {
-            color: var(--primary-clr);
-        }
+                        .add-event-body .add-event-input input:focus::placeholder {
+                            color: var(--primary-clr);
+                        }
 
         .workout-input {
             height: 50px;
@@ -877,43 +873,43 @@
             box-shadow: 0 4px 15px var(--shadow-clr);
         }
 
-        .attach-workout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--shadow-clr);
-            background: linear-gradient(135deg, var(--hover-clr), var(--primary-clr));
-        }
+            .attach-workout-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px var(--shadow-clr);
+                background: linear-gradient(135deg, var(--hover-clr), var(--primary-clr));
+            }
 
-        .attach-workout-btn:active {
-            transform: translateY(1px);
-            box-shadow: 0 2px 10px var(--shadow-clr);
-        }
+            .attach-workout-btn:active {
+                transform: translateY(1px);
+                box-shadow: 0 2px 10px var(--shadow-clr);
+            }
 
-        .attach-workout-btn i {
-            font-size: 1.2rem;
-            transition: transform 0.3s ease;
-        }
+            .attach-workout-btn i {
+                font-size: 1.2rem;
+                transition: transform 0.3s ease;
+            }
 
-        .attach-workout-btn:hover i {
-            transform: rotate(20deg);
-        }
+            .attach-workout-btn:hover i {
+                transform: rotate(20deg);
+            }
 
-        .attach-workout-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s ease, height 0.6s ease;
-        }
+            .attach-workout-btn::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                transition: width 0.6s ease, height 0.6s ease;
+            }
 
-        .attach-workout-btn:hover::before {
-            width: 200%;
-            height: 200%;
-        }
+            .attach-workout-btn:hover::before {
+                width: 200%;
+                height: 200%;
+            }
 
         .selected-workout-info {
             margin-left: 10px;
@@ -932,25 +928,25 @@
             padding: 20px;
         }
 
-        .add-event-footer .add-event-btn {
-            height: 40px;
-            font-size: 1rem;
-            font-weight: 500;
-            outline: none;
-            border: none;
-            color: #fff;
-            background-color: var(--primary-clr);
-            border-radius: 5px;
-            cursor: pointer;
-            padding: 5px 20px;
-            border: 1px solid var(--primary-clr);
-            transition: all 0.3s ease;
-        }
+            .add-event-footer .add-event-btn {
+                height: 40px;
+                font-size: 1rem;
+                font-weight: 500;
+                outline: none;
+                border: none;
+                color: #fff;
+                background-color: var(--primary-clr);
+                border-radius: 5px;
+                cursor: pointer;
+                padding: 5px 20px;
+                border: 1px solid var(--primary-clr);
+                transition: all 0.3s ease;
+            }
 
-        .add-event-footer .add-event-btn:hover {
-            background-color: transparent;
-            color: var(--primary-clr);
-        }
+                .add-event-footer .add-event-btn:hover {
+                    background-color: transparent;
+                    color: var(--primary-clr);
+                }
 
         .workouts-list {
             display: none;
@@ -965,9 +961,9 @@
             border: 1px solid var(--primary-clr);
         }
 
-        .workouts-list.active {
-            display: block;
-        }
+            .workouts-list.active {
+                display: block;
+            }
 
         .workouts-container {
             min-height: 300px;
@@ -988,21 +984,21 @@
             border: 2px solid transparent;
         }
 
-        .workout-item.hidden {
-            display: none;
-        }
+            .workout-item.hidden {
+                display: none;
+            }
 
-        .workout-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px var(--shadow-clr);
-            border: 2px solid var(--primary-clr);
-        }
+            .workout-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 25px var(--shadow-clr);
+                border: 2px solid var(--primary-clr);
+            }
 
-        .workout-item.selected {
-            background: linear-gradient(145deg, #f7f2ff, #f0eaff);
-            border: 2px solid var(--primary-clr);
-            box-shadow: 0 8px 25px var(--shadow-clr);
-        }
+            .workout-item.selected {
+                background: linear-gradient(145deg, #f7f2ff, #f0eaff);
+                border: 2px solid var(--primary-clr);
+                box-shadow: 0 8px 25px var(--shadow-clr);
+            }
 
         .workout-image {
             width: 100%;
@@ -1079,30 +1075,30 @@
             flex-wrap: wrap;
         }
 
-        .workout-stats span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: #555;
-            font-size: 0.9rem;
-            background: #f5f5f5;
-            padding: 4px 10px;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-        }
+            .workout-stats span {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                color: #555;
+                font-size: 0.9rem;
+                background: #f5f5f5;
+                padding: 4px 10px;
+                border-radius: 15px;
+                transition: all 0.3s ease;
+            }
 
-        .workout-stats span i {
-            color: var(--primary-clr);
-        }
+                .workout-stats span i {
+                    color: var(--primary-clr);
+                }
 
         .workout-item:hover .workout-stats span {
             background: var(--primary-clr);
             color: #fff;
         }
 
-        .workout-item:hover .workout-stats span i {
-            color: #fff;
-        }
+            .workout-item:hover .workout-stats span i {
+                color: #fff;
+            }
 
         .details-btn {
             display: inline-block;
@@ -1120,12 +1116,12 @@
             text-decoration: none;
         }
 
-        .details-btn:hover {
-            background: transparent;
-            color: var(--primary-clr);
-            border: 2px solid var(--primary-clr);
-            transform: translateY(-2px);
-        }
+            .details-btn:hover {
+                background: transparent;
+                color: var(--primary-clr);
+                border: 2px solid var(--primary-clr);
+                transform: translateY(-2px);
+            }
 
         .pagination {
             display: flex;
@@ -1151,17 +1147,17 @@
             box-shadow: 0 4px 15px var(--shadow-clr);
         }
 
-        .prev-page-btn:hover, .next-page-btn:hover {
-            background: var(--hover-clr);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--shadow-clr);
-        }
+            .prev-page-btn:hover, .next-page-btn:hover {
+                background: var(--hover-clr);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px var(--shadow-clr);
+            }
 
-        .prev-page-btn.disabled, .next-page-btn.disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
+            .prev-page-btn.disabled, .next-page-btn.disabled {
+                background-color: #ccc;
+                cursor: not-allowed;
+                box-shadow: none;
+            }
 
         .page-info {
             font-size: 1rem;
@@ -1181,17 +1177,17 @@
                 border-radius: 0;
             }
 
-            .container .left {
-                width: 100%;
-                height: 100%;
-                padding: 20px 0;
-            }
+                .container .left {
+                    width: 100%;
+                    height: 100%;
+                    padding: 20px 0;
+                }
 
-            .container .right {
-                width: 100%;
-                height: 100%;
-                padding: 20px 0;
-            }
+                .container .right {
+                    width: 100%;
+                    height: 100%;
+                    padding: 20px 0;
+                }
 
             .calendar::before,
             .calendar::after {
@@ -1255,10 +1251,10 @@
                 font-size: 0.8rem;
             }
 
-            .calendar .days .day.active,
-            .calendar .days .day.today {
-                font-size: 1rem;
-            }
+                .calendar .days .day.active,
+                .calendar .days .day.today {
+                    font-size: 1rem;
+                }
 
             .right .today-date {
                 padding: 20px;
@@ -1426,14 +1422,11 @@
             const days = document.querySelectorAll(".day");
             days.forEach((day) => {
                 day.addEventListener("click", (e) => {
-                    
                     days.forEach(d => d.classList.remove("active"));
-                    
                     getActiveDay(e.target.innerHTML);
                     updateEvents(Number(e.target.innerHTML));
                     activeDay = Number(e.target.innerHTML);
 
-                    
                     if (e.target.classList.contains("day")) {
                         e.target.classList.add("active");
                     }
@@ -1503,7 +1496,7 @@
             let workouts = "";
             let meals = "";
             let hasAnyEvent = false;
-            
+
             eventsArr.forEach((eventObj) => {
                 if (date === eventObj.day && month + 1 === eventObj.month && year === eventObj.year) {
                     hasAnyEvent = true;
@@ -1512,47 +1505,47 @@
                         let section = '';
                         if (event.type === "workout" && event.workout) {
                             eventContent = `
-                                <div class="event-workout">
-                                    <img src="${event.workout.imageUrl}" alt="${event.workout.name}" />
-                                    <div class="workout-details">
-                                        <p class="workout-name">${event.workout.name}</p>
-                                        <p class="workout-info"><i class="fas fa-dumbbell"></i> ${event.workout.muscleGroup} - ${event.workout.exerciseCount} Exercises</p>
-                                    </div>
-                                </div>
-                            `;
+                                        <div class="event-workout">
+                                            <img src="${event.workout.imageUrl}" alt="${event.workout.name}" />
+                                            <div class="workout-details">
+                                                <p class="workout-name">${event.workout.name}</p>
+                                                <p class="workout-info"><i class="fas fa-dumbbell"></i> ${event.workout.muscleGroup} - ${event.workout.exerciseCount} Exercises</p>
+                                            </div>
+                                        </div>
+                                    `;
                             section = 'workouts';
                         } else if (event.type === "meal" && event.meal) {
                             eventContent = `
-                                <div class="event-meal">
-                                    <img src="${event.meal.imageUrl}" alt="${event.meal.name}" />
-                                    <div class="meal-details">
-                                        <p class="meal-name">${event.meal.name}</p>
-                                        <p class="meal-info"><i class="fas fa-utensils"></i> ${event.meal.calories} Calories - ${event.meal.mealCount} Items</p>
-                                    </div>
-                                </div>
-                            `;
+                                        <div class="event-meal">
+                                            <img src="${event.meal.imageUrl}" alt="${event.meal.name}" />
+                                            <div class="meal-details">
+                                                <p class="meal-name">${event.meal.name}</p>
+                                                <p class="meal-info"><i class="fas fa-utensils"></i> ${event.meal.calories} Calories - ${event.meal.mealCount} Items</p>
+                                            </div>
+                                        </div>
+                                    `;
                             section = 'meals';
                         }
 
                         const eventHtml = `
-                            <div class="event"
-                                 data-day="${eventObj.day}"
-                                 data-month="${eventObj.month}"
-                                 data-year="${eventObj.year}"
-                                 data-index="${index}"
-                                 data-event-id="${eventObj.eventId}">
-                                <div class="title">
-                                    <i class="fas fa-circle"></i>
-                                    <h3 class="event-title">${event.title}</h3>
-                                </div>
-                                <div class="event-time">
-                                    <span class="event-time">${event.time}</span>
-                                </div>
-                                ${eventContent}
-                                ${eventObj.isMine ? `
-                                    <button class="delete-btn" onclick="confirmDelete(${eventObj.eventId}, '${userId}', ${eventObj.day}, ${eventObj.month}, ${eventObj.year}, ${index})">Delete</button>
-                                ` : ''}
-                            </div>`;
+                                    <div class="event"
+                                         data-day="${eventObj.day}"
+                                         data-month="${eventObj.month}"
+                                         data-year="${eventObj.year}"
+                                         data-index="${index}"
+                                         data-event-id="${eventObj.eventId}">
+                                        <div class="title">
+                                            <i class="fas fa-circle"></i>
+                                            <h3 class="event-title">${event.title}</h3>
+                                        </div>
+                                        <div class="event-time">
+                                            <span class="event-time">${event.time}</span>
+                                        </div>
+                                        ${eventContent}
+                                        ${eventObj.isMine ? `
+                                            <button class="delete-btn" onclick="confirmDelete(${eventObj.eventId}, '${userId}', ${eventObj.day}, ${eventObj.month}, ${eventObj.year}, ${index})">Delete</button>
+                                        ` : ''}
+                                    </div>`;
 
                         if (section === 'workouts') {
                             workouts += eventHtml;
@@ -1563,7 +1556,6 @@
                 }
             });
 
-            
             if (workouts) {
                 workoutsSection.innerHTML = `<h2>Тренировки</h2>${workouts}`;
             } else {
@@ -1576,7 +1568,6 @@
                 mealsSection.innerHTML = '';
             }
 
-           
             const activeDayEl = document.querySelector(".day.active");
             if (activeDayEl) {
                 if (hasAnyEvent) {
@@ -1726,7 +1717,6 @@
             }
 
             const eventData = {
-                
                 calendarId: calendarId,
                 workoutId: selectedWorkoutId,
                 title: eventTitle,
@@ -1736,8 +1726,6 @@
                 month: month + 1,
                 year: year
             };
-
-            console.log("Sending event data:", eventData);
 
             try {
                 const response = await fetch('/Trainer/Calendar/AddEvent', {
@@ -1784,6 +1772,7 @@
                         ) {
                             item.events.push(newEvent);
                             item.eventId = result.eventId;
+                            item.isMine = result.isMine;
                             eventAdded = true;
                         }
                     });
@@ -1795,15 +1784,8 @@
                             year: year,
                             eventId: result.eventId,
                             events: [newEvent],
-                            isMine: true 
+                            isMine: result.isMine
                         });
-                    }
-
-                   
-                    updateEvents(activeDay);
-                    const activeDayEl = document.querySelector(".day.active");
-                    if (!activeDayEl.classList.contains("event")) {
-                        activeDayEl.classList.add("event");
                     }
 
                     addEventWrapper.classList.remove("active");
@@ -1814,6 +1796,9 @@
                     selectedWorkoutInfo.textContent = "";
                     workoutItems.forEach(w => w.classList.remove("selected"));
                     selectedWorkoutId = null;
+
+                    initCalendar();
+                    updateEvents(activeDay);
 
                     alert("Event added successfully!");
                 } else {
@@ -1834,20 +1819,20 @@
                 eventId = w.EventId,
                 isMine = w.IsMine,
                 events = new[] {
-                    new {
-                        type = "workout",
-                        title = w.Name,
-                        time = (w.StartEventTime != null && w.EndEventTime != null)
-                            ? $"{w.StartEventTime:hh\\:mm} - {w.EndEventTime:hh\\:mm}"
-                            : "Time not set",
-                        workout = new {
-                            id = w.Id,
-                            name = w.Name,
-                            imageUrl = w.ImageUrl,
-                            exerciseCount = w.ExerciseCount,
-                            muscleGroup = w.MuscleGroup
-                        }
-                    }
+                new {
+                type = "workout",
+                title = w.Name,
+                time = (w.StartEventTime != null && w.EndEventTime != null)
+                ? $"{w.StartEventTime:hh\\:mm} - {w.EndEventTime:hh\\:mm}"
+                : "Time not set",
+                workout = new {
+                id = w.Id,
+                name = w.Name,
+                imageUrl = w.ImageUrl,
+                exerciseCount = w.ExerciseCount,
+                muscleGroup = w.MuscleGroup
+                }
+                }
                 }
             })));
 
@@ -1859,20 +1844,20 @@
                 eventId = m.EventId,
                 isMine = m.IsMine,
                 events = new[] {
-                    new {
-                        type = "meal",
-                        title = m.Name,
-                        time = (m.StartEventTime != null && m.EndEventTime != null)
-                            ? $"{m.StartEventTime:hh\\:mm} - {m.EndEventTime:hh\\:mm}"
-                            : m.MealTime ?? "Time not set",
-                        meal = new {
-                            id = m.Id,
-                            name = m.Name,
-                            imageUrl = m.ImageUrl,
-                            calories = m.Calories,
-                            mealCount = m.MealCount
-                        }
-                    }
+                new {
+                type = "meal",
+                title = m.Name,
+                time = (m.StartEventTime != null && m.EndEventTime != null)
+                ? $"{m.StartEventTime:hh\\:mm} - {m.EndEventTime:hh\\:mm}"
+                : m.MealTime ?? "Time not set",
+                meal = new {
+                id = m.Id,
+                name = m.Name,
+                imageUrl = m.ImageUrl,
+                calories = m.Calories,
+                mealCount = m.MealCount
+                }
+                }
                 }
             })));
 

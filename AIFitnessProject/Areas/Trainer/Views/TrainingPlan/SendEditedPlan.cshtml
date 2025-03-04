@@ -132,7 +132,7 @@
                     </div>
 
                     <div class="user-profile">
-                        @if (Model.ImageUrlTrainingPlan.StartsWith("http") || Model.ImageUrlTrainingPlan.StartsWith("/img") || Model.ImageUrlTrainingPlan.StartsWith("~/img"))
+                        @if (Model.UserProfilePicture.StartsWith("http") || Model.UserProfilePicture.StartsWith("/img") || Model.UserProfilePicture.StartsWith("~/img"))
                         {
                             <img src="@Url.Content(@Model.UserProfilePicture)" class="profile-picture" alt="User Profile">
                         }
