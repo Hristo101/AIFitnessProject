@@ -13,7 +13,14 @@
     <div class="profile-container">
       
         <div class="profile-header">
-            <img src="data:image/jpeg;base64,@Model.ImageUrl" alt="Profile Picture" alt="Profile Picture">
+            @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("/img"))
+            {
+                <img src="@Model.ImageUrl" alt="Profile Picture" alt="Profile Picture">
+            }
+            else
+            {
+                <img src="data:image/jpeg;base64,@Model.ImageUrl" alt="Profile Picture" alt="Profile Picture">
+            }
             <h2>@Model.FirstName @Model.LastName</h2>
             <p>@Model.ExperienceLevel</p>
         </div>

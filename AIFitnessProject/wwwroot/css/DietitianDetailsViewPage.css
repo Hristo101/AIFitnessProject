@@ -224,9 +224,12 @@
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
     }
 
+
+
 .signup-btn {
     background-color: #ff6347;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-decoration: dashed;
     animation: bounce 1s infinite;
 }
 
@@ -235,7 +238,6 @@
         transform: scale(1.1);
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
     }
-
 @keyframes bounce {
     0%, 100% {
         transform: translateY(0);

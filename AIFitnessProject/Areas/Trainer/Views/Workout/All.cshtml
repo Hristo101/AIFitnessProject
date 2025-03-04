@@ -66,24 +66,16 @@
             <button type="submit" id="attachWorkoutBtn" class="btn btn-attach" disabled>
                 📌 Прикачи тренировка
             </button>
-            <a id="createWorkoutLink" class="btn btn-create" href="#">➕ Създай тренировка</a>
+            <a asp-action="Add" asp-controller="Workout" asp-area="Trainer" class="btn btn-create" asp-route-id="@(Model.FirstOrDefault()?.TrainingPlanId?? 0)">
+                ➕ Създай тренировка
+            </a>
+       
         </form>
     </div>
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const trainingPlanId = document.getElementById("trainingPlanId").value;
-        const createWorkoutLink = document.getElementById("createWorkoutLink");
-
-        if (trainingPlanId && trainingPlanId !== "0") {
-            createWorkoutLink.href = '@Url.Action("Add", "Workout", new { trainingPlanId = "__TRAINING_PLAN_ID__" })'
-                .replace("__TRAINING_PLAN_ID__", trainingPlanId);
-        } else {
-            createWorkoutLink.href = "#";
-            createWorkoutLink.style.display = "none";
-        }
-    });
+   
 
     document.querySelectorAll('select').forEach(select => {
         select.addEventListener('change', filterWorkouts);

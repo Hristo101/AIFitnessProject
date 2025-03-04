@@ -134,7 +134,7 @@ namespace AIFitnessProject.Infrastructure.Data
             builder.ApplyConfiguration(new DailyDietPlanConfiguration());
             builder.ApplyConfiguration(new MealConfiguration());
             builder.ApplyConfiguration(new MealDailyDietPlanConfiguration());
-            builder.ApplyConfiguration(new DietDailyDietPlanConfiguration());
+     
 
             base.OnModelCreating(builder);
         }

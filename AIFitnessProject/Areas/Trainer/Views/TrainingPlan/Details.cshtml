@@ -176,7 +176,7 @@
     <div class="container text-center">
         <h1 class="gradient-text display-3 mb-4 animate__animated animate__fadeInDown">@Model.Name</h1>
         <div class="floating-img">
-            @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("~/img"))
+            @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("~/img") || Model.ImageUrl.StartsWith("/img"))
             {
                 <img src="@Url.Content(Model.ImageUrl)" alt="@Model.ImageUrl" class="img-fluid rounded-lg shadow-lg" style="max-height: 400px;">
             }

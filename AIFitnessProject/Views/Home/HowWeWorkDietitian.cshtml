@@ -107,7 +107,14 @@
                 <div class="comment-item">
                     <div class="comment-header">
                         <div class="comment-author-container">
-                            <img src="data:image/jpeg;base64,@opinion.DietitianImageUrl" alt="Dietitian Image" class="dietitian-image" />
+                            @if (opinion.DietitianImageUrl.StartsWith("http") || opinion.DietitianImageUrl.StartsWith("/img"))
+                            {
+                                <img src="@opinion.DietitianImageUrl" alt="@opinion.FirstName @opinion.LastName" class="dietitian-image" />
+                            }
+                            else
+                            {
+                                <img src="data:image/jpeg;base64,@opinion.DietitianImageUrl" alt="@opinion.FirstName @opinion.LastName" class="dietitian-image" />
+                            }
                             <div class="author-info">
                                 <span class="comment-author">@opinion.FirstName @opinion.LastName</span>
                             </div>

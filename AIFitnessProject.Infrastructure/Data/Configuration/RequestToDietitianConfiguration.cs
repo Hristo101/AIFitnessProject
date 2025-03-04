@@ -33,7 +33,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     PreferredMealsPerDay = "3 хранения",
                     DislikedFoods = "Броколи и спанак",
                     SupplementsUsed = "Протеин и креатин",
-                    IsAnswered = false,
+                    IsAnswered = true,
                     UserPictures = imagesUrl
 
 

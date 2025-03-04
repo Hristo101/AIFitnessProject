@@ -16,7 +16,7 @@
             {
                 <div class="col-12 col-md-6 col-lg-6">
                     <div class="training-card">
-                        @if (training.ImageUrl.StartsWith("http") || training.ImageUrl.StartsWith("~/img"))
+                        @if (training.ImageUrl.StartsWith("http") || training.ImageUrl.StartsWith("~/img") || training.ImageUrl.StartsWith("/img"))
                         {
                             <img src="@Url.Content(training.ImageUrl)" class="card-image w-100" alt="Training">
                         }

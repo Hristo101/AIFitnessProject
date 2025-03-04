@@ -53,6 +53,7 @@ namespace AIFitnessProject.Core.Services
 
             var model = new DetailsDietitianViewModel()
             {
+                Id = dietitian.Id,
                 FirstName = dietitian.User.FirstName,
                 LastName = dietitian.User.LastName,
                 Bio = dietitian.Bio,

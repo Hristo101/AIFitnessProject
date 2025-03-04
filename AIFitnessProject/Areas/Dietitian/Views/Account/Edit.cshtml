@@ -17,7 +17,15 @@
 
             <div class="form-group">
                 <label asp-for="ImageUrl">Снимка на профила</label>
-                <img src="data:image/jpeg;base64,@Model.ImageUrl" alt="Profile Picture" class="current-profile-pic">
+                @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("/img"))
+                {
+                    <img src="@Model.ImageUrl" alt="Profile Picture" class="current-profile-pic">
+                }
+                else
+                {
+                    <img src="data:image/jpeg;base64,@Model.ImageUrl" alt="Profile Picture" class="current-profile-pic">
+                }
+               
                 <input type="file" asp-for="NewImageUrl" />
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
