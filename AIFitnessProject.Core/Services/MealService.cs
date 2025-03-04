@@ -347,7 +347,8 @@ namespace AIFitnessProject.Core.Services
                     Recipe = x.Recipe,
                     VideoUrl = x.VideoUrl,
                     ExistingImageUrl = x.ImageUrl,
-                    DietId = dietId
+                    DietId = dietId,
+                    
                 })
                 .FirstAsync();
 
@@ -372,6 +373,7 @@ namespace AIFitnessProject.Core.Services
                     Recipe = x.Recipe,
                     VideoUrl = x.VideoUrl,
                     ExistingImageUrl = x.ImageUrl,
+                  
                     
                     
                 })

@@ -13,6 +13,42 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/Meal/DetailsMeal.css" />
 </head>
+<style>
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: #3CB371;
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        margin: 0rem auto 2rem;
+        box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+    }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+            background: #3CB371;
+            color: black;
+        }
+
+        .back-button i {
+            margin-right: 0.8rem;
+        }
+
+    .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 4rem;
+        margin-left: 1rem;
+    }
+</style>
 <body class="d-flex flex-column h-100">
 
 
@@ -37,15 +73,12 @@
                             }
                         </div>
 
-                        <div class="video-wrapper">
+                        <div class="meta-grid">
                             @if (!string.IsNullOrEmpty(Model.VideoUrl))
                             {
-                                var videoId = System.Text.RegularExpressions.Regex.Match(Model.VideoUrl, @"(?:v=|\/)([a-zA-Z0-9_-]{11})").Groups[1].Value;
-                                <iframe src="https://www.youtube.com/embed/@videoId"
-                                        title="Видео демонстрация - @Model.Name"
-                                        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen
-                                        aria-label="Видео демонстрация"></iframe>
+                                <a href="@Model.VideoUrl" target="_blank" class="back-button" style="text-decoration: none;">
+                                    <i class="fas fa-play"></i> Гледай видео
+                                </a>
                             }
                             else
                             {
