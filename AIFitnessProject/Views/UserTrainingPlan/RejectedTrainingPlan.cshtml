@@ -260,11 +260,11 @@
             gap: 15px;
         }
 
-        #posted-comment-section {
-            display: flex;
-            gap: 10px;
+        .posted-comment-section {
+            display: none;
             margin-top: 15px;
-            align-items: center;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .btn-edit, .btn-delete {
@@ -301,6 +301,12 @@
             width: 18px;
             height: 18px;
             margin-right: 6px;
+        }
+
+        .comment-buttons-container {
+            display: flex;
+            gap: 1em;
+            justify-content: flex-start;
         }
 
         @@keyframes buttonHover {
@@ -391,9 +397,9 @@
             <p class="lead mb-5 opacity-90">@Model.Description</p>
             <div class="training-image-container">
                 <div id="particles-below"></div>
-                @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("/img"))
+                @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("/img") || Model.ImageUrl.StartsWith("~/img"))
                 {
-                    <img src="@Model.ImageUrl" alt="Training Plan" class="plan-image img-fluid" data-aos="fade-up">
+                    <img src="@Url.Content(Model.ImageUrl)" alt="Training Plan" class="plan-image img-fluid" data-aos="fade-up">
                 }
                 else
                 {
@@ -459,7 +465,7 @@
                                                 <i class="fas fa-info-circle me-2"></i>Детайли
                                             </a>
                                         </div>
-                                      
+
                                         <div class="comment-section" id="comment-section-@exercise.Id-@workout.Id">
                                             <div class="container input-container">
                                                 <input required="required"
@@ -477,26 +483,16 @@
                                         <div class="disagree-text" id="disagree-text-@exercise.Id-@workout.Id">
                                             ⚠️ Маркирахте, че не сте съгласни с това упражнение
                                         </div>
-                                        <div id="posted-comment-section-@exercise.Id-@workout.Id" style="display: none; margin-top:10px;">
-                                            <div id="posted-comment-@exercise.Id-@workout.Id" style="font-weight: bold; margin-bottom: 10px;"></div>
-                                            <button class="btn-edit" onclick="editComment(@exercise.Id, @workout.Id)">
-                                                <div class="svg-wrapper">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                                                        <path fill="none" d="M0 0h24v24H0z" />
-                                                        <path fill="currentColor" d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z" />
-                                                    </svg>
-                                                </div>
-                                                <span>Редактирай</span>
-                                            </button>
-                                            <button class="btn-delete" onclick="deleteComment(@exercise.Id, @workout.Id)">
-                                                <div class="svg-wrapper">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                                                        <path fill="none" d="M0 0h24v24H0z" />
-                                                        <path fill="currentColor" d="M16 9v10H8V9h8zm-1 1H9v8h6V10zM18 4v2H6V4h2.5l1-2h5l1 2H18z" />
-                                                    </svg>
-                                                </div>
-                                                <span>Изтрий</span>
-                                            </button>
+                                        <div class="posted-comment-section" id="posted-comment-section-@exercise.Id-@workout.Id">
+                                            <div id="posted-comment-@exercise.Id-@workout.Id" style="font-weight: bold;"></div>
+                                            <div class="comment-buttons-container">
+                                                <button class="btn-edit" onclick="editComment(@exercise.Id, @workout.Id)">
+                                                    <i class="fas fa-edit me-2"></i>Редактирай
+                                                </button>
+                                                <button class="btn-delete" onclick="deleteComment(@exercise.Id, @workout.Id)">
+                                                    <i class="fas fa-trash me-2"></i>Изтрий
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -506,7 +502,6 @@
                 </div>
             }
         </div>
-
 
         <div class="button-container">
             <button class="button-3d" id="prev-btn" disabled>
@@ -548,7 +543,7 @@
             easing: 'ease-out-quart'
         });
 
-   
+        // Pagination logic
         const workoutsPerPage = 1;
         let currentPage = 1;
         const workouts = document.querySelectorAll('.workout-card-container');
@@ -577,9 +572,9 @@
         });
         showPage(currentPage);
 
-      
+        // Particles initialization
         document.addEventListener("DOMContentLoaded", function () {
-            var particlesConfig = {
+            const particlesConfig = {
                 "particles": {
                     "number": { "value": 30, "density": { "enable": true, "value_area": 800 } },
                     "color": { "value": "#ffffff" },
@@ -597,7 +592,9 @@
             particlesJS("particles-above", particlesConfig);
         });
 
-       
+        // Comment functionality
+        let editingCommentId = null;
+
         function toggleComment(exerciseId, workoutId) {
             const commentSection = document.getElementById(`comment-section-${exerciseId}-${workoutId}`);
             const disagreeText = document.getElementById(`disagree-text-${exerciseId}-${workoutId}`);
@@ -612,7 +609,6 @@
             }
         }
 
-        let editingCommentId = null;
         async function submitComment(exerciseId, workoutId) {
             const commentInput = document.getElementById(`comment-${exerciseId}-${workoutId}`);
             const comment = commentInput.value.trim();
@@ -634,7 +630,7 @@
             };
 
             if (isEditing) {
-                requestData.commentId = editingCommentId;
+                requestData.commentId = parseInt(editingCommentId);
             }
 
             try {
@@ -642,6 +638,7 @@
                     method: method,
                     headers: {
                         'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
                         'RequestVerificationToken': document.querySelector('#__RequestVerificationToken').value
                     },
                     body: JSON.stringify(requestData)
@@ -649,26 +646,29 @@
 
                 const data = await response.json();
 
-                if (!response.ok) throw new Error(data.error || 'Неизвестна грешка');
+                if (!response.ok) {
+                    throw new Error(data.error || 'Грешка при изпращане на коментара');
+                }
 
                 if (data.success) {
+                    const postedCommentSection = document.getElementById(`posted-comment-section-${exerciseId}-${workoutId}`);
                     const postedComment = document.getElementById(`posted-comment-${exerciseId}-${workoutId}`);
                     postedComment.textContent = comment;
-                    postedComment.dataset.commentId = data.commentId || editingCommentId; 
-                    document.getElementById(`posted-comment-section-${exerciseId}-${workoutId}`).style.display = 'block';
+                    postedComment.dataset.commentId = data.commentId || editingCommentId;
+                    postedCommentSection.style.display = 'flex';
 
+                    document.getElementById(`ex-check-${exerciseId}-${workoutId}`).checked = false;
                     commentInput.value = '';
                     editingCommentId = null;
 
-                    document.getElementById(`comment-section-${exerciseId}-${workoutId}`).classList.remove('active');
-                    document.getElementById(`disagree-text-${exerciseId}-${workoutId}`).style.display = 'none';
-
                     const submitBtn = document.getElementById(`submit-btn-${exerciseId}-${workoutId}`);
                     submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Изпрати забележка';
+
+                    toggleComment(exerciseId, workoutId);
                 }
             } catch (err) {
-                console.error('Fetch error:', err);
-                alert('Грешка при изпращане: ' + err.message);
+                console.error('Грешка:', err);
+                alert(err.message);
             }
         }
 
@@ -676,16 +676,19 @@
             const commentElement = document.getElementById(`posted-comment-${exerciseId}-${workoutId}`);
             editingCommentId = commentElement.dataset.commentId;
 
+            if (!editingCommentId) {
+                alert('Няма коментар за редакция!');
+                return;
+            }
+
             const submitBtn = document.getElementById(`submit-btn-${exerciseId}-${workoutId}`);
-            submitBtn.innerHTML = '<i class="fas fa-edit me-2"></i>Запази промените';
+            submitBtn.innerHTML = '<i class="fas fa-save me-2"></i>Запази промените';
 
             document.getElementById(`comment-${exerciseId}-${workoutId}`).value = commentElement.textContent;
             document.getElementById(`ex-check-${exerciseId}-${workoutId}`).checked = true;
             document.getElementById(`comment-section-${exerciseId}-${workoutId}`).classList.add('active');
             document.getElementById(`disagree-text-${exerciseId}-${workoutId}`).style.display = 'block';
             document.getElementById(`posted-comment-section-${exerciseId}-${workoutId}`).style.display = 'none';
-
-            commentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         async function deleteComment(exerciseId, workoutId) {
@@ -693,14 +696,21 @@
 
             const commentId = document.getElementById(`posted-comment-${exerciseId}-${workoutId}`).dataset.commentId;
 
+            if (!commentId) {
+                alert('Няма коментар за изтриване!');
+                return;
+            }
+
             try {
                 const response = await fetch('/ExerciseFeedback/DeleteComment', {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
                         'RequestVerificationToken': document.querySelector('#__RequestVerificationToken').value
                     },
                     body: JSON.stringify({
+                        commentId: parseInt(commentId),
                         exerciseId: exerciseId,
                         workoutId: workoutId,
                         trainingPlanId: @Model.Id
@@ -709,7 +719,9 @@
 
                 const data = await response.json();
 
-                if (!response.ok) throw new Error(data.error || 'Неизвестна грешка');
+                if (!response.ok) {
+                    throw new Error(data.error || 'Грешка при изтриване на коментара');
+                }
 
                 if (data.success) {
                     document.getElementById(`posted-comment-section-${exerciseId}-${workoutId}`).style.display = 'none';
@@ -717,8 +729,8 @@
                     toggleComment(exerciseId, workoutId);
                 }
             } catch (err) {
-                console.error('Delete error:', err);
-                alert('Грешка при изтриване: ' + err.message);
+                console.error('Грешка:', err);
+                alert(err.message);
             }
         }
     </script>

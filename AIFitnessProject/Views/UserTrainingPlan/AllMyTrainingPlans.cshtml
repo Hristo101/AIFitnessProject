@@ -79,7 +79,7 @@ else
 <body>
        
     <div class="card">
-            @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("/img"))
+            @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("/img") || Model.ImageUrl.StartsWith("~/img"))
             {
                 <img src="@Url.Content(Model.ImageUrl)" class="card-image w-100" alt="alt=" @Model.TitleOfTriningPlan"">
             }

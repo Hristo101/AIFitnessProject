@@ -132,7 +132,14 @@
                     </div>
 
                     <div class="user-profile">
+                        @if (Model.ImageUrlTrainingPlan.StartsWith("http") || Model.ImageUrlTrainingPlan.StartsWith("/img") || Model.ImageUrlTrainingPlan.StartsWith("~/img"))
+                        {
+                            <img src="@Url.Content(@Model.UserProfilePicture)" class="profile-picture" alt="User Profile">
+                        }
+                        else
+                        {
                         <img src="data:image/jpeg;base64,@Url.Content(@Model.UserProfilePicture)" class="profile-picture" alt="User Profile">
+                        }
                         <div>
                             <h5 class="mb-1">@Model.UserFirstName @Model.UserLastName</h5>
                             <small class="text-muted">@Model.UserEmail</small>
