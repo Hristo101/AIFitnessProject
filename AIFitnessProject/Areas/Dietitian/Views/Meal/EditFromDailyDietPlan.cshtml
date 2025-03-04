@@ -32,7 +32,7 @@
                         <i class="fas fa-cloud-upload-alt"></i>
                         <span>Изберете нова снимка</span>
                     </label>
-                    <span asp-validation-for="NewImage" class="text-danger"></span>
+                   
                 </div>
                 <div id="imagePreviewContainer" class="preview-container existing-image animate__animated animate__fadeIn" style="display: none;">
                     <img id="imagePreview" class="preview-image" alt="Preview" />
@@ -92,19 +92,7 @@
             </div>
         </div>
 
-        @if (!string.IsNullOrEmpty(Model.VideoUrl))
-        {
-            <div class="video-container animate__animated animate__slideInUp">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/@GetYouTubeId(Model.VideoUrl)"
-                            title="Видео демонстрация - @Model.Name"
-                            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen
-                            class="video-frame"></iframe>
-                </div>
-            </div>
-        }
-
+      
         <button type="submit" class="submit-btn">
             <span class="btn-text">Запази промените</span>
             <i class="fas fa-save btn-icon"></i>
