@@ -46,7 +46,14 @@
                 {
                     <div class="col-md-4 d-flex align-items-stretch">
                         <div class="card">
-                        <img src="data:image/jpeg;base64,@dietitian.ImageUrl" alt="@dietitian.FirstName @dietitian.LastName" class="card-img-top">
+                        @if (dietitian.ImageUrl.StartsWith("http") || dietitian.ImageUrl.StartsWith("/img"))
+                        {
+                            <img src="@dietitian.ImageUrl" alt="@dietitian.FirstName @dietitian.LastName" class="card-img-top">
+                        }
+                        else
+                        {
+                            <img src="data:image/jpeg;base64,@dietitian.ImageUrl" alt="@dietitian.FirstName @dietitian.LastName" class="card-img-top">
+                        }
                             <div class="card-body">
                                 <h5 class="card-title">@dietitian.FirstName @dietitian.LastName</h5>
                                 <p class="card-text text-truncate">

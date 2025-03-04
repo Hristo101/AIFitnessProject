@@ -75,15 +75,19 @@
     const professionals = @Html.Raw(Json.Serialize(
         Model.Trainers.Select(trainer => new
         {
-        image = $"data:image/jpeg;base64,{trainer.ImageUrl}",
-        text = trainer.FirstName,
-        type = "Trainer"
+            image = trainer.ImageUrl.StartsWith("http") || trainer.ImageUrl.StartsWith("/img")
+        ? trainer.ImageUrl
+        : $"data:image/jpeg;base64,{trainer.ImageUrl}",
+            text = trainer.FirstName,
+            type = "Trainer"
         }).Concat(
         Model.Dietitians.Select(dietitian => new
         {
-        image = $"data:image/jpeg;base64,{dietitian.ImageUrl}",
-        text = dietitian.FirstName,
-        type = "Dietitian"
+            image = dietitian.ImageUrl.StartsWith("http") || dietitian.ImageUrl.StartsWith("/img")
+        ? dietitian.ImageUrl
+        : $"data:image/jpeg;base64,{dietitian.ImageUrl}",
+            text = dietitian.FirstName,
+            type = "Dietitian"
         })
         )));
 

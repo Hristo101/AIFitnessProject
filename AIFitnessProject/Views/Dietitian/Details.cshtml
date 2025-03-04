@@ -4,7 +4,14 @@
  
     <section class="dietitian-header">
         <div class="dietitian-photo">
-            <img src="data:image/jpeg;base64,@Model.DietitianImage" alt="Dietitian Photo" />
+            @if (Model.DietitianImage.StartsWith("http") || Model.DietitianImage.StartsWith("/img"))
+            {
+                <img src="@Model.DietitianImage" alt="@Model.FirstName @Model.LastName" class="card-img-top">
+            }
+            else
+            {
+                <img src="data:image/jpeg;base64,@Model.DietitianImage" alt="@Model.FirstName @Model.LastName" class="card-img-top">
+            }
         </div>
         <div class="dietitian-info">
             <h1>@Model.FirstName @Model.LastName</h1>

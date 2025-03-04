@@ -103,7 +103,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             user = new ApplicationUser()
             {
                 Id = "0e0e4964-6fa8-43ef-b6ba-a8722a1d5708",
-                ProfilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMGQYuIs2aw9Bf3mTRB6T9YQatfGh76rtBUQ&s",
+                ProfilePicture = "https://stomed.ru/storage/news/4/344/neozidannye-situacii-v-kotoryx-pomozet-dietolog-8986.jpg",
                 UserName = "rosalina102",
                 NormalizedUserName = "ROSALINA102",
                 Email = "rosalina@abv.bg",
