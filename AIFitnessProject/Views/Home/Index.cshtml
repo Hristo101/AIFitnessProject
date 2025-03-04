@@ -18,10 +18,20 @@
 
     <div class="professional-pair">
         <div class="professional-item">
+            @if (Model.Trainers.First().ImageUrl.StartsWith("http") || Model.Trainers.First().ImageUrl.StartsWith("/img"))
+            {
             <img id="professional-image"
-                 src="data:image/jpeg;base64,@Model.Trainers.First().ImageUrl"
+                 src="@Url.Content(Model.Trainers.First().ImageUrl)"
                  alt="Professional"
-                 class="img-fluid professional-image">
+                class="img-fluid professional-image">
+            }
+            else
+            {
+                <img id="professional-image"
+                     src="data:image/jpeg;base64,@Model.Trainers.First().ImageUrl"
+                     alt="Professional"
+                     class="img-fluid professional-image">
+            }
             <p id="professional-text" class="professional-name">@Model.Trainers.First().FirstName</p>
         </div>
     </div>

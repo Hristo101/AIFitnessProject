@@ -4,7 +4,14 @@
     
     <section class="trainer-header">
         <div class="trainer-photo">
-            <img src="data:image/jpeg;base64,@Model.TrainerImage" alt="Trainer Photo" />
+            @if (Model.TrainerImage.StartsWith("http") || Model.TrainerImage.StartsWith("/img"))
+            {
+                <img src="@Model.TrainerImage" alt="Trainer Photo" />
+            }
+            else
+            {
+                <img src="data:image/jpeg;base64,@Model.TrainerImage" alt="Trainer Photo" />
+            }
         </div>
         <div class="trainer-info">
             <h1>@Model.FirstName @Model.LastName</h1>

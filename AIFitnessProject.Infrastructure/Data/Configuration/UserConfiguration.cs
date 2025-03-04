@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+
 namespace AIFitnessProject.Infrastructure.Data.Configuration
 {
     public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser>
@@ -31,9 +32,10 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                 NormalizedEmail = "STANISLAV@ABV.BG",
                 FirstName = "Stanislav",
                 LastName = "Ivanov",
-                Height = 1.95,
+                Height = 195,
+                Aim = "Целта ми е да отслабна.С това надмормено тегло много се затруднявам и искам да стана поне 110 килограма,защото въобще не харесвам своята визия.",
                 Weight = 131.5,
-                ExperienceLevel = "Начинаещ,почти не съм влизал в зала да спортувам.Изглеждам ужасно и искам да отслабна!",
+                ExperienceLevel = "Начинаещ",
                 SecurityStamp = "9e406138-c088-4d10-810a-8cb287aa339b",
                 ConcurrencyStamp = "c37f9e70-f9ff-4e55-8c95-83ce9708cef7",
                 PasswordHash = hasher.HashPassword(null, "stanislav123"),
@@ -43,16 +45,16 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             user = new ApplicationUser()
             {
                 Id = "0e136956-3e82-4e00-8f60-b274cdf40833",
-                ProfilePicture = defaultImage,
+                ProfilePicture = "https://chernomorie-bg.com/uploads/posts/IMG_3366_1.jpg",
                 UserName = "daniela_5",
                 NormalizedUserName = "DANIELA_5",
                 Email = "daniela@abv.bg",
                 NormalizedEmail = "DANIELA@ABV.BG",
                 FirstName = "Даниела",
                 LastName = "Манева",
-                Height = 1.70,
+                Height = 170,
                 Weight = 55,
-                ExperienceLevel = "Активно спортуващ,занимавала съм се с фитнес от 3 години,но сега главно наблягам върху тренировките за издръжливост",
+                ExperienceLevel = "Напреднал",
                 SecurityStamp = "ddfff353-d2cc-4d0c-a9cd-c40f2914296b",
                 ConcurrencyStamp = "e105f213-ede3-4a80-842f-3c9dc11968f3",
                 PasswordHash = hasher.HashPassword(null, "daniela123"),
@@ -69,9 +71,10 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                 NormalizedEmail = "PESHO@ABV.BG",
                 FirstName = "Pesho",
                 LastName = "Ivanov",
-                Height = 2.03,
+                Height = 203,
                 Weight = 92,
-                ExperienceLevel = "Имам някакъв малък опит с фитнес залите целта ми е да стана 100 кила,но килограмите,които кача да бъдат мускулна маса",
+                Aim = "Искам да покача своята мускулна маса.Целта ми е да стана около 95 килограма,но да кача само мускулна маса.",
+                ExperienceLevel = "Начинаещ",
                 SecurityStamp = "eccde9ba-4a3c-4bc1-9bee-3a8988b80b6f",
                 ConcurrencyStamp = "ddd19b43-78e7-4f76-ada7-a863c26dda43",
                 PasswordHash = hasher.HashPassword(null, "pesho123"),
@@ -82,15 +85,15 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             {
                 Id = "70280028-a1a0-4b5e-89d8-b4e65cbae8d8",
                 UserName = "svetoslav102",
-                ProfilePicture = defaultImage,
+                ProfilePicture = "https://nicksfitstyle.com/wp-content/uploads/img12-scaled.jpg",
                 NormalizedUserName = "SVETOSLAV102",
                 Email = "svetoslav@abv.bg",
                 NormalizedEmail = "SVETOSLAV@ABV.BG",
                 FirstName = "Светослав",
                 LastName = "Ковачев",
-                Height = 2.03,
+                Height = 203,
                 Weight = 82,
-                ExperienceLevel = "Активно спортуващ,занимавал съм се с фитнес от 10 години,целта ми е да направя всички трениращи в това приложение да харесват своята визия",
+                ExperienceLevel = "Напреднал",
                 SecurityStamp = "d258ec24-1129-4a44-84b4-4597aecc18e9",
                 ConcurrencyStamp = "ec2261ab-a653-4698-bbf8-03187c3e1877",
                 PasswordHash = hasher.HashPassword(null, "svetoslav123"),
@@ -100,16 +103,16 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             user = new ApplicationUser()
             {
                 Id = "0e0e4964-6fa8-43ef-b6ba-a8722a1d5708",
-                ProfilePicture = defaultImage,
+                ProfilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMGQYuIs2aw9Bf3mTRB6T9YQatfGh76rtBUQ&s",
                 UserName = "rosalina102",
                 NormalizedUserName = "ROSALINA102",
                 Email = "rosalina@abv.bg",
                 NormalizedEmail = "ROSALINA@ABV.BG",
                 FirstName = "Росалина",
                 LastName = "Узунова",
-                Height = 1.70,
+                Height = 170,
                 Weight = 57,
-                ExperienceLevel = "Росалина Узунова е диетолог с дългогодишен опит, чиято цел е да помогне на хората да постигнат здравословен начин на живот и да обикнат своята визия. Тя създава персонализирани диетични планове, които водят до дълготрайни резултати и увереност в тялото.",
+                ExperienceLevel = "Напреднал",
                 PasswordHash = hasher.HashPassword(null, "rosalina123"),
             };
             users.Add(user);
@@ -117,16 +120,16 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
             user = new ApplicationUser()
             {
                 Id = "0c4c8519-6a0a-45a5-acc2-64c0de9af4a8",
-                ProfilePicture = defaultImage,
+                ProfilePicture = "https://dietyc.com/wp-content/uploads/2023/03/nutritionist-dietolog.jpeg",
                 UserName = "zhenya123",
                 NormalizedUserName = "ZHENYA123",
                 Email = "zhenya@abv.bg",
                 NormalizedEmail = "ZHENYA@ABV.BG",
                 FirstName = "Женя",
                 LastName = "Желязкова",
-                Height = 1.68,
+                Height = 168,
                 Weight = 60,
-                ExperienceLevel = "Женя Желязкова е диетолог с дългогодишен опит, която се стреми да помогне на хората да водят здравословен начин на живот и да се чувстват уверени в своята визия. Тя създава индивидуални диетични програми, които водят до трайни резултати и по-добро самочувствие.",
+                ExperienceLevel = "Напреднал",
                 PasswordHash = hasher.HashPassword(null, "zhenya123"),
             };
             users.Add(user);
@@ -141,7 +144,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                 NormalizedEmail = "HSEREV789@GMAIL.COM",
                 FirstName = "Христо",
                 LastName = "Щерев",
-                Height = 1.87,
+                Height = 187,
                 Weight = 80,
                 ExperienceLevel = "Напреднал",
                 SecurityStamp = Guid.NewGuid().ToString(),
