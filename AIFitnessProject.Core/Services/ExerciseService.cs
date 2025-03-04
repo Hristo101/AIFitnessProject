@@ -1,16 +1,10 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.DTOs;
 using AIFitnessProject.Core.Models.Exercise;
-using Microsoft.AspNetCore.Http;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using AIFitnessProject.Core.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace AIFitnessProject.Core.Services
 {
@@ -271,8 +265,7 @@ namespace AIFitnessProject.Core.Services
                 return false;
             }
 
-            //foreach (var workoutExercise in workoutExercises)
-            //{
+          
             var exerciseToReplace = workoutExercise.Workout.WorkoutsExercises
                 .FirstOrDefault(we => we.Exercise.Id == request.ExerciseId && we.WorkoutId == request.WorkoutId);
 
@@ -301,7 +294,7 @@ namespace AIFitnessProject.Core.Services
 
               
             }
-            //}
+         
 
             var changes = await repository.SaveChangesAsync();
             return changes > 0;

@@ -7,7 +7,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
 <style>
-    /* ========== ПОПРАВЕН СТИЛ ЗА "FOLDER" ========== */
+   
     .container {
         --transition: 350ms;
         --folder-W: 120px;
@@ -16,10 +16,8 @@
         flex-direction: column;
         align-items: center;
         justify-content: flex-end;
-        /* Премахваме фиксираната височина и позволяваме съдържанието да излиза */
-        /* height: calc(var(--folder-H) * 1.7); */
-        min-height: 150px; /* или повече, ако искаш по-висок контейнер */
-        overflow: visible; /* за да не се реже папката */
+        min-height: 150px; 
+        overflow: visible; 
         position: relative;
         padding: 10px;
         background: linear-gradient(135deg, #90e0a9, #5ecb7b);
@@ -31,7 +29,6 @@
 
     .folder {
         position: absolute;
-        /* Вместо top: -20px, може да е 0 или малко положителен, за да се вижда цялото */
         top: 0;
         left: calc(50% - 60px);
         animation: float 2.5s infinite ease-in-out;
@@ -136,7 +133,7 @@
         }
     }
 
-    /* ========== СТИЛОВЕ НА ФОРМАТА ========== */
+
     .form-container {
         max-width: 900px;
         width: 750px;
@@ -298,7 +295,7 @@
 
         <input type="hidden" name="Id" value="@Model.DailyDietPlanId" />
         <input type="hidden" name="UserId" value="@Model.UserId" />
-        <!-- Име -->
+
         <div class="mb-4">
             <label asp-for="Name" class="form-label">
                 <i class="fas fa-tag"></i>Име на храната
@@ -307,7 +304,6 @@
             <span asp-validation-for="Name" class="text-danger mt-1 d-block"></span>
         </div>
 
-        <!-- Описание -->
         <div class="mb-4">
             <label asp-for="Recipe" class="form-label">
                 <i class="fas fa-align-left"></i>Рецепта
@@ -318,14 +314,14 @@
         </div>
 
 
-        <!-- Качване на изображение -->
+  
         <div class="mb-4">
             <label class="form-label">
                 <i class="fas fa-image"></i> Качване на изображение
             </label>
 
             <div class="file-upload-wrapper">
-                <!-- Тук е анимираната "folder" -->
+            
                 <div class="container">
                     <div class="folder">
                         <div class="front-side">
@@ -335,23 +331,23 @@
                         <div class="back-side cover"></div>
                     </div>
 
-                    <!-- Етикет, който отваря File Dialog-а -->
+       
                     <label class="custom-file-upload">
                         <input asp-for="ImageUrl" type="file" id="imageInput"
                                class="title" accept="image/*">
-                        <!-- Текст, който се показва в бутона -->
+                  
                         Провлачете снимка или кликнете тук
                     </label>
                 </div>
 
                 <span asp-validation-for="ImageUrl" class="text-danger mt-1 d-block"></span>
 
-                <!-- Превю на качените изображения -->
+         
                 <div id="imagePreview" class="row g-3 mt-3"></div>
             </div>
         </div>
 
-        <!-- Видео URL -->
+
         <div class="mb-4">
             <label asp-for="VideoUrl" class="form-label">
                 <i class="fab fa-youtube"></i>Видео URL
@@ -360,7 +356,7 @@
             <span asp-validation-for="VideoUrl" class="text-danger mt-1 d-block"></span>
         </div>
 
-        <!-- Мускулна група / Трудност -->
+   
         <div class="row g-4">
             <div class="col-md-6">
                 <div class="mb-4">
@@ -416,7 +412,7 @@
 
         </div>
 
-        <!-- Бутон за събмит -->
+  
         <div class="d-grid gap-2 mt-5">
             <button type="submit" class="btn btn-primary submit-btn">
                 <i class="fas fa-plus-circle me-2"></i>Добави храна
@@ -433,7 +429,7 @@
     <partial name="_ValidationScriptsPartial" />
 
     <script>
-        // Максимален размер: 5MB
+    
         const MAX_FILE_SIZE = 5 * 1024 * 1024;
         const imageInput = document.getElementById('imageInput');
         const previewContainer = document.getElementById('imagePreview');
@@ -474,7 +470,6 @@
             });
         });
 
-        // Динамични индикатори за трудност
         document.querySelectorAll('.form-select option').forEach(option => {
             const indicator = document.createElement('span');
             indicator.className = 'difficulty-indicator ' +
@@ -483,7 +478,7 @@
             option.prepend(indicator);
         });
 
-        // Валидация за числови входове
+     
         document.querySelectorAll('input[type="number"]').forEach(input => {
             input.addEventListener('input', function () {
                 if (this.validity.rangeUnderflow) {

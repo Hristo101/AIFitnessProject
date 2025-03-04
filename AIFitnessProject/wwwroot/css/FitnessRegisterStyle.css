@@ -1,6 +1,6 @@
-﻿/* Основни стилове */
+﻿
 body {
-    background-color: #e6f7ff; /* Светъл син фон */
+    background-color: #e6f7ff; 
     font-family: 'Arial', sans-serif;
     color: #333;
     margin: 0;
@@ -8,29 +8,28 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-image: linear-gradient(120deg, #e6f7ff, #ffecd2); /* Градиентен фон */
-}
+    background-image: linear-gradient(120deg, #e6f7ff, #ffecd2); 
 
-/* Контейнер за основното съдържание */
+
 .container {
     max-width: 600px;
     width: 100%;
-    background-color: #fef6e4; /* Светъл пастелен фон за формата */
+    background-color: #fef6e4;
     border-radius: 20px;
     padding: 40px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     margin: 50px auto;
-    border: 2px solid #ffa500; /* Оранжева рамка */
+    border: 2px solid #ffa500;
     position: relative;
     text-align: center;
 }
 
-/* Заглавия */
+
 header h1 {
     text-align: center;
     font-size: 42px;
     margin-bottom: 15px;
-    color: #ff6f00; /* Ярко оранжев акцент */
+    color: #ff6f00; 
     text-shadow: 2px 2px #ffe4b2;
 }
 
@@ -45,7 +44,7 @@ h2 {
     font-size: 28px;
     text-align: center;
     margin-bottom: 25px;
-    color: #ff6f00; /* Ярко оранжев акцент */
+    color: #ff6f00; 
 }
 
 h3 {
@@ -54,7 +53,6 @@ h3 {
     color: #ff6f00;
 }
 
-/* Формуляри */
 .form-floating {
     margin-bottom: 25px;
     position: relative;
@@ -64,7 +62,7 @@ h3 {
         width: 100%;
         border-radius: 15px;
         padding: 15px;
-        border: 2px solid #ffb347; /* Оранжева граница */
+        border: 2px solid #ffb347; 
         background-color: #fff;
         font-size: 16px;
         color: #333;
@@ -72,7 +70,7 @@ h3 {
 
         .form-floating input:focus {
             outline: none;
-            border-color: #ff6f00; /* Фокус акцент */
+            border-color: #ff6f00; 
             box-shadow: 0 0 8px rgba(255, 111, 0, 0.6);
         }
 
@@ -99,9 +97,8 @@ h3 {
     color: #333;
 }
 
-/* Бутон */
 .btn-primary {
-    background-color: #ff6f00; /* Ярко оранжев */
+    background-color: #ff6f00; 
     border: none;
     padding: 15px;
     width: 100%;
@@ -115,7 +112,7 @@ h3 {
 }
 
     .btn-primary:hover {
-        background-color: #e65c00; /* По-тъмен оранжев */
+        background-color: #e65c00; 
         transform: scale(1.05);
         box-shadow: 0 4px 12px rgba(230, 92, 0, 0.4);
     }
@@ -148,9 +145,8 @@ h3 {
     margin-bottom: 20px;
 }
 
-/* Футър */
 footer {
-    background-color: #ffe4b2; /* Светъл оранжев фон */
+    background-color: #ffe4b2; 
     color: #333;
     text-align: center;
     padding: 20px 20px;
@@ -159,7 +155,7 @@ footer {
     width: 100%;
     font-size: 16px;
     margin-top: auto;
-    border-top: 2px solid #ffa500; /* Оранжева граница */
+    border-top: 2px solid #ffa500; 
 }
 
     footer p {
@@ -176,7 +172,7 @@ footer {
         margin: 0 auto 10px auto;
     }
 
-/* Анимации */
+
 @keyframes bounce {
     0%, 100% {
         transform: translateY(0);

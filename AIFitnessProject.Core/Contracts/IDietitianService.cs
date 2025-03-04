@@ -1,5 +1,4 @@
 ﻿using AIFitnessProject.Core.Models.Dietitian;
-using AIFitnessProject.Core.Models.Trainer;
 
 namespace AIFitnessProject.Core.Contracts
 {

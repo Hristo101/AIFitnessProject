@@ -1,10 +1,4 @@
 ﻿using AIFitnessProject.Core.Models.UserComments;
-using AIFitnessProject.Infrastructure.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AIFitnessProject.Core.Models.Trainer
 {

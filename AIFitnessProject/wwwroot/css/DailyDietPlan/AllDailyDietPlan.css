@@ -42,9 +42,7 @@ p {
     transition: transform 0.3s ease;
 }
 
-./*training-card:hover .card-image {
-    transform: scale(1.03);
-}*/
+
 
 .card-body {
     padding: 2rem;
@@ -198,7 +196,7 @@ p {
     color: white;
 }
 
-/* Чекбокс за отбелязване на тренировка */
+
 .checkbox-container {
     position: absolute;
     top: 10px;
@@ -212,7 +210,6 @@ p {
         cursor: pointer;
     }
 
-/* Маркиране на избрани тренировки */
 .training-card.selected {
     border: 3px solid #3CB371;
     background-color: rgba(60, 179, 113, 0.1);
@@ -222,7 +219,7 @@ filters {
     display: flex;
     gap: 20px;
     margin-bottom: 30px;
-    justify-content: center; /* Центриране */
+    justify-content: center;
 }
 
 select {

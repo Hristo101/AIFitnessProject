@@ -85,7 +85,7 @@ label.h5 {
 }
 
     .file-upload-label:hover {
-        background-color: rgba(40, 167, 69, 0.05); /* Променен на зелен */ /*#3CB371*/ /*#f8f9fa*/
+        background-color: rgba(40, 167, 69, 0.05); 
         ;
     }
 

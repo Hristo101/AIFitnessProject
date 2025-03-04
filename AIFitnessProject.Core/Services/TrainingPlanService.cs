@@ -1,21 +1,12 @@
 ﻿using AIFitnessProject.Core.Contracts;
-using AIFitnessProject.Core.Models.Document;
 using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.ExerciseFeedback;
 using AIFitnessProject.Core.Models.TrainingPlan;
 using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
-using Azure.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AIFitnessProject.Core.Services
 {

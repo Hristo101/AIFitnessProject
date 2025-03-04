@@ -653,7 +653,7 @@
 
         const calendarId = @Model.CalendarId;
         let today = new Date();
-        let activeDay = today.getDate(); // Start with today's date
+        let activeDay = today.getDate();
         let month = today.getMonth();
         let year = today.getFullYear();
 
@@ -664,10 +664,10 @@
 
         const eventsArr = [];
 
-        // Initialize the calendar
+     
         getEvents();
         initCalendar();
-        updateEvents(activeDay); // Show events for today on load
+        updateEvents(activeDay);
 
         function initCalendar() {
             const firstDay = new Date(year, month, 1);

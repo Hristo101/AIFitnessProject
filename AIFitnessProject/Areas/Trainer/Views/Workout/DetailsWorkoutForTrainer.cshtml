@@ -178,7 +178,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- Профилна секция -->
+      
         <div class="profile-card text-center">
             @if (Model.ProfilePicture.StartsWith("http") || Model.ProfilePicture.StartsWith("/img"))
             {
@@ -193,7 +193,7 @@
             <p class="text-primary fs-5 fw-bold">Персонализирана тренировъчна програма</p>
         </div>
 
-        <!-- Тренировъчна секция -->
+       
         <div class="workout-section">
             <h2 class="workout-title">@Model.Title</h2>
 
@@ -217,7 +217,7 @@
                 <img src="@Model.ImageUrl" class="workout-image w-100 mb-5">
             }
 
-            <!-- Упражнения -->
+     
             <div class="row g-4">
                 @foreach (var exercise in Model.Exercises)
                 {
@@ -252,7 +252,7 @@
                 }
             </div>
 
-            <!-- Бутон Назад -->
+ 
             <div class="text-center mt-5">
                 <a href="javascript:history.back()" class="btn btn-back">
                     <i class="fas fa-arrow-left me-2"></i>Назад към списъка

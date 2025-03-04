@@ -66,30 +66,6 @@ namespace AIFitnessProject.Core.Services
             }
         }
 
-        //public async Task AcceptDietAsync(int id, string UserId)
-        //{
-        //    var diet = await repository.All<Diet>()
-        //      .Where(x => x.Id == id)
-        //      .Where(x => x.UserId == UserId)
-        //      .Include(x => x.Dietitian)
-        //      .Include(x => x.User)
-        //      .FirstOrDefaultAsync();
-
-        //    diet.IsInCalendar = true;
-        //    await repository.SaveChangesAsync();
-
-        //    var model = await repository.All<Calendar>()
-
-        //    Calendar calendar = new Calendar()
-        //    {
-        //        TrainerId = trainingPlan.CreatedById,
-        //        UserId = trainingPlan.UserId,
-        //    };
-
-        //    await repository.AddAsync(calendar);
-        //    await repository.SaveChangesAsync();
-        //}
-
         public async Task CreateDiet(string id, string dietitianId, CreateDietViewModel model)
         {
             var dietitian = await repository.All<Dietitian>().Where(x => x.UserId == dietitianId).FirstAsync();

@@ -121,7 +121,7 @@ body {
         transform: translateY(-3px);
     }
 
-/* Анимация за картите */
+
 @keyframes cardRise {
     0% {
         opacity: 0;
@@ -139,7 +139,7 @@ body {
     opacity: 0;
 }
 
-/* Мобилна оптимизация */
+
 @media (max-width: 768px) {
     .survey-card {
         margin: 0 10px;

@@ -1,5 +1,4 @@
 ﻿using AIFitnessProject.Core.Models.Diet;
-using AIFitnessProject.Core.Models.TrainingPlan;
 using AIFitnessProject.Infrastructure.Data.Models;
 
 namespace AIFitnessProject.Core.Contracts

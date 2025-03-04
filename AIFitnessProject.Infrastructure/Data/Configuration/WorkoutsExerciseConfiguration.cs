@@ -67,63 +67,63 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                     new WorkoutsExercise
                 {
                     Id = 9,
-                    ExcersiceId = 14, // Екстензии за предно бедро
+                    ExcersiceId = 14, 
                     WorkoutId = 4
                 },
                 new WorkoutsExercise
                 {
                     Id = 10,
-                    ExcersiceId = 13, // Лег преса
+                    ExcersiceId = 13,
                     WorkoutId = 4
                 },
                 new WorkoutsExercise
                 {
                     Id = 11,
-                    ExcersiceId = 15, // Екстензии за задно бедро
+                    ExcersiceId = 15, 
                     WorkoutId = 4
                 },
                 new WorkoutsExercise
                 {
                     Id = 12,
-                    ExcersiceId = 16, // Сгъване на адуктори
+                    ExcersiceId = 16, 
                     WorkoutId = 4
                 },
                 new WorkoutsExercise
                 {
                     Id = 13,
-                    ExcersiceId = 18, // Топка към стена
+                    ExcersiceId = 18,
                     WorkoutId = 4
                 },
 
-                // Средна тренировка
+               
                 new WorkoutsExercise
                 {
                     Id = 14,
-                    ExcersiceId = 9,  // Римска тяга с лост
+                    ExcersiceId = 9,  
                     WorkoutId = 3
                 },
                 new WorkoutsExercise
                 {
                     Id = 15,
-                    ExcersiceId = 10, // Напади с дъмбели
+                    ExcersiceId = 10, 
                     WorkoutId = 3
                 },
                 new WorkoutsExercise
                 {
                     Id = 16,
-                    ExcersiceId = 11, // Клек с щанга
+                    ExcersiceId = 11, 
                     WorkoutId = 3
                 },
                 new WorkoutsExercise
                 {
                     Id = 17,
-                    ExcersiceId = 12, // Преден клек
+                    ExcersiceId = 12,
                     WorkoutId = 3
                 },
                 new WorkoutsExercise
                 {
                     Id = 18,
-                    ExcersiceId = 17, // Български клек
+                    ExcersiceId = 17, 
                     WorkoutId = 3
                 },
 
@@ -131,31 +131,31 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                 new WorkoutsExercise
                 {
                     Id = 19,
-                    ExcersiceId = 9,  // Римска тяга с лост
+                    ExcersiceId = 9,  
                     WorkoutId = 5
                 },
                 new WorkoutsExercise
                 {
                     Id = 20,
-                    ExcersiceId = 10, // Напади с дъмбели
+                    ExcersiceId = 10, 
                     WorkoutId = 5
                 },
                 new WorkoutsExercise
                 {
                     Id = 21,
-                    ExcersiceId = 11, // Клек с щанга
+                    ExcersiceId = 11, 
                     WorkoutId = 5
                 },
                 new WorkoutsExercise
                 {
                     Id = 22,
-                    ExcersiceId = 12, // Преден клек
+                    ExcersiceId = 12, 
                     WorkoutId = 5
                 },
                 new WorkoutsExercise
                 {
                     Id = 23,
-                    ExcersiceId = 17, // Български клек
+                    ExcersiceId = 17, 
                     WorkoutId = 5
                 }
             };

@@ -444,7 +444,7 @@
             ← Назад
         </a>
 
-        <!-- Профил на треньора -->
+    
         <section class="trainer-profile">
             <div class="trainer-media">
                 @if (Model.DietitianImage.StartsWith("http") || Model.DietitianImage.StartsWith("/img"))
@@ -494,7 +494,7 @@
                 </button>
             </div>
 
-            <!-- Форма за добавяне/редактиране на коментар -->
+         
             <form class="comment-form" id="commentForm" action="/Comment/AddCommentForDietitian" method="post">
                 @Html.AntiForgeryToken()
                 <div class="rating-stars">

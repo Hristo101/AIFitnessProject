@@ -1,12 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static AIFitnessProject.Infrastructure.Constants.DataConstants.ApplicationUser;
 
 namespace AIFitnessProject.Infrastructure.Data.Models
@@ -56,12 +50,5 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         public ICollection<RequestToDietitian> RequestsToDietitian { get; set; } = new List<RequestToDietitian>();
         public Trainer Trainer { get; set; }
         public Dietitian Dietitian { get; set; }
-
-        //public ICollection<TrainingPlan> CreatedTrainingPlans { get; set; }
-        //public ICollection<Diet> CreatedDiets { get; set; }
-        //public ICollection<Progress> ProgressEntries { get; set; }
-
-        //public ICollection<AppComment> AppComments { get; set; }
-        //public ICollection<AIRequest> AIRequests { get; set; }
     }
 }

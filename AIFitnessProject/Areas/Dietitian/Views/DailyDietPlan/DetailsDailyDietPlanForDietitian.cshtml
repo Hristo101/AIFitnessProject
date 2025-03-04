@@ -220,7 +220,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- Профилна секция -->
+     
         <div class="profile-card text-center">
             @if (Model.ProfilePicture.StartsWith("http") || Model.ProfilePicture.StartsWith("/img"))
             {
@@ -235,7 +235,7 @@
             <p class="fs-5 fw-bold" style="color: #38B2AC;">Персонализирана хранителна програма</p>
         </div>
 
-        <!-- Тренировъчна секция -->
+     
         <div class="workout-section">
             <h2 class="workout-title">@Model.Title</h2>
 
@@ -251,11 +251,7 @@
                 </div>
             </div>
 
-         @*    @if (!string.IsNullOrEmpty(Model.ImageUrl))
-            {
-                <img src="@Model.ImageUrl" class="workout-image w-100 mb-5">
-            }
- *@
+       
             <div class="img-container">
                 @if (!string.IsNullOrEmpty(Model.ImageUrl))
                 {
@@ -263,7 +259,7 @@
                 }
             </div>
            
-            <!-- Упражнения -->
+          
             <div class="row g-4">
                 @foreach (var meal in Model.Meals)
                 {
@@ -285,15 +281,7 @@
                                 <p><strong>Тип хранене:</strong> <span> @meal.MealTime</span></p>
                                 <p><strong>Ниво:</strong> <span class="difficulty-level @GetDifficultyClass(meal.DificultyLevel)">@meal.DificultyLevel</span></p>
                                 <p><strong>Калории:</strong> @meal.Calories </p>
-                                @* <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge" style="background: linear-gradient(135deg, #4FD1C5 0%, #319795 100%);">@meal.MealTime</span>
-                                    <span class="badge @GetDifficultyClass(meal.DificultyLevel)">@meal.DificultyLevel</span>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <p class="mb-1"><strong>калории:</strong> @meal.Calories</p>
-                                    </div>
-                                </div> *@
+                              
                                 @if (!string.IsNullOrEmpty(meal.VideoUrl))
                                 {
                                     <a href="@meal.VideoUrl" target="_blank" class="btn-video btn mt-3 w-100">
@@ -306,7 +294,7 @@
                 }
             </div>
 
-            <!-- Бутон Назад -->
+      
             <div class="text-center mt-5">
                 <a href="javascript:history.back()" class="btn btn-back">
                     <i class="fas fa-arrow-left me-2"></i>Назад към списъка

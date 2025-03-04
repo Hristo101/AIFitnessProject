@@ -1,220 +1,4 @@
-﻿/*body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f8f9fa;
-    line-height: 1.6;
-}*/
-
-/* Карта и секции */
-/*.card {
-    border-radius: 1rem;
-    overflow: hidden;
-    transition: transform 0.3s ease;
-}
-
-.card-header {
-    border-radius: 1rem 1rem 0 0 !important;
-    background: linear-gradient(135deg, #2c6e49, #4caf50);
-}*/
-/* Форма и входни полета */
-/*.form-control, .form-select {
-    border-radius: 0.5rem;
-    padding: 0.75rem 1.25rem;
-    border: 2px solid #e9ecef;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-    .form-control:focus,
-    .form-select:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-    }
-
-.input-group-text {
-    background-color: #f8f9fa;
-    border: 2px solid #e9ecef;
-}*/
-
-/* Качване на файлове */
-/*.file-upload-label {
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 0.75rem;
-}
-
-    .file-upload-label:hover {
-        background-color: rgba(13, 110, 253, 0.05);
-    }
-
-.border-dashed {
-    border: 2px dashed #dee2e6;
-}
-
-.dragover {
-    background-color: rgba(13, 110, 253, 0.1) !important;
-    border-color: #0d6efd !important;
-}*/
-
-/* Checkbox и радио бутони */
-/*.form-check-input {
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: 0.15em;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.form-check-label {
-    font-size: 1.1rem;
-    margin-left: 0.75rem;
-    transition: color 0.3s ease;
-}
-
-.form-check-card {
-    padding: 1.25rem;
-    border: 2px solid #e9ecef;
-    border-radius: 0.75rem;
-    margin-bottom: 1rem;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-    .form-check-card:hover {
-        border-color: #0d6efd;
-        background: rgba(13, 110, 253, 0.03);
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }*/
-
-/* Бутони */
-/*.btn-primary {
-    background-color: #0d6efd;
-    border: none;
-    padding: 0.75rem 2rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-    .btn-primary:hover {
-        background-color: #0b5ed7;
-        transform: translateY(-3px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }*/
-
-/* Валидация */
-/*.invalid-feedback {
-    font-size: 0.875em;
-    animation: slideDown 0.3s ease-out;
-}
-
-.was-validated .form-control:invalid,
-.was-validated .form-select:invalid {
-    border-color: #dc3545;
-}
-
-.was-validated .form-check-input:invalid {
-    border-color: #dc3545;
-}*/
-
-/* Анимации */
-/*@keyframes checkmark {
-    from {
-        transform: scale(0);
-        opacity: 0;
-    }
-
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-@keyframes ripple {
-    from {
-        transform: scale(0);
-        opacity: 1;
-    }
-
-    to {
-        transform: scale(10);
-        opacity: 0;
-    }
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}*/
-
-/* Специални класове */
-/*.terms-check .form-check-input {
-    width: 1.8em;
-    height: 1.8em;
-    margin-right: 0.75rem;
-}
-
-.preview-img-container {
-    position: relative;
-    margin: 0.5rem;
-}
-
-.preview-img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 0.5rem;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-}
-
-.remove-img-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background: rgba(220, 53, 69, 0.9);
-    border: none;
-    color: white;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-    .remove-img-btn:hover {
-        background: #dc3545;
-        transform: scale(1.1);
-    }*/
-
-/* Медийни заявки */
-/*@media (max-width: 768px) {
-    .card-body {
-        padding: 1.5rem;
-    }
-
-    .form-check-card {
-        padding: 1rem;
-    }
-
-    .btn-primary {
-        width: 100%;
-        margin-top: 1rem;
-    }
-}
-
-.text-muted {
-    --bs-text-opacity: 1;
-    font-size: 19px;
-    color: #212529 !important;
-}*/
+﻿
 
 
 body {
@@ -223,7 +7,6 @@ body {
     line-height: 1.6;
 }
 
-/* Карта и секции */
 .card {
     border-radius: 1rem;
     overflow: hidden;
@@ -232,10 +15,10 @@ body {
 
 .card-header {
     border-radius: 1rem 1rem 0 0 !important;
-    background: linear-gradient(135deg, #2c6e49,#3CB371 /*#4caf50*/ ); /* Променен на зелен */
-    color: #ffffff; /* За да е по-видимо заглавието */
+    background: linear-gradient(135deg, #2c6e49,#3CB371); 
+    color: #ffffff; 
 }
-    /* Форма и входни полета */
+   
     .form-control, .form-select {
     border-radius: 0.5rem;
     padding: 0.75rem 1.25rem;
@@ -245,8 +28,8 @@ body {
 
     .form-control:focus,
     .form-select:focus {
-        border-color: #28a745; /* Променен на зелен */
-        box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25); /* Променен на зелен */
+        border-color: #28a745;
+        box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25); 
     }
 
 .text-primary {
@@ -260,7 +43,6 @@ body {
     border: 2px solid #e9ecef;
 }
 
-/* Качване на файлове */
 .file-upload-label {
     cursor: pointer;
     transition: all 0.3s ease;
@@ -268,7 +50,7 @@ body {
 }
 
     .file-upload-label:hover {
-        background-color: rgba(40, 167, 69, 0.05); /* Променен на зелен */
+        background-color: rgba(40, 167, 69, 0.05);
     }
 
 .border-dashed {
@@ -276,11 +58,11 @@ body {
 }
 
 .dragover {
-    background-color: rgba(40, 167, 69, 0.1) !important; /* Променен на зелен */
-    border-color: #28a745 !important; /* Променен на зелен */
+    background-color: rgba(40, 167, 69, 0.1) !important; 
+    border-color: #28a745 !important; 
 }
 
-/* Checkbox и радио бутони */
+
 .form-check-input {
     width: 1.5em;
     height: 1.5em;
@@ -304,30 +86,28 @@ body {
 }
 
     .form-check-card:hover {
-        border-color: #28a745; /* Променен на зелен */
-        background: rgba(40, 167, 69, 0.03); /* Променен на зелен */
+        border-color: #28a745;
+        background: rgba(40, 167, 69, 0.03); 
         transform: translateY(-3px);
         box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-/* Бутони */
 .btn-primary {
-    background-color: #3CB371 /*#28a745*/; /* Променен на зелен */
+    background-color: #3CB371; 
     border: none;
     padding: 0.75rem 2rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-    color: white; /* Заглавието на бутона също да е в бяло */
+    color: white;
 }
 
     .btn-primary:hover {
-        background-color: #218838; /* Променен на по-тъмен зелен */
+        background-color: #218838;
         transform: translateY(-3px);
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     }
 
-/* Валидация */
 .invalid-feedback {
     font-size: 0.875em;
     animation: slideDown 0.3s ease-out;
@@ -342,7 +122,7 @@ body {
     border-color: #dc3545;
 }
 
-/* Анимации */
+
 @keyframes checkmark {
     from {
         transform: scale(0);
@@ -379,7 +159,6 @@ body {
     }
 }
 
-/* Специални класове */
 .terms-check .form-check-input {
     width: 1.8em;
     height: 1.8em;
@@ -421,7 +200,7 @@ body {
         transform: scale(1.1);
     }
 
-/* Медийни заявки */
+
 @media (max-width: 768px) {
     .card-body {
         padding: 1.5rem;

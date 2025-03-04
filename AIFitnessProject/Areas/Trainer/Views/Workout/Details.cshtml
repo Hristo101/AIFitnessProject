@@ -20,7 +20,7 @@
                     <hr class="hr-glow" />
 
                     <div class="row g-4 mt-4">
-                        <!-- Проверка за упражненията в тренировката -->
+                       
                         @if (Model.Exercises?.Any() == true)
                         {
                             @foreach (var exercise in Model.Exercises)
@@ -78,9 +78,9 @@
 </div>
 
 @section Scripts {
-    <!-- Зареждане на AOS -->
+   
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <!-- Добавен particles.js -->
+   
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
     <script>
@@ -90,7 +90,7 @@
             easing: 'ease-in-out-quart'
         });
 
-        // Конфигурация за частици
+      
         particlesJS('particles-js', {
             particles: {
                 number: { value: 80 },
@@ -121,7 +121,7 @@
 }
 
     <style>
-        /* Примерни стилове, които да направят визията по-привлекателна */
+       
 
         .glass-card {
             backdrop-filter: blur(10px);
@@ -184,7 +184,7 @@
             background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
         }
 
-        /* Фоново полупрозрачно "послойно" оцветяване */
+        
         .exercise-bg-overlay {
             position: absolute;
             top: 0;
@@ -197,7 +197,7 @@
         }
 
         .exercise-item {
-            z-index: 1; /* За да е над overlay-a */
+            z-index: 1; 
         }
 
         .series-reps {
@@ -210,7 +210,7 @@
             font-weight: 500;
         }
 
-        /* Добавяме малко по-меки сенки */
+       
         .shadow-lg {
             box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15) !important;
         }

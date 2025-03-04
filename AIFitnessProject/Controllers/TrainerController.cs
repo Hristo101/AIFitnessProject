@@ -1,5 +1,4 @@
 ﻿using AIFitnessProject.Core.Contracts;
-using AIFitnessProject.Core.Models.Trainer;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 

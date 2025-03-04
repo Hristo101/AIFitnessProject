@@ -74,7 +74,7 @@
                 <span asp-validation-for="Calories" class="text-danger"></span>
             </div>
 
-            <!-- Видео URL -->
+         
             <div class="form-group video-url">
                 <label>Видео линк</label>
                 <div class="video-input-group">
@@ -84,7 +84,7 @@
                 </div>
             </div>
 
-            <!-- Рецепта -->
+          
             <div class="form-group recipe">
                 <label asp-for="Recipe"></label>
                 <textarea asp-for="Recipe" class="form-control input-animate" rows="4"></textarea>
@@ -92,19 +92,7 @@
             </div>
         </div>
 
-       @*  @if (!string.IsNullOrEmpty(Model.VideoUrl))
-        {
-            <div class="video-container animate__animated animate__slideInUp">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/@GetYouTubeId(Model.VideoUrl)"
-                            title="Видео демонстрация - @Model.Name"
-                            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen
-                            class="video-frame"></iframe>
-                </div>
-            </div>
-        } *@
-
+     
         <button type="submit" class="submit-btn">
             <span class="btn-text">Запази промените</span>
             <i class="fas fa-save btn-icon"></i>

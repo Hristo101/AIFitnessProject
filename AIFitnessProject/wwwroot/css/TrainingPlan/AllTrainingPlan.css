@@ -139,7 +139,7 @@
     width: 100%;
 }
 .btn-send {
-    background: #28a745; /* Зелен цвят */
+    background: #28a745; 
     color: white;
     border: 2px solid #28a745;
 }
@@ -149,7 +149,7 @@
         border-color: #1e7e34;
     }
 
-    /* Пример: Ако желаете да имате единен ефект при натискане, можете да добавите и ефекти подобни на останалите бутони */
+   
     .btn-send:before {
         content: '';
         position: absolute;

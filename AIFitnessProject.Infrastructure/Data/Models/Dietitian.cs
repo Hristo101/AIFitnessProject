@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static AIFitnessProject.Infrastructure.Constants.DataConstants;
 using static AIFitnessProject.Infrastructure.Constants.DataConstants.Dietitian;
 
 namespace AIFitnessProject.Infrastructure.Data.Models

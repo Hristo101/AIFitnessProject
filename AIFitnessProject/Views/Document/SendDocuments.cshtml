@@ -10,17 +10,14 @@
 
     <form asp-action="SendDocuments" method="post" enctype="multipart/form-data">
 
-@*         <!-- UserId Hidden Field -->
-        <input type="hidden" asp-for="UserId" /> *@
-
-        <!-- First Name -->
+       
         <div class="form-group">
             <label for="FirstName">Първо име</label>
             <input type="text" class="form-control" id="FirstName" asp-for="FirstName" />
             <span asp-validation-for="FirstName" class="text-danger"></span>
         </div>
 
-        <!-- Last Name -->
+      
         <div class="form-group">
             <label for="LastName">Фамилия</label>
             <input type="text" class="form-control" id="LastName" asp-for="LastName" />
@@ -36,46 +33,44 @@
             <span asp-validation-for="Position" class="text-danger"></span>
         </div>
 
-        <!-- Experience Years -->
+      
         <div class="form-group">
             <label for="ExperienceYears">Години стаж</label>
             <input type="number" class="form-control" id="ExperienceYears" asp-for="ExperienceYears" />
             <span asp-validation-for="ExperienceYears" class="text-danger"></span>
         </div>
 
-        <!-- Certificate -->
+     
         <div class="form-group">
             <label for="CertificateImage">Сертификат (кандидатствайте с файл)</label>
             <input type="file" class="form-control" id="CertificateImage" asp-for="CertificateImage" accept=".pdf, .doc, .docx, .jpg, .png" />
             <span asp-validation-for="CertificateImage" class="text-danger"></span>
         </div>
 
-        <!-- Biography -->
+       
         <div class="form-group">
             <label for="Bio">Биография</label>
             <textarea class="form-control" id="Bio" asp-for="Bio" rows="4"></textarea>
             <span asp-validation-for="Bio" class="text-danger"></span>
         </div>
 
-        <!-- Specialization -->
+      
         <div class="form-group">
             <label for="Specialization">Специализация</label>
             <input type="text" class="form-control" id="Specialization" asp-for="Specialization" />
             <span asp-validation-for="Specialization" class="text-danger"></span>
         </div>
 
-        <!-- Certification Details -->
+  
         <div class="form-group">
             <label for="CertificationDetails">Детайли за сертификат</label>
             <textarea class="form-control" id="CertificationDetails" asp-for="CertificationDetails" rows="4"></textarea>
             <span asp-validation-for="CertificationDetails" class="text-danger"></span>
         </div>
 
-        <!-- Submit Button -->
+    
         <button type="submit" class="submit-btn" asp-action="SendDocuments" asp-controller="Document">
             Изпрати кандидатура
         </button>
     </form>
 </div>
-
-@* <link rel="stylesheet" href="~/css/TrainerApplication.css" /> *@

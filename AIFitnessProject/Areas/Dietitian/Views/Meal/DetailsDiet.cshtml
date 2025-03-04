@@ -53,12 +53,12 @@
 <body class="d-flex flex-column h-100">
 
 
-    <!-- Основно съдържание -->
+   
     <main class="flex-shrink-0">
         <div class="container py-5">
             <div class="exercise-container">
                 <div class="row g-0">
-                    <!-- Лява колона -->
+
                     <div class="col-lg-6 position-relative">
                         <div class="image-loader">
 
@@ -76,13 +76,7 @@
 
                         <div class="meta-grid">
                             @if (!string.IsNullOrEmpty(Model.VideoUrl))
-                            {@* 
-                                var videoId = System.Text.RegularExpressions.Regex.Match(Model.VideoUrl, @"(?:v=|\/)([a-zA-Z0-9_-]{11})").Groups[1].Value;
-                                <iframe src="https://www.youtube.com/embed/@videoId"
-                                        title="Видео демонстрация - @Model.Name"
-                                        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen
-                                        aria-label="Видео демонстрация"></iframe> *@
+                            {
 
                                 @if (!string.IsNullOrEmpty(Model.VideoUrl))
                                 {
@@ -132,7 +126,7 @@
                             </div>
 
 
-                            <!-- Действия -->
+                      
                             <div class="action-buttons">
                                 <a asp-controller="Meal"
                                    asp-area="Dietitian"

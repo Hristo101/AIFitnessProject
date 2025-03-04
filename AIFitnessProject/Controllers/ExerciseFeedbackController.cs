@@ -1,9 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.DTOs;
-using AIFitnessProject.Core.Models.TrainingPlan;
-using AIFitnessProject.Infrastructure.Common;
-using AIFitnessProject.Infrastructure.Data.Models;
-using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 

@@ -2,7 +2,6 @@
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace AIFitnessProject.Infrastructure.Data
 {
@@ -16,20 +15,6 @@ namespace AIFitnessProject.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            //builder.Entity<RequestsToCoach>
-            //    ().HasKey(x => new { x.TrainerId, x.UserId });
-
-
-        //    builder.Entity<CalendarDiet>()
-        //    .HasOne(x => x.Meal)
-        //    .WithMany(x => x.CalendarDiet)
-        //    .HasForeignKey(x => x.MealId);
-
-        //    builder.Entity<CalendarDiet>()
-        //.HasOne(x => x.Calendar)
-        //.WithMany(x => x.CalendarDiet)
-        //.HasForeignKey(x => x.CalendarId);
-
 
             builder.Entity<CalendarWorkout>()
             .HasOne(x => x.Workout)

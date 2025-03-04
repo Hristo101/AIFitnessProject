@@ -1,4 +1,4 @@
-﻿/* Основен стил за контейнера */
+﻿
 .container {
     max-width: 1244px;
     margin: 4em auto;
@@ -9,13 +9,13 @@
     transition: all 0.3s ease;
 }
 
-    /* За плавен ефект при минаване с мишката */
+
     .container:hover {
         transform: translateY(-5px);
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
     }
 
-/* Плавни преходи за alert */
+
 .alert-primary {
     font-size: 1.5rem;
     margin-top: 3em;
@@ -32,7 +32,7 @@
         background: linear-gradient(to right, #5a9bd2, #4a90e2);
     }
 
-/* Стил за кандидатурите */
+
 .applications-list {
     display: flex;
     flex-direction: column;
@@ -52,7 +52,6 @@
     position: relative;
 }
 
-    /* Плавен ефект при hover */
     .application-card:hover {
         transform: translateY(-10px);
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
@@ -69,7 +68,7 @@
         border-radius: 16px 16px 0 0;
     }
 
-/* Профилна снимка */
+
 .profile-picture {
     flex-shrink: 0;
     margin-right: 20px;
@@ -81,7 +80,7 @@
     position: relative;
 }
 
-    /* Плавен ефект за снимката при hover */
+
     .profile-picture img {
         width: 100%;
         height: 100%;
@@ -93,7 +92,7 @@
         transform: scale(1.1);
     }
 
-/* Информация за кандидата */
+
 .application-info {
     flex: 1;
     margin: 0 3em;
@@ -121,7 +120,7 @@
         color: #333;
     }
 
-/* Бутоните */
+
 .action-buttons {
     display: flex;
     gap: 10px;
@@ -169,7 +168,7 @@
             transform: translateY(-2px);
         }
 
-/* Анимация за плавен вход */
+
 @keyframes fadeIn {
     from {
         opacity: 0;

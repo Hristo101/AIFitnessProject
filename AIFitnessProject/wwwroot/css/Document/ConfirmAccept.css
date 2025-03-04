@@ -1,5 +1,4 @@
-﻿/* Основен стил за контейнера */
-.container {
+﻿.container {
     max-width: 800px;
     margin: 4em auto;
     padding: 30px;
@@ -15,16 +14,15 @@
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
     }
 
-/* Заглавие за потвърждение */
+
 .confirmation-header h2 {
     font-size: 2rem;
-    color: #28a745; /* Зелено за успешен тон */
+    color: #28a745; 
     font-weight: bold;
     margin-bottom: 1.5em;
     text-transform: uppercase;
 }
 
-/* Информация за профила */
 .profile-info {
     display: flex;
     justify-content: center;
@@ -56,7 +54,6 @@
         margin-bottom: 10px;
     }
 
-/* Бутоните за действие */
 .confirmation-actions {
     display: flex;
     justify-content: center;
@@ -76,7 +73,7 @@
 }
 
     .btn.accept {
-        background-color: #28a745; /* Зелено за приемане */
+        background-color: #28a745; 
     }
 
         .btn.accept:hover {
@@ -86,7 +83,7 @@
         }
 
     .btn.back {
-        background-color: #007bff; /* Синьо за назад */
+        background-color: #007bff;
     }
 
         .btn.back:hover {
@@ -95,7 +92,7 @@
             box-shadow: 0 12px 24px rgba(0, 123, 255, 0.3);
         }
 
-/* Респонсивен дизайн */
+
 @media (max-width: 768px) {
     .profile-info {
         flex-direction: column;

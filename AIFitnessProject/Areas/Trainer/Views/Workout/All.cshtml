@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="~/css/Workout/AllWorkout.css" />
 
 <div class="container">
-    <!-- Филтри -->
+ 
     <div class="filters">
         <select id="muscleGroupFilter">
             <option value="">Търсене по мускулна група</option>
@@ -22,24 +22,23 @@
         </select>
     </div>
 
-    <!-- Грид с тренировките -->
+  
     <div class="workouts-grid">
         @foreach (var workout in Model)
         {
             <div class="workout-card" data-id="@workout.Id" data-muscle-group="@workout.Exercises.First().MuscleGroup" data-complexity="@workout.Exercises.First().DifficultyLevel">
-                <!-- Чекбокс за маркиране -->
+              
                 <div class="checkbox-container">
                     <input type="checkbox" class="workout-checkbox">
                 </div>
 
-                <!-- Снимка -->
+              
                 <img src="@workout.ImageUrl" class="workout-image" alt="@workout.Title" />
 
-                <!-- Заглавие и ден от седмицата -->
+                
                 <h3>@workout.Title</h3>
                 <p>Ден: @workout.DayOfWeek</p>
 
-                <!-- Упражнения -->
                 <div class="exercises">
                     @foreach (var exercise in workout.Exercises)
                     {
@@ -49,7 +48,7 @@
                     }
                 </div>
 
-                <!-- Бутоните ДЕТАЙЛИ и РЕДАКТИРАЙ -->
+              
                 <div class="workout-actions">
                     <a asp-action="Details" asp-controller="Workout" asp-route-id="@workout.Id" class="btn btn-details">Детайли</a>
                     <a asp-action="Edit" asp-controller="Workout" asp-route-id="@workout.Id" asp-route-trainingPlanId="@workout.TrainingPlanId" class="btn btn-edit">Редактирай</a>

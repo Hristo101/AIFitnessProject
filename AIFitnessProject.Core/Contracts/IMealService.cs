@@ -1,5 +1,4 @@
 ﻿using AIFitnessProject.Core.DTOs.MealFeedback;
-using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
 using AIFitnessProject.Infrastructure.Data.Models;
 

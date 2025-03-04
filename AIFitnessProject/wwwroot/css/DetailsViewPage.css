@@ -1,4 +1,4 @@
-﻿/* Main Container */
+﻿
 .trainer-details-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -8,14 +8,13 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Title Section */
 .trainer-header {
     display: flex;
     align-items: center;
     margin-bottom: 40px;
     gap: 6em;
-    opacity: 0; /* Скриваме заглавието по подразбиране */
-    animation: slideIn 1s ease-out forwards; /* Добавяме анимация за излизане отляво */
+    opacity: 0; 
+    animation: slideIn 1s ease-out forwards; 
 }
 
 .trainer-photo {
@@ -25,14 +24,14 @@
     .trainer-photo img {
         width: 300px;
         height: 300px;
-        border-radius: 50%; /* Кръгла снимка */
+        border-radius: 50%; 
         object-fit: cover;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
         .trainer-photo img:hover {
-            transform: scale(1.1); /* Леко увеличение при преминаване с мишката */
+            transform: scale(1.1); 
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
@@ -47,7 +46,7 @@
     color: #ff6347;
 }
 
-/* Bio Section */
+
 .trainer-bio {
     margin-bottom: 40px;
 }
@@ -63,7 +62,6 @@
         line-height: 1.6;
     }
 
-/* Before and After Images */
 .trainer-transformation {
     margin-bottom: 40px;
 }
@@ -99,7 +97,6 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-/* Certification Section */
 .trainer-certification {
     margin-bottom: 40px;
 }
@@ -132,7 +129,7 @@
         line-height: 1.6;
     }
 
-/* Comments Section */
+
 .trainer-comments {
     margin-bottom: 40px;
 }
@@ -195,7 +192,6 @@
         color: #ff9800;
     }
 
-/* Buttons Section */
 .trainer-buttons {
     display: flex;
     justify-content: space-between;
@@ -216,7 +212,7 @@
     font-weight: bold;
 }
 
-/* Стилове за бутона "Назад" */
+
 .back-btn {
     background-color: #28a745;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -229,7 +225,6 @@
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
     }
 
-/* Стилове за бутона "Запиши се" с ефект на подскок */
 .signup-btn {
     background-color: #ff6347;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -243,7 +238,6 @@
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
     }
 
-/* Анимация на бутона "Запиши се" - подскачащ ефект */
 @keyframes bounce {
     0%, 100% {
         transform: translateY(0);
@@ -258,7 +252,6 @@
     transform: scale(0.95);
 }
 
-/* Завършени стилове за бутоните */
 .trainer-buttons button {
     transition: transform 0.3s ease-in-out;
 }
@@ -267,7 +260,6 @@
         outline: none;
     }
 
-/* Анимация за заглавие и снимка */
 @keyframes slideIn {
     from {
         transform: translateX(-100%);

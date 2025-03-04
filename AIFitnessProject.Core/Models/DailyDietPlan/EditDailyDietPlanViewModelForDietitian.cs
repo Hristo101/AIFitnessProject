@@ -1,12 +1,6 @@
-﻿using AIFitnessProject.Core.Models.Exercise;
-using AIFitnessProject.Core.Models.Meal;
+﻿using AIFitnessProject.Core.Models.Meal;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static AIFitnessProject.Infrastructure.Constants.DataConstants.DailyDietPlan;
 
 namespace AIFitnessProject.Core.Models.DailyDietPlan
@@ -19,7 +13,7 @@ namespace AIFitnessProject.Core.Models.DailyDietPlan
 
         public string UserId { get; set; }
 
-        [Required(ErrorMessage = "Името е задължително.")]
+        [Required(ErrorMessage = "Заглавието е задължително.")]
         [StringLength(MaxTitleLength, MinimumLength = MinTitleLength, ErrorMessage = "Заглавието трябва да е между {2} и {1} символа.")]
         public string Title { get; set; }
 

@@ -14,7 +14,7 @@
         <h1>Редактиране на профила</h1>
 
         <form asp-action="Edit" method="post" enctype="multipart/form-data">
-            <!-- Profile Picture -->
+   
             <div class="form-group">
                 <label asp-for="ImageUrl">Снимка на профила</label>
                 <img src="data:image/jpeg;base64,@Model.ImageUrl" alt="Profile Picture" class="current-profile-pic">
@@ -22,49 +22,49 @@
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
 
-            <!-- First Name -->
+        
             <div class="form-group">
                 <label asp-for="FirstName">Първо име</label>
                 <input type="text" asp-for="FirstName" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
 
-            <!-- Last Name -->
+        
             <div class="form-group">
                 <label asp-for="LastName">Фамилия</label>
                 <input type="text" asp-for="LastName" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
 
-            <!-- Email -->
+       
             <div class="form-group">
                 <label asp-for="Email">Email</label>
                 <input type="email" asp-for="Email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
-            <!-- Username -->
+         
             <div class="form-group">
                 <label asp-for="UserName">Потребителско име</label>
                 <input type="text" asp-for="UserName" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
 
-            <!-- Height -->
+          
             <div class="form-group">
                 <label asp-for="Height">Височина (см)</label>
                 <input type="number" asp-for="Height" step="0.01" />
                 <span asp-validation-for="Height" class="text-danger"></span>
             </div>
 
-            <!-- Weight -->
+        
             <div class="form-group">
                 <label asp-for="Weight">Тегло (кг)</label>
                 <input type="number" asp-for="Weight" step="0.1" />
                 <span asp-validation-for="Weight" class="text-danger"></span>
             </div>
 
-            <!-- Experience Level -->
+          
             <div class="form-group">
                 <label asp-for="ExperienceLevel">Ниво на опит</label>
                 <select asp-for="ExperienceLevel">
@@ -75,7 +75,6 @@
                 <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
             </div>
 
-            <!-- Submit Button -->
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">Запази</button>
                 <a asp-action="MyProfile" asp-controller="Account" class="btn btn-secondary">Отказ</a>

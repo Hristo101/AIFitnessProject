@@ -13,7 +13,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@Model.Name - AI Fitness</title>
 
-    <!-- Стилове и ресурси -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -460,7 +459,7 @@
                                                 <i class="fas fa-info-circle me-2"></i>Детайли
                                             </a>
                                         </div>
-                                        <!-- Секция за коментари -->
+                                      
                                         <div class="comment-section" id="comment-section-@exercise.Id-@workout.Id">
                                             <div class="container input-container">
                                                 <input required="required"
@@ -508,7 +507,7 @@
             }
         </div>
 
-        <!-- Pagination -->
+
         <div class="button-container">
             <button class="button-3d" id="prev-btn" disabled>
                 <div class="button-top">
@@ -549,7 +548,7 @@
             easing: 'ease-out-quart'
         });
 
-        // Пагинация
+   
         const workoutsPerPage = 1;
         let currentPage = 1;
         const workouts = document.querySelectorAll('.workout-card-container');
@@ -578,7 +577,7 @@
         });
         showPage(currentPage);
 
-        // Particles инициализация
+      
         document.addEventListener("DOMContentLoaded", function () {
             var particlesConfig = {
                 "particles": {
@@ -598,7 +597,7 @@
             particlesJS("particles-above", particlesConfig);
         });
 
-        // Функция за показване/скриване на коментарите
+       
         function toggleComment(exerciseId, workoutId) {
             const commentSection = document.getElementById(`comment-section-${exerciseId}-${workoutId}`);
             const disagreeText = document.getElementById(`disagree-text-${exerciseId}-${workoutId}`);
@@ -655,7 +654,7 @@
                 if (data.success) {
                     const postedComment = document.getElementById(`posted-comment-${exerciseId}-${workoutId}`);
                     postedComment.textContent = comment;
-                    postedComment.dataset.commentId = data.commentId || editingCommentId; // Запазваме commentId
+                    postedComment.dataset.commentId = data.commentId || editingCommentId; 
                     document.getElementById(`posted-comment-section-${exerciseId}-${workoutId}`).style.display = 'block';
 
                     commentInput.value = '';

@@ -18,21 +18,21 @@
 
     .user-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); /* Увеличаваме ширината */
+        grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); 
         gap: 2rem;
         padding: 2rem;
     }
 
     .user-card {
-        background: linear-gradient(135deg, #ffffff, #eaf2ff); /* Градиентен фон */
+        background: linear-gradient(135deg, #ffffff, #eaf2ff); 
         border-radius: 20px;
-        padding: 3rem; /* По-голям padding */
+        padding: 3rem; 
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         position: relative;
         margin: 1rem;
         transform-style: preserve-3d;
-        min-height: 400px; /* Увеличена височина */
+        min-height: 400px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -40,7 +40,7 @@
     }
 
         .user-card:hover {
-            transform: translateY(-15px) rotateX(5deg) rotateY(5deg); /* 3D ефект */
+            transform: translateY(-15px) rotateX(5deg) rotateY(5deg);
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
         }
 
@@ -51,7 +51,7 @@
     }
 
     .profile-picture {
-        width: 120px; /* По-голяма снимка */
+        width: 120px;
         height: 120px;
         border-radius: 50%;
         margin-right: 1.5rem;
@@ -107,7 +107,7 @@
             transform: rotate(180deg);
         }
 
-    /* Custom Button Styles */
+
     .button {
         --width: 160px;
         --height: 50px;
@@ -150,7 +150,7 @@
     .training-btn {
         --button-color: #3CB371;
         --tooltip-color: #3CB371;
-        /* #4ade80 0%, #16a34a */
+
 
     }
 
@@ -251,7 +251,7 @@
                         </div>
                     </button>
                 </form>
-                <!-- Calendar Button -->
+          
                 @if (user.IsInCalendar)
                 {
                     <form asp-controller="Calendar" asp-action="UserCalendar" asp-area="Dietitian" asp-route-id="@user.UserId" method="get">
@@ -276,14 +276,14 @@
 </div>
 
 <script>
-    // Experience level expand functionality
+ 
     document.querySelectorAll('.experience-badge').forEach(badge => {
         badge.addEventListener('click', function () {
             this.classList.toggle('expanded');
         });
     });
 
-    // Tooltip hover effect
+
     document.querySelectorAll('.button').forEach(button => {
         button.addEventListener('mousemove', function (e) {
             const rect = this.getBoundingClientRect();

@@ -1,4 +1,4 @@
-﻿/* Основни стилове */
+﻿
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(45deg, #3498db, #8e44ad);
@@ -71,30 +71,30 @@ textarea {
     color: white;
     padding: 18px 40px;
     font-size: 1.3em;
-    text-decoration: none; /* Премахва подчертаването */
+    text-decoration: none;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: all 0.4s ease-in-out; /* Гладка анимация */
+    transition: all 0.4s ease-in-out;
     width: 100%;
     max-width: 280px;
     margin-top: 20px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Сянка за 3D ефект */
-    text-transform: uppercase; /* Превръща текста в главни букви */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); 
+    text-transform: uppercase; 
 }
 
     .submit-btn:hover {
         background-color: #219150;
-        transform: translateY(-5px); /* Леко издигане при hover */
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Плътна сянка при hover */
+        transform: translateY(-5px); 
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); 
     }
 
     .submit-btn:active {
-        transform: translateY(2px); /* Леко натискане при клик */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Сянката е по-слаба при натискане */
+        transform: translateY(2px); 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
     }
 
-/* Анимация за плавно покачване на линка */
+
 @keyframes buttonPop {
     0% {
         transform: scale(0.9);
@@ -110,9 +110,9 @@ textarea {
 }
 
 .submit-btn {
-    animation: buttonPop 0.6s ease-out; /* Възстановяване на размера с анимация */
+    animation: buttonPop 0.6s ease-out; 
 }
-/* Заглавие с анимация за плавно появяване */
+
 @keyframes fadeIn {
     from {
         opacity: 0;

@@ -7,11 +7,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rejected Training Plans</title>
-    <!-- AOS Library for Animations -->
+  
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <style>
-        /* Обновени стилове за навигацията */
+    
         .navbar {
             background: #2c3e50;
             padding: 1rem 2rem;
@@ -26,7 +26,7 @@
                 letter-spacing: 1px;
             }
 
-        /* Основно съдържание */
+       
         .main-content {
             padding: 2rem;
             flex: 1;
@@ -113,7 +113,7 @@
             margin-top: 0.3rem;
         }
 
-        /* Стилове за бутоните */
+       
         .button-container {
             display: flex;
             gap: 1rem;
@@ -160,7 +160,7 @@
                 transform: translateY(-2px);
             }
 
-        /* Анимации */
+   
         @@keyframes fadeIn {
             from {
                 opacity: 0;
@@ -175,18 +175,18 @@
     </style>
 </head>
 <body>
-    <!-- Навигация -->
+
     <nav class="navbar">
         <h1>Training Plans</h1>
     </nav>
 
-    <!-- Основно съдържание -->
+  
     <div class="main-content">
         <div class="training-plans-container">
             @foreach (var plan in Model)
             {
                 <div class="training-plan-card" data-aos="fade-up">
-                    <!-- Снимка и заглавие -->
+                 
                     @if (plan.TrainingPlanImageUrl.StartsWith("http") || plan.TrainingPlanImageUrl.StartsWith("/img"))
                     {
                         <img src="@plan.TrainingPlanImageUrl" class="plan-image" alt="@plan.TrainingPlanImageUrl">
@@ -200,7 +200,7 @@
                         <p class="plan-description">@plan.TrainingPlanDescription</p>
                     </div>
 
-                    <!-- Потребителска информация -->
+                  
                     <div class="user-section">
                         @if (plan.UserImageUrl.StartsWith("http") || plan.UserImageUrl.StartsWith("/img"))
                         {
@@ -216,7 +216,7 @@
                         </div>
                     </div>
 
-                    <!-- Бутони за действие -->
+                  
                     <div class="button-container">
                         <a asp-action="DetailsRejectedTrainingPlan"
                            asp-controller="TrainingPlan"
@@ -235,7 +235,7 @@
         </div>
     </div>
 
-    <!-- Инициализация на AOS -->
+   
     <script>
         AOS.init({
             duration: 800,

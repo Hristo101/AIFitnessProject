@@ -1,8 +1,6 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.DTOs.Calendar;
-using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace AIFitnessProject.Areas.Trainer.Controllers

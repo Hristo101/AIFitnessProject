@@ -1,12 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AIFitnessProject.Infrastructure.Constants
+﻿namespace AIFitnessProject.Infrastructure.Constants
 {
     public static class DataConstants
     {
@@ -128,20 +120,11 @@ namespace AIFitnessProject.Infrastructure.Constants
             public const int MinAimLength = 3;
         }
 
-        public static class Calendar
-        {
-
-        }
-
+ 
         public static class Notification
         {
             public const int MaxMessageLength = 5000;
             public const int MinMessageLength = 3;
-        }
-
-        public static class PlanAssignment
-        {
-
         }
 
         public static class Trainer

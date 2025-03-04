@@ -2,8 +2,6 @@
 using AIFitnessProject.Core.DTOs;
 using AIFitnessProject.Core.Models.Exercise;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using System.Security.Claims;
 
 namespace AIFitnessProject.Areas.Trainer.Controllers

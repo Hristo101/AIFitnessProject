@@ -6,11 +6,11 @@
 <head>
     <meta charset="utf-8" />
     <title>Редактиране на Тренировъчен План</title>
-    <!-- Bootstrap CSS -->
+  
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <!-- Animate.css за анимации -->
+   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <!-- Font Awesome за икони -->
+  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <style>
         .header-style {
@@ -76,7 +76,7 @@
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
         }
-        /* File Upload Custom Styles */
+    
         .file-upload-wrapper {
             border: 2px dashed #007bff;
             border-radius: 8px;
@@ -115,7 +115,7 @@
                     </h2>
                     <form asp-action="Edit" asp-controller="TrainingPlan" method="post" enctype="multipart/form-data">
                         
-                        <!-- Показване на текущата (стара) снимка, ако съществува -->
+                      
                         @if(!string.IsNullOrEmpty(Model.ImageUrl))
                         {
                             <div class="mb-4 text-center">
@@ -131,7 +131,7 @@
                             </div>
                         }
 
-                        <!-- Компонент за качване на нова снимка с предварителен преглед -->
+                      
                         <div class="mb-4">
                             <div class="file-upload-wrapper">
                                 <input asp-for="NewImageUrl" type="file" id="imageInput"
@@ -149,7 +149,6 @@
                             </div>
                         </div>
 
-                        <!-- Други полета от формата -->
                         <div class="form-group animate__animated animate__fadeInLeft animate__delay-1s">
                             <label asp-for="TrainingPlanName">Име на плана</label>
                             <input asp-for="TrainingPlanName" class="form-control" placeholder="Въведете име на тренировъчния план" />
@@ -171,17 +170,17 @@
         </div>
     </div>
 
-    <!-- Скриптове за Bootstrap и jQuery валидация -->
+   
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
 
-    <!-- Скрипт за предварителен преглед и валидация на новата снимка -->
+  
     <script>
-        // Enhanced Image Preview with File Validation
-        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+   
+        const MAX_FILE_SIZE = 5 * 1024 * 1024; 
         const imageInput = document.getElementById('imageInput');
         const previewContainer = document.getElementById('imagePreview');
 
@@ -220,7 +219,7 @@
             });
         });
 
-        // Dynamic Difficulty Level Indicators (ако има други елементи, които ги използват)
+    
         document.querySelectorAll('.form-select option').forEach(option => {
             const indicator = document.createElement('span');
             indicator.className = 'difficulty-indicator ' +
@@ -229,7 +228,7 @@
             option.prepend(indicator);
         });
 
-        // Input Number Validation
+      
         document.querySelectorAll('input[type="number"]').forEach(input => {
             input.addEventListener('input', function () {
                 if (this.validity.rangeUnderflow) {

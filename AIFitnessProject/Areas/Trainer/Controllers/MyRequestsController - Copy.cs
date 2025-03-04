@@ -1,6 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Security.Claims;
 
 namespace AIFitnessProject.Areas.Trainer.Controllers

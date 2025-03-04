@@ -3,7 +3,7 @@
     ViewData["Title"] = "Създай тренировка";
 }
 
-<!-- Връзки към външни CSS файлове и вашия стил -->
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <style>
@@ -256,7 +256,7 @@ a {
     height: 2px;
     background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
 }
-/* Фоново полупрозрачно "послойно" оцветяване */
+
 .exercise-bg-overlay {
     position: absolute;
     top: 0;
@@ -269,7 +269,7 @@ a {
 }
 
 .exercise-item {
-    z-index: 1; /* За да е над overlay-a */
+    z-index: 1; 
 }
 
 .series-reps {
@@ -297,10 +297,10 @@ a {
             </h2>
         </div>
         <div class="card-body p-4">
-            <!-- Уверете се, че ViewModel съдържа свойството SelectedWorkoutIds -->
+          
             <form asp-action="Create"  asp-controller="Workout" asp-area="Trainer" method="post" enctype="multipart/form-data">
                 <input type="hidden" asp-for="TrainingPlanId" />
-                <!-- Основна информация -->
+           
                 <div class="row g-4 mb-5 animate__animated animate__fadeIn">
                     <div class="col-md-6">
                         <div class="form-floating">
@@ -332,7 +332,7 @@ a {
                     </div>
                 </div>
 
-                <!-- Избор на мускулна група и ниво на трудност -->
+              
                 <div class="row g-4 mb-5 animate__animated animate__fadeIn">
                     <div class="col-md-6">
                         <div class="form-floating">
@@ -362,10 +362,10 @@ a {
                     </div>
                 </div>
 
-                <!-- Секция за качване на снимка с preview и бутон за премахване -->
+              
                 <div class="upload-section mb-5 p-5 text-center animate__animated animate__zoomIn">
                     <div class="file-upload-wrapper position-relative">
-                        <!-- Използваме id за file input-а за достъп с JavaScript -->
+                      
                         <input type="file" asp-for="ImageUrl" id="imageInput" class="form-control visually-hidden" accept="image/*" required />
                         <label for="imageInput" class="file-upload-label">
                             <div class="d-flex flex-column align-items-center">
@@ -375,11 +375,11 @@ a {
                                 <p class="text-muted">Формати: .jpg, .png</p>
                             </div>
                         </label>
-                        <!-- Контейнер за preview на избраната снимка -->
+                     
                         <div id="imagePreviewContainer" class="mt-3" style="display:none; position: relative; max-width: 300px; margin: 0 auto;">
                             <img id="imagePreview" src="" alt="Image Preview" style="width: 100%; height: auto; border: 1px solid #ddd; border-radius: 5px;" />
                             <button type="button" id="removeImageButton" style="position: absolute; top: 5px; right: 5px; background: rgba(255,255,255,0.8); border: none; border-radius: 50%; padding: 5px;">
-                                <!-- Прилагаме стил за червен цвят -->
+                           
                                 <i class="fas fa-times" style="color: red;"></i>
                             </button>
                         </div>
@@ -387,7 +387,7 @@ a {
                     <span asp-validation-for="ImageUrl" class="text-danger"></span>
                 </div>
 
-                <!-- Филтър секция за упражненията -->
+           
                 <div class="filter-section mb-4">
                     <div class="card p-3">
                         <h4 class="mb-3">Филтрирай упражнения</h4>
@@ -422,7 +422,7 @@ a {
                     </div>
                 </div>
 
-                <!-- Секция за упражненията с пагинация -->
+            
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4" id="exercisesContainer">
                     @foreach (var exercise in Model.Exercises)
                     {
@@ -458,7 +458,7 @@ a {
                     }
                 </div>
 
-                <!-- Контроли за пагинация -->
+               
                 <div class="pagination-container">
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center gap-2">
@@ -467,7 +467,7 @@ a {
                                     <i class="fas fa-chevron-left"></i> Предишна
                                 </button>
                             </li>
-                            <!-- Динамично ще се вмъкнат бутоните за страници -->
+                          
                             <li class="page-item">
                                 <button class="page-btn nav-btn" id="nextPage">
                                     Следваща <i class="fas fa-chevron-right"></i>
@@ -477,10 +477,10 @@ a {
                     </nav>
                 </div>
 
-                <!-- Скрито поле за избрани упражнения. Използваме asp-for, за да е свързано с ViewModel.SelectedWorkoutIds -->
+              
                 <input type="hidden" asp-for="SelectedWorkoutIds" id="selectedWorkoutIds" />
 
-                <!-- Бутони за запазване / отказ -->
+             
                 <div class="d-flex justify-content-end gap-3 mt-5">
                     <button type="submit" id="attachWorkoutBtn" class="btn btn-primary btn-lg px-5" disabled>
                         <i class="fas fa-save me-2"></i>Запази
@@ -503,11 +503,10 @@ a {
         document.addEventListener('DOMContentLoaded', function () {
             const itemsPerPage = 6;
             let currentPage = 1;
-            // Вземаме всички карти с клас .exercise-card
+         
             const allExercises = Array.from(document.querySelectorAll('.exercise-card'));
             let filteredExercises = allExercises.slice();
 
-            // Функция за обновяване на бутоните за страници
             function updatePagination() {
                 const totalPages = Math.ceil(filteredExercises.length / itemsPerPage);
                 document.querySelectorAll('.pagination [data-page]').forEach(btn => btn.parentElement.remove());
@@ -531,19 +530,18 @@ a {
                 document.getElementById('nextPage').disabled = (currentPage === totalPages || totalPages === 0);
             }
 
-            // Функция за показване на картите за дадена страница
+          
             function showPage(page) {
                 currentPage = page;
                 const startIndex = (page - 1) * itemsPerPage;
                 const endIndex = startIndex + itemsPerPage;
 
-                // Скриваме всички карти
+              
                 allExercises.forEach(card => {
                     card.style.display = 'none';
                     card.classList.remove('animate__fadeIn');
                 });
 
-                // Показваме само съвпадащите карти
                 filteredExercises.slice(startIndex, endIndex).forEach(card => {
                     card.style.display = 'block';
                     card.classList.add('animate__fadeIn');
@@ -551,7 +549,7 @@ a {
                 updatePagination();
             }
 
-            // Функция за филтриране според избраната мускулна група и ниво на трудност
+            
             function filterExercises() {
                 const muscleFilter = document.getElementById('filterMuscleGroup').value.trim().toLowerCase();
                 const difficultyFilter = document.getElementById('filterDifficulty').value.trim().toLowerCase();
@@ -566,16 +564,16 @@ a {
                 showPage(currentPage);
             }
 
-            // Слушатели за промяна в падащите менюта за филтриране
+          
             document.getElementById('filterMuscleGroup').addEventListener('change', filterExercises);
             document.getElementById('filterDifficulty').addEventListener('change', filterExercises);
 
-            // Обработка на избора на упражнения (checkbox-ове)
+           
             document.querySelectorAll('.workout-checkbox').forEach(checkbox => {
                 checkbox.addEventListener('change', function () {
                     const selectedIds = Array.from(document.querySelectorAll('.workout-checkbox:checked'))
                         .map(cb => cb.closest('.exercise-card').dataset.id);
-                    // Задаваме стойността на скритото поле чрез asp-for (SelectedWorkoutIds)
+                    
                     document.getElementById('selectedWorkoutIds').value = selectedIds.join(',');
                     document.getElementById('attachWorkoutBtn').disabled = selectedIds.length === 0;
                     allExercises.forEach(card => card.classList.remove('selected'));
@@ -588,7 +586,7 @@ a {
                 });
             });
 
-            // Обработчици за бутоните "Предишна" и "Следваща"
+           
             document.getElementById('prevPage').addEventListener('click', function () {
                 if (currentPage > 1) {
                     currentPage--;
@@ -603,10 +601,10 @@ a {
                 }
             });
 
-            // Инициализация: при зареждане филтрираме (ако филтрите са празни, се показват всички)
+          
             filterExercises();
 
-            // --- Код за preview на снимката и бутон за премахване ---
+           
 
             const imageInput = document.getElementById('imageInput');
             const previewContainer = document.getElementById('imagePreviewContainer');
@@ -636,7 +634,7 @@ a {
 }
 
 @functions {
-    // Функция за определяне на CSS клас според нивото на трудност
+   
     private string GetDifficultyClass(string difficulty)
     {
         return difficulty switch

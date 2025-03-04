@@ -1,9 +1,6 @@
 ﻿using AIFitnessProject.Core.Contracts;
-using AIFitnessProject.Core.DTOs;
 using AIFitnessProject.Core.DTOs.MealFeedback;
-using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.Meal;
-using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;

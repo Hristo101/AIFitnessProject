@@ -4,7 +4,7 @@
     line-height: 1.6;
 }
 
-/* Карта и секции */
+
 .card {
     border-radius: 1rem;
     overflow: hidden;
@@ -16,7 +16,7 @@
     background: linear-gradient(135deg, #2c3e50, #3498db);
 }
 
-/* Форма и входни полета */
+
 .form-control, .form-select {
     border-radius: 0.5rem;
     padding: 0.75rem 1.25rem;
@@ -35,7 +35,6 @@
     border: 2px solid #e9ecef;
 }
 
-/* Качване на файлове */
 .file-upload-label {
     cursor: pointer;
     transition: all 0.3s ease;
@@ -55,7 +54,7 @@
     border-color: #0d6efd !important;
 }
 
-/* Checkbox и радио бутони */
+
 .form-check-input {
     width: 1.5em;
     height: 1.5em;
@@ -85,7 +84,6 @@
         box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-/* Бутони */
 .btn-primary {
     background-color: #0d6efd;
     border: none;
@@ -101,7 +99,7 @@
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     }
 
-/* Валидация */
+
 .invalid-feedback {
     font-size: 0.875em;
     animation: slideDown 0.3s ease-out;
@@ -116,7 +114,7 @@
     border-color: #dc3545;
 }
 
-/* Анимации */
+
 @keyframes checkmark {
     from {
         transform: scale(0);
@@ -153,7 +151,7 @@
     }
 }
 
-/* Специални класове */
+
 .terms-check .form-check-input {
     width: 1.8em;
     height: 1.8em;
@@ -195,7 +193,6 @@
         transform: scale(1.1);
     }
 
-/* Медийни заявки */
 @media (max-width: 768px) {
     .card-body {
         padding: 1.5rem;

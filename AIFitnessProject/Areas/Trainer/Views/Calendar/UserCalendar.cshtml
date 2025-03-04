@@ -1,11 +1,11 @@
-﻿@* Keep the existing using and model declarations *@
+﻿
 @using AIFitnessProject.Core.Models.Calendar
 @model UserCalendarViewModel
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @* Keep existing head content *@
+ 
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -142,7 +142,7 @@
     </div>
 
     <style>
-        @* Keep existing styles *@
+       
         :root {
             --primary-clr: #b38add;
             --secondary-clr: #8a54c5;
@@ -528,7 +528,7 @@
             padding-bottom: 5px;
         }
 
-        @* Keep existing event, event-workout, and event-meal styles *@
+       
         .event {
             position: relative;
             width: 100%;
@@ -1426,14 +1426,14 @@
             const days = document.querySelectorAll(".day");
             days.forEach((day) => {
                 day.addEventListener("click", (e) => {
-                    // Remove 'active' class from all days first
+                    
                     days.forEach(d => d.classList.remove("active"));
                     
                     getActiveDay(e.target.innerHTML);
                     updateEvents(Number(e.target.innerHTML));
                     activeDay = Number(e.target.innerHTML);
 
-                    // Add 'active' class only to the clicked day
+                    
                     if (e.target.classList.contains("day")) {
                         e.target.classList.add("active");
                     }
@@ -1563,7 +1563,7 @@
                 }
             });
 
-            // Update sections only if there are events of that type
+            
             if (workouts) {
                 workoutsSection.innerHTML = `<h2>Тренировки</h2>${workouts}`;
             } else {
@@ -1576,7 +1576,7 @@
                 mealsSection.innerHTML = '';
             }
 
-            // Ensure the day is marked as an event only if there are any events (workouts or meals)
+           
             const activeDayEl = document.querySelector(".day.active");
             if (activeDayEl) {
                 if (hasAnyEvent) {
@@ -1771,7 +1771,7 @@
                     const newEvent = {
                         title: eventTitle,
                         time: `${timeFrom} - ${timeTo}`,
-                        type: selectedWorkoutId ? "workout" : "meal", // Assuming meal if no workoutId
+                        type: selectedWorkoutId ? "workout" : "meal",
                         [selectedWorkoutId ? "workout" : "meal"]: workoutDetails
                     };
 
@@ -1795,11 +1795,11 @@
                             year: year,
                             eventId: result.eventId,
                             events: [newEvent],
-                            isMine: true // Assuming new events are mine
+                            isMine: true 
                         });
                     }
 
-                    // Update the calendar and events immediately
+                   
                     updateEvents(activeDay);
                     const activeDayEl = document.querySelector(".day.active");
                     if (!activeDayEl.classList.contains("event")) {

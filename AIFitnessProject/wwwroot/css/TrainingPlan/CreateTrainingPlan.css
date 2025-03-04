@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    background-color: #eef1f5; /* Светъл фон, който е приятен за очите */
+    background-color: #eef1f5;
     color: #333;
 }
 
@@ -13,21 +13,17 @@
     padding: 15px;
 }
 
-/* Добавяме малка анимация при hover */
+
 a:hover,
 button:hover {
     opacity: 0.9;
     transition: 0.3s ease-in-out;
 }
 
-/* 
--------------------------------
-  Card / Form Styles 
--------------------------------
-*/
+
 .card {
-    border: none; /* Премахваме стандартната рамка */
-    border-radius: 10px; /* Заоблени ъгли */
+    border: none;
+    border-radius: 10px;
     overflow: hidden;
 }
 
@@ -42,7 +38,6 @@ button:hover {
         font-weight: 600;
     }
 
-/* Подчертани линии под заглавията за акцент */
 h3.h5,
 label.h5 {
     border-bottom: 2px solid #007bff;
@@ -50,7 +45,6 @@ label.h5 {
     padding-bottom: 6px;
 }
 
-/* Текстови полета, бутони, групи */
 .form-label {
     margin-bottom: 6px;
 }
@@ -77,11 +71,7 @@ label.h5 {
         box-shadow: 0 0 4px rgba(0, 123, 255, 0.2);
     }
 
-/* 
--------------------------------
-  File Upload / Preview Styles 
--------------------------------
-*/
+
 .file-upload-wrapper {
     position: relative;
 }
@@ -114,7 +104,7 @@ label.h5 {
     height: 0;
 }
 
-/* Превю на качената снимка */
+
 #imagePreview .card {
     transition: transform 0.3s ease;
 }
@@ -133,11 +123,7 @@ label.h5 {
     border-top: none;
 }
 
-/* 
--------------------------------
-  Buttons 
--------------------------------
-*/
+
 .btn-primary {
     background-image: linear-gradient(to right, #007bff, #0068d9);
     border: none;
@@ -160,13 +146,9 @@ label.h5 {
         opacity: 0.85;
     }
 
-/* 
--------------------------------
-  Responsive Design 
--------------------------------
-*/
+
 @media (max-width: 992px) {
-    /* Настройки за таблети и средни екрани */
+   
     .card-header h2 {
         font-size: 1.3rem;
     }
@@ -177,7 +159,7 @@ label.h5 {
 }
 
 @media (max-width: 576px) {
-    /* Настройки за смартфони и малки екрани */
+   
     .card-header {
         text-align: center;
     }
@@ -187,7 +169,7 @@ label.h5 {
         }
 
     .input-group-text.bg-primary {
-        display: none; /* Скриваме иконите за по-компактен изглед на много малки екрани */
+        display: none;
     }
 
     .form-control.form-control-lg {

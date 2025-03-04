@@ -1,4 +1,4 @@
-﻿/* Базови стилове */
+﻿
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
@@ -18,9 +18,9 @@ a {
     color: inherit;
 }
 
-/* Заглавна секция */
+
 .title {
-    background-color: #3498db; /* Син фон за заглавието */
+    background-color: #3498db;
     color: white;
     text-align: center;
     padding: 40px 20px;
@@ -31,7 +31,6 @@ a {
         line-height: 1.2;
     }
 
-/* Интро секция */
 .intro {
     background-color: #ffffff;
     padding: 40px 20px;
@@ -84,7 +83,6 @@ a {
             font-weight: bold;
         }
 
-/* Процес секция */
 .process {
     background-color: #f9f9f9;
     padding: 40px 20px;
@@ -131,7 +129,7 @@ a {
     color: #555;
 }
 
-/* Ползи секция */
+
 .benefits {
     background-color: #ffffff;
     padding: 40px 20px;
@@ -195,7 +193,7 @@ a {
     background: linear-gradient(135deg, #f5f7fa, #e4e6f0);
 }
 
-/* Header for the comments section */
+
 .comments-header {
     text-align: center;
     font-size: 30px;
@@ -203,14 +201,12 @@ a {
     margin-bottom: 20px;
 }
 
-/* Container for each comment */
 .comments-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-/* Individual comment */
 .comment-item {
     background-color: #f9f9f9;
     border: 1px solid #eee;
@@ -224,19 +220,19 @@ a {
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
     }
 
-/* Comment header with the trainer's image and name */
+
 .comment-header {
     display: flex;
     align-items: center;
 }
 
-/* Container for trainer's image and name */
+
 .comment-author-container {
     display: flex;
     align-items: center;
 }
 
-/* Trainer image style */
+
 .dietitian-image {
     width: 50px;
     height: 50px;
@@ -245,21 +241,20 @@ a {
     margin-right: 15px;
 }
 
-/* Author's name styling */
+
 .author-info .comment-author {
     font-size: 18px;
     font-weight: bold;
     color: #333;
 }
 
-/* Comment content text */
+
 .comment-content {
     font-size: 16px;
     color: #555;
     margin-top: 10px;
 }
 
-/* Rating stars section */
 .comment-grade {
     font-size: 14px;
     color: #777;
@@ -281,13 +276,13 @@ a {
     }
 
 .apply {
-    text-align: center; /* Центрира съдържанието на секцията */
-    margin-top: 40px; /* Добавя разстояние отгоре */
+    text-align: center; 
+    margin-top: 40px; 
 }
 
 .apply-btn {
     display: inline-block;
-    background-color: #27ae60; /* Зелен фон */
+    background-color: #27ae60; 
     color: white;
     font-size: 1.2em;
     padding: 15px 30px;
@@ -296,11 +291,10 @@ a {
     cursor: pointer;
     text-align: center;
     text-decoration: none;
-    animation: bounce 1s infinite; /* Анимация за подскачане */
-    margin-top: 20px; /* Добавя разстояние от предходния елемент */
+    animation: bounce 1s infinite; 
+    margin-top: 20px; 
 }
 
-/* Анимация за подскачане */
 @keyframes bounce {
     0% {
         transform: translateY(0);
@@ -324,15 +318,15 @@ a {
 }
 
 .apply-btn:hover {
-    background-color: #219150; /* По-тъмен зелен при hover */
+    background-color: #219150; 
 }
 
-/* Възможен ефект при клик */
+
 .apply-btn:active {
-    transform: translateY(0); /* Връща се в първоначално положение при клик */
+    transform: translateY(0);
 }
 
-/* Мобилна адаптация */
+
 @media (max-width: 768px) {
     .intro-content {
         flex-direction: column;

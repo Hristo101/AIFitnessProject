@@ -10,7 +10,7 @@
     --transition-speed: 0.3s;
 }
 
-/* Основни стилове */
+
 body {
     background-color: var(--background-color);
     padding-top: 0px;
@@ -20,7 +20,6 @@ body {
     margin: 0;
 }
 
-/* Навигация */
 .navbar-custom {
     background: var(--primary-color);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -67,7 +66,7 @@ body {
         transform: translateY(-2px);
     }
 
-/* Основен контейнер за упражнението */
+
 .exercise-container {
     background: white;
     border-radius: 20px;
@@ -84,7 +83,6 @@ body {
         transform: translateY(0);
     }
 
-/* Анимация за появяване */
 @keyframes slideUp {
     to {
         transform: translateY(0);
@@ -92,7 +90,7 @@ body {
     }
 }
 
-/* Изображение */
+
 .exercise-image {
     height: 400px;
     width: 100%;
@@ -135,7 +133,7 @@ body {
         transform: scale(0.98);
     }
 
-/* Детайли за упражнението */
+
 .exercise-details {
     padding: 2.5rem;
     position: relative;
@@ -147,7 +145,7 @@ body {
         color: var(--primary-color);
     }
 
-/* Всеки детайлен блок */
+
 .detail-item {
     margin-bottom: 1.2rem;
     padding: 1.2rem;
@@ -169,7 +167,6 @@ body {
         color: var(--secondary-color);
     }
 
-/* Ниво на трудност */
 .difficulty-badge {
     display: inline-block;
     padding: 0.25rem 0.75rem;
@@ -194,7 +191,7 @@ body {
     color: white;
 }
 
-/* Действия */
+
 .action-buttons {
     margin-top: 2rem;
     display: flex;
@@ -223,7 +220,7 @@ body {
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
 
-/* Анимация за изчезване */
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -236,7 +233,7 @@ body {
     }
 }
 
-/* Футър */
+
 .footer {
     background: white;
     border-top: 1px solid #ddd;
@@ -247,7 +244,7 @@ body {
         font-size: 0.9rem;
     }
 
-/* Респонсивни стилове */
+
 @media (max-width: 992px) {
     .exercise-image {
         height: 300px;
@@ -287,7 +284,7 @@ body {
     }
 }
 
-/* Стилове при печат */
+
 @media print {
     .navbar-custom, .action-buttons, .video-wrapper {
         display: none;
@@ -303,7 +300,7 @@ body {
     }
 }
 
-/* Допълнителни визуални ефекти */
+
 .exercise-details h1,
 .detail-item h5 {
     background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
@@ -311,12 +308,12 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
-/* Лек ефект за бутоните при клик */
+
 .btn-edit:active, .btn-back:active, .btn-video:active {
     transform: scale(0.98);
 }
 
-/* Анимация за плавно появяване на съдържанието */
+
 @keyframes fadeInContent {
     from {
         opacity: 0;

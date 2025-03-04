@@ -2,22 +2,21 @@
 @model RejectedDietDetails
 
 @{
-    // Сериализираме наличните упражнения за използване в JavaScript.
+  
     var availableExercisesJson = System.Text.Json.JsonSerializer.Serialize(Model.AvailableMeals);
 
-    // Проверяваме дали има поне един feedback в някое от упражненията
+   
     var hasFeedback = Model.DailyDietPlans.Any(w => w.Meals.Any(e => !string.IsNullOrEmpty(e.Feedback)));
 }
 <style>
     @@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
 
     :root {
-        /* Основна цветова схема */
+     
         --main-bg: linear-gradient(120deg, #f5f7fa, #c3cfe2);
         --card-bg: #ffffff;
         --accent: #3CB371;
         --text: #343a40;
-        /* Допълнителни за ефекти */
         --shadow-color: rgba(0, 0, 0, 0.2);
         --panel-bg: rgba(255, 255, 255, 0.7);
     }
@@ -28,7 +27,7 @@
         margin: 0;
     }
 
-    /* Training plan header */
+
     .training-plan-header {
         display: flex;
         align-items: center;
@@ -65,7 +64,7 @@
             margin: 0.3rem 0;
         }
 
-    /* Main exercise grid & cards */
+   
     .exercise-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -156,7 +155,7 @@
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
-    /* Бутон за редактиране */
+   
     .edit-button {
         display: inline-block;
         margin-top: 1rem;
@@ -178,7 +177,7 @@
             transform: scale(1.03);
         }
 
-    /* Панел за редакция */
+   
     #edit-panel {
         display: none;
         margin-top: 2rem;
@@ -206,7 +205,7 @@
                 font-weight: 600;
             }
 
-    /* Toggle бутон за панела */
+   
     .toggle-panel-button {
         background: transparent;
         border: none;
@@ -225,14 +224,14 @@
             transform: rotate(180deg);
         }
 
-    /* Съдържание на панела */
+   
     #edit-panel .panel-content {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 1rem;
     }
 
-    /* Карти за наличните упражнения */
+    
     .available-exercise-card {
         background: linear-gradient(145deg, #ffffff, #f0f0f0);
         border: 1px solid #ddd;
@@ -275,7 +274,7 @@
             font-weight: 600;
         }
 
-    /* Видео бутон за упражнения */
+   
     .video-button-panel {
         display: inline-block;
         padding: 0.3rem 0.6rem;
@@ -296,7 +295,7 @@
             transform: scale(1.05);
         }
 
-    /* Стилове за чекбокса */
+   
     .available-exercise-card input.exercise-checkbox {
         position: absolute;
         top: 8px;
@@ -305,7 +304,7 @@
         cursor: pointer;
     }
 
-    /* Panel actions */
+   
     .panel-actions {
         margin-top: 1rem;
         text-align: right;
@@ -339,7 +338,7 @@
             transform: scale(1.05);
         }
 
-    /* Back button */
+   
     .back-button-container {
         margin-top: 2rem;
         text-align: center;
@@ -364,7 +363,7 @@
             transform: scale(1.05);
         }
 
-    /* No feedback message */
+    
     .no-feedback-message {
         text-align: center;
         font-size: 1.2rem;
@@ -459,7 +458,7 @@
 
                             @if (!string.IsNullOrEmpty(meal.Recipe))
                             {
-                              @*   <p>@meal.Recipe</p> *@
+                             
                                 <div class="description-wrapper">
                                     <div class="description-text">@meal.Recipe</div>
                                     <button class="expand-button" onclick="toggleDescription(this)">
@@ -524,11 +523,11 @@ else
     }
     var availableExercises = @Html.Raw(availableExercisesJson);
 
-    // Глобални променливи за запомняне на избраната тренировка и упражнение
+   
     var currentWorkoutId = null;
     var currentExerciseId = null;
 
-    // Функция за създаване на карта за упражнение в панела
+   
     function createExerciseCard(exercise) {
         var card = document.createElement('div');
         card.className = 'available-exercise-card';
@@ -595,11 +594,11 @@ else
         document.getElementById('swap-exercise-button').disabled = !anyChecked;
     }
 
-    // Когато потребителят кликне "Редактирай", запомняме към коя карта се отнася
+   
     var editButtons = document.querySelectorAll('.edit-button');
     editButtons.forEach(function (button) {
         button.addEventListener('click', function () {
-            // Запаметяваме workoutId и exerciseId от родителската карта на бутона
+          
             var exerciseCard = button.closest('.exercise-card');
             currentWorkoutId = exerciseCard.dataset.workoutid;
             currentExerciseId = exerciseCard.dataset.exerciseid;
@@ -635,9 +634,9 @@ else
             alert("Моля, изберете храна за замяна.");
             return;
         }
-        var newExerciseId = selectedExercise.value; // ID на избраното ново упражнение
+        var newExerciseId = selectedExercise.value; 
 
-        // Използваме запаметените currentWorkoutId и currentExerciseId
+       
         fetch('/Dietitian/Meal/SwapMealInDailyDietPlan', {
             method: 'POST',
             headers: {
@@ -669,7 +668,7 @@ else
     });
 
     document.getElementById('add-exercise-button').addEventListener('click', function () {
-        var exerciseId = @Model.Id; // ID-то от модела
+        var exerciseId = @Model.Id; 
         window.location.href = `/Dietitian/Meal/AddFromRejectedDiet?id=${exerciseId}`;
     });
 </script>

@@ -1,7 +1,7 @@
 ﻿@model AIFitnessProject.Core.Models.Trainer.DetailsTrainerViewModel
 
 <div class="trainer-details-container">
-    <!-- Title Section -->
+    
     <section class="trainer-header">
         <div class="trainer-photo">
             <img src="data:image/jpeg;base64,@Model.TrainerImage" alt="Trainer Photo" />
@@ -12,14 +12,14 @@
         </div>
     </section>
 
-    <!-- Bio Section -->
+    
     <section class="trainer-bio">
         <h3>Биография</h3>
         <p>@Model.Bio</p>
     </section>
 
 
-    <!-- Certification Section -->
+    
     <section class="trainer-certification">
         <h3>Моят Сертификат</h3>
         <div class="trainer-certification-content">
@@ -28,7 +28,7 @@
         </div>
     </section>
 
-    <!-- Comments Section -->
+  
     <section class="trainer-comments">
         <h3>Коментари</h3>
         <div class="comments-container">
@@ -50,7 +50,7 @@
         </div>
     </section>
 
-    <!-- Buttons Section -->
+   
     <section class="trainer-buttons">
         <button class="back-btn" onclick="window.history.back()">Назад</button>
         <a asp-controller="RequestsToCoach" asp-action="Survey" asp-route-Id="@Model.Id" class="signup-btn">Запиши се</a>

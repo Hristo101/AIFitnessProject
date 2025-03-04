@@ -247,7 +247,7 @@ a {
     height: 2px;
     background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
 }
-/* Фоново полупрозрачно "послойно" оцветяване */
+
 .exercise-bg-overlay {
     position: absolute;
     top: 0;
@@ -260,7 +260,7 @@ a {
 }
 
 .exercise-item {
-    z-index: 1; /* За да е над overlay-a */
+    z-index: 1; 
 }
 
 .series-reps {

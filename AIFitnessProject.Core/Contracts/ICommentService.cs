@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AIFitnessProject.Core.Contracts
+﻿namespace AIFitnessProject.Core.Contracts
 {
     public interface ICommentService
     {

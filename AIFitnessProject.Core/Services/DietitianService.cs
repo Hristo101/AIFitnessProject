@@ -1,6 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.Dietitian;
-using AIFitnessProject.Core.Models.Trainer;
 using AIFitnessProject.Core.Models.UserComments;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;

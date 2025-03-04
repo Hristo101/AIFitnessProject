@@ -1,8 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.DailyDietPlan;
-using AIFitnessProject.Core.Models.Meal;
-using AIFitnessProject.Core.Models.Workout;
-using AIFitnessProject.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 

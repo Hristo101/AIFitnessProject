@@ -17,12 +17,12 @@
                 {
                     @if (Model.ExistingImageUrl.StartsWith("http") || Model.ExistingImageUrl.StartsWith("/img"))
                     {
-                       @*  <label class="section-label">Снимка на хранителния режим</label> *@
+                      
                         <img src="@Model.ExistingImageUrl" class="existing-image animate__animated animate__fadeIn" alt="Training">
                     }
                     else
                     {
-                        @* <label class="section-label">снимка на хранителния режим</label> *@
+                        
                         <img src="data:image/jpeg;base64,@Model.ExistingImageUrl" class="existing-image animate__animated animate__fadeIn" alt="Training">
                     }
                 }

@@ -26,14 +26,14 @@
 </head>
 <body>
     <div class="profile-container">
-        <!-- Header with profile picture -->
+      
         <div class="profile-header">
             <img src="data:image/jpeg;base64,@Model.ImageUrl" alt="Profile Picture" alt="Profile Picture">
             <h2>@Model.FirstName @Model.LastName</h2>
             <p>@Model.ExperienceLevel</p>
         </div>
 
-        <!-- Details -->
+    
         <div class="profile-details">
             <div class="detail">
                 <span>Потребителско име:</span> @Model.UserName <span class="emoji">👤</span>
@@ -49,7 +49,6 @@
             </div>
         </div>
 
-        <!-- Buttons as links -->
         <div class="buttons">
             @if (User.IsInRole("Trainer") == false && User.IsInRole("Dietitian") == false)
             {

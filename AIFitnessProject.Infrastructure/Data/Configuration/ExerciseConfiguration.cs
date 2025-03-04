@@ -1,8 +1,6 @@
 ﻿using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Collections.Generic;
-using static System.Net.WebRequestMethods;
 
 namespace AIFitnessProject.Infrastructure.Data.Configuration
 {

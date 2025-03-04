@@ -20,7 +20,7 @@
         --glass: rgba(255, 255, 255, 0.9);
     }
 
-    /* Добавено за частици */
+    
     .particles {
         position: absolute;
         width: 100%;
@@ -63,12 +63,12 @@
     .text-primary {
         --bs-text-opacity: 1;
         color: #3CB371 !important;
-      /*   font-weight: bold; */
+     
     }
 
     .text-muted{
         font-size : 1.3rem;
-        /* font-weight: bold; */
+      
         color: #3CB371 !important;
     }
 
@@ -182,7 +182,7 @@
 </style>
 
 <div class="hero-section">
-    <!-- Добавени частици -->
+  
     <div class="particles" id="particles-js"></div>
 
     <div class="container text-center">
@@ -237,7 +237,7 @@
                                                 <h5 class="text-primary">@meal.Name</h5>
                                                 <span class="badge-custom">@meal.DificultyLevel</span>
                                             </div>
-                                           @*  <span class="text-muted mb-3">Калории: @meal.Calories kcal</span> *@
+                                          
 
                                             <div class="hover-zoom mb-3">
                                                 @if (meal.ImageUrl.StartsWith("http") || meal.ImageUrl.StartsWith("/img"))
@@ -276,7 +276,7 @@
 
 @section Scripts {
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <!-- Добавен particles.js -->
+   
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
         AOS.init({
@@ -285,7 +285,7 @@
             easing: 'ease-in-out-quart'
         });
 
-        // Конфигурация за частици
+  
         particlesJS('particles-js', {
             particles: {
                 number: { value: 80 },

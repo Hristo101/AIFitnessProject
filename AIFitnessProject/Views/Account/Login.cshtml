@@ -7,33 +7,33 @@
         <p>Добре дошли в нашето фитнес приложение! Подобрете себе си днес!</p>
     </header>
 
-    <!-- Форма за вход -->
+   
     <form id="loginForm" asp-action="Login" method="post" class="shadow p-4 rounded bg-light">
         <h2 class="text-center mb-4">Влезте в своя акаунт</h2>
 
-        <!-- Показване на грешки от валидация -->
+      
         <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3" role="alert"></div>
 
-        <!-- Имейл -->
+       
         <div class="form-floating mb-3">
             <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
             <label asp-for="Email">Имейл 📧</label>
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
-        <!-- Парола -->
+      
         <div class="form-floating mb-3">
             <input asp-for="Password" class="form-control" type="password" autocomplete="current-password" aria-required="true" placeholder="Парола" />
             <label asp-for="Password">Парола 🔒</label>
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
 
-        <!-- Копче за вход -->
+       
         <button id="loginSubmit" type="submit" class="btn btn-primary w-100 mb-3">
             Вход в акаунта
         </button>
 
-        <!-- Линк за регистрация -->
+        
         <div class="text-center">
             <p>Нямате акаунт? <a href="/Account/Register">Регистрирайте се сега!</a> 🆕</p>
         </div>
@@ -44,8 +44,8 @@
     </footer>
 </div>
 
-<!-- Свързан CSS файл -->
+
 <link rel="stylesheet" href="~/css/FitnessLoginStyle.css" />
 
-<!-- Скриптове за валидация -->
+
 <partial name="_ValidationScriptsPartial" />

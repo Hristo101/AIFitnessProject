@@ -79,10 +79,10 @@
     .text-muted{
         font-size: 1.275em;
     }
-    /* Центриране на бутоните */
+   
     .btn-container {
         display: flex;
-        justify-content: center; /* Центрира бутоните */
+        justify-content: center; 
         gap: 10px;
         margin-top: 30px;
         margin-bottom: 40px;
@@ -123,7 +123,7 @@
         margin-right: 10px;
     }
 
-    /* Заглавие над галерията */
+  
     .gallery-title {
         text-align: center;
         font-size: 1.25rem;
@@ -137,7 +137,7 @@
 
 <div class="container py-5">
     <div class="profile-container">
-        <!-- Хедър секция -->
+
         <div class="profile-header text-center text-white">
             <div class="avatar-container rounded-circle mx-auto mb-4">
                 <img src="data:image/jpeg;base64,@Model.ProfilePicture"
@@ -152,11 +152,11 @@
             </div>
         </div>
 
-        <!-- Основно съдържание -->
+       
         <div class="row g-5 p-4">
-            <!-- Галерия със снимки -->
+           
             <div class="col-lg-6">
-                <div class="gallery-title">Снимките на потребителя:</div> <!-- Добавено заглавие -->
+                <div class="gallery-title">Снимките на потребителя:</div> 
 
                 <div class="gallery-carousel">
                     <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -184,9 +184,9 @@
                 </div>
             </div>
 
-            <!-- Детайлна информация -->
+         
             <div class="col-lg-6">
-                <!-- Основна цел -->
+               
                 <div class="info-card">
                     <h3 class="mb-3 text-primary">
                         <i class="fas fa-bullseye me-2"></i>Основна цел
@@ -194,7 +194,7 @@
                     <p class="lead mb-0">@Model.Target</p>
                 </div>
 
-                <!-- Тренировъчен опит -->
+            
                 <div class="info-card">
                     <h3 class="mb-3 text-primary">
                         <i class="fas fa-dumbbell me-2"></i>Тренировъчен опит
@@ -202,7 +202,7 @@
                     <p class="mb-0">@Model.TrainingBackground</p>
                 </div>
 
-                <!-- Здравословно състояние -->
+            
                 <div class="info-card">
                     <h3 class="mb-3 text-primary">
                         <i class="fas fa-heartbeat me-2"></i>Здравословно състояние
@@ -210,7 +210,7 @@
                     <p class="mb-0">@Model.HealthStatus</p>
                 </div>
 
-                <!-- Предпочитания -->
+             
                 <div class="info-card">
                     <h3 class="mb-3 text-primary">
                         <i class="fas fa-star me-2"></i>Предпочитания
@@ -225,7 +225,7 @@
                     </div>
                 </div>
 
-                <!-- Ангажираност -->
+              
                 <div class="info-card">
                     <h3 class="mb-3 text-primary">
                         <i class="fas fa-calendar-alt me-2"></i>Ангажираност
@@ -236,7 +236,7 @@
             </div>
         </div>
 
-        <!-- Нови бутони за навигация -->
+   
         <div class="btn-container">
             <a asp-action="All" asp-controller="MyRequests" class="btn-custom btn-back">
                 <i class="fas fa-arrow-left me-2"></i>Назад
@@ -249,12 +249,12 @@
 </div>
 
 <script>
-    // Инициализация на карусела
+    
     const carousel = new bootstrap.Carousel('#galleryCarousel', {
         interval: 5000
     });
 
-    // Обновяване на активните thumbnail-и
+   
     document.getElementById('galleryCarousel').addEventListener('slid.bs.carousel', event => {
         document.querySelectorAll('.thumbnail').forEach((thumb, index) => {
             thumb.classList.toggle('active', index === event.to);

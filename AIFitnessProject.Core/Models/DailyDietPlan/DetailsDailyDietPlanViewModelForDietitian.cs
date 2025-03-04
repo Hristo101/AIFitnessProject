@@ -1,10 +1,4 @@
-﻿using AIFitnessProject.Core.Models.Exercise;
-using AIFitnessProject.Core.Models.Meal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AIFitnessProject.Core.Models.Meal;
 
 namespace AIFitnessProject.Core.Models.DailyDietPlan
 {

@@ -23,7 +23,7 @@
 
         <form method="post" enctype="multipart/form-data" asp-route-Id="@Model.TrainerId" asp-action="SubmitSurvey" asp-controller="RequestsToCoach" class="needs-validation" novalidate>
             <div class="card-body p-5">
-                <!-- Лична информация -->
+             
                 <section class="mb-5">
                     <h3 class="h5 mb-4 text-primary">
                         <i class="fas fa-user-circle me-2"></i>Лична информация
@@ -50,7 +50,7 @@
                     </div>
                 </section>
 
-                <!-- Физически параметри -->
+             
                 <section class="mb-5">
                     <h3 class="h5 mb-4 text-primary">
                         <i class="fas fa-chart-line me-2"></i>Физически параметри
@@ -77,7 +77,7 @@
                     </div>
                 </section>
 
-                <!-- Тренировъчна информация -->
+        
                 <section class="mb-5">
                     <h3 class="h5 mb-4 text-primary">
                         <i class="fas fa-running me-2"></i>Тренировъчна информация
@@ -116,7 +116,7 @@
                         <div class="invalid-feedback">Моля опишете вашия опит</div>
                     </div>
 
-                    <!-- Предпочитани тренировки -->
+                
                     <div class="mb-4">
                         <label class="form-label fw-bold">Предпочитани тренировки</label>
                         <div class="row g-3">
@@ -140,7 +140,7 @@
                         <span asp-validation-for="TrainingPreferences" class="text-danger"></span>
                     </div>
 
-                    <!-- Ангажираност -->
+        
                     <div class="mb-4">
                         <label class="form-label fw-bold">Дни за тренировка седмично</label>
                         <select asp-for="TrainingCommitment" class="form-select" required>
@@ -155,7 +155,7 @@
                     </div>
                 </section>
 
-                <!-- Здравословно състояние -->
+          
                 <section class="mb-5">
                     <h3 class="h5 mb-4 text-primary">
                         <i class="fas fa-heartbeat me-2"></i>Здравословно състояние
@@ -170,7 +170,7 @@
                     <div class="invalid-feedback">Моля попълнете здравословното си състояние</div>
                 </section>
 
-                <!-- Визуална информация -->
+              
                 <section class="mb-4">
                     <h3 class="h5 mb-4 text-primary">
                         <i class="fas fa-camera me-2"></i>Визуална информация

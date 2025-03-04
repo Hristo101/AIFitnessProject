@@ -1,11 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AIFitnessProject.Infrastructure.Data.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AIFitnessProject.Infrastructure.Data.Configuration
 {

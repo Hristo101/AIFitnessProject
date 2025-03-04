@@ -1,13 +1,13 @@
 ﻿:root {
-    --primary-color: #4FD1C5; /* Основен зелен */
+    --primary-color: #4FD1C5; 
     --primary-dark: #38B2AC;
     --secondary-color: #f8f9fa;
     --background-gradient: linear-gradient(135deg, #f5f7fa, #c3cfe2);
     --text-color: #2c3e50;
-    /* background: linear-gradient(45deg, #4FD1C5, #38B2AC);*/
+    
 }
 
-/* Фонов градиент и основен шрифт за страницата */
+
 body {
     background: var(--background-gradient);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -15,7 +15,7 @@ body {
     padding: 0;
 }
 
-/* Контейнерът с модерен "glassmorphism" ефект */
+
 .edit-container {
     max-width: 1200px;
     margin: 2rem auto;
@@ -28,7 +28,7 @@ body {
     animation: slideIn 0.6s ease-out;
 }
 
-/* Заглавна част с градиентен текст и анимирана украса */
+
 .form-header {
     text-align: center;
     margin-bottom: 2.5rem;
@@ -56,23 +56,23 @@ body {
 
 .form-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Разпределяне на двата реда за полетата */
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
     margin-bottom: 2rem;
 }
 
-/* Полета, които да се разпределят по двойки */
+
 .form-group {
     margin-bottom: 1.5rem;
 }
 
-    /* Видео и рецепта да се разпъват на широчината на целия контейнер */
+   
     .form-group.video-url,
     .form-group.recipe {
-        grid-column: span 2; /* Заема две колони (цялата ширина) */
+        grid-column: span 2; 
     }
 
-/* Стилове за видео линк */
+
 .video-input-group {
     display: flex;
     flex-direction: column;
@@ -92,12 +92,12 @@ label {
 .section-label {
     text-align: center;
 }
-/* Стилове за textarea с рецепта */
+
 textarea {
     width: 100%;
     resize: vertical;
 }
-/* Стилове за входни полета и textarea с анимация при фокус */
+
 .input-animate {
     width: 100%;
     transition: all 0.3s ease;
@@ -114,7 +114,7 @@ textarea {
         outline: none;
     }
 
-/* Стилове за секцията със снимка */
+
 .image-section {
     margin-bottom: 2rem;
 }
@@ -173,7 +173,7 @@ textarea {
         margin-bottom: 0.5rem;
     }
 
-/* Стилове за видео контейнера (НЕ СЕ МЕНЯВА) */
+
 .video-container {
     margin: 2rem 0;
     border-radius: 12px;
@@ -184,7 +184,7 @@ textarea {
 
 .video-wrapper {
     position: relative;
-    padding-bottom: 56.25%; /* 16:9 */
+    padding-bottom: 56.25%; 
     height: 0;
 }
 
@@ -197,7 +197,7 @@ textarea {
     border: 0;
 }
 
-/* Стилове за бутона с ефект при клик (ripple) */
+
 .submit-btn {
     background: var(--primary-color);
     color: white;
@@ -236,7 +236,7 @@ textarea {
         animation: ripple 0.6s linear;
     }
 
-/* Анимации */
+
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -270,61 +270,56 @@ textarea {
     }
 }
 
-/* ─── ДОБАВЕНИ ИКОНИ КЪМ ВСИЧКИ ЕТИКЕТИ ───────────────────────────── */
-/* Изисква Font Awesome 5 Free да е зареден в страницата */
 
-/* 1. Име */
 .form-grid .form-group:nth-child(1) label::before {
-    content: "\f007"; /* User icon */
+    content: "\f007"; 
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
     color: var(--primary-color);
 }
 
-/* 2. Описание */
+
 .form-grid .form-group:nth-child(2) label::before {
-    content: "\f2e7"; /* Align left icon */
+    content: "\f2e7"; 
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
     color: var(--primary-color);
 }
 
-/* 3. Мускулна група */
+
 .form-grid .form-group:nth-child(3) label::before {
-    content: "\f012"; /* Heartbeat icon */
+    content: "\f012";
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
     color: var(--primary-color);
 }
 
-/* 4. Видео линк */
+
 .form-grid .form-group:nth-child(4) label::before {
-    content: "\f06d"; /* Video icon */
+    content: "\f06d"; 
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
     color: var(--primary-color);
 }
 
-/* 5. Ниво на трудност */
+
 .form-grid .form-group:nth-child(5) label::before {
-    content: "\f03d"; /* Signal icon */
+    content: "\f03d"; 
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
     color: var(--primary-color);
 }
 
-/* 6. Серии */
+
 .form-grid .form-group:nth-child(6) label::before {
-    content: "\f0cb"; /* Ordered list icon */
+    content: "\f0cb"; 
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 0.5rem;
     color: var(--primary-color);
-}
-body {
 }

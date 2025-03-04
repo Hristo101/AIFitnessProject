@@ -5,7 +5,6 @@ using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace AIFitnessProject.Core.Services
 {

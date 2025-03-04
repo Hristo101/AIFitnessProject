@@ -9,7 +9,7 @@
     <meta name="description" content="Stay organized with our user-friendly Calendar featuring events, reminders, and a customizable interface." />
     <meta name="keywords" content="calendar, events, reminders, javascript, html, css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-@*     <link rel="stylesheet" href="~/css/calendar/calendaruserstyles.css" /> *@
+
     <title>Enhanced Calendar with Events</title>
 </head>
 <body>
@@ -1230,7 +1230,7 @@
             selectedWorkoutInfo = document.querySelector(".selected-workout-info");
 
         const calendarId = @Model.CalendarId;
-        const userId = '@Model.UserId'; // Добавяме userId от модела
+        const userId = '@Model.UserId'; 
         let today = new Date();
         let activeDay;
         let month = today.getMonth();
@@ -1468,7 +1468,7 @@
                 });
 
                 if (response.ok) {
-                    // Client-side update
+                  
                     const eventObj = eventsArr.find(e =>
                         e.day === day && e.month === month && e.year === year
                     );
@@ -1650,7 +1650,7 @@
                             day: activeDay,
                             month: month + 1,
                             year: year,
-                            eventId: result.eventId, // Добавяме eventId от сървъра
+                            eventId: result.eventId,
                             events: [newEvent]
                         });
                     }

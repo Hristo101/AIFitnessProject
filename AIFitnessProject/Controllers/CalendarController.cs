@@ -1,6 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
 namespace AIFitnessProject.Controllers
