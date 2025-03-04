@@ -11,6 +11,9 @@
 
         <div class="card-body p-4" style="background-color: #f8f9fa;">
             <form asp-action="Create" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+                <input type="hidden" name="userId" value="@Model.UserId" />
+                <input type="hidden" name="requestId" value="@Model.RequestId" />
+                    
                 <div class="mb-5">
                     <h3 class="h5 mb-4 text-primary">
                         <i class="fas fa-camera me-2"></i>Основна снимка

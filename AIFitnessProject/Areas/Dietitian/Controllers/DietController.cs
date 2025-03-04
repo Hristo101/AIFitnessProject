@@ -15,23 +15,24 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create(string id)
+        public IActionResult Create(string id, int requestId)
         {
             CreateDietViewModel model = new CreateDietViewModel();
 
             model.UserId = id;
+            model.RequestId = requestId;
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateDietViewModel model, string id)
+        public async Task<IActionResult> Create(CreateDietViewModel model, string id, int requestId)
         {
             if (!ModelState.IsValid)
             {
                 model.UserId = id;
                 return View(model);
             }
-            await dietService.CreateDiet(id, GetUserId(), model);
+            await dietService.CreateDiet(id, GetUserId(), model, requestId);
 
             return RedirectToAction(nameof(All));
         }

@@ -10,6 +10,7 @@ namespace AIFitnessProject.Core.Models.Diet
         [Required(ErrorMessage = "Снимката е задължителна.")]
         public IFormFile ImageUrl { get; set; }
 
+        public int RequestId { get; set; }
 
         [Required(ErrorMessage = "Името на хранителния режим е задължителен.")]
         [StringLength(MaxNameLength, MinimumLength = MinNameLength, ErrorMessage = "Името на хранителния режим трябва да бъде по-голямо от 3 символа и по-малко от 500")]

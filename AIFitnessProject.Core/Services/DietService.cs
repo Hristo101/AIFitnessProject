@@ -66,7 +66,7 @@ namespace AIFitnessProject.Core.Services
             }
         }
 
-        public async Task CreateDiet(string id, string dietitianId, CreateDietViewModel model)
+        public async Task CreateDiet(string id, string dietitianId, CreateDietViewModel model, int requestId)
         {
             var dietitian = await repository.All<Dietitian>().Where(x => x.UserId == dietitianId).FirstAsync();
             Diet diet = new Diet()
@@ -89,6 +89,13 @@ namespace AIFitnessProject.Core.Services
             }
 
             await repository.AddAsync(diet);
+            await repository.SaveChangesAsync();
+
+            var request = await repository.All<RequestToDietitian>()
+                .Where(x=>x.Id == requestId)
+                .FirstOrDefaultAsync();
+
+            request.IsAnswered = true;
             await repository.SaveChangesAsync();
         }
 
