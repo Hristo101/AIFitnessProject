@@ -6,7 +6,7 @@ namespace AIFitnessProject.Core.Contracts
 {
     public interface IDailyDietPlanService
     {
-        Task<ICollection<DailyDietPlanViewModel>> GetAllDailyDietPlans(string userId, int id);
+        Task<AllDailyDietPlanViewModel> GetAllDailyDietPlans(string userId, int id);
         Task<ICollection<DailyDietPlanViewModelForDietitian>> GetAllUserDailyDietPlansForDietitian(string userId);
         Task<DailyDietPlanViewModel> GetModelForDetails(int id);
         Task<bool> ExistAsync(int id);

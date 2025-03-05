@@ -228,35 +228,45 @@ namespace AIFitnessProject.Core.Services
               .AnyAsync(x => x.Id == id);
         }
 
-        public async Task<ICollection<DailyDietPlanViewModel>> GetAllDailyDietPlans(string userId, int id)
+        public async Task<AllDailyDietPlanViewModel> GetAllDailyDietPlans(string userId, int dietId)
         {
             var dietitian = await repository.AllAsReadOnly<Dietitian>()
                 .Where(x => x.UserId == userId)
                 .FirstAsync();
 
-            var model = await repository.AllAsReadOnly<DailyDietPlan>()
-                 .Where(x => x.CreatorId == dietitian.Id)
-                 .Select(x => new DailyDietPlanViewModel()
-                 {
-                     Id = x.Id,
-                     Title = x.Title,
-                     DayOfWeek = x.DayOfWeel,
-                     DificultyLevel = x.DificultyLevel,
-                     DietId = id,
-                     ImageUrl = x.ImageUrl,
-                     Meals = x.MealsDailyDietPlans.Select(mddp => new MealViewModel
-                     {
-                         Id = mddp.MealId,
-                         Name = mddp.Meal.Name,
-                         Recipe = mddp.Meal.Recipe,
-                         ImageUrl = mddp.Meal.ImageUrl,
-                         VideoUrl = mddp.Meal.VideoUrl,
-                         DificultyLevel = mddp.Meal.DificultyLevel,
-                         Calories = mddp.Meal.Calories,
-                         MealTime = mddp.Meal.MealTime,
-                     }).ToList()
-                 })
-                 .ToListAsync();
+            var model = new AllDailyDietPlanViewModel
+            {
+                DietId = dietId,
+                DailyDietPlans = await repository.AllAsReadOnly<DailyDietPlan>()
+                    .Where(x => x.CreatorId == dietitian.Id)
+                    .Select(x => new AllDailyDietPlanViewModelForDietitian
+                    {
+                        Id = x.Id,
+                        Title = x.Title,
+                        DayOfWeek = x.DayOfWeel,  
+                        ImageUrl = x.ImageUrl,
+                        DificultyLevel = x.DificultyLevel, 
+                        DietId = dietId,
+                        Meals = x.MealsDailyDietPlans.Select(mddp => new MealViewModel
+                        {
+                            Id = mddp.MealId,
+                            Name = mddp.Meal.Name,
+                            Recipe = mddp.Meal.Recipe,
+                            ImageUrl = mddp.Meal.ImageUrl,
+                            VideoUrl = mddp.Meal.VideoUrl,
+                            DificultyLevel = mddp.Meal.DificultyLevel, 
+                            Calories = mddp.Meal.Calories,
+                            MealTime = mddp.Meal.MealTime
+                        }).ToList()
+                    })
+                    .ToListAsync()
+            };
+
+            if (model.DailyDietPlans == null || !model.DailyDietPlans.Any())
+            {
+                model.DailyDietPlans = new List<AllDailyDietPlanViewModelForDietitian>();
+                model.DietId = dietId;
+            }
 
             return model;
         }

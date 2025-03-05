@@ -41,38 +41,46 @@ namespace AIFitnessProject.Core.Services
         }
 
 
-        public async Task<ICollection<WorkoutViewModel>> All(string userId,int id)
+        public async Task<AllWorkoutViewModelForTrainer> All(string userId, int trainingPlanId)
         {
             var trainer = await repository.AllAsReadOnly<Infrastructure.Data.Models.Trainer>()
                 .Where(x => x.UserId == userId)
-                 .FirstAsync();
+                .FirstAsync();
 
-            var model = await repository.AllAsReadOnly<Infrastructure.Data.Models.Workout>()
-                 .Where(x => x.CreatorId == trainer.Id)
-                 .Select(x => new WorkoutViewModel()
-                 {
-                     Id = x.Id,
-                     Title = x.Title,
-                     TrainingPlanId = id,
-                     DayOfWeek = x.DayOfWeek,
-                     ImageUrl = x.ImageUrl,
-                     Exercises = x.WorkoutsExercises.Select(we => new ExerciseViewModel
-                     {
-                         Name = we.Exercise.Name,
-                         Description = we.Exercise.Description,
-                         ImageUrl = we.Exercise.ImageUrl,
-                         VideoUrl = we.Exercise.VideoUrl,
-                         MuscleGroup = we.Exercise.MuscleGroup,
-                         Series = we.Exercise.Series,
-                         Repetitions = we.Exercise.Repetitions,
-                         DifficultyLevel = we.Exercise.DifficultyLevel
-                     }).ToList()
-                 })
-                 .ToListAsync();
+            var model = new AllWorkoutViewModelForTrainer
+            {
+                TrainingPlanId = trainingPlanId,
+                Workouts = await repository.AllAsReadOnly<Infrastructure.Data.Models.Workout>()
+                    .Where(x => x.CreatorId == trainer.Id)
+                    .Select(x => new AllWorkoutViewModel
+                    {
+                        Id = x.Id, 
+                        ImageUrl = x.ImageUrl,
+                        Title = x.Title,
+                        TrainingPlanId = trainingPlanId,
+                        DayOfWeek = x.DayOfWeek,
+                        Exercises = x.WorkoutsExercises.Select(we => new ExerciseViewModel
+                        {
+                            Name = we.Exercise.Name,
+                            Description = we.Exercise.Description,
+                            ImageUrl = we.Exercise.ImageUrl,
+                            VideoUrl = we.Exercise.VideoUrl,
+                            MuscleGroup = we.Exercise.MuscleGroup,
+                            Series = we.Exercise.Series,
+                            Repetitions = we.Exercise.Repetitions,
+                            DifficultyLevel = we.Exercise.DifficultyLevel
+                        }).ToList()
+                    }).ToListAsync()
+            };
+
+            if (model.Workouts == null || !model.Workouts.Any())
+            {
+                model.Workouts = new List<AllWorkoutViewModel>();
+                model.TrainingPlanId = trainingPlanId;
+            }
 
             return model;
         }
-
         public async Task<ICollection<ExerciseViewModel>> AllExercise()
         {
             var allExercise = await repository.AllAsReadOnly<Exercise>()

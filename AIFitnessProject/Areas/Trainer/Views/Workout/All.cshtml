@@ -1,5 +1,5 @@
 ﻿@using AIFitnessProject.Core.Models.Workout
-@model IEnumerable<WorkoutViewModel>
+@model AllWorkoutViewModelForTrainer
 
 <link rel="stylesheet" href="~/css/Workout/AllWorkout.css" />
 
@@ -24,7 +24,8 @@
 
   
     <div class="workouts-grid">
-        @foreach (var workout in Model)
+        
+        @foreach (var workout in Model.Workouts)
         {
             <div class="workout-card" data-id="@workout.Id" data-muscle-group="@workout.Exercises.First().MuscleGroup" data-complexity="@workout.Exercises.First().DifficultyLevel">
               
@@ -58,15 +59,15 @@
     </div>
 
     <div class="button-container">
-        <a asp-controller="TrainingPlan" asp-action="Details" asp-route-id="@Model.FirstOrDefault()?.TrainingPlanId" class="btn btn-back">⬅ Назад</a>
+        <a asp-controller="TrainingPlan" asp-action="Details" asp-route-id="@Model.TrainingPlanId" class="btn btn-back">⬅ Назад</a>
         <form id="attachWorkoutForm" method="post" asp-action="AttachWorkouts" asp-controller="Workout">
             <input type="hidden" name="selectedWorkoutIds" id="selectedWorkoutIds" />
-            <input type="hidden" id="trainingPlanId" name="trainingPlanId" value="@Model.FirstOrDefault()?.TrainingPlanId" />
+            <input type="hidden" id="trainingPlanId" name="trainingPlanId" value="@Model.TrainingPlanId" />
 
             <button type="submit" id="attachWorkoutBtn" class="btn btn-attach" disabled>
                 📌 Прикачи тренировка
             </button>
-            <a asp-action="Add" asp-controller="Workout" asp-area="Trainer" class="btn btn-create" asp-route-trainingPlanId="@(Model.FirstOrDefault()?.TrainingPlanId?? 0)">
+            <a asp-action="Add" asp-controller="Workout" asp-area="Trainer" class="btn btn-create" asp-route-trainingPlanId="@Model.TrainingPlanId">
                 ➕ Създай тренировка
             </a>
        
