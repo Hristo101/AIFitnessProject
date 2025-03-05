@@ -112,6 +112,7 @@ namespace AIFitnessProject.Core.Services
                     ProfilePicture = x.User.ProfilePicture,
                     FirstName = x.User.FirstName,
                     LastName = x.User.LastName,
+                    Id =x.Id,
                     HealthIssues = x.HealthIssues,
                     Target = x.Target,
                     DietBackground = x.DietBackground,

@@ -2,6 +2,7 @@
 {
     public class DetailsSurveyModel
     {
+        public int Id { get; set; }
         public string ProfilePicture { get; set; }
 
         public string Target { get; set; }
