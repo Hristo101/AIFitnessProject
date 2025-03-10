@@ -44,6 +44,7 @@ namespace AIFitnessProject.Core.Services
                 TrainingCommitment = model.TrainingCommitment,
                 TrainingPreferences = model.TrainingPreferences,
                 Target = model.Target,
+                Date = DateTime.Now,
                 IsAnswered = false,
             };
 

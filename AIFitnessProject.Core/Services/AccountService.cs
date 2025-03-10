@@ -1,5 +1,6 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.Account;
+using AIFitnessProject.Core.Models.UserComments;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +35,7 @@ namespace AIFitnessProject.Core.Services
                     using (var memoryStream = new MemoryStream())
                     {
                         await model.ProfilePicture.CopyToAsync(memoryStream);
-                        user.ProfilePicture = Convert.ToBase64String(memoryStream.ToArray()); // Запазваме като string
+                        user.ProfilePicture = Convert.ToBase64String(memoryStream.ToArray()); 
                     }
                 }
 
@@ -71,6 +72,44 @@ namespace AIFitnessProject.Core.Services
             }
 
             return user;
+        }
+
+        public async Task<DashBoardViewModel> DashboardForTrainer(string userId)
+        {
+            var trainer = await repository.AllAsReadOnly<Trainer>()
+                .Where(x =>x.UserId == userId)
+                .Include(x =>x.User)
+                .FirstOrDefaultAsync();
+
+            var model = new DashBoardViewModel();
+            model.TrainerPicture = trainer.User.ProfilePicture;
+            model.TrainerName = trainer.User.FirstName;
+
+            model.UsersToTrainers = await repository.AllAsReadOnly<RequestsToCoach>()
+                .Where(x =>x.TrainerId == trainer.Id && x.IsAnswered == true)
+                .Include(x =>x.User)
+                .Select(x => new UsersToTrainerViewModel()
+                {
+                    Aim = x.Target,
+                    Date = x.Date.ToString("yyyy-MM-dd"),
+                    FullName = x.User.FirstName + " " + x.User.LastName,
+                    TrainingPreferences = x.TrainingPreferences,
+                    UserProfilePicture =x.User.ProfilePicture
+                }).ToListAsync();
+
+            model.UserCommentForTrainerViewModels = await repository.AllAsReadOnly<UserComment>()
+                .Where(x => x.ReceiverId == trainer.UserId)
+                .Include(x => x.Sender)
+                .Select(x => new UserCommentForTrainerViewModel()
+                {
+                    Content = x.Content,
+                    SenderName = x.Sender.FirstName + " " + x.Sender.LastName,
+                    Rating = x.Rating,
+                    ProfilePicture = x.Sender.ProfilePicture,
+                    Email = x.Sender.Email
+                }).ToListAsync();
+
+            return model;
         }
 
         public async Task<EditProfileViewModel> Edit(string id)
