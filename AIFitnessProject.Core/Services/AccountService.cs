@@ -85,6 +85,25 @@ namespace AIFitnessProject.Core.Services
             model.TrainerPicture = trainer.User.ProfilePicture;
             model.TrainerName = trainer.User.FirstName;
 
+            var requesToCoachForTrainer = await repository.AllAsReadOnly<RequestsToCoach>()
+                .Where(x => x.TrainerId == trainer.Id)
+                .ToListAsync();
+            
+            var countOfRequesToCoach = requesToCoachForTrainer.Count;
+
+            var allFatPeople = await repository.AllAsReadOnly<RequestsToCoach>()
+                .Where(x =>x.TrainerId == trainer.Id)
+                .Where(x => x.Target == "Отслабване")
+                .ToListAsync();
+            var percentFatPeople = Math.Round((allFatPeople.Count / (double)countOfRequesToCoach) * 100);
+
+            var allWeakPeople = await repository.AllAsReadOnly<RequestsToCoach>()
+                .Where(x => x.TrainerId == trainer.Id)
+                .Where(x => x.Target == "Покачване на мускулна маса")
+                .ToListAsync();
+
+                var percentWeakPeople =Math.Round((allWeakPeople.Count / (double)countOfRequesToCoach) * 100);
+           
             model.UsersToTrainers = await repository.AllAsReadOnly<RequestsToCoach>()
                 .Where(x =>x.TrainerId == trainer.Id && x.IsAnswered == true)
                 .Include(x =>x.User)
@@ -108,6 +127,9 @@ namespace AIFitnessProject.Core.Services
                     ProfilePicture = x.Sender.ProfilePicture,
                     Email = x.Sender.Email
                 }).ToListAsync();
+
+            model.PercentFatPeople = percentFatPeople;
+            model.PercentWeakPeople = percentWeakPeople;
 
             return model;
         }

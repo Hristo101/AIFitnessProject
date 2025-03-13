@@ -28,7 +28,7 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
         [HttpGet]
         public async Task<IActionResult> DashBoard()
         {
-            var model = accountService.DashboardForTrainer(GetUserId());
+            var model = await accountService.DashboardForTrainer(GetUserId());
             return View(model);
         }
         [HttpGet]
