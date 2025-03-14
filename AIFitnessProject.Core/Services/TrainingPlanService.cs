@@ -17,10 +17,11 @@ namespace AIFitnessProject.Core.Services
         private readonly IRepository repository;
         private readonly IHubContext<NotificationHub> _hubContext;
         private readonly IHostingEnvironment _hostingEnvironment;
-        public TrainingPlanService(IRepository _repository, IHostingEnvironment hostingEnvironment)
+        public TrainingPlanService(IRepository _repository, IHostingEnvironment hostingEnvironment, IHubContext<NotificationHub> hubContext = null)
         {
             this.repository = _repository;
             _hostingEnvironment = hostingEnvironment;
+            _hubContext = hubContext;
         }
 
 
@@ -265,7 +266,7 @@ namespace AIFitnessProject.Core.Services
             {
                 SenderId = trainingPlan.Trainer.UserId,
                 RecieverId = trainingPlan.UserId,
-                Message = $"Вашият тренировъчен план с ID {id} е активен и готов за изпълнение!",
+                Message = $"Вашият тренировъчен план: {trainingPlan.Name} е активен и готов за изпълнение!",
                 CreatedAt = DateTime.Now,
                 ReadStatus = false
             };
