@@ -1,84 +1,483 @@
-﻿@using AIFitnessProject.Core.Models.Trainer
-@model IEnumerable<AllTrainerViewModel>
+﻿<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Професионални Фитнес Треньори</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3a6ea5;
+            --secondary-color: #505458;
+            --accent-color: #ff6b35;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --font-main: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
 
-<div class="hero-section">
-    <h1>Изберете най-добрите треньори за вашия успех! 🏆</h1>
-    <p>С нашите професионалисти постигате повече! Направете крачка към мечтата си още днес.</p>
-    <a href="#trainers" class="btn btn-primary btn-lg">Вижте нашите треньори <span class="arrow">&#x2193;</span></a>
-</div>
+        body {
+            font-family: var(--font-main);
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-<div class="intro-section">
-    <h2>Защо да изберете нашите треньори? 🤔</h2>
-    <p>
-        Нашите треньори съчетават професионален опит с лична ангажираност, за да ви помогнат да постигнете целите си. 
-        Те създават персонализирани програми, които отговарят на вашите нужди и амбиции. С нашите треньори никога няма да сте сами по пътя към успеха!
-    </p>
-</div>
+        .hero-section {
+            background: linear-gradient(135deg, rgba(41, 77, 115, 0.95), rgba(58, 110, 165, 0.95));
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            border-radius: 0 0 50px 50px;
+            position: relative;
+            margin-bottom: 60px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
 
-<div class="gallery-section">
-    <h2>Вашето пътуване към по-добрата версия на себе си с нашите професионални треньори! 🏋️‍♂️</h2>
+        .hero-section h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            animation: fadeInDown 1s ease-out;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease-out 0.3s;
+            animation-fill-mode: both;
+            opacity: 0.9;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-out 0.6s;
+            animation-fill-mode: both;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #e55a2b;
+            border-color: #e55a2b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .arrow {
+            display: inline-block;
+            margin-left: 8px;
+            animation: bounce 2s infinite;
+        }
+
+        .section-title {
+            position: relative;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 2.2rem;
+            letter-spacing: -0.5px;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--primary-color);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .intro-section, .gallery-section, .trainer-section, .call-to-action {
+            padding: 70px 0;
+            position: relative;
+        }
+
+        .intro-section p, .gallery-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--secondary-color);
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .gallery-section {
+            background-color: rgba(58, 110, 165, 0.05);
+            padding: 70px 0;
+            border-radius: 20px;
+            margin: 40px 20px;
+        }
+
+        .gallery-section img {
+            border-radius: 12px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            height: 220px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-section img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+
+        .trainer-section {
+            background-color: white;
+            padding: 70px 0;
+            border-radius: 20px;
+            margin: 40px 20px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .trainer-section p.lead {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin-bottom: 30px;
+            font-size: 1.15rem;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            height: 100%;
+            background-color: white;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img-top {
+            height: 280px;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            position: relative;
+            padding-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .card:hover .card-title:after {
+            width: 80px;
+        }
+
+        .card-text {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .experience-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50px;
+            padding: 5px 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            padding: 8px 20px;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            border-radius: 20px;
+            padding: 8px 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background-color: #218838;
+            border-color: #218838;
+        }
+
+
+        .call-to-action {
+            background: linear-gradient(135deg, rgba(58, 110, 165, 0.95), rgba(41, 77, 115, 0.95));
+            color: white;
+            text-align: center;
+            padding: 70px 20px;
+            border-radius: 20px;
+            margin: 40px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .call-to-action h2 {
+            font-size: 2.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .call-to-action p {
+            color: rgba(255, 255, 255, 1);
+            max-width: 800px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        @@keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @@keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+
+        @@media (max-width: 992px) {
+            .hero-section h1 {
+                font-size: 2.3rem;
+            }
+            .section-title {
+                font-size: 1.9rem;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .hero-section {
+                padding: 70px 20px;
+            }
+            .hero-section h1 {
+                font-size: 1.9rem;
+            }
+            .section-title {
+                font-size: 1.7rem;
+            }
+            .intro-section, .gallery-section, .trainer-section, .call-to-action {
+                padding: 50px 0;
+            }
+            .card-img-top {
+                height: 200px;
+            }
+        }
+
+        @@media (max-width: 576px) {
+            .hero-section h1 {
+                font-size: 1.7rem;
+            }
+            .hero-section p {
+                font-size: 1rem;
+            }
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .btn-primary {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    @using AIFitnessProject.Core.Models.Trainer
+    @model IEnumerable<AllTrainerViewModel>
+
+    <div class="hero-section" data-aos="fade-down">
+        <h1>Изберете най-добрите треньори за вашия успех</h1>
+        <p>С нашите професионалисти постигате повече! Направете крачка към мечтата си още днес.</p>
+        <a href="#trainers" class="btn btn-primary btn-lg">Вижте нашите треньори <span class="arrow">&#x2193;</span></a>
+    </div>
+
     <div class="container">
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <img src="https://i.ytimg.com/vi/3hg-L7KmjNI/maxresdefault.jpg" alt="Фитнес Зала" class="img-fluid rounded shadow-sm">
-            </div>
-            <div class="col-md-4">
-                <img src="https://cdn.prod.website-files.com/644906381498836718de2386/644906381498834715de3867_Kolko-struva-da-polzvame-lichen-trenior-i-zaslujava-li-si-1-612x345.jpeg" alt="Тренировъчни Уреди" class="img-fluid rounded shadow-sm">
-            </div>
-            <div class="col-md-4">
-                <img src="https://www.estespa.bg/wp-content/uploads/2019/09/2-1200x800.jpg" alt="Зона за Тренировки" class="img-fluid rounded shadow-sm">
+        <div class="intro-section" data-aos="fade-up">
+            <h2 class="section-title">Защо да изберете нашите треньори?</h2>
+            <p>
+                Нашите треньори съчетават професионален опит с лична ангажираност, за да ви помогнат да постигнете целите си.
+                Те създават персонализирани програми, които отговарят на вашите нужди и амбиции. С нашите треньори никога няма да сте сами по пътя към успеха!
+            </p>
+        </div>
+    </div>
+
+    <div class="gallery-section" data-aos="fade-up">
+        <div class="container">
+            <h2 class="section-title">Вашето пътуване към по-добрата версия на себе си</h2>
+            <div class="row mt-4">
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="https://www.premium.bg/bin/news/29/7929_image_3.jpg" alt="Фитнес Зала" class="img-fluid rounded shadow-sm">
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="@Url.Content("/img/thePerfectBody.jpeg")" alt="Тренировъчни Уреди" class="img-fluid rounded shadow-sm">
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="https://www.estespa.bg/wp-content/uploads/2019/09/2-1200x800.jpg" alt="Зона за Тренировки" class="img-fluid rounded shadow-sm">
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div id="trainers" class="trainer-section">
-    <div class="container">
-        <h2>Нашите треньори 💼</h2>
-        <p class="text-center text-muted lead">
-            Изберете треньор, който ще ви вдъхнови и подкрепи! Всеки от тях е експерт в своята област и е готов да ви помогне да постигнете нови върхове. 
-        </p>
-        <div class="row mt-4">
-            @foreach (var trainer in Model)
-            {
-                    <div class="col-md-4 d-flex align-items-stretch">
+    <div id="trainers" class="trainer-section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Нашите професионални треньори ✦</h2>
+            <p class="text-center lead" data-aos="fade-up">
+                Изберете треньор, който ще ви вдъхнови и подкрепи! Всеки от тях е експерт в своята област и е готов да ви помогне да постигнете нови върхове.
+            </p>
+            <div class="row mt-4">
+                @foreach (var trainer in Model)
+                {
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                         <div class="card">
-                        @if (trainer.ImageUrl.StartsWith("http") || trainer.ImageUrl.StartsWith("/img"))
-                        {
-                            <img src="@trainer.ImageUrl" alt="@trainer.FirstName @trainer.LastName" class="card-img-top">
-                        }
-                        else
-                        {
-                            <img src="data:image/jpeg;base64,@trainer.ImageUrl" alt="@trainer.FirstName @trainer.LastName" class="card-img-top">
-                        }
+                            @if (trainer.ImageUrl.StartsWith("http") || trainer.ImageUrl.StartsWith("/img"))
+                            {
+                                <img src="@trainer.ImageUrl" alt="@trainer.FirstName @trainer.LastName" class="card-img-top">
+                            }
+                            else
+                            {
+                                <img src="data:image/jpeg;base64,@trainer.ImageUrl" alt="@trainer.FirstName @trainer.LastName" class="card-img-top">
+                            }
                             <div class="card-body">
+                                <span class="experience-badge">@trainer.Experience г. опит</span>
                                 <h5 class="card-title">@trainer.FirstName @trainer.LastName</h5>
-                                <p class="card-text text-truncate">
-                               @trainer.Specialization
-                                 
+                                <p class="card-text">
+                                    @trainer.Specialization
                                 </p>
-                                <div class="collapse text-muted" id="specializationDetails-@trainer.Id">
-                                    <p>@trainer.Specialization</p>
-                                </div>
                                 <div class="d-flex justify-content-between mt-3">
-                                    <a href="/Trainer/Details/@trainer.Id" class="btn btn-outline-light">Виж повече</a>
-                                <a asp-controller="RequestsToCoach" asp-route-Id="@trainer.Id" asp-action="Survey" class="btn btn-success enroll-now-button">Запиши се сега</a>
+                                    <a href="/Trainer/Details/@trainer.Id" class="btn btn-outline-primary">Виж повече</a>
+                                    <a asp-controller="RequestsToCoach" asp-route-Id="@trainer.Id" asp-action="Survey" class="btn btn-success enroll-now-button">Запиши се</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-            }
+                }
+            </div>
         </div>
     </div>
-</div>
-
-<div class="call-to-action">
-    <h2>Готови ли сте за вашето фитнес приключение? 🚀</h2>
-    <p>
-        Нашите треньори са тук, за да ви помогнат да постигнете целите си и да се почувствате най-добре! Запишете се днес и започнете своята трансформация.
-    </p>
-</div>
-
-<link rel="stylesheet" href="/css/AllPage.css" />
 
 
+    <div class="call-to-action" data-aos="fade-up">
+        <div class="container">
+            <h2>Готови ли сте за вашето фитнес приключение? ✦</h2>
+            <p>
+                Нашите треньори са тук, за да ви помогнат да постигнете целите си и да се почувствате най-добре! Запишете се днес и започнете своята трансформация.
+            </p>
+            <a href="#trainers" class="btn btn-primary btn-lg">Запиши се сега</a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

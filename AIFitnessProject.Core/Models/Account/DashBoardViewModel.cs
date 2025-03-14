@@ -16,5 +16,7 @@ namespace AIFitnessProject.Core.Models.Account
         public int TotalUserForTheDay { get; set; } 
         public int TotalUserForMounth { get; set; }
         public int TotalUserForYear { get; set; }
+        public double PercentFatPeople { get; set; }
+        public double PercentWeakPeople { get; set; }
     }
 }
