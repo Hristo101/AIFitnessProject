@@ -8,6 +8,7 @@ namespace AIFitnessProject.Controllers
     {
         private readonly ICalendarService calendarService;
 
+
         public CalendarController(ICalendarService _calendarService)
         {
             this.calendarService = _calendarService;
@@ -35,7 +36,8 @@ namespace AIFitnessProject.Controllers
         [HttpPost]
         public async Task<IActionResult> MarkEventCompleted(int eventId)
         {
-            await calendarService.DeleteEvenet(eventId);
+            var time = TimeOnly.FromDateTime(DateTime.Now);
+            await calendarService.DeleteEvenetAndSendNotification(eventId,time,GetUserId());
 
             return RedirectToAction("UsersCalendar", new { id = GetUserId() });
         }

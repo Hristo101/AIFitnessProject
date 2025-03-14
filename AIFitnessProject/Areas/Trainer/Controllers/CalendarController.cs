@@ -48,7 +48,7 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int eventId, string userId)
         {
-            await calendarService.DeleteEvenet(eventId);
+            await calendarService.DeleteEvent(eventId);
 
             return RedirectToAction("UserCalendar", new { id = userId });
         }

@@ -12,10 +12,11 @@ namespace AIFitnessProject.Core.Services
     public class CalendarService : ICalendarService
     {
         private readonly IRepository repository;
-
-        public CalendarService(IRepository _repository)
+        private readonly INotificationService _notificationService;
+        public CalendarService(IRepository _repository, INotificationService notificationService)
         {
             this.repository = _repository;
+            _notificationService = notificationService;
         }
 
         public async Task<UserCalendarViewModel> GetModeForUserCalendar(string userId, string trainerId)
@@ -368,15 +369,32 @@ namespace AIFitnessProject.Core.Services
         }
 
 
-            public async Task DeleteEvenet(int eventId)
+            public async Task DeleteEvenetAndSendNotification(int eventId,TimeOnly timeOnly,string userId)
             {
+            var user = await repository.AllAsReadOnly<ApplicationUser>()
+             .Where(x => x.Id == userId)
+             .FirstOrDefaultAsync();
+
+            var calendar = await repository.AllAsReadOnly<Infrastructure.Data.Models.Calendar>()
+              .Where(x => x.UserId == userId)
+              .FirstOrDefaultAsync();
+
+            var trainer = await repository.AllAsReadOnly<Trainer>()
+                .Where(x => x.Id == calendar.TrainerId)
+                .FirstOrDefaultAsync();
+
                 var calendarWorkout = await repository.All<CalendarWorkout>()
                      .Where(x => x.EventId == eventId)
+                     .Include(x =>x.Workout)
+                     .ThenInclude(x =>x.TrainingPlanWorkouts)
+                     .ThenInclude(x =>x.TrainingPlan)
+                     .ThenInclude(x =>x.Trainer)
                      .FirstOrDefaultAsync();
 
                 repository.Delete(calendarWorkout);
                 await repository.SaveChangesAsync();
-
+            string message = $"Потребител {user.FirstName} {user.LastName} завърши успешно {calendarWorkout.Workout.Title} в {timeOnly}.";
+            await _notificationService.AddNotification(user.Id,trainer.UserId,message);
             }
 
 
@@ -512,6 +530,16 @@ namespace AIFitnessProject.Core.Services
                  .FirstOrDefaultAsync();
 
             return mealCalendar;
+        }
+
+        public async Task DeleteEvent(int eventId)
+        {
+            var calendarWorkout = await repository.All<CalendarWorkout>()
+              .Where(x => x.EventId == eventId)
+              .FirstOrDefaultAsync();
+
+            repository.Delete(calendarWorkout);
+            await repository.SaveChangesAsync();
         }
     }
 
