@@ -36,7 +36,7 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
                     return Json(new { success = false, message = "Invalid data provided" });
                 }
 
-                var eventId = await calendarService.AddCalendarEventAsync(model);
+                var eventId = await calendarService.AddCalendarEventAsync(model,GetUserId());
 
                 return Json(new { success = true, message = "Event added successfully", eventId });
             }

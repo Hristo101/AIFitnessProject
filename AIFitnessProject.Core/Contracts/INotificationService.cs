@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using AIFitnessProject.Core.Models.Notification;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,7 @@ namespace AIFitnessProject.Core.Contracts
     public interface INotificationService
     {
         Task AddNotification(string senderId, string receiverId, string message);
+
+        Task<AllNotificationsViewModel> GetAllNotifications(string userId);
     }
 }

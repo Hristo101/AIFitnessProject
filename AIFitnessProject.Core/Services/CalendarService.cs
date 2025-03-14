@@ -146,8 +146,12 @@ namespace AIFitnessProject.Core.Services
             return model;
         }
 
-        public async Task<int> AddCalendarEventAsync(AddEventViewModel model)
+        public async Task<int> AddCalendarEventAsync(AddEventViewModel model,string trainerId)
         {
+            var trainer = await repository.AllAsReadOnly<Trainer>()
+                .Where(x =>x.UserId == trainerId)
+                .Include(x =>x.User)
+                .FirstOrDefaultAsync();
             try
             {
                 var start = TimeOnly.Parse(model.StartTime);
@@ -165,6 +169,9 @@ namespace AIFitnessProject.Core.Services
 
                 await repository.AddAsync(calendarWorkout);
                 await repository.SaveChangesAsync();
+
+                string message = $"В календара ти беше добавено събитие от {trainer.User.FirstName} {trainer.User.LastName}.";
+                await _notificationService.AddNotification(trainer.UserId,model.UserId,message);
 
                 return calendarWorkout.EventId; 
             }

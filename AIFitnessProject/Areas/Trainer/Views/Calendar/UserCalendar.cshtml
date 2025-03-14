@@ -1718,13 +1718,14 @@
 
             const eventData = {
                 calendarId: calendarId,
+                userId: userId,
                 workoutId: selectedWorkoutId,
                 title: eventTitle,
                 startTime: eventTimeFrom,
                 endTime: eventTimeTo,
                 day: activeDay,
                 month: month + 1,
-                year: year
+                year: year,
             };
 
             try {
@@ -1809,7 +1810,6 @@
                 alert("Error adding event: " + error.message);
             }
         });
-
         function getEvents() {
             const serverWorkoutEvents = @Html.Raw(Json.Serialize(Model.Workouts.Select(w => new
             {
