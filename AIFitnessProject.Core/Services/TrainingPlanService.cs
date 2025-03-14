@@ -1,4 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Core.Hubs;
 using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Core.Models.ExerciseFeedback;
 using AIFitnessProject.Core.Models.TrainingPlan;
@@ -6,6 +7,7 @@ using AIFitnessProject.Core.Models.Workout;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace AIFitnessProject.Core.Services
@@ -13,6 +15,7 @@ namespace AIFitnessProject.Core.Services
     public class TrainingPlanService : ITrainingPlanService
     {
         private readonly IRepository repository;
+        private readonly IHubContext<NotificationHub> _hubContext;
         private readonly IHostingEnvironment _hostingEnvironment;
         public TrainingPlanService(IRepository _repository, IHostingEnvironment hostingEnvironment)
         {
@@ -250,11 +253,27 @@ namespace AIFitnessProject.Core.Services
         {
             var trainingPlan = await repository.All<TrainingPlan>()
                 .Where(x =>x.Id == id)
+                .Include(x =>x.User)
+                .Include(x =>x.Trainer)
                 .FirstAsync();
 
             trainingPlan.IsActive = true;
             trainingPlan.IsEdit = false;
             await repository.SaveChangesAsync();
+
+            var notification = new Notification
+            {
+                SenderId = trainingPlan.Trainer.UserId,
+                RecieverId = trainingPlan.UserId,
+                Message = $"Вашият тренировъчен план с ID {id} е активен и готов за изпълнение!",
+                CreatedAt = DateTime.Now,
+                ReadStatus = false
+            };
+
+            await repository.AddAsync(notification);
+            await repository.SaveChangesAsync();
+
+            await _hubContext.Clients.User(notification.RecieverId).SendAsync("ReceiveNotification", notification.Message);
         }
 
         public async Task<AllTrainingPlanViewModel> GetAllTrainingPlanForUserAsync(string userId)

@@ -46,7 +46,6 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [ForeignKey("UserId")]
         public ApplicationUser User { get; set; } = null!;
 
-        public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
         public ICollection<Workout> Workouts { get; set; } = new List<Workout>();
         public ICollection<Calendar> Calendars { get; set; } = new List<Calendar>();
         public ICollection<RequestsToCoach> ReceivedRequests { get; set; } = new List<RequestsToCoach>();

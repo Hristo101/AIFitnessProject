@@ -16,6 +16,18 @@ namespace AIFitnessProject.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
+            builder.Entity<Notification>()
+        .HasOne(n => n.Sender)
+        .WithMany(u => u.SentNotifications)
+        .HasForeignKey(n => n.SenderId)
+        .OnDelete(DeleteBehavior.Restrict); 
+
+            builder.Entity<Notification>()
+                .HasOne(n => n.Reciever)
+                .WithMany(u => u.ReceivedNotifications)
+                .HasForeignKey(n => n.RecieverId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<CalendarWorkout>()
             .HasOne(x => x.Workout)
             .WithMany(x => x.CalendarWorkouts)
