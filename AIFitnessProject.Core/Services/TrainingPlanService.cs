@@ -17,11 +17,13 @@ namespace AIFitnessProject.Core.Services
         private readonly IRepository repository;
         private readonly IHubContext<NotificationHub> _hubContext;
         private readonly IHostingEnvironment _hostingEnvironment;
-        public TrainingPlanService(IRepository _repository, IHostingEnvironment hostingEnvironment, IHubContext<NotificationHub> hubContext = null)
+        private readonly INotificationService _notificationService;
+        public TrainingPlanService(IRepository _repository, IHostingEnvironment hostingEnvironment, IHubContext<NotificationHub> hubContext, INotificationService notificationService)
         {
             this.repository = _repository;
             _hostingEnvironment = hostingEnvironment;
             _hubContext = hubContext;
+            _notificationService = notificationService;
         }
 
 
@@ -253,28 +255,17 @@ namespace AIFitnessProject.Core.Services
         public async Task SendToUserAsync(int id)
         {
             var trainingPlan = await repository.All<TrainingPlan>()
-                .Where(x =>x.Id == id)
-                .Include(x =>x.User)
-                .Include(x =>x.Trainer)
+                .Where(x => x.Id == id)
+                .Include(x => x.User)
+                .Include(x => x.Trainer)
                 .FirstAsync();
 
             trainingPlan.IsActive = true;
             trainingPlan.IsEdit = false;
             await repository.SaveChangesAsync();
+            string message = $"Вашият тренировъчен план: {trainingPlan.Name} е активен и готов за изпълнение!";
 
-            var notification = new Notification
-            {
-                SenderId = trainingPlan.Trainer.UserId,
-                RecieverId = trainingPlan.UserId,
-                Message = $"Вашият тренировъчен план: {trainingPlan.Name} е активен и готов за изпълнение!",
-                CreatedAt = DateTime.Now,
-                ReadStatus = false
-            };
-
-            await repository.AddAsync(notification);
-            await repository.SaveChangesAsync();
-
-            await _hubContext.Clients.User(notification.RecieverId).SendAsync("ReceiveNotification", notification.Message);
+            await _notificationService.AddNotification(trainingPlan.Trainer.UserId, trainingPlan.UserId, message);
         }
 
         public async Task<AllTrainingPlanViewModel> GetAllTrainingPlanForUserAsync(string userId)
@@ -352,6 +343,8 @@ namespace AIFitnessProject.Core.Services
             trainingPlan.IsActive = false;
             trainingPlan.IsEdit = true;
             await repository.SaveChangesAsync();
+            string message = $"✖ Тренировъчен план с име: {trainingPlan.Name} бе отказан от {trainingPlan.User.FirstName} {trainingPlan.User.LastName}";
+            await _notificationService.AddNotification(trainingPlan.UserId, trainingPlan.Trainer.UserId, message);
         }
 
         public async Task<ICollection<RejectedTrainingPlanViewModel>> GetModelsForAllTrainingPlanAsync(string userId)
@@ -495,7 +488,10 @@ namespace AIFitnessProject.Core.Services
                 };
                 await repository.AddAsync(calendar);
                 await repository.SaveChangesAsync();
+
             }
+                string message = $"✔ Тренировъчен план с име: {trainingPlan.Name} бе приет от {trainingPlan.User.FirstName} {trainingPlan.User.LastName}";
+                await _notificationService.AddNotification(trainingPlan.UserId, trainingPlan.Trainer.UserId, message);
         }
     }
 
