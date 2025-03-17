@@ -1,0 +1,847 @@
+﻿<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Всички известия</title>
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600&display=swap');
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6b7280, #93c5fd);
+            --accent-color: #f59e0b;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --card-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            --card-hover-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 30px auto;
+            padding: 10px 25px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .profile-header {
+            background: var(--primary-gradient);
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInDown 0.7s ease-out;
+            backdrop-filter: blur(10px);
+        }
+
+        .profile-header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%),
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='rgba(255,255,255,0.05)' fill-rule='evenodd'/%3E%3C/svg%3E");
+            animation: rotate 25s linear infinite;
+            z-index: 0;
+        }
+
+        @@keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .profile-image {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 30px;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 0 8px rgba(255,255,255,0.1);
+            z-index: 1;
+            transition: var(--transition-smooth);
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25), 0 0 0 12px rgba(255,255,255,0.2);
+        }
+
+        .profile-info {
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-info h1 {
+            margin: 0 0 10px 0;
+            font-size: 32px;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .profile-info p {
+            margin: 0;
+            color: rgba(255,255,255,0.9);
+            font-size: 16px;
+        }
+
+        .page-title {
+            text-align: center;
+            color: var(--text-primary);
+            font-size: 36px;
+            margin: 40px 0;
+            position: relative;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .page-title::after {
+            content: "";
+            display: block;
+            width: 120px;
+            height: 4px;
+            background: var(--primary-gradient);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .notifications-section {
+            margin-bottom: 50px;
+            animation: fadeIn 1s ease-out;
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            margin-left: 15px;
+            font-size: 26px;
+            color: var(--text-primary);
+        }
+
+        .envelope-icon {
+            font-size: 28px;
+            animation: heartbeat 2s infinite;
+        }
+
+        @@keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .notification-card {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 20px;
+            align-items: start;
+            transition: var(--transition-smooth);
+            transform: translateY(0) perspective(1000px) rotateY(0deg);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notification-card:hover {
+            transform: translateY(-5px) perspective(1000px) rotateY(5deg);
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .notification-card::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition-smooth);
+        }
+
+        .notification-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .unread {
+            background: linear-gradient(to right, #e3f2fd, #ffffff);
+            border-left: 4px solid #2196F3;
+            position: relative;
+        }
+
+        .unread::before {
+            content: "";
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 12px;
+            height: 12px;
+            background-color: #2196F3;
+            border-radius: 50%;
+            box-shadow: 0 0 0 rgba(33, 150, 243, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .read::before {
+            content: "✓";
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 20px;
+            height: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .notification-card.read:hover::before {
+            opacity: 1;
+        }
+
+        @@keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(33, 150, 243, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(33, 150, 243, 0);
+            }
+        }
+
+        .sender-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid transparent;
+            background: padding-box white, 
+                         border-box linear-gradient(45deg, #93c5fd, #6b7280);
+            transition: var(--transition-smooth);
+        }
+
+        .notification-card:hover .sender-image {
+            transform: rotate(8deg) scale(1.05);
+        }
+
+        .notification-content {
+            flex-grow: 1;
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .sender-info {
+            font-weight: 600;
+            font-size: 20px;
+            color: var(--text-primary);
+            position: relative;
+        }
+
+        .sender-info:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: normal;
+            white-space: nowrap;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .notification-date {
+            color: var(--text-secondary);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .notification-date::before {
+            content: "🕒";
+            margin-right: 5px;
+        }
+
+        .sender-email {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .sender-email::before {
+            content: "✉️";
+            margin-right: 5px;
+        }
+
+        .notification-message {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .notification-message::before {
+            content: "\"";
+            font-size: 28px;
+            color: #93c5fd;
+            position: absolute;
+            left: 0;
+            top: -8px;
+        }
+
+        .notification-message::after {
+            content: "\"";
+            font-size: 28px;
+            color: #93c5fd;
+            position: relative;
+            margin-left: 5px;
+        }
+
+        .sender-role {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: var(--transition-smooth);
+        }
+
+        .notification-card:hover .sender-role {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            animation: pulse-light 2s infinite;
+        }
+
+        @@keyframes pulse-light {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .empty-notifications {
+            padding: 50px 30px;
+            text-align: center;
+            background-color: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            color: #888;
+            font-style: italic;
+            font-size: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .mark-all-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .mark-all-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+
+        .mark-all-button span {
+            margin-left: 8px;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        @@keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @@keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .notification-card:nth-child(odd) {
+            animation: slideInLeft 0.6s ease-out forwards;
+        }
+
+        .notification-card:nth-child(even) {
+            animation: slideInRight 0.6s ease-out forwards;
+        }
+
+        @@keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @@keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 25px;
+            }
+
+            .profile-image {
+                margin-right: 0;
+                margin-bottom: 20px;
+                width: 110px;
+                height: 110px;
+            }
+
+            .notification-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .sender-image {
+                margin: 0 auto 20px;
+                width: 80px;
+                height: 80px;
+            }
+
+            .notification-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .collapsible-message {
+                max-height: 80px;
+                overflow: hidden;
+                transition: var(--transition-smooth);
+                position: relative;
+            }
+
+            .collapsible-message.expanded {
+                max-height: 1000px;
+            }
+
+            .collapsible-message:not(.expanded)::after {
+                content: "Прочети още...";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+                padding-top: 30px;
+                font-weight: 500;
+                color: #2196F3;
+                cursor: pointer;
+            }
+
+            .mark-all-button {
+                bottom: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+
+     
+        .notification-card:focus {
+            outline: 3px solid #2196F3;
+            outline-offset: 3px;
+        }
+
+        .mark-all-button:focus {
+            outline: 3px solid white;
+            outline-offset: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-header">
+            @if (Model.ReceiverProfilePicture.StartsWith("http") || Model.ReceiverProfilePicture.StartsWith("~/img") || Model.ReceiverProfilePicture.StartsWith("/img"))
+            {
+                <img src="@Url.Content(Model.ReceiverProfilePicture)" alt="Профилна снимка" class="profile-image">
+            }
+            else
+            {
+                <img src="data:image/jpeg;base64,@Url.Content(Model.ReceiverProfilePicture)" alt="Профилна снимка" class="profile-image">
+            }
+            <div class="profile-info">
+                <h1>@Model.RecieverFirstName @Model.RecieverLastName</h1>
+                <p>@Model.ReceiverEmail</p>
+            </div>
+        </div>
+
+        <h1 class="page-title">Всички известия</h1>
+
+        <!-- Added id="unread-section" -->
+        <div class="notifications-section" id="unread-section">
+            <div class="section-header">
+                <span class="envelope-icon">✉️</span>
+                <h2>Непрочетени</h2>
+            </div>
+
+            @if (Model.UnReadNotifications.Count > 0)
+            {
+                @foreach (var notification in Model.UnReadNotifications)
+                {
+                    <div class="notification-card unread" tabindex="0" aria-label="Непрочетено известие от @notification.SenderFirstName @notification.SenderLastName">
+                        @if (notification.SenderProfilePicture.StartsWith("http") || notification.SenderProfilePicture.StartsWith("~/img") || notification.SenderProfilePicture.StartsWith("/img"))
+                        {
+                            <img src="@notification.SenderProfilePicture" alt="Снимка на подателя" class="sender-image">
+                        }
+                        else
+                        {
+                            <img src="data:image/jpeg;base64,@notification.SenderProfilePicture" alt="Снимка на подателя" class="sender-image">
+                        }
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <span class="sender-info" data-tooltip="Последно активен: преди 2 часа">@notification.SenderFirstName @notification.SenderLastName</span>
+                                <span class="notification-date">@notification.NotificationDate</span>
+                            </div>
+                            <div class="sender-email">@notification.SenderEmail</div>
+                            <div class="notification-message collapsible-message">@notification.Message</div>
+                            <div class="sender-role">@notification.Role</div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty-notifications">
+                    <div class="empty-icon">📭</div>
+                    Нямате непрочетени известия
+                </div>
+            }
+        </div>
+
+        <!-- Added id="read-section" -->
+        <div class="notifications-section" id="read-section">
+            <div class="section-header">
+                <span class="envelope-icon">📭</span>
+                <h2>Прочетени</h2>
+            </div>
+
+            @if (Model.ReadNotifications.Count > 0)
+            {
+                @foreach (var notification in Model.ReadNotifications)
+                {
+                    <div class="notification-card read" tabindex="0" aria-label="Прочетено известие от @notification.SenderFirstName @notification.SenderLastName">
+                        @if (notification.SenderProfilePicture.StartsWith("http") || notification.SenderProfilePicture.StartsWith("~/img") || notification.SenderProfilePicture.StartsWith("/img"))
+                        {
+                            <img src="@Url.Content(notification.SenderProfilePicture)" alt="Снимка на подателя" class="sender-image">
+                        }
+                        else
+                        {
+                            <img src="data:image/jpeg;base64,@notification.SenderProfilePicture" alt="Снимка на подателя" class="sender-image">
+                        }
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <span class="sender-info" data-tooltip="Последно активен: преди 5 часа">@notification.SenderFirstName @notification.SenderLastName</span>
+                                <span class="notification-date">@notification.NotificationDate</span>
+                            </div>
+                            <div class="sender-email">@notification.SenderEmail</div>
+                            <div class="notification-message collapsible-message">@notification.Message</div>
+                            <div class="sender-role">@notification.Role</div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty-notifications">
+                    <div class="empty-icon">📭</div>
+                    Нямате прочетени известия
+                </div>
+            }
+        </div>
+    </div>
+
+    <button class="mark-all-button" aria-label="Маркирай всички като прочетени">
+        ✓ <span>Маркирай всички като прочетени</span>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const markAllUrl = '@Url.Action("MarkAllAsRead", "Notification", new { area = "Trainer" })'; 
+            const unreadSection = document.getElementById('unread-section');
+            const readSection = document.getElementById('read-section');
+
+     
+            console.log('Mark All URL:', markAllUrl);
+            console.log('Unread Section:', unreadSection);
+            console.log('Read Section:', readSection);
+
+            if (!unreadSection || !readSection) {
+                console.error('One or both sections not found: unreadSection =', unreadSection, 'readSection =', readSection);
+                return;
+            }
+
+            const notificationCards = document.querySelectorAll('.notification-card');
+            notificationCards.forEach(card => {
+                card.addEventListener('click', function (e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    this.appendChild(ripple);
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+
+            notificationCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.animationDelay = `${index * 0.1}s`;
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                }, 100 * index);
+            });
+
+            const messages = document.querySelectorAll('.collapsible-message');
+            messages.forEach(message => {
+                message.addEventListener('click', function () {
+                    if (window.innerWidth <= 768) {
+                        this.classList.toggle('expanded');
+                    }
+                });
+            });
+
+            const markAllButton = document.querySelector('.mark-all-button');
+            if (!markAllButton) {
+                console.error('Mark All button not found');
+                return;
+            }
+
+            markAllButton.addEventListener('click', function () {
+                console.log('Button clicked!'); // Debugging
+
+                const unreadCards = unreadSection.querySelectorAll('.notification-card.unread');
+                if (unreadCards.length === 0) {
+                    showFeedback('Няма непрочетени известия за маркиране', '#4CAF50');
+                    return;
+                }
+
+                fetch(markAllUrl, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(response => {
+                        console.log('Fetch Response:', response); // Debugging
+                        if (!response.ok) {
+                            throw new Error('Неуспешна заявка към сървъра: ' + response.status);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Fetch Data:', data); // Debugging
+                        if (data.success) {
+                            const readContainer = readSection.querySelector('.empty-notifications') || readSection;
+                            if (readContainer.classList.contains('empty-notifications')) {
+                                readContainer.remove();
+                            }
+
+                            unreadCards.forEach(card => {
+                                card.classList.remove('unread');
+                                card.classList.add('read');
+                                card.setAttribute('aria-label', `Прочетено известие от ${card.querySelector('.sender-info').textContent}`);
+                                card.style.opacity = '0';
+                                card.style.transition = 'opacity 0.3s ease';
+
+                                readSection.appendChild(card);
+
+                                setTimeout(() => {
+                                    card.style.opacity = '1';
+                                }, 100);
+                            });
+
+                            if (!unreadSection.querySelector('.notification-card')) {
+                                const emptyDiv = document.createElement('div');
+                                emptyDiv.classList.add('empty-notifications');
+                                emptyDiv.innerHTML = '<div class="empty-icon">📭</div>Нямате непрочетени известия';
+                                unreadSection.appendChild(emptyDiv);
+                            }
+
+                            showFeedback('Всички известия са маркирани като прочетени', '#4CAF50');
+                        } else {
+                            showFeedback('Грешка: ' + (data.message || 'Неизвестна грешка'), '#f44336');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch Error:', error);
+                        showFeedback('Възникна проблем при обработката: ' + error.message, '#f44336');
+                    });
+            });
+
+            function showFeedback(message, bgColor) {
+                const feedback = document.createElement('div');
+                feedback.textContent = message;
+                feedback.style.position = 'fixed';
+                feedback.style.top = '20px';
+                feedback.style.left = '50%';
+                feedback.style.transform = 'translateX(-50%)';
+                feedback.style.background = bgColor;
+                feedback.style.color = 'white';
+                feedback.style.padding = '10px 20px';
+                feedback.style.borderRadius = '5px';
+                feedback.style.zIndex = '1000';
+                document.body.appendChild(feedback);
+
+                setTimeout(() => {
+                    feedback.style.opacity = '0';
+                    feedback.style.transition = 'opacity 0.5s ease';
+                    setTimeout(() => {
+                        feedback.remove();
+                    }, 500);
+                }, 3000);
+            }
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Tab') {
+                    const focusableEls = document.querySelectorAll('.notification-card, .mark-all-button');
+                    focusableEls.forEach(el => {
+                        el.style.transition = 'outline-color 0.3s ease';
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

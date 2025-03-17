@@ -97,7 +97,7 @@
             margin-bottom: 2em;
         }
 
-        /* Стилове за бутона за нотификации */
+   
         #btn-notifications {
             --text-color: #000;
             --bg-color-sup: #d2d2d2;
@@ -323,7 +323,7 @@
                                 </li>
                             }
                             <li class="nav-item">
-                                <button id="btn-notifications" class="button-notifications">
+                                <a asp-action="All" asp-controller="Notification" id="btn-notifications" class="button-notifications">
                                     <div class="content-avatar">
                                         <div class="status-user"></div>
                                         <div class="avatar">
@@ -338,7 +338,7 @@
                                             Нотификации<span class="number-notifications">@unreadNotifications</span>
                                         </div>
                                     </div>
-                                </button>
+                                </a>>
                             </li>
                         }
                     </ul>

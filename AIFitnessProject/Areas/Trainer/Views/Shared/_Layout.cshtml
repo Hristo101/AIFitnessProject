@@ -305,7 +305,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <button id="btn-notifications" class="button-notifications">
+                                <a asp-action="All" asp-controller="Notification" asp-area="Trainer" id="btn-notifications" class="button-notifications">
                                     <div class="content-avatar">
                                         <div class="status-user"></div>
                                         <div class="avatar">
@@ -315,12 +315,12 @@
                                         </div>
                                     </div>
                                     <div class="notice-content">
-                                        <div class="username">@user.FirstName @user.LastName</div>
+                                        <div class="username">@user.FirstName  @user.LastName</div>
                                         <div class="label-notifications">
                                             Нотификации<span class="number-notifications">@unreadNotifications</span>
                                         </div>
                                     </div>
-                                </button>
+                                </a>>
                             </li>
                         }
                         else

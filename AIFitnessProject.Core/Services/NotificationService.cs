@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -115,6 +116,21 @@ namespace AIFitnessProject.Core.Services
             }
 
             return model;
+        }
+
+        public async Task MarkAllAsRead(string userId)
+        {
+            var model = await _repository.All<Notification>()
+                .Where(x =>x.RecieverId == userId)
+                .Where(x =>x.ReadStatus == false)
+                .ToListAsync();
+
+            foreach (var item in model)
+            {
+                item.ReadStatus = true;
+                await _repository.SaveChangesAsync();
+            }
+
         }
     }
 }
