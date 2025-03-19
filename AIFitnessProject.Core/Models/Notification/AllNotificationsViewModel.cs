@@ -9,6 +9,7 @@ namespace AIFitnessProject.Core.Models.Notification
 {
     public class AllNotificationsViewModel
     {
+        
         public string RecieverFirstName { get; set; }
         public string RecieverLastName { get; set; }
         public string ReceiverEmail { get; set; }

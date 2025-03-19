@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@using AIFitnessProject.Core.Models.Notification
+@model AllNotificationsViewModel
+@if (Model == null)
+{
+    <h1 style="color:black;">Нямате налични известия!</h1>
+}
+else
+{
+    
+<!DOCTYPE html>
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
@@ -15,6 +24,8 @@
             --card-shadow: 0 5px 15px rgba(0,0,0,0.05);
             --card-hover-shadow: 0 8px 25px rgba(0,0,0,0.1);
             --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --button-gradient: linear-gradient(135deg, #3b82f6, #2563eb);
+            --button-hover-gradient: linear-gradient(135deg, #2563eb, #1d4ed8);
         }
 
         body {
@@ -23,6 +34,10 @@
             padding: 0;
             background-color: #f8fafc;
             color: var(--text-primary);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(147, 197, 253, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(107, 114, 128, 0.05) 0%, transparent 20%);
+            background-attachment: fixed;
         }
 
         .container {
@@ -112,6 +127,27 @@
             font-size: 16px;
         }
 
+        .stats-row {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-item span {
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
         .page-title {
             text-align: center;
             color: var(--text-primary);
@@ -129,6 +165,57 @@
             background: var(--primary-gradient);
             margin: 15px auto 0;
             border-radius: 2px;
+        }
+
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .filter-label {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Open Sans', sans-serif;
+            transition: var(--transition-smooth);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
         }
 
         .notifications-section {
@@ -362,6 +449,46 @@
             margin-left: 5px;
         }
 
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .view-button {
+            background: var(--button-gradient);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2);
+            text-decoration: none;
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
+        }
+
+        .view-button:hover {
+            background: var(--button-hover-gradient);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(37, 99, 235, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        .view-button:active {
+            transform: translateY(0);
+        }
+
         .sender-role {
             background: var(--primary-gradient);
             color: white;
@@ -372,12 +499,34 @@
             font-weight: 500;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             transition: var(--transition-smooth);
+            margin-bottom: 15px;
         }
 
         .notification-card:hover .sender-role {
             transform: translateY(-3px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             animation: pulse-light 2s infinite;
+        }
+
+        .notification-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .notification-tags {
+            display: flex;
+            gap: 8px;
+        }
+
+        .notification-tag {
+            background-color: #f3f4f6;
+            color: #4b5563;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
         }
 
         @@keyframes pulse-light {
@@ -445,6 +594,45 @@
             transform: scale(0);
             animation: ripple 0.6s linear;
             pointer-events: none;
+        }
+
+        .page-counter {
+            text-align: center;
+            margin: 30px 0;
+            color: var(--text-secondary);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 50px;
+        }
+
+        .pagination-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-weight: 500;
+            background-color: white;
+            color: var(--text-primary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .pagination-button:hover {
+            background-color: #f3f4f6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .pagination-button.active {
+            background: var(--primary-gradient);
+            color: white;
         }
 
         @@keyframes ripple {
@@ -559,6 +747,25 @@
                 cursor: pointer;
             }
 
+            .filter-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-container {
+                width: 100%;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .view-button {
+                width: 100%;
+                justify-content: center;
+            }
+
             .mark-all-button {
                 bottom: 20px;
                 right: 20px;
@@ -567,7 +774,6 @@
             }
         }
 
-     
         .notification-card:focus {
             outline: 3px solid #2196F3;
             outline-offset: 3px;
@@ -576,6 +782,49 @@
         .mark-all-button:focus {
             outline: 3px solid white;
             outline-offset: 3px;
+        }
+
+   
+        [data-tooltip] {
+            position: relative;
+        }
+
+        [data-tooltip]:hover::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 100;
+            opacity: 0;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+       
+        .unread::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.2) 50%, 
+                rgba(255,255,255,0) 100%);
+            animation: shimmer 2s infinite;
+        }
+
+        @@keyframes shimmer {
+            to {
+                left: 100%;
+            }
         }
     </style>
 </head>
@@ -593,12 +842,36 @@
             <div class="profile-info">
                 <h1>@Model.RecieverFirstName @Model.RecieverLastName</h1>
                 <p>@Model.ReceiverEmail</p>
+                
+               
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <span>📬 Непрочетени: @Model.UnReadNotifications.Count</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>📭 Прочетени: @Model.ReadNotifications.Count</span>
+                    </div>
+                </div>
             </div>
         </div>
 
         <h1 class="page-title">Всички известия</h1>
 
-        <!-- Added id="unread-section" -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <span class="filter-label">Филтър:</span>
+                <select class="search-input" style="width: auto; padding-left: 15px;">
+                    <option value="all">Всички</option>
+                    <option value="unread">Само непрочетени</option>
+                    <option value="read">Само прочетени</option>
+                </select>
+            </div>
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Търси в известия...">
+            </div>
+        </div>
+
         <div class="notifications-section" id="unread-section">
             <div class="section-header">
                 <span class="envelope-icon">✉️</span>
@@ -624,8 +897,27 @@
                                 <span class="notification-date">@notification.NotificationDate</span>
                             </div>
                             <div class="sender-email">@notification.SenderEmail</div>
-                            <div class="notification-message collapsible-message">@notification.Message</div>
                             <div class="sender-role">@notification.Role</div>
+                            <div class="notification-message collapsible-message">@notification.Message</div>
+                            
+                            
+                            <div class="action-buttons">
+                                <a href="/Trainer/Notification/View/@notification.Id" class="view-button" data-notification-id="@notification.Id">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    Виж
+                                </a>
+                            </div>
+
+
+                            <div class="notification-footer">
+                                <div class="notification-tags">
+                                    <span class="notification-tag">Важно</span>
+                                    <span class="notification-tag">Нотификация</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 }
@@ -639,7 +931,6 @@
             }
         </div>
 
-        <!-- Added id="read-section" -->
         <div class="notifications-section" id="read-section">
             <div class="section-header">
                 <span class="envelope-icon">📭</span>
@@ -665,8 +956,26 @@
                                 <span class="notification-date">@notification.NotificationDate</span>
                             </div>
                             <div class="sender-email">@notification.SenderEmail</div>
-                            <div class="notification-message collapsible-message">@notification.Message</div>
                             <div class="sender-role">@notification.Role</div>
+                            <div class="notification-message collapsible-message">@notification.Message</div>
+                            
+                            
+                            <div class="action-buttons">
+                                <a href="/Trainer/Notification/View/@notification.Id" class="view-button" data-notification-id="@notification.Id">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    Виж
+                                </a>
+                            </div>
+
+             
+                            <div class="notification-footer">
+                                <div class="notification-tags">
+                                    <span class="notification-tag">Архивирано</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 }
@@ -679,6 +988,24 @@
                 </div>
             }
         </div>
+
+     
+        <div class="page-counter">Показване на 1-10 от @(Model.UnReadNotifications.Count + Model.ReadNotifications.Count) известия</div>
+        <div class="pagination">
+            <div class="pagination-button" data-tooltip="Предишна страница">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </div>
+            <div class="pagination-button active">1</div>
+            <div class="pagination-button">2</div>
+            <div class="pagination-button">3</div>
+            <div class="pagination-button" data-tooltip="Следваща страница">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </div>
+        </div>
     </div>
 
     <button class="mark-all-button" aria-label="Маркирай всички като прочетени">
@@ -690,8 +1017,8 @@
             const markAllUrl = '@Url.Action("MarkAllAsRead", "Notification", new { area = "Trainer" })'; 
             const unreadSection = document.getElementById('unread-section');
             const readSection = document.getElementById('read-section');
-
-     
+            
+           
             console.log('Mark All URL:', markAllUrl);
             console.log('Unread Section:', unreadSection);
             console.log('Read Section:', readSection);
@@ -701,6 +1028,7 @@
                 return;
             }
 
+            
             const notificationCards = document.querySelectorAll('.notification-card');
             notificationCards.forEach(card => {
                 card.addEventListener('click', function (e) {
@@ -725,6 +1053,7 @@
                 });
             });
 
+           
             notificationCards.forEach((card, index) => {
                 card.style.opacity = '0';
                 card.style.animationDelay = `${index * 0.1}s`;
@@ -733,6 +1062,7 @@
                 }, 100 * index);
             });
 
+          
             const messages = document.querySelectorAll('.collapsible-message');
             messages.forEach(message => {
                 message.addEventListener('click', function () {
@@ -742,6 +1072,71 @@
                 });
             });
 
+           
+            const viewButtons = document.querySelectorAll('.view-button');
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+               
+                });
+            });
+
+    
+            const filterSelect = document.querySelector('.filter-group select');
+            filterSelect.addEventListener('change', function() {
+                const value = this.value;
+                
+                const unreadCards = document.querySelectorAll('.notification-card.unread');
+                const readCards = document.querySelectorAll('.notification-card.read');
+                
+                if (value === 'all') {
+                    unreadCards.forEach(card => card.style.display = 'grid');
+                    readCards.forEach(card => card.style.display = 'grid');
+                } else if (value === 'unread') {
+                    unreadCards.forEach(card => card.style.display = 'grid');
+                    readCards.forEach(card => card.style.display = 'none');
+                } else if (value === 'read') {
+                    unreadCards.forEach(card => card.style.display = 'none');
+                    readCards.forEach(card => card.style.display = 'grid');
+                }
+            });
+
+
+            const searchInput = document.querySelector('.search-input[type="text"]');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                const allCards = document.querySelectorAll('.notification-card');
+                allCards.forEach(card => {
+                    const senderName = card.querySelector('.sender-info').textContent.toLowerCase();
+                    const message = card.querySelector('.notification-message').textContent.toLowerCase();
+                    const email = card.querySelector('.sender-email').textContent.toLowerCase();
+                    
+                    if (senderName.includes(searchTerm) || message.includes(searchTerm) || email.includes(searchTerm)) {
+                        card.style.display = 'grid';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+
+          
+            const paginationButtons = document.querySelectorAll('.pagination-button');
+            paginationButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (!this.classList.contains('active')) {
+                       
+                        paginationButtons.forEach(btn => btn.classList.remove('active'));
+                       
+                        this.classList.add('active');
+                        
+                       
+                        showFeedback(`Преминаване към страница ${this.textContent}`, '#3b82f6');
+                    }
+                });
+            });
+
+           
             const markAllButton = document.querySelector('.mark-all-button');
             if (!markAllButton) {
                 console.error('Mark All button not found');
@@ -749,7 +1144,7 @@
             }
 
             markAllButton.addEventListener('click', function () {
-                console.log('Button clicked!'); // Debugging
+                console.log('Button clicked!'); 
 
                 const unreadCards = unreadSection.querySelectorAll('.notification-card.unread');
                 if (unreadCards.length === 0) {
@@ -764,14 +1159,14 @@
                     }
                 })
                     .then(response => {
-                        console.log('Fetch Response:', response); // Debugging
+                        console.log('Fetch Response:', response); 
                         if (!response.ok) {
                             throw new Error('Неуспешна заявка към сървъра: ' + response.status);
                         }
                         return response.json();
                     })
                     .then(data => {
-                        console.log('Fetch Data:', data); // Debugging
+                        console.log('Fetch Data:', data); 
                         if (data.success) {
                             const readContainer = readSection.querySelector('.empty-notifications') || readSection;
                             if (readContainer.classList.contains('empty-notifications')) {
@@ -799,6 +1194,18 @@
                                 unreadSection.appendChild(emptyDiv);
                             }
 
+           
+                            const unreadCounter = document.querySelector('.stats-row .stat-item:first-child span');
+                            const readCounter = document.querySelector('.stats-row .stat-item:last-child span');
+                            
+                            if (unreadCounter && readCounter) {
+                                const unreadCount = 0;
+                                const readCount = parseInt(readCounter.textContent.match(/\d+/)[0]) + unreadCards.length;
+                                
+                                unreadCounter.textContent = `📬 Непрочетени: ${unreadCount}`;
+                                readCounter.textContent = `📭 Прочетени: ${readCount}`;
+                            }
+
                             showFeedback('Всички известия са маркирани като прочетени', '#4CAF50');
                         } else {
                             showFeedback('Грешка: ' + (data.message || 'Неизвестна грешка'), '#f44336');
@@ -819,14 +1226,34 @@
                 feedback.style.transform = 'translateX(-50%)';
                 feedback.style.background = bgColor;
                 feedback.style.color = 'white';
-                feedback.style.padding = '10px 20px';
-                feedback.style.borderRadius = '5px';
+                feedback.style.padding = '12px 25px';
+                feedback.style.borderRadius = '8px';
                 feedback.style.zIndex = '1000';
+                feedback.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+                feedback.style.fontFamily = 'Poppins, sans-serif';
+                feedback.style.fontWeight = '500';
                 document.body.appendChild(feedback);
+
+              
+                feedback.style.animation = 'fadeIn 0.3s ease forwards, float 2s ease-in-out infinite';
+                
+    
+                if (!document.querySelector('#float-keyframes')) {
+                    const style = document.createElement('style');
+                    style.id = 'float-keyframes';
+                    style.innerHTML = `
+                        @@keyframes float {
+                            0%, 100% { transform: translateX(-50%) translateY(0px); }
+                            50% { transform: translateX(-50%) translateY(-10px); }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
 
                 setTimeout(() => {
                     feedback.style.opacity = '0';
-                    feedback.style.transition = 'opacity 0.5s ease';
+                    feedback.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    feedback.style.transform = 'translateX(-50%) translateY(-20px)';
                     setTimeout(() => {
                         feedback.remove();
                     }, 500);
@@ -835,7 +1262,7 @@
 
             document.addEventListener('keydown', function (e) {
                 if (e.key === 'Tab') {
-                    const focusableEls = document.querySelectorAll('.notification-card, .mark-all-button');
+                    const focusableEls = document.querySelectorAll('.notification-card, .mark-all-button, .view-button');
                     focusableEls.forEach(el => {
                         el.style.transition = 'outline-color 0.3s ease';
                     });
@@ -845,3 +1272,5 @@
     </script>
 </body>
 </html>
+
+}

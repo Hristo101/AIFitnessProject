@@ -60,6 +60,8 @@ namespace AIFitnessProject.Core.Services
                     RecieverFirstName = trainer.User.FirstName,
                     RecieverLastName = trainer.User.LastName,
                 }).FirstOrDefaultAsync();
+            if (model != null)
+            {
 
             model.UnReadNotifications = await _repository.AllAsReadOnly<Notification>()
                 .Include(x => x.Sender)
@@ -113,6 +115,8 @@ namespace AIFitnessProject.Core.Services
                 {
                     notification.Role = "Администратор";
                 }
+            }
+
             }
 
             return model;

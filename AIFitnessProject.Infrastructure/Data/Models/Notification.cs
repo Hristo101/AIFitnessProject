@@ -37,6 +37,6 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Required]
         public bool ReadStatus { get; set; }
 
-
+        public string Source { get;set; }
     }
 }
