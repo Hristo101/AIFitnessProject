@@ -9,10 +9,11 @@ namespace AIFitnessProject.Core.Services
     public class CommentService : ICommentService
     {
         private readonly IRepository repository;
-
-        public CommentService(IRepository _repository)
+        private readonly INotificationService notificationService;
+        public CommentService(IRepository _repository, INotificationService _notificationService)
         {
             this.repository = _repository;
+            this.notificationService = _notificationService;
         }
 
         public async Task AddNewComment(string senderId, int trainerId, string content, int rating)
@@ -21,6 +22,9 @@ namespace AIFitnessProject.Core.Services
                 .Where(x =>x.Id == trainerId)
                 .FirstOrDefaultAsync();
 
+            var user = await repository.AllAsReadOnly<ApplicationUser>()
+                .Where(x => x.Id == senderId)
+                .FirstOrDefaultAsync();
 
             var comment = new UserComment()
             {
@@ -31,7 +35,10 @@ namespace AIFitnessProject.Core.Services
             };
             
             await repository.AddAsync(comment);
-            await repository.SaveChangesAsync();    
+            await repository.SaveChangesAsync();
+
+            string message = $"Потребител с име {user.FirstName} {user.LastName} ви постави коментар с оценка: {comment.Rating} и със следния отзив:{comment.Content}";
+            await notificationService.AddNotification(senderId, trainer.UserId, message, "Comments");
         }
 
         public async Task AddNewCommentForDietitian(string senderId, int dietitianId, string content, int rating)

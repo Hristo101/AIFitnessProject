@@ -40,6 +40,8 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
                     return RedirectToAction("All", "MyRequests");
                 case "TrainingPlanDetails":
                     return RedirectToAction("AllUsersWorkouts", "Workout",new { id = userId });
+                case "Comments":
+                    return RedirectToAction("DashBoard", "Account");
                 default:
                     return RedirectToAction("AllRejectedTrainingPlan", "TrainingPlan");
             }
