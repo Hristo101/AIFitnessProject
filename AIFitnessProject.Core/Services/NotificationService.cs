@@ -27,7 +27,7 @@ namespace AIFitnessProject.Core.Services
             _repository = repository;
         }
 
-        public async Task AddNotification(string senderId, string receiverId, string message)
+        public async Task AddNotification(string senderId, string receiverId, string message,string source)
         {
             var notification = new Notification
             {
@@ -35,6 +35,7 @@ namespace AIFitnessProject.Core.Services
                 RecieverId = receiverId,
                 Message = message,
                 CreatedAt = DateTime.Now,
+                Source = source,
                 ReadStatus = false
             };
             await _repository.AddAsync(notification);
@@ -69,6 +70,8 @@ namespace AIFitnessProject.Core.Services
                 Where(x => x.ReadStatus == false)
                 .Select(x => new MessagesOfNotificationsViewModel()
                 {
+                    Id = x.Id,
+                    SenderId = x.Sender.Id,
                     Message = x.Message,
                     SenderEmail = x.Sender.Email,
                     SenderFirstName = x.Sender.FirstName,
@@ -96,6 +99,8 @@ namespace AIFitnessProject.Core.Services
          Where(x => x.ReadStatus == true)
          .Select(x => new MessagesOfNotificationsViewModel()
          {
+             Id = x.Id,
+             SenderId = x.Sender.Id,
              Message = x.Message,
              SenderEmail = x.Sender.Email,
              SenderFirstName = x.Sender.FirstName,
@@ -134,6 +139,26 @@ namespace AIFitnessProject.Core.Services
                 item.ReadStatus = true;
                 await _repository.SaveChangesAsync();
             }
+
+        }
+
+        public async Task MarkNotificationRead(int notificationId)
+        {
+            var notification = await _repository.All<Notification>()
+                 .Where(x => x.Id == notificationId)
+                 .FirstOrDefaultAsync();
+
+            notification.ReadStatus = true;
+            await _repository.SaveChangesAsync();
+        }
+
+        public async Task<Notification> GetNotificationById(int id)
+        {
+            var notification = await _repository.All<Notification>()
+                 .Where(x => x.Id == id)
+                 .FirstOrDefaultAsync();
+
+            return notification;
 
         }
     }

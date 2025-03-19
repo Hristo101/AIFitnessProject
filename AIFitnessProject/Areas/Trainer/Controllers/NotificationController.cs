@@ -25,6 +25,25 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
 
             return View(model);
         }
+        [HttpGet]
+        public async Task<IActionResult> View(string userId, int notificationId)
+        {
+            await notificationService.MarkNotificationRead(notificationId);
+
+            var notification = await notificationService.GetNotificationById(notificationId);
+
+            switch (notification.Source)
+            {
+                case "Calendar":
+                    return RedirectToAction("UserCalendar" , "Calendar", new { id = userId });
+                case "RequestsToCoaches":
+                    return RedirectToAction("All", "MyRequests");
+                case "TrainingPlanDetails":
+                    return RedirectToAction("AllUsersWorkouts", "Workout",new { id = userId });
+                default:
+                    return RedirectToAction("AllRejectedTrainingPlan", "TrainingPlan");
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> MarkAllAsRead()
         {

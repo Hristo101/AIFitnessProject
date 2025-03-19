@@ -68,7 +68,7 @@ namespace AIFitnessProject.Core.Services
 
             string message = $"Потебител с име {user.FirstName} {user.LastName} с цел {user.Aim} успешно се записа при вас!";
 
-            await service.AddNotification(user.Id,trainer.UserId,message);
+            await service.AddNotification(user.Id,trainer.UserId,message, "RequestsToCoaches");
             
             return true;
         }

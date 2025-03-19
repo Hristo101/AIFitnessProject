@@ -171,7 +171,7 @@ namespace AIFitnessProject.Core.Services
                 await repository.SaveChangesAsync();
 
                 string message = $"В календара ти беше добавено събитие от {trainer.User.FirstName} {trainer.User.LastName}.";
-                await _notificationService.AddNotification(trainer.UserId,model.UserId,message);
+                await _notificationService.AddNotification(trainer.UserId,model.UserId,message,"Calendar");
 
                 return calendarWorkout.EventId; 
             }
@@ -401,7 +401,7 @@ namespace AIFitnessProject.Core.Services
                 repository.Delete(calendarWorkout);
                 await repository.SaveChangesAsync();
             string message = $"Потребител {user.FirstName} {user.LastName} завърши успешно {calendarWorkout.Workout.Title} в {timeOnly}.";
-            await _notificationService.AddNotification(user.Id,trainer.UserId,message);
+            await _notificationService.AddNotification(user.Id,trainer.UserId,message, "Calendar");
             }
 
 

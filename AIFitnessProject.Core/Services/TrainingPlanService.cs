@@ -265,7 +265,7 @@ namespace AIFitnessProject.Core.Services
             await repository.SaveChangesAsync();
             string message = $"Вашият тренировъчен план: {trainingPlan.Name} е активен и готов за изпълнение!";
 
-            await _notificationService.AddNotification(trainingPlan.Trainer.UserId, trainingPlan.UserId, message);
+            await _notificationService.AddNotification(trainingPlan.Trainer.UserId, trainingPlan.UserId, message,"TrainingPlan");
         }
 
         public async Task<AllTrainingPlanViewModel> GetAllTrainingPlanForUserAsync(string userId)
@@ -338,13 +338,15 @@ namespace AIFitnessProject.Core.Services
             var trainingPlan = await repository.All<TrainingPlan>()
                 .Where(x =>x.Id == id)
                 .Where(x =>x.UserId == userId)
+                .Include(x =>x.User)
+                .Include(x =>x.Trainer)
                 .FirstAsync();
 
             trainingPlan.IsActive = false;
             trainingPlan.IsEdit = true;
             await repository.SaveChangesAsync();
             string message = $"✖ Тренировъчен план с име: {trainingPlan.Name} бе отказан от {trainingPlan.User.FirstName} {trainingPlan.User.LastName}";
-            await _notificationService.AddNotification(trainingPlan.UserId, trainingPlan.Trainer.UserId, message);
+            await _notificationService.AddNotification(trainingPlan.UserId, trainingPlan.Trainer.UserId, message,"RejectedTrainingPlan");
         }
 
         public async Task<ICollection<RejectedTrainingPlanViewModel>> GetModelsForAllTrainingPlanAsync(string userId)
@@ -491,7 +493,7 @@ namespace AIFitnessProject.Core.Services
 
             }
                 string message = $"✔ Тренировъчен план с име: {trainingPlan.Name} бе приет от {trainingPlan.User.FirstName} {trainingPlan.User.LastName}";
-                await _notificationService.AddNotification(trainingPlan.UserId, trainingPlan.Trainer.UserId, message);
+                await _notificationService.AddNotification(trainingPlan.UserId, trainingPlan.Trainer.UserId, message, "TrainingPlanDetails");
         }
     }
 
