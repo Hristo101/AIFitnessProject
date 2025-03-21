@@ -112,10 +112,8 @@
             <div class="comments-section">
                 <h2><i class="fas fa-comments"></i> Последни коментари</h2>
                 <div class="comments-container">
-                    @{
-                        var latestComments = Model.UserCommentForTrainerViewModels.OrderByDescending(c => c.Id).Take(3);
-                    }
-                    @foreach (var comment in latestComments)
+                 
+                    @foreach (var comment in Model.UserCommentForTrainerViewModels.OrderByDescending(x =>x.Id).Take(3))
                     {
                         <div class="comment-card @(comment.IsMine ? "my-comment" : "")">
                             <div class="comment-header">

@@ -121,12 +121,14 @@ namespace AIFitnessProject.Core.Services
                 .Include(x => x.Sender)
                 .Select(x => new UserCommentForTrainerViewModel()
                 {
+                    Id = x.Id,
                     Content = x.Content,
                     SenderName = x.Sender.FirstName + " " + x.Sender.LastName,
                     Rating = x.Rating,
                     ProfilePicture = x.Sender.ProfilePicture,
                     Email = x.Sender.Email
-                }).ToListAsync();
+                })
+              .ToListAsync();
 
             model.PercentFatPeople = percentFatPeople;
             model.PercentWeakPeople = percentWeakPeople;
