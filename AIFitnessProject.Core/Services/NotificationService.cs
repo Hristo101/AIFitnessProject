@@ -26,7 +26,15 @@ namespace AIFitnessProject.Core.Services
             _hubContext = hubContext;
             _repository = repository;
         }
+        public async Task DeleteNotification(int id)
+        {
+            var model = await _repository.AllAsReadOnly<Notification>()
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
 
+             _repository.Delete(model);
+            await _repository.SaveChangesAsync();
+        }
         public async Task AddNotification(string senderId, string receiverId, string message,string source)
         {
             var notification = new Notification
@@ -126,7 +134,109 @@ namespace AIFitnessProject.Core.Services
 
             return model;
         }
+        public async Task<AllNotificationsViewModel> GetAllNotificationsForUser(string userId)
+        {
+            var user = await _repository.AllAsReadOnly<ApplicationUser>()
+                .Where(x => x.Id == userId)
+                .FirstOrDefaultAsync();
 
+            var model = await _repository.AllAsReadOnly<Notification>()
+              .Where(x => x.RecieverId == userId)
+            .Select(x => new AllNotificationsViewModel()
+            {
+                  ReceiverProfilePicture = user.ProfilePicture,
+                  ReceiverEmail = user.Email,
+                  RecieverFirstName = user.FirstName,
+                  RecieverLastName = user.LastName,
+              }).FirstOrDefaultAsync();
+            if (model != null)
+            {
+
+                model.UnReadNotifications = await _repository.AllAsReadOnly<Notification>()
+                    .Include(x => x.Sender)
+                    .Where(x => x.RecieverId == userId).
+                    Where(x => x.ReadStatus == false)
+                    .Select(x => new MessagesOfNotificationsViewModel()
+                    {
+                        Id = x.Id,
+                        SenderId = x.Sender.Id,
+                        Message = x.Message,
+                        SenderEmail = x.Sender.Email,
+                        SenderFirstName = x.Sender.FirstName,
+                        SenderLastName = x.Sender.LastName,
+                        SenderProfilePicture = x.Sender.ProfilePicture,
+                        NotificationDate = x.CreatedAt.ToString("yyyy-MM-dd"),
+                    })
+                    .ToListAsync();
+
+                foreach (var notification in model.UnReadNotifications)
+                {
+                    if (notification.SenderEmail != "hserev789@gmail.com")
+                    {
+                        var trainer = await _repository.AllAsReadOnly<Trainer>()
+                         .Where(x => x.UserId == notification.SenderId)
+                         .FirstOrDefaultAsync();
+
+                        if (trainer == null)
+                        {
+                            notification.Role = "Диетолог";
+                        }
+                        else
+                        {
+                            notification.Role = "Треньор";
+                        }
+                    }
+                    else
+                    {
+                        notification.Role = "Администратор";
+                    }
+                }
+
+                model.ReadNotifications = await _repository.AllAsReadOnly<Notification>()
+             .Include(x => x.Sender)
+             .Where(x => x.RecieverId == userId).
+             Where(x => x.ReadStatus == true)
+             .Select(x => new MessagesOfNotificationsViewModel()
+             {
+                 Id = x.Id,
+                 SenderId = x.Sender.Id,
+                 Message = x.Message,
+                 SenderEmail = x.Sender.Email,
+                 SenderFirstName = x.Sender.FirstName,
+                 SenderLastName = x.Sender.LastName,
+                 SenderProfilePicture = x.Sender.ProfilePicture,
+                 NotificationDate = x.CreatedAt.ToString("yyyy-MM-dd"),
+             })
+             .ToListAsync();
+
+                foreach (var notification in model.ReadNotifications)
+                {
+                    
+                    if (notification.SenderEmail != "hserev789@gmail.com")
+                    {
+                        var trainer = await _repository.AllAsReadOnly<Trainer>()
+                            .Where(x => x.UserId == notification.SenderId)
+                            .FirstOrDefaultAsync();
+
+                        if (trainer == null)
+                        {
+                            notification.Role = "Диетолог";
+                        }
+                        else
+                        {
+                         notification.Role = "Треньор";
+                        }
+                    }
+                    else
+                    {
+                        notification.Role = "Администратор";
+                    }
+                }
+
+            }
+
+            return model;
+        }
         public async Task MarkAllAsRead(string userId)
         {
             var model = await _repository.All<Notification>()

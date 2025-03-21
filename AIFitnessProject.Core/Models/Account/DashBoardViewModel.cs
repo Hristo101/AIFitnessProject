@@ -13,9 +13,12 @@ namespace AIFitnessProject.Core.Models.Account
         public string TrainerPicture { get; set; }
         public ICollection<UsersToTrainerViewModel> UsersToTrainers { get; set; } = new List<UsersToTrainerViewModel>();
         public ICollection<UserCommentForTrainerViewModel> UserCommentForTrainerViewModels { get; set; } = new List<UserCommentForTrainerViewModel>();
-        public int TotalUserForTheDay { get; set; } 
-        public int TotalUserForMounth { get; set; }
+        public int TotalUserForTheDay { get; set; }
+        public double DayChangePercent { get; set; }
+        public int TotalUserForMonth { get; set; }
+        public double MonthChangePercent { get; set; }
         public int TotalUserForYear { get; set; }
+        public double YearChangePercent { get; set; }
         public double PercentFatPeople { get; set; }
         public double PercentWeakPeople { get; set; }
     }

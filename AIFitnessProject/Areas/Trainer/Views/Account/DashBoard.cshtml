@@ -24,25 +24,25 @@
         <nav class="sidebar-nav">
             <ul>
                 <li>
-                    <a asp-controller="Trainer" asp-action="Requests" class="nav-link">
+                    <a asp-controller="MyRequests" asp-action="All" class="nav-link">
                         <i class="fas fa-clipboard-list"></i>
                         <span>Моите заявки</span>
                     </a>
                 </li>
                 <li>
-                    <a asp-controller="Trainer" asp-action="Profile" class="nav-link">
+                    <a asp-controller="Account" asp-action="MyProfile" class="nav-link">
                         <i class="fas fa-user"></i>
                         <span>Моят профил</span>
                     </a>
                 </li>
                 <li>
-                    <a asp-controller="Trainer" asp-action="TrainingPlans" class="nav-link">
+                    <a asp-controller="TrainingPlan" asp-action="All" class="nav-link">
                         <i class="fas fa-dumbbell"></i>
                         <span>Моите тренировъчни планове</span>
                     </a>
                 </li>
                 <li>
-                    <a asp-controller="Trainer" asp-action="CancelledPlans" class="nav-link">
+                    <a asp-controller="TrainingPlan" asp-action="AllRejectedTrainingPlan" class="nav-link">
                         <i class="fas fa-ban"></i>
                         <span>Отказани планове</span>
                     </a>
@@ -55,23 +55,34 @@
             <div class="stat-item">
                 <span>Днес:</span>
                 <div class="stat-bar">
-                    <div class="stat-bar-fill" style="width: @(Model.TotalUserForTheDay)%;"></div>
+                    <div class="stat-bar-fill"
+                         style="width: @(Math.Min(Math.Abs(Model.DayChangePercent), 100))%;
+                    background-color: @(Model.DayChangePercent >= 0 ? "green" : "red");">
+                    </div>
                 </div>
-                <span class="stat-value">@Model.TotalUserForTheDay</span>
+                <span class="stat-value">@Model.TotalUserForTheDay (@(Model.DayChangePercent.ToString("F1"))%)</span>
             </div>
+
             <div class="stat-item">
                 <span>Този месец:</span>
                 <div class="stat-bar">
-                    <div class="stat-bar-fill" style="width: @(Math.Min(Model.TotalUserForMounth / 2, 100))%;"></div>
+                    <div class="stat-bar-fill"
+                         style="width: @(Math.Min(Math.Abs(Model.MonthChangePercent), 100))%;
+                    background-color: @(Model.MonthChangePercent >= 0 ? "green" : "red");">
+                    </div>
                 </div>
-                <span class="stat-value">@Model.TotalUserForMounth</span>
+                <span class="stat-value">@Model.TotalUserForMonth (@(Model.MonthChangePercent.ToString("F1"))%)</span>
             </div>
+
             <div class="stat-item">
                 <span>Тази година:</span>
                 <div class="stat-bar">
-                    <div class="stat-bar-fill" style="width: @(Math.Min(Model.TotalUserForYear / 10, 100))%;"></div>
+                    <div class="stat-bar-fill"
+                         style="width: @(Math.Min(Math.Abs(Model.YearChangePercent), 100))%;
+                    background-color: @(Model.YearChangePercent >= 0 ? "green" : "red");">
+                    </div>
                 </div>
-                <span class="stat-value">@Model.TotalUserForYear</span>
+                <span class="stat-value">@Model.TotalUserForYear (@(Model.YearChangePercent.ToString("F1"))%)</span>
             </div>
         </div>
     </div>

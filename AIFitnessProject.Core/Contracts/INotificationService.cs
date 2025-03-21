@@ -17,6 +17,8 @@ namespace AIFitnessProject.Core.Contracts
         Task MarkAllAsRead(string userId);
         Task MarkNotificationRead(int notificationId);
         Task<Notification> GetNotificationById(int id);
+        Task DeleteNotification(int id);
         Task<AllNotificationsViewModel> GetAllNotifications(string userId);
+        Task<AllNotificationsViewModel> GetAllNotificationsForUser(string userId);
     }
 }

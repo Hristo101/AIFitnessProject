@@ -82,6 +82,82 @@ namespace AIFitnessProject.Core.Services
                 .FirstOrDefaultAsync();
 
             var model = new DashBoardViewModel();
+
+           
+            var today = DateTime.Today;
+            var yesterday = today.AddDays(-2);
+            var startOfMonth = new DateTime(today.Year, today.Month, 1);
+            var startOfPreviousMonth = startOfMonth.AddMonths(-1);
+            var endOfPreviousMonth = startOfMonth.AddDays(-1);
+            var startOfYear = new DateTime(today.Year, 1, 1);
+            var startOfPreviousYear = startOfYear.AddYears(-1);
+            var endOfPreviousYear = startOfYear.AddDays(-1);
+
+            
+            var todayCount = await repository.AllAsReadOnly<RequestsToCoach>()
+                .Where(x => x.TrainerId == trainer.Id && x.IsAnswered == true && x.Date >= today && x.Date < today.AddDays(1))
+                .CountAsync();
+
+            var yesterdayCount = await repository.AllAsReadOnly<RequestsToCoach>()
+                .Where(x => x.TrainerId == trainer.Id && x.IsAnswered == true && x.Date >= yesterday && x.Date < today)
+                .CountAsync();
+
+            double dayChangePercent;
+            if (yesterdayCount == 0)
+            {
+                dayChangePercent = todayCount > 0 ? 100 : 0; 
+            }
+            else
+            {
+                dayChangePercent = ((double)(todayCount - yesterdayCount) / yesterdayCount) * 100;
+            }
+
+         
+            var thisMonthCount = await repository.AllAsReadOnly<RequestsToCoach>()
+                .Where(x => x.TrainerId == trainer.Id && x.IsAnswered == true && x.Date >= startOfMonth && x.Date < startOfMonth.AddMonths(1))
+                .CountAsync();
+
+            var previousMonthCount = await repository.AllAsReadOnly<RequestsToCoach>()
+                .Where(x => x.TrainerId == trainer.Id && x.IsAnswered == true && x.Date >= startOfPreviousMonth && x.Date <= endOfPreviousMonth)
+                .CountAsync();
+
+            double monthChangePercent;
+            if (previousMonthCount == 0)
+            {
+                monthChangePercent = thisMonthCount > 0 ? 100 : 0;
+            }
+            else
+            {
+                monthChangePercent = ((double)(thisMonthCount - previousMonthCount) / previousMonthCount) * 100;
+            }
+
+         
+            var thisYearCount = await repository.AllAsReadOnly<RequestsToCoach>()
+                .Where(x => x.TrainerId == trainer.Id && x.IsAnswered == true && x.Date >= startOfYear && x.Date < startOfYear.AddYears(1))
+                .CountAsync();
+
+            var previousYearCount = await repository.AllAsReadOnly<RequestsToCoach>()
+                .Where(x => x.TrainerId == trainer.Id && x.IsAnswered == true && x.Date >= startOfPreviousYear && x.Date <= endOfPreviousYear)
+                .CountAsync();
+
+            double yearChangePercent;
+            if (previousYearCount == 0)
+            {
+                yearChangePercent = thisYearCount > 0 ? 100 : 0;
+            }
+            else
+            {
+                yearChangePercent = ((double)(thisYearCount - previousYearCount) / previousYearCount) * 100;
+            }
+
+       
+            model.TotalUserForTheDay = todayCount;
+            model.DayChangePercent = dayChangePercent;
+            model.TotalUserForMonth = thisMonthCount;
+            model.MonthChangePercent = monthChangePercent;
+            model.TotalUserForYear = thisYearCount;
+            model.YearChangePercent = yearChangePercent;
+
             model.TrainerPicture = trainer.User.ProfilePicture;
             model.TrainerName = trainer.User.FirstName;
 
