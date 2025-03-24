@@ -77,15 +77,14 @@ namespace AIFitnessProject.Core.Services
         public async Task<DashBoardViewModel> DashboardForTrainer(string userId)
         {
             var trainer = await repository.AllAsReadOnly<Trainer>()
-                .Where(x =>x.UserId == userId)
-                .Include(x =>x.User)
+                .Where(x => x.UserId == userId)
+                .Include(x => x.User)
                 .FirstOrDefaultAsync();
 
             var model = new DashBoardViewModel();
 
-           
             var today = DateTime.Today;
-            var yesterday = today.AddDays(-2);
+            var yesterday = today.AddDays(-1);
             var startOfMonth = new DateTime(today.Year, today.Month, 1);
             var startOfPreviousMonth = startOfMonth.AddMonths(-1);
             var endOfPreviousMonth = startOfMonth.AddDays(-1);
@@ -93,7 +92,7 @@ namespace AIFitnessProject.Core.Services
             var startOfPreviousYear = startOfYear.AddYears(-1);
             var endOfPreviousYear = startOfYear.AddDays(-1);
 
-            
+       
             var todayCount = await repository.AllAsReadOnly<RequestsToCoach>()
                 .Where(x => x.TrainerId == trainer.Id && x.IsAnswered == true && x.Date >= today && x.Date < today.AddDays(1))
                 .CountAsync();
@@ -105,14 +104,21 @@ namespace AIFitnessProject.Core.Services
             double dayChangePercent;
             if (yesterdayCount == 0)
             {
-                dayChangePercent = todayCount > 0 ? 100 : 0; 
+                if (todayCount > 0)
+                {
+                    dayChangePercent = 100.0;
+                }
+                else
+                {
+                    dayChangePercent = 0.0;
+                }
             }
             else
             {
-                dayChangePercent = ((double)(todayCount - yesterdayCount) / yesterdayCount) * 100;
+                dayChangePercent = ((double)(todayCount - yesterdayCount) / yesterdayCount) * 100.0;
             }
 
-         
+          
             var thisMonthCount = await repository.AllAsReadOnly<RequestsToCoach>()
                 .Where(x => x.TrainerId == trainer.Id && x.IsAnswered == true && x.Date >= startOfMonth && x.Date < startOfMonth.AddMonths(1))
                 .CountAsync();
@@ -121,17 +127,27 @@ namespace AIFitnessProject.Core.Services
                 .Where(x => x.TrainerId == trainer.Id && x.IsAnswered == true && x.Date >= startOfPreviousMonth && x.Date <= endOfPreviousMonth)
                 .CountAsync();
 
+            var totalCount = thisMonthCount + previousMonthCount;
             double monthChangePercent;
             if (previousMonthCount == 0)
             {
-                monthChangePercent = thisMonthCount > 0 ? 100 : 0;
-            }
-            else
-            {
-                monthChangePercent = ((double)(thisMonthCount - previousMonthCount) / previousMonthCount) * 100;
+                if (thisMonthCount > 0)
+                {
+                    monthChangePercent = 100.0;
+                }
+                else
+                {
+                    monthChangePercent = 0.0;
+                }
             }
 
-         
+            else
+            {
+                monthChangePercent = (((double)thisMonthCount / totalCount) * 100.0);
+            }
+
+
+          
             var thisYearCount = await repository.AllAsReadOnly<RequestsToCoach>()
                 .Where(x => x.TrainerId == trainer.Id && x.IsAnswered == true && x.Date >= startOfYear && x.Date < startOfYear.AddYears(1))
                 .CountAsync();
@@ -143,53 +159,73 @@ namespace AIFitnessProject.Core.Services
             double yearChangePercent;
             if (previousYearCount == 0)
             {
-                yearChangePercent = thisYearCount > 0 ? 100 : 0;
+                if (thisYearCount > 0)
+                {
+                    yearChangePercent = 100.0;
+                }
+                else
+                {
+                    yearChangePercent = 0.0;
+                }
             }
             else
             {
-                yearChangePercent = ((double)(thisYearCount - previousYearCount) / previousYearCount) * 100;
+                yearChangePercent = ((double)(thisYearCount - previousYearCount) / previousYearCount) * 100.0;
             }
 
-       
+         
             model.TotalUserForTheDay = todayCount;
-            model.DayChangePercent = dayChangePercent;
+            model.DayChangePercent = Math.Round(dayChangePercent, 1);
             model.TotalUserForMonth = thisMonthCount;
-            model.MonthChangePercent = monthChangePercent;
+            model.MonthChangePercent = Math.Round(monthChangePercent, 1);
             model.TotalUserForYear = thisYearCount;
-            model.YearChangePercent = yearChangePercent;
+            model.YearChangePercent = Math.Round(yearChangePercent, 1);
 
             model.TrainerPicture = trainer.User.ProfilePicture;
             model.TrainerName = trainer.User.FirstName;
 
-            var requesToCoachForTrainer = await repository.AllAsReadOnly<RequestsToCoach>()
+            var requestsToCoachForTrainer = await repository.AllAsReadOnly<RequestsToCoach>()
                 .Where(x => x.TrainerId == trainer.Id)
                 .ToListAsync();
-            
-            var countOfRequesToCoach = requesToCoachForTrainer.Count;
+
+            var countOfRequestsToCoach = requestsToCoachForTrainer.Count;
 
             var allFatPeople = await repository.AllAsReadOnly<RequestsToCoach>()
-                .Where(x =>x.TrainerId == trainer.Id)
-                .Where(x => x.Target == "Отслабване")
+                .Where(x => x.TrainerId == trainer.Id && x.Target == "Отслабване")
                 .ToListAsync();
-            var percentFatPeople = Math.Round((allFatPeople.Count / (double)countOfRequesToCoach) * 100);
+            double percentFatPeople;
+            if (countOfRequestsToCoach > 0)
+            {
+                percentFatPeople = Math.Round((allFatPeople.Count / (double)countOfRequestsToCoach) * 100);
+            }
+            else
+            {
+                percentFatPeople = 0.0;
+            }
 
             var allWeakPeople = await repository.AllAsReadOnly<RequestsToCoach>()
-                .Where(x => x.TrainerId == trainer.Id)
-                .Where(x => x.Target == "Покачване на мускулна маса")
+                .Where(x => x.TrainerId == trainer.Id && x.Target == "Покачване на мускулна маса")
                 .ToListAsync();
+            double percentWeakPeople;
+            if (countOfRequestsToCoach > 0)
+            {
+                percentWeakPeople = Math.Round((allWeakPeople.Count / (double)countOfRequestsToCoach) * 100);
+            }
+            else
+            {
+                percentWeakPeople = 0.0;
+            }
 
-                var percentWeakPeople =Math.Round((allWeakPeople.Count / (double)countOfRequesToCoach) * 100);
-           
             model.UsersToTrainers = await repository.AllAsReadOnly<RequestsToCoach>()
-                .Where(x =>x.TrainerId == trainer.Id && x.IsAnswered == true)
-                .Include(x =>x.User)
+                .Where(x => x.TrainerId == trainer.Id && x.IsAnswered == true)
+                .Include(x => x.User)
                 .Select(x => new UsersToTrainerViewModel()
                 {
                     Aim = x.Target,
                     Date = x.Date.ToString("yyyy-MM-dd"),
                     FullName = x.User.FirstName + " " + x.User.LastName,
                     TrainingPreferences = x.TrainingPreferences,
-                    UserProfilePicture =x.User.ProfilePicture
+                    UserProfilePicture = x.User.ProfilePicture
                 }).ToListAsync();
 
             model.UserCommentForTrainerViewModels = await repository.AllAsReadOnly<UserComment>()
@@ -203,8 +239,7 @@ namespace AIFitnessProject.Core.Services
                     Rating = x.Rating,
                     ProfilePicture = x.Sender.ProfilePicture,
                     Email = x.Sender.Email
-                })
-              .ToListAsync();
+                }).ToListAsync();
 
             model.PercentFatPeople = percentFatPeople;
             model.PercentWeakPeople = percentWeakPeople;
