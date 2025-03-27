@@ -74,6 +74,181 @@ namespace AIFitnessProject.Core.Services
             return user;
         }
 
+        public async Task<DashBoardViewModelForDietitian> DashboardForDietitian(string userId)
+        {
+            var dietitian = await repository.AllAsReadOnly<Dietitian>()
+               .Where(x => x.UserId == userId)
+               .Include(x => x.User)
+               .FirstOrDefaultAsync();
+
+            var model = new DashBoardViewModelForDietitian();
+
+            var today = DateTime.Today;
+            var yesterday = today.AddDays(-1);
+            var startOfMonth = new DateTime(today.Year, today.Month, 1);
+            var startOfPreviousMonth = startOfMonth.AddMonths(-1);
+            var endOfPreviousMonth = startOfMonth.AddDays(-1);
+            var startOfYear = new DateTime(today.Year, 1, 1);
+            var startOfPreviousYear = startOfYear.AddYears(-1);
+            var endOfPreviousYear = startOfYear.AddDays(-1);
+
+
+            var todayCount = await repository.AllAsReadOnly<RequestToDietitian>()
+                .Where(x => x.DietitianId == dietitian.Id && x.IsAnswered == true && x.Date >= today && x.Date < today.AddDays(1))
+                .CountAsync();
+
+            var yesterdayCount = await repository.AllAsReadOnly<RequestToDietitian>()
+                .Where(x => x.DietitianId == dietitian.Id && x.IsAnswered == true && x.Date >= yesterday && x.Date < today)
+                .CountAsync();
+
+            double dayChangePercent;
+            if (yesterdayCount == 0)
+            {
+                if (todayCount > 0)
+                {
+                    dayChangePercent = 100.0;
+                }
+                else
+                {
+                    dayChangePercent = 0.0;
+                }
+            }
+            else
+            {
+                dayChangePercent = ((double)(todayCount - yesterdayCount) / yesterdayCount) * 100.0;
+            }
+
+
+            var thisMonthCount = await repository.AllAsReadOnly<RequestToDietitian>()
+                .Where(x => x.DietitianId == dietitian.Id && x.IsAnswered == true && x.Date >= startOfMonth && x.Date < startOfMonth.AddMonths(1))
+                .CountAsync();
+
+            var previousMonthCount = await repository.AllAsReadOnly<RequestToDietitian>()
+                .Where(x => x.DietitianId == dietitian.Id && x.IsAnswered == true && x.Date >= startOfPreviousMonth && x.Date <= endOfPreviousMonth)
+                .CountAsync();
+
+            var totalCount = thisMonthCount + previousMonthCount;
+            double monthChangePercent;
+            if (previousMonthCount == 0)
+            {
+                if (thisMonthCount > 0)
+                {
+                    monthChangePercent = 100.0;
+                }
+                else
+                {
+                    monthChangePercent = 0.0;
+                }
+            }
+
+            else
+            {
+                monthChangePercent = (((double)thisMonthCount / totalCount) * 100.0);
+            }
+
+
+
+            var thisYearCount = await repository.AllAsReadOnly<RequestToDietitian>()
+                .Where(x => x.DietitianId == dietitian.Id && x.IsAnswered == true && x.Date >= startOfYear && x.Date < startOfYear.AddYears(1))
+                .CountAsync();
+
+            var previousYearCount = await repository.AllAsReadOnly<RequestToDietitian>()
+                .Where(x => x.DietitianId == dietitian.Id && x.IsAnswered == true && x.Date >= startOfPreviousYear && x.Date <= endOfPreviousYear)
+                .CountAsync();
+
+            double yearChangePercent;
+            if (previousYearCount == 0)
+            {
+                if (thisYearCount > 0)
+                {
+                    yearChangePercent = 100.0;
+                }
+                else
+                {
+                    yearChangePercent = 0.0;
+                }
+            }
+            else
+            {
+                yearChangePercent = ((double)(thisYearCount - previousYearCount) / previousYearCount) * 100.0;
+            }
+
+
+            model.TotalUserForTheDay = todayCount;
+            model.DayChangePercent = Math.Round(dayChangePercent, 1);
+            model.TotalUserForMonth = thisMonthCount;
+            model.MonthChangePercent = Math.Round(monthChangePercent, 1);
+            model.TotalUserForYear = thisYearCount;
+            model.YearChangePercent = Math.Round(yearChangePercent, 1);
+
+            model.DietitianPicture = dietitian.User.ProfilePicture;
+            model.DietitianName = dietitian.User.FirstName;
+
+            var requestsToDietitian = await repository.AllAsReadOnly<RequestToDietitian>()
+                .Where(x => x.DietitianId == dietitian.Id)
+                .ToListAsync();
+
+            var countOfRequestsToDietitian = requestsToDietitian.Count;
+
+            var allFatPeople = await repository.AllAsReadOnly<RequestToDietitian>()
+                .Where(x => x.DietitianId == dietitian.Id && x.Target == "Отслабване")
+                .ToListAsync();
+
+            double percentFatPeople;
+            if (countOfRequestsToDietitian > 0)
+            {
+                percentFatPeople = Math.Round((allFatPeople.Count / (double)countOfRequestsToDietitian) * 100);
+            }
+            else
+            {
+                percentFatPeople = 0.0;
+            }
+
+            var allWeakPeople = await repository.AllAsReadOnly<RequestToDietitian>()
+                .Where(x => x.DietitianId == dietitian.Id && x.Target == "Покачване на мускулна маса")
+                .ToListAsync();
+
+            double percentWeakPeople;
+            if (countOfRequestsToDietitian > 0)
+            {
+                percentWeakPeople = Math.Round((allWeakPeople.Count / (double)countOfRequestsToDietitian) * 100);
+            }
+            else
+            {
+                percentWeakPeople = 0.0;
+            }
+
+            model.UsersToDietitian = await repository.AllAsReadOnly<RequestToDietitian>()
+                .Where(x => x.DietitianId == dietitian.Id && x.IsAnswered == true)
+                .Include(x => x.User)
+                .Select(x => new UsersToDietitianViewModel()
+                {
+                    Aim = x.Target,
+                    Date = x.Date.ToString("yyyy-MM-dd"),
+                    FullName = x.User.FirstName + " " + x.User.LastName,
+                    MealPreparationPreference = x.MealPreparationPreference,
+                    UserProfilePicture = x.User.ProfilePicture
+                }).ToListAsync();
+
+            model.UserCommentForDietitianViewModels = await repository.AllAsReadOnly<UserComment>()
+                .Where(x => x.ReceiverId == dietitian.UserId)
+                .Include(x => x.Sender)
+                .Select(x => new UserCommentForDietitianViewModel()
+                {
+                    Id = x.Id,
+                    Content = x.Content,
+                    SenderName = x.Sender.FirstName + " " + x.Sender.LastName,
+                    Rating = x.Rating,
+                    ProfilePicture = x.Sender.ProfilePicture,
+                    Email = x.Sender.Email
+                }).ToListAsync();
+
+            model.PercentFatPeople = percentFatPeople;
+            model.PercentWeakPeople = percentWeakPeople;
+
+            return model;
+        }
+
         public async Task<DashBoardViewModel> DashboardForTrainer(string userId)
         {
             var trainer = await repository.AllAsReadOnly<Trainer>()

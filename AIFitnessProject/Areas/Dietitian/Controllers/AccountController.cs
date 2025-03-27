@@ -35,6 +35,13 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> DashBoard()
+        {
+            var model = await accountService.DashboardForDietitian(GetUserId());
+            return View(model);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
             var model = await accountService.Edit(id);

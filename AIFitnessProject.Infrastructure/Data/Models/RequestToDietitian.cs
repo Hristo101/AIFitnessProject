@@ -65,6 +65,8 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Comment("Has the request been answered?")]
         public bool IsAnswered { get; set; }
 
+        public DateTime Date { get; set; }
+
         [Required]
         [Comment("User Identifier")]
         public string UserId { get; set; }
