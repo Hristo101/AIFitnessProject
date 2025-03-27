@@ -41,7 +41,8 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 
 
         public ICollection<Calendar> Calendars { get; set; } = new List<Calendar>();
-        public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+        public ICollection<Notification> SentNotifications { get; set; } = new List<Notification>();
+        public ICollection<Notification> ReceivedNotifications { get; set; } = new List<Notification>();
         public IEnumerable<UserComment> ReceivedComments { get; set; } = new List<UserComment>();
        public ICollection<UserComment> SentComments { get; set; } = new List<UserComment>();
        public ICollection<Opinion> SentOpinion { get; set; } = new List<Opinion>();

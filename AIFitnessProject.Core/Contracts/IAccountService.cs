@@ -9,6 +9,7 @@ namespace AIFitnessProject.Core.Contracts
         Task<MyTrainerViewModel> GetViewModelForMyTrainer(string userId);
         Task<MyDietitianViewModel> GetViewModelForMyDietitian(string userId);
         Task<ICollection<AllUsersViewModel>> GetAllUsers(string userId);
+        Task<DashBoardViewModel> DashboardForTrainer(string userId);
         Task<ICollection<AllUsersViewModel>> GetAllDietitianClients(string userId);
         Task<EditProfileViewModel> Edit(string id);
         Task<ApplicationUser> ChangeInformation(string id, EditProfileViewModel model);

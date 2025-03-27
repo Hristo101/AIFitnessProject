@@ -29,7 +29,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IMealFeedbackService, MealFeedbackService>();
             services.AddScoped<ICalendarService, CalendarService>();
             services.AddScoped<ICommentService, CommentService>();
-
+            services.AddScoped<INotificationService, NotificationService>();
+            services.AddSignalR();
             return services;
         }
 

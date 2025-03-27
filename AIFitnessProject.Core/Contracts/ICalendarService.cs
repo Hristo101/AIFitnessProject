@@ -8,9 +8,10 @@ namespace AIFitnessProject.Core.Contracts
         Task<UserCalendarViewModel> GetModeForUserCalendar(string userId, string trainerId);
         Task<UserCalendarViewModelForUserArea> GetModelForUserCalendarForUserArea(string userId);
         Task<UserCalendarViewModelForDietitianArea> GetModelForUserCalendarInDietitianArea(string userId);
-        Task<int> AddCalendarEventAsync(AddEventViewModel model);
+        Task<int> AddCalendarEventAsync(AddEventViewModel model,string trainerId);
         Task<int> AddCalendarMealEventAsync(AddEventFromDietitianViewModel model);
-        Task DeleteEvenet(int eventId);
+        Task DeleteEvent(int eventId);
+        Task DeleteEvenetAndSendNotification(int eventId,TimeOnly time, string userId);
         Task DeleteMealEvenet(int eventId);
         Task<DetailsEventViewModel> GetModelForDetailsEvent(int id);
         Task<DetailsMealViewModel> GetModelForDetailsMeal(int id);

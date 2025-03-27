@@ -1,0 +1,894 @@
+﻿@using AIFitnessProject.Core.Models.Account
+@model DashBoardViewModel
+@{
+    ViewData["Title"] = "Табло за управление";
+}
+
+<div class="dashboard-container">
+
+    <div class="sidebar">
+        <div class="trainer-profile-mini">
+            @if (!string.IsNullOrEmpty(Model.TrainerPicture))
+            {
+                <img src="@Model.TrainerPicture" alt="Профилна снимка" class="profile-pic-mini" />
+            }
+            else
+            {
+                <div class="profile-pic-placeholder-mini">
+                    <i class="fas fa-user"></i>
+                </div>
+            }
+            <h3>@Model.TrainerName</h3>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a asp-controller="MyRequests" asp-action="All" class="nav-link">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>Моите заявки</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Account" asp-action="MyProfile" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>Моят профил</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="TrainingPlan" asp-action="All" class="nav-link">
+                        <i class="fas fa-dumbbell"></i>
+                        <span>Моите тренировъчни планове</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="TrainingPlan" asp-action="AllRejectedTrainingPlan" class="nav-link">
+                        <i class="fas fa-ban"></i>
+                        <span>Отказани планове</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="stats-container">
+            <h4>Статистика</h4>
+            <div class="stat-item">
+                <span>Днес:</span>
+                <div class="stat-bar">
+                    <div class="stat-bar-fill"
+                         style="width: @{
+                     double width = Math.Abs(Model.DayChangePercent);
+                     if (width > 100)
+                     {
+                         width = 100;
+                     }
+                         @width
+                 }%; background-color: @{
+                     if (Model.DayChangePercent >= 0)
+                     {
+                             @:green
+                     }
+                     else
+                     {
+                             @:red
+                     }
+                 };">
+                    </div>
+                </div>
+                <span class="stat-value">@Model.TotalUserForTheDay (@(Model.DayChangePercent.ToString("F1"))%)</span>
+            </div>
+
+            <div class="stat-item">
+                <span>Този месец:</span>
+                <div class="stat-bar">
+                    <div class="stat-bar-fill"
+                         style="width: @{
+                     double width = Math.Abs(Model.MonthChangePercent);
+                     if (width > 100)
+                     {
+                         width = 100;
+                     }
+                         @width
+                 }%; background-color: @{
+                     if (Model.MonthChangePercent >= 0)
+                     {
+                             @:green
+                     }
+                     else
+                     {
+                             @:red
+                     }
+                 };">
+                    </div>
+                </div>
+                <span class="stat-value">@Model.TotalUserForMonth (@(Model.MonthChangePercent.ToString("F1"))%)</span>
+            </div>
+
+            <div class="stat-item">
+                <span>Тази година:</span>
+                <div class="stat-bar">
+                    <div class="stat-bar-fill"
+                         style="width: @{
+                     double width = Math.Abs(Model.YearChangePercent);
+                     if (width > 100)
+                     {
+                         width = 100;
+                     }
+                         @width
+                 }%; background-color: @{
+                     if (Model.YearChangePercent >= 0)
+                     {
+                             @:green
+                     }
+                     else
+                     {
+                             @:red
+                     }
+                 };">
+                    </div>
+                </div>
+                <span class="stat-value">@Model.TotalUserForYear (@(Model.YearChangePercent.ToString("F1"))%)</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+
+        <div class="trainer-profile">
+            <div class="profile-header">
+                @if (!string.IsNullOrEmpty(Model.TrainerPicture))
+                {
+                    <div class="profile-pic-container">
+                        <img src="@Model.TrainerPicture" alt="Профилна снимка" class="profile-pic" />
+                    </div>
+                }
+                else
+                {
+                    <div class="profile-pic-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                }
+                <div class="trainer-info">
+                    <h1 class="trainer-name">@Model.TrainerName</h1>
+                    <p class="trainer-title">Персонален треньор</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+
+            <div class="chart-section card-3d">
+                <h2>Съотношение на клиентите</h2>
+                <div class="chart-container">
+                    <canvas id="clientChart"></canvas>
+                </div>
+            </div>
+
+
+            <div class="comments-section">
+                <h2><i class="fas fa-comments"></i> Последни коментари</h2>
+                <div class="comments-container">
+                 
+                    @foreach (var comment in Model.UserCommentForTrainerViewModels.OrderByDescending(x =>x.Id).Take(3))
+                    {
+                        <div class="comment-card @(comment.IsMine ? "my-comment" : "")">
+                            <div class="comment-header">
+                                <div class="commenter-info">
+                                    @if (!string.IsNullOrEmpty(comment.ProfilePicture))
+                                    {
+                                        @if (comment.ProfilePicture.StartsWith("http") || comment.ProfilePicture.StartsWith("/img") || comment.ProfilePicture.StartsWith("~/img"))
+                                        {
+                                            <img src="@comment.ProfilePicture" alt="Профилна снимка" class="commenter-pic" />
+                                        }
+                                        else
+                                        {
+                                            <img src="data:image/jpeg;base64,@comment.ProfilePicture" alt="Профилна снимка" class="commenter-pic" />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="commenter-pic-placeholder">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                    }
+                                    <span class="commenter-name">@comment.SenderName</span>
+                                </div>
+                                <div class="rating">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= comment.Rating)
+                                        {
+                                            <i class="fas fa-star filled"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-star"></i>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="comment-content">
+                                <p>@comment.Content</p>
+                            </div>
+                            @if (comment.IsMine)
+                            {
+                                <div class="comment-badge">Мой коментар</div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+
+        <div class="clients-section">
+            <h2><i class="fas fa-users"></i> Последни клиенти</h2>
+            <div class="clients-grid">
+                @foreach (var client in Model.UsersToTrainers)
+                {
+                    <div class="client-card">
+                        <div class="client-header">
+                            @if (!string.IsNullOrEmpty(client.UserProfilePicture))
+                            {
+                                @if (client.UserProfilePicture.StartsWith("http") || client.UserProfilePicture.StartsWith("/img") || client.UserProfilePicture.StartsWith("~/img"))
+                                {
+                                    <img src="@client.UserProfilePicture" alt="Профилна снимка" class="client-pic" />
+                                }
+                                else
+                                {
+                                    <img src="data:image/jpeg;base64,@client.UserProfilePicture" alt="Профилна снимка" class="client-pic" />
+                                }
+                            }
+                            else
+                            {
+                                <div class="client-pic-placeholder">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            }
+                            <h3 class="client-name">@client.FullName</h3>
+                        </div>
+                        <div class="client-details">
+                            <div class="detail-item">
+                                <i class="fas fa-bullseye"></i>
+                                <span class="detail-label">Цел:</span>
+                                <span class="detail-value">@client.Aim</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-running"></i>
+                                <span class="detail-label">Предпочитания:</span>
+                                <span class="detail-value">@client.TrainingPreferences</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span class="detail-label">Дата на регистрация:</span>
+                                <span class="detail-value">@client.Date</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const ctx = document.getElementById('clientChart').getContext('2d');
+            const clientChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Дебели хора', 'Слаби хора'],
+                    datasets: [{
+                        data: [@Model.PercentFatPeople, @Model.PercentWeakPeople],
+                        backgroundColor: [
+                            '#FF6B6B',
+                            '#4ECDC4'
+                        ],
+                        borderColor: [
+                            '#FFFFFF',
+                            '#FFFFFF'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    family: "'Roboto', sans-serif"
+                                },
+                                color: '#333333'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + context.raw + '%';
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true,
+                        duration: 2000,
+                        easing: 'easeOutBounce'
+                    }
+                }
+            });
+
+        
+            const animateElements = document.querySelectorAll('.client-card, .comment-card, .chart-section');
+            animateElements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+
+  
+            const cards = document.querySelectorAll('.card-3d');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const angleY = (x - centerX) / 20;
+                    const angleX = (centerY - y) / 20;
+                    
+                    this.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale3d(1.02, 1.02, 1.02)`;
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                    this.style.transition = 'transform 0.5s ease';
+                });
+            });
+        });
+    </script>
+}
+
+    <style>
+       
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-light: #666666;
+            --border-radius: 12px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+ 
+        body {
+            font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+    h1, h2, h3, h4 {
+        margin-top: 0;
+        color: #fff;
+    }
+
+      
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+     
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, #1a237e, #0d47a1);
+            color: white;
+            padding: 20px;
+        margin-top: 3em;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+        }
+
+        .trainer-profile-mini {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .profile-pic-mini, .profile-pic-placeholder-mini {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .nav-link i {
+            margin-right: 12px;
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .stats-container {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item {
+            margin-bottom: 15px;
+        }
+
+        .stat-bar {
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            margin: 5px 0;
+            overflow: hidden;
+        }
+
+        .stat-bar-fill {
+            height: 100%;
+            background-color: var(--secondary-color);
+            border-radius: 4px;
+            transition: width 1.5s ease-in-out;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+       
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            margin-left: 280px;
+        }
+
+        .trainer-profile {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-pic-container, .profile-pic-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transform: perspective(800px) rotateY(0deg);
+            transition: transform 0.6s ease;
+        }
+
+        .profile-pic-container:hover {
+            transform: perspective(800px) rotateY(15deg);
+        }
+
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-pic-placeholder {
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            color: #aaaaaa;
+        }
+
+        .trainer-name {
+            font-size: 32px;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .trainer-title {
+            font-size: 18px;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+  
+        .chart-section {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .chart-section:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+
+    
+        .comments-section {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .comments-section h2, .clients-section h2, .chart-section h2 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            font-size: 22px;
+        }
+
+        .comments-section h2 i, .clients-section h2 i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .comments-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .comment-card {
+            background-color: #f9f9f9;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .my-comment {
+            background-color: #f0f7ff;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .comment-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .commenter-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .commenter-pic, .commenter-pic-placeholder {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .commenter-pic-placeholder {
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #aaaaaa;
+        }
+
+        .rating {
+            color: #ffb400;
+        }
+
+        .fa-star {
+            color: #dddddd;
+            margin-left: 2px;
+        }
+
+        .fa-star.filled {
+            color: #ffb400;
+        }
+
+        .comment-content {
+            color: var(--text-color);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+      
+        .clients-section {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .client-card {
+            background-color: #f9f9f9;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: var(--transition);
+        }
+
+        .client-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .client-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .client-pic, .client-pic-placeholder {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .client-pic-placeholder {
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #aaaaaa;
+        }
+
+        .client-name {
+            font-size: 18px;
+            color: black;
+            margin: 0;
+        }
+
+        .client-details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .detail-item i {
+            color: var(--primary-color);
+            margin-right: 10px;
+            width: 16px;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            margin-right: 5px;
+            color: var(--text-light);
+        }
+
+        .detail-value {
+            color: var(--text-color);
+        }
+
+     
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@keyframes scale {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+ 
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+
+
+        @@media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @@media (max-width: 992px) {
+            .sidebar {
+                width: 220px;
+            }
+            .main-content {
+                margin-left: 220px;
+            }
+            .clients-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+                padding: 15px;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .trainer-profile-mini {
+                flex-direction: row;
+                align-items: center;
+                padding: 10px 0;
+            }
+            .profile-pic-mini {
+                width: 50px;
+                height: 50px;
+                margin-right: 15px;
+                margin-bottom: 0;
+            }
+            .sidebar-nav ul {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .sidebar-nav li {
+                flex: 1 0 calc(50% - 10px);
+                margin-bottom: 10px;
+            }
+            .nav-link {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+            .stats-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+        }
+
+        @@media (max-width: 576px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .profile-pic-container, .profile-pic-placeholder {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            .sidebar-nav li {
+                flex: 1 0 100%;
+            }
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            .clients-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>

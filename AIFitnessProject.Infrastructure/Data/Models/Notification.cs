@@ -13,17 +13,17 @@ namespace AIFitnessProject.Infrastructure.Data.Models
 
         [Required]
         [Comment("Notification User Id")]
-        public string UserId { get; set; } = string.Empty;
+        public string SenderId { get; set; } = string.Empty;
 
-        [ForeignKey(nameof(UserId))]
-        public ApplicationUser User { get; set; } = null!;
+        [ForeignKey(nameof(SenderId))]
+        public ApplicationUser Sender { get; set; } = null!;
 
         [Required]
         [Comment("Notification Trainer Id")]
-        public int TrainerId { get; set; }
+        public string RecieverId { get; set; }
 
-        [ForeignKey(nameof(TrainerId))]
-        public Trainer Trainer { get; set; } = null!;
+        [ForeignKey(nameof(RecieverId))]
+        public ApplicationUser Reciever { get; set; } = null!;
 
         [Required]
         [MaxLength(MaxMessageLength)]
@@ -37,6 +37,6 @@ namespace AIFitnessProject.Infrastructure.Data.Models
         [Required]
         public bool ReadStatus { get; set; }
 
-
+        public string Source { get;set; }
     }
 }

@@ -9,15 +9,20 @@ namespace AIFitnessProject.Core.Services
     public class RequestsToCoachService : IRequestsToCoach
     {
         private readonly IRepository repository;
-
-        public RequestsToCoachService(IRepository _repository)
+        private readonly INotificationService service;
+        public RequestsToCoachService(IRepository _repository, INotificationService _service)
         {
             repository = _repository;
+            this.service = _service;
         }
 
         public async Task<bool> Add(string id, int trainerId, SurveyViewModel model)
         {
-            var picturesList = new List<string>(); 
+            var picturesList = new List<string>();
+
+            var trainer = await repository.AllAsReadOnly<Trainer>()
+                .Where(x => x.Id == trainerId)
+                .FirstOrDefaultAsync();
 
             if (model.ProfilePictures != null && model.ProfilePictures.Length > 0)
             {
@@ -44,6 +49,7 @@ namespace AIFitnessProject.Core.Services
                 TrainingCommitment = model.TrainingCommitment,
                 TrainingPreferences = model.TrainingPreferences,
                 Target = model.Target,
+                Date = DateTime.Now,
                 IsAnswered = false,
             };
 
@@ -60,6 +66,10 @@ namespace AIFitnessProject.Core.Services
             await repository.AddAsync(requestsToCoach);
             await repository.SaveChangesAsync();
 
+            string message = $"Потебител с име {user.FirstName} {user.LastName} с цел {user.Aim} успешно се записа при вас!";
+
+            await service.AddNotification(user.Id,trainer.UserId,message, "RequestsToCoaches");
+            
             return true;
         }
         public async Task<bool> ExistAsync(int id)

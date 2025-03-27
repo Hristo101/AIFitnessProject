@@ -36,7 +36,7 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
                     return Json(new { success = false, message = "Invalid data provided" });
                 }
 
-                var eventId = await calendarService.AddCalendarEventAsync(model);
+                var eventId = await calendarService.AddCalendarEventAsync(model,GetUserId());
 
                 return Json(new { success = true, message = "Event added successfully", eventId });
             }
@@ -48,7 +48,7 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int eventId, string userId)
         {
-            await calendarService.DeleteEvenet(eventId);
+            await calendarService.DeleteEvent(eventId);
 
             return RedirectToAction("UserCalendar", new { id = userId });
         }
