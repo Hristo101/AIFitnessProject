@@ -3,6 +3,7 @@
     public class AddEventFromDietitianViewModel
     {
         public int CalendarId { get; set; }
+        public string UserId { get; set; }
         public int MealId { get; set; }
         public string Title { get; set; }
         public string StartTime { get; set; }

@@ -20,5 +20,7 @@ namespace AIFitnessProject.Core.Contracts
         Task DeleteNotification(int id);
         Task<AllNotificationsViewModel> GetAllNotifications(string userId);
         Task<AllNotificationsViewModel> GetAllNotificationsForUser(string userId);
+        Task<AllNotificationsViewModel> GetAllNotificationsForDietitian(string userId);
+        
     }
 }

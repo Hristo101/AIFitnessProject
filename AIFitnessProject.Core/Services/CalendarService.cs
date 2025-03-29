@@ -5,7 +5,10 @@ using AIFitnessProject.Core.Models.Exercise;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Globalization;
+
 
 namespace AIFitnessProject.Core.Services
 {
@@ -309,8 +312,13 @@ namespace AIFitnessProject.Core.Services
             return model;
         }
 
-        public async Task<int> AddCalendarMealEventAsync(AddEventFromDietitianViewModel model)
+        public async Task<int> AddCalendarMealEventAsync(AddEventFromDietitianViewModel model,string dietitianId)
         {
+            var dietitian = await repository.AllAsReadOnly<Dietitian>()
+                .Where(x => x.UserId == dietitianId)
+                .Include(x => x.User)
+                .FirstOrDefaultAsync();
+
             try
             {
                 var start = TimeOnly.Parse(model.StartTime);
@@ -328,6 +336,9 @@ namespace AIFitnessProject.Core.Services
 
                 await repository.AddAsync(calendarWorkout);
                 await repository.SaveChangesAsync();
+
+                string message = $"В календара ти беше добавено събитие от {dietitian.User.FirstName} {dietitian.User.LastName}.";
+                await _notificationService.AddNotification(dietitian.UserId,model.UserId,message,"Calendar");
 
                 return calendarWorkout.EventId;
             }
@@ -503,14 +514,35 @@ namespace AIFitnessProject.Core.Services
         }
 
 
-        public async Task DeleteMealEvenet(int eventId)
+        public async Task DeleteMealEvenetAndSendNotification(int eventId, TimeOnly timeOnly, string userId)
         {
+            var user = await repository.AllAsReadOnly<ApplicationUser>()
+                .Where(x => x.Id == userId)
+                .FirstOrDefaultAsync();
+
+            var calendar = await repository.AllAsReadOnly<Infrastructure.Data.Models.Calendar>()
+                .Where(x => x.UserId == userId)
+                .FirstOrDefaultAsync();
+
+            var dietitian = await repository.AllAsReadOnly<Dietitian>()
+                .Where(x => x.Id == calendar.DietitianId)
+                .FirstOrDefaultAsync();
+
+
             var calendarMeal = await repository.All<CalendarMeal>()
                     .Where(x => x.EventId == eventId)
+                    .Include(x => x.Meal)
+                    .ThenInclude(x => x.MealsDailyDietPlans)
+                    .ThenInclude(x=>x.DailyDietPlans)
+                    .ThenInclude(x=>x.Dietitian)
                     .FirstOrDefaultAsync();
 
             repository.Delete(calendarMeal);
             await repository.SaveChangesAsync();
+
+            string message = $"Потребител {user.FirstName} {user.LastName} завърши успешно храненето \"{calendarMeal.Meal.Name}\" в {timeOnly}.";
+            await _notificationService.AddNotification(user.Id, dietitian.UserId, message, "Calendar");
+
         }
 
         public async Task<DetailsMealViewModel> GetModelForDetailsMeal(int id)
@@ -546,6 +578,16 @@ namespace AIFitnessProject.Core.Services
               .FirstOrDefaultAsync();
 
             repository.Delete(calendarWorkout);
+            await repository.SaveChangesAsync();
+        }
+
+        public async Task DeleteMealEvenet(int eventId)
+        {
+            var calendarMeal = await repository.All<CalendarMeal>()
+              .Where(x => x.EventId == eventId)
+              .FirstOrDefaultAsync();
+
+            repository.Delete(calendarMeal);
             await repository.SaveChangesAsync();
         }
     }

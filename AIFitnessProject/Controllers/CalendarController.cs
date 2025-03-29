@@ -44,7 +44,8 @@ namespace AIFitnessProject.Controllers
         [HttpPost]
         public async Task<IActionResult> MarkMealCompleted(int eventId)
         {
-            await calendarService.DeleteMealEvenet(eventId);
+            var time = TimeOnly.FromDateTime(DateTime.Now);
+            await calendarService.DeleteMealEvenetAndSendNotification(eventId,time,GetUserId());
 
             return RedirectToAction("UsersCalendar", new { id = GetUserId() });
         }

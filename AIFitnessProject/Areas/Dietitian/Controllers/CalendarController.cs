@@ -1,6 +1,7 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.DTOs.Calendar;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AIFitnessProject.Areas.Dietitian.Controllers
 {
@@ -32,7 +33,7 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
                     return Json(new { success = false, message = "Invalid data provided" });
                 }
 
-                var eventId = await calendarService.AddCalendarMealEventAsync(model);
+                var eventId = await calendarService.AddCalendarMealEventAsync(model,GetUserId());
 
                 return Json(new { success = true, message = "Event added successfully", eventId });
             }
@@ -46,6 +47,10 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
         {
             await calendarService.DeleteMealEvenet(eventId);
             return RedirectToAction("UserCalendar", new { id = userId });
+        }
+        private string GetUserId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }
