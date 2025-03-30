@@ -9,15 +9,21 @@ namespace AIFitnessProject.Core.Services
     public class RequestToDietitianSurvice : IRequestToDietitianSurvice
     {
         private readonly IRepository repository;
+        private readonly INotificationService service;
 
-        public RequestToDietitianSurvice(IRepository _repository)
+        public RequestToDietitianSurvice(IRepository _repository, INotificationService _service)
         {
             repository = _repository;
+            service = _service;
         }
 
         public async Task Add(string id, int dietitianId, SurveyViewModel model)
         {
             var picturesList = new List<string>();
+
+            var dietitian = await repository.AllAsReadOnly<Dietitian>()
+              .Where(x => x.Id == dietitianId)
+              .FirstOrDefaultAsync();
 
             if (model.ProfilePictures != null && model.ProfilePictures.Length > 0)
             {
@@ -65,6 +71,10 @@ namespace AIFitnessProject.Core.Services
 
             await repository.AddAsync(requestsToDietitian);
             await repository.SaveChangesAsync();
+
+            string message = $"Потебител с име {user.FirstName} {user.LastName} с цел \"{user.Aim}\" успешно се записа при вас!";
+
+            await service.AddNotification(user.Id, dietitian.UserId, message, "RequestToDietitian");
 
         }
 
