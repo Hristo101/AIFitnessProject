@@ -408,7 +408,15 @@
             <p class="lead mb-5 opacity-90">@Model.Description</p>
             <div class="training-image-container">
                 <div id="particles-below"></div>
-                <img src="@Model.ImageUrl" alt="Training Plan" class="plan-image img-fluid" data-aos="fade-up">
+                @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("/img"))
+                {
+                    <img src="@Model.ImageUrl" alt="Training Plan" class="plan-image img-fluid" data-aos="fade-up">
+                }
+                else
+                {
+                    <img src="data:image/jpeg;base64,@Model.ImageUrl" alt="Training Plan" class="plan-image img-fluid" data-aos="fade-up">
+                }
+               
                 <div id="particles-above"></div>
             </div>
         </div>

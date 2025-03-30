@@ -39,7 +39,7 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
                 case "Comments":
                     return RedirectToAction("DashBoard", "Account");
                 default:
-                    return RedirectToAction("AllRejectedTrainingPlan", "TrainingPlan");
+                    return RedirectToAction("AllRejectedDiet", "Diet");
             }
         }
         [HttpPost]

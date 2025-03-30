@@ -14,11 +14,13 @@ namespace AIFitnessProject.Core.Services
     {
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IRepository repository;
+        private readonly INotificationService _notificationService;
 
-        public DietService(IHostingEnvironment hostingEnvironment, IRepository _repository)
+        public DietService(IHostingEnvironment hostingEnvironment, IRepository _repository, INotificationService notificationService)
         {
             _hostingEnvironment = hostingEnvironment;
             this.repository = _repository;
+            _notificationService = notificationService;
         }
 
         public async Task AcceptDietAsync(int id, string userId)
@@ -420,11 +422,16 @@ namespace AIFitnessProject.Core.Services
             var diet = await repository.All<Diet>()
                 .Where(x => x.Id == id)
                 .Where(x => x.UserId == userId)
+                .Include(x => x.User)
+                .Include(x => x.Dietitian)
                 .FirstAsync();
 
             diet.IsActive = false;
             diet.IsEdit = true;
             await repository.SaveChangesAsync();
+
+            string message = $"✖ Хранителен режим с име: \"{diet.Name}\" бе отказан от {diet.User.FirstName} {diet.User.LastName}";
+            await _notificationService.AddNotification(diet.UserId, diet.Dietitian.UserId, message, "RejectedDiet");
         }
 
         public async Task SendToUserAsync(int id)
