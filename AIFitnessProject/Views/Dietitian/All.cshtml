@@ -1,51 +1,403 @@
-﻿@using AIFitnessProject.Core.Models.Dietitian
-@model IEnumerable<AllDietitianViewModel>
+﻿<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Професионални Диетолози</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #28a745; /* Original green */
+            --secondary-color: #85e085; /* Lighter green */
+            --accent-color: #ff5733; /* Call-to-action button color */
+            --light-color: #e8f5e9; /* Light background */
+            --dark-color: #1e2a38; /* Dark text */
+            --card-bg: #2a3b4d; /* Card background */
+            --font-main: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
 
+        body {
+            font-family: var(--font-main);
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-    <div class="hero-section">
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('https://images.ctfassets.net/yixw23k2v6vo/TcP5aETcYpwPCI7lpRT6s/344225af012c675d904f25ec26d42a45/iS-How_a_Dietitian_Can_Help_You_Live_Better_with_Rheumatoid_Arthritis-promo-iStock-475188938.jpg');
+            background-size: cover;
+            background-position: center 20%; /* Adjusted to show the dietitian's face */
+            color: #fff;
+            text-align: center;
+            padding: 100px 20px;
+            border-radius: 0 0 50px 50px;
+            position: relative;
+            margin: 0 20px 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+            .hero-section h1 {
+                font-size: 2.8rem;
+                font-weight: 600;
+                margin-bottom: 20px;
+                text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+                animation: fadeInDown 1s ease-out;
+                letter-spacing: -0.5px;
+                text-transform: uppercase;
+            }
+
+            .hero-section p {
+                font-size: 1.2rem;
+                margin-bottom: 30px;
+                max-width: 700px;
+                margin-left: auto;
+                margin-right: auto;
+                animation: fadeInUp 1s ease-out 0.3s;
+                animation-fill-mode: both;
+                opacity: 0.9;
+            }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-out 0.6s;
+            animation-fill-mode: both;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+            .btn-primary:hover {
+                background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+                transform: translateY(-3px);
+                box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+                color: var(--dark-color);
+            }
+
+        .arrow {
+            display: inline-block;
+            margin-left: 8px;
+            animation: bounce 2s infinite;
+        }
+
+        .section-title {
+            position: relative;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 600;
+            color: #4caf50;
+            font-size: 2.2rem;
+            letter-spacing: -0.5px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+            .section-title:after {
+                content: '';
+                display: block;
+                width: 60px;
+                height: 3px;
+                background: var(--primary-color);
+                margin: 15px auto;
+                border-radius: 2px;
+            }
+
+        .intro-section, .gallery-section, .dietitian-section, .call-to-action {
+            padding: 70px 0;
+            position: relative;
+        }
+
+        .intro-section {
+            background: linear-gradient(to bottom, var(--primary-color), #a8e6a3);
+            margin: 0 20px;
+            border-radius: 20px;
+        }
+
+            .intro-section p, .gallery-section p {
+                font-size: 1.1rem;
+                line-height: 1.8;
+                color: var(--light-color);
+                max-width: 900px;
+                margin: 0 auto;
+                text-align: center;
+                font-weight: 500;
+                text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            }
+
+        .gallery-section {
+            background-color: #a8e6a3;
+            padding: 70px 0;
+            border-radius: 20px;
+            margin: 40px 20px;
+        }
+
+            .gallery-section .row {
+                padding: 0 25px;
+            }
+
+            .gallery-section img {
+                border-radius: 12px;
+                border: 5px solid #c8e6c9;
+                transition: transform 0.4s ease, box-shadow 0.4s ease;
+                margin-bottom: 20px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+
+                .gallery-section img:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+                }
+
+        .dietitian-section {
+            background-color: #a8e6a3;
+            padding: 70px 0;
+            border-radius: 20px;
+            margin: 40px 20px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+        }
+
+            .dietitian-section .row {
+                padding: 0 25px;
+            }
+
+            .dietitian-section p.lead {
+                color: white;
+                font-weight: 500;
+                margin-bottom: 30px;
+                font-size: 1.15rem;
+                text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            }
+
+        .card {
+            background: var(--card-bg);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            height: 100%;
+        }
+
+            .card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            }
+
+        .card-img-top {
+            height: 54%;
+            transition: all 0.5s ease;
+            object-fit: cover;
+        }
+
+        .card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: white;
+            position: relative;
+            padding-bottom: 15px;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+            .card-title:after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 40px;
+                height: 2px;
+                background-color: var(--secondary-color);
+                transition: width 0.3s ease;
+            }
+
+        .card:hover .card-title:after {
+            width: 80px;
+        }
+
+        .card-text {
+            color: #bbb;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .btn-outline-primary {
+            background: linear-gradient(to right, #007BFF, #ADD8E6);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            padding: 8px 20px;
+        }
+
+            .btn-outline-primary:hover {
+                background: linear-gradient(to right, #ADD8E6, #007BFF);
+                transform: translateY(-2px);
+            }
+
+        .btn-success {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+            .btn-success:hover {
+                transform: translateY(-2px);
+                background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+                color: var(--dark-color);
+            }
+
+        .call-to-action {
+            background: linear-gradient(to top, var(--dark-color), #a8e6a3);
+            color: white;
+            text-align: center;
+            padding: 70px 20px;
+            border-radius: 20px;
+            margin: 40px 20px 0px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+            .call-to-action h2 {
+                font-size: 2.3rem;
+                font-weight: 600;
+                margin-bottom: 20px;
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            }
+
+            .call-to-action p {
+                max-width: 800px;
+                margin: 0 auto 30px;
+                font-size: 1.1rem;
+                font-weight: 500;
+            }
+
+            .call-to-action .btn-primary {
+                background: var(--accent-color);
+            }
+
+                .call-to-action .btn-primary:hover {
+                    background: #ff8c42;
+                    color: white;
+                }
+
+        @@keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @@keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @@keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @@keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @@ (max-width: 992px) {
+            .hero-section h1 { font-size: 2.3rem; }
+            .section-title { font-size: 1.9rem; }
+        }
+
+        @@ (max-width: 768px) {
+            .hero-section { padding: 70px 20px; }
+            .hero-section h1 { font-size: 1.9rem; }
+            .section-title { font-size: 1.7rem; }
+            .intro-section, .gallery-section, .dietitian-section, .call-to-action { padding: 50px 0; }
+            .card-img-top { height: 200px; }
+        }
+
+        @@media (max-width: 576px) {
+            .hero-section h1 { font-size: 1.7rem; }
+            .hero-section p { font-size: 1rem; }
+            .section-title { font-size: 1.5rem; }
+            .btn-primary { padding: 10px 20px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    @using AIFitnessProject.Core.Models.Dietitian
+    @model IEnumerable<AllDietitianViewModel>
+
+    <div class="hero-section" data-aos="fade-down">
         <h1>Изберете най-добрите диетолози за вашият път към здраво и силно тяло! 🏆</h1>
         <p>С нашите професионалисти постигате повече! Направете крачка към мечтата си още днес.</p>
-        <a href="#dietitians" class="btn btn-primary btn-lg">Вижте нашите диетолози <span class="arrow">&#x2193;</span></a>
+        <a href="#dietitians" class="btn btn-primary btn-lg">Вижте нашите диетолози <span class="arrow">↓</span></a>
     </div>
 
-    <div class="intro-section">
-        <h2>Защо да изберете нашите диетолози? 🤔</h2>
+    <div class="intro-section" data-aos="fade-up">
+        <h2 class="section-title">Защо да изберете нашите диетолози? 🤔</h2>
         <p>
             Нашите диетолози са експерти с доказан опит в създаването на персонализирани хранителни режими, които отговарят на вашите нужди.
-            С тях ще получите професионално ръководство, което ще ви помогне да постигнете дълготрайни резултати и здравословен начин на живот.
+            С тях ще получите професионално ръководство за дълготрайни резултати и здравословен начин на живот.
         </p>
     </div>
 
-    <div class="gallery-section">
-    <h2>Вашето пътуване към по-добрата версия на себе си с нашите професионални диетолози! 🥗</h2>
-        <div class="container">
-            <div class="row mt-4">
-                <div class="col-md-4">
-                    <img src="https://jaimedicalsystems.com/wp-content/uploads/2024/03/shutterstock_590825882-scaled.jpg" alt="здравословно хранене" class="img-fluid rounded shadow-sm">
-                </div>
-                <div class="col-md-4">
-                    <img src="https://imgcdn.stablediffusionweb.com/2024/10/7/c2e67140-883b-4ec1-9854-d27fe0641868.jpg" alt="здраво тяло и дух" class="img-fluid rounded shadow-sm">
-                </div>
-                <div class="col-md-4">
-                    <img src="https://cdn.prod.website-files.com/657dd992a7b4c74f19e34043/6617d839697e223befd39075_registered%20clinical%20dietitians%20(1).webp" alt="диетолози" class="img-fluid rounded shadow-sm">
-                </div>
+    <div class="gallery-section" data-aos="fade-up">
+        <h2 class="section-title">Вашето пътуване към по-добрата версия на себе си 🥗</h2>
+        <div class="row mt-4">
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                <img src="https://jaimedicalsystems.com/wp-content/uploads/2024/03/shutterstock_590825882-scaled.jpg" alt="здравословно хранене" class="img-fluid">
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                <img src="https://imgcdn.stablediffusionweb.com/2024/10/7/c2e67140-883b-4ec1-9854-d27fe0641868.jpg" alt="здраво тяло и дух" class="img-fluid">
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                <img src="https://cdn.prod.website-files.com/657dd992a7b4c74f19e34043/6617d839697e223befd39075_registered%20clinical%20dietitians%20(1).webp" alt="диетолози" class="img-fluid">
             </div>
         </div>
     </div>
 
     <div id="dietitians" class="dietitian-section">
-
-    <h2>Нашите диетолози 👩‍⚕️</h2>
-        <div class="container">
-        
-            <p class="text-center text-muted lead">
-                Изберете диетолог, който ще ви вдъхнови и подкрепи! Всеки от тях е експерт в своята област и е готов да ви помогне да постигнете нови върхове.
-            </p>
-            <div class="row mt-4">
-                @foreach (var dietitian in Model)
-                {
-                    <div class="col-md-4 d-flex align-items-stretch">
-                        <div class="card">
+        <h2 class="section-title" data-aos="fade-up">Нашите диетолози 👩‍⚕️</h2>
+        <p class="text-center lead" data-aos="fade-up">
+            Изберете диетолог, който ще ви вдъхнови и подкрепи! Всеки от тях е експерт в своята област и е готов да ви помогне да постигнете нови върхове.
+        </p>
+        <div class="row mt-4">
+            @foreach (var dietitian in Model)
+            {
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card">
                         @if (dietitian.ImageUrl.StartsWith("http") || dietitian.ImageUrl.StartsWith("/img"))
                         {
                             <img src="@dietitian.ImageUrl" alt="@dietitian.FirstName @dietitian.LastName" class="card-img-top">
@@ -54,32 +406,47 @@
                         {
                             <img src="data:image/jpeg;base64,@dietitian.ImageUrl" alt="@dietitian.FirstName @dietitian.LastName" class="card-img-top">
                         }
-                            <div class="card-body">
-                                <h5 class="card-title">@dietitian.FirstName @dietitian.LastName</h5>
-                                <p class="card-text text-truncate">
-                                    @dietitian.Specialization
-
-                                </p>
-                                <div class="collapse text-muted" id="specializationDetails-@dietitian.Id">
-                                    <p>@dietitian.Specialization</p>
-                                </div>
-                                <div class="d-flex justify-content-between mt-3">
-                                    <a href="/Dietitian/Details/@dietitian.Id" class="btn btn-outline-light">Виж повече</a>
-                                    <a asp-controller="RequestToDietitian" asp-route-Id="@dietitian.Id" asp-action="Survey" class="btn btn-success enroll-now-button">Запиши се сега</a>
-                                </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@dietitian.FirstName @dietitian.LastName</h5>
+                            <p class="card-text">@dietitian.Specialization</p>
+                            <div class="d-flex justify-content-between mt-3">
+                                <a href="/Dietitian/Details/@dietitian.Id" class="btn btn-outline-primary">Виж повече</a>
+                                <a asp-controller="RequestToDietitian" asp-route-Id="@dietitian.Id" asp-action="Survey" class="btn btn-success enroll-now-button">Запиши се сега</a>
                             </div>
                         </div>
                     </div>
-                }
-            </div>
+                </div>
+            }
         </div>
     </div>
 
-    <div class="call-to-action">
+    <div class="call-to-action" data-aos="fade-up">
         <h2>Готови ли сте да трансформирате тялото си днес? 🚀</h2>
         <p>
-            Нашите диетолози са тук, за да ви помогнат да постигнете целите си и да се почувствате най-добре! Запишете се днес и започнете своята трансформация.
+            Нашите диетолози са тук, за да ви помогнат да постигнете целите си и да се почувствате най-добре!
+            Запишете се днес и започнете своята трансформация.
         </p>
     </div>
 
-<link rel="stylesheet" href="/css/AllDietitianPage.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
