@@ -1182,7 +1182,7 @@ else
                                         <div class="notification-actions">
                                             <button class="action-button status-button" title="Маркирай като прочетено" data-notification-id="@notification.Id"><i class="fas fa-check"></i></button>
                                             <button class="action-button delete-button" title="Изтрий" data-notification-id="@notification.Id"><i class="fas fa-trash-alt"></i></button>
-                                            <a asp-controller="Notification" asp-action="View" asp-route-userId="@notification.SenderId" asp-route-notificationId="@notification.Id" class="view-button" data-notification-id="@notification.Id">
+                                            <a asp-area="Dietitian" asp-controller="Notification" asp-action="View" asp-route-userId="@notification.SenderId" asp-route-notificationId="@notification.Id" class="view-button" data-notification-id="@notification.Id">
                                                 <i class="fas fa-eye"></i> Виж
                                             </a>
                                         </div>
