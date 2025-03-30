@@ -4,6 +4,7 @@ using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 
+
 namespace AIFitnessProject.Core.Services
 {
     public class CommentService : ICommentService
@@ -47,6 +48,9 @@ namespace AIFitnessProject.Core.Services
                .Where(x => x.Id == dietitianId)
                .FirstOrDefaultAsync();
 
+            var user = await repository.AllAsReadOnly<ApplicationUser>()
+                .Where(x => x.Id == senderId)
+                .FirstOrDefaultAsync();
 
             var comment = new UserComment()
             {
@@ -58,6 +62,11 @@ namespace AIFitnessProject.Core.Services
 
             await repository.AddAsync(comment);
             await repository.SaveChangesAsync();
+
+            string message = $"Потребител с име {user.FirstName} {user.LastName} ви постави коментар с оценка: {comment.Rating} и със следния отзив: {comment.Content}";
+            await notificationService.AddNotification(senderId, dietitian.UserId, message, "Comments");
+
+
         }
 
         public async Task DeleteComment(int commentId)
