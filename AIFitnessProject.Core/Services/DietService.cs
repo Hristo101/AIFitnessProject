@@ -450,7 +450,7 @@ namespace AIFitnessProject.Core.Services
             diet.IsEdit = false;
             await repository.SaveChangesAsync();
 
-            string message = $"Вашият хранителен режим: {diet.Name} е активен и готов за изпълнение!";
+            string message = $"Вашият хранителен режим: \"{diet.Name}\" е активен и готов за изпълнение!";
             await _notificationService.AddNotification(diet.Dietitian.UserId, diet.UserId, message, "Diet");
         }
 
