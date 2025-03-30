@@ -8,6 +8,8 @@ using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 
+
+
 namespace AIFitnessProject.Core.Services
 {
     public class DietService : IDietService
@@ -66,6 +68,8 @@ namespace AIFitnessProject.Core.Services
                 await repository.AddAsync(calendar);
                 await repository.SaveChangesAsync();
             }
+            string message = $"✔ Хранителен режим с име: {diet.Name} бе приет от {diet.User.FirstName} {diet.User.LastName}";
+            await _notificationService.AddNotification(diet.UserId, diet.Dietitian.UserId, message, "DietDetails");
         }
 
         public async Task CreateDiet(string id, string dietitianId, CreateDietViewModel model, int requestId)
@@ -438,11 +442,16 @@ namespace AIFitnessProject.Core.Services
         {
             var diet = await repository.All<Diet>()
                 .Where(x => x.Id == id)
+                 .Include(x => x.User)
+                .Include(x => x.Dietitian)
                 .FirstAsync();
 
             diet.IsActive = true;
             diet.IsEdit = false;
             await repository.SaveChangesAsync();
+
+            string message = $"Вашият хранителен режим: {diet.Name} е активен и готов за изпълнение!";
+            await _notificationService.AddNotification(diet.Dietitian.UserId, diet.UserId, message, "Diet");
         }
 
         public async Task<bool> UserHasDietAsync(int id, string userId)

@@ -59,6 +59,8 @@ namespace AIFitnessProject.Controllers
             {
                 case "Calendar":
                     return RedirectToAction("UsersCalendar", "Calendar", new { id = GetUserId() });
+                case "Diet":
+                    return RedirectToAction("MyDiet", "UserDiet", new { id = GetUserId() });
                 default:
                     return RedirectToAction("AllMyTrainingPlans", "UserTrainingPlan");
             }

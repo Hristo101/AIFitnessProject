@@ -34,8 +34,8 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
                     return RedirectToAction("UserCalendar", "Calendar", new { id = userId });
                 case "RequestToDietitian":
                     return RedirectToAction("All", "MyRequest");
-                case "TrainingPlanDetails":
-                    return RedirectToAction("AllUsersWorkouts", "Workout", new { id = userId });
+                case "DietDetails":
+                    return RedirectToAction("AllUserDailyDietPlans", "DailyDietPlan", new { id = userId });
                 case "Comments":
                     return RedirectToAction("DashBoard", "Account");
                 default:
