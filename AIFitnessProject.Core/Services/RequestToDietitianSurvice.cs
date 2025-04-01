@@ -54,6 +54,7 @@ namespace AIFitnessProject.Core.Services
                 MealPreparationPreference = model.MealPreparationPreference,
                 PreferredMealsPerDay = model.PreferredMealsPerDay,
                 DislikedFoods = model.DislikedFoods,
+                Date = DateTime.Now,
                 SupplementsUsed = model.SupplementsUsed,
                 IsAnswered = false
                

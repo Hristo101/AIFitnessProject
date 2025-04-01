@@ -30,7 +30,7 @@ namespace AIFitnessProject.Infrastructure.Data.Configuration
                 {
                     Id = 2,
                     Title = "Основна тренировка за гръб",
-                    ImageUrl = "https://pulsefit.bg/uploads/cache/O/public/uploads/media-manager/app-modules-blog-models-blog/header/71/797/back_1800x675.jpg",
+                    ImageUrl = "https://gymbeam.cz/blog/wp-content/uploads/2022/04/iStock-610576810-1124x749.jpg",
                     CreatorId = 2,
                     DayOfWeek = "Вторник",
                     OrderInWorkout = 2,

@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="profile-container">
-      
+
         <div class="profile-header">
             @if (Model.ImageUrl.StartsWith("http") || Model.ImageUrl.StartsWith("/img"))
             {
@@ -25,13 +25,13 @@
             <p>@Model.ExperienceLevel</p>
         </div>
 
-       
+
         <div class="profile-details">
             <div class="detail">
                 <span>Потребителско име:</span> @Model.UserName <span class="emoji">👤</span>
             </div>
             <div class="detail">
-                <span>Email:</span> @Model.Email <span class="emoji">📧</span>
+                <span>Email.strings:</span> @Model.Email <span class="emoji">📧</span>
             </div>
             <div class="detail">
                 <span>Височина:</span> @Model.Height см <span class="emoji">📏</span>
@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        
+
         <div class="buttons">
             @if (User.IsInRole("Trainer") == false && User.IsInRole("Dietitian") == false)
             {
@@ -53,6 +53,7 @@
             {
                 <a asp-controller="Account" asp-area="Trainer" asp-action="Edit" asp-route-Id="@Model.Id" class="button">Редактиране на информацията ✏️</a>
                 <a asp-area="Trainer" asp-controller="Account" asp-action="AllUsers" class="button">Моите клиенти 🧑‍🤝‍🧑</a>
+                <a asp-area="Trainer" asp-controller="Account" asp-action="Dashboard" class="button">Табло 📈</a>
             }
         </div>
     </div>
