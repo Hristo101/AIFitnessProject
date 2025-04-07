@@ -495,6 +495,28 @@ namespace AIFitnessProject.Core.Services
                 string message = $"✔ Тренировъчен план с име: {trainingPlan.Name} бе приет от {trainingPlan.User.FirstName} {trainingPlan.User.LastName}";
                 await _notificationService.AddNotification(trainingPlan.UserId, trainingPlan.Trainer.UserId, message, "TrainingPlanDetails");
         }
+
+        public async Task<IEnumerable<AllTrainingPlanViewModelForAdmin>> AllTrainingPlanAsync()
+        {
+            var model = await repository.AllAsReadOnly<TrainingPlan>().Include(x =>x.User).Include(x=>x.Trainer).ThenInclude(x =>x.User).Select(x =>new AllTrainingPlanViewModelForAdmin()
+            {
+                TitleOfTriningPlan = x.Name,
+                DescriptionOfTriningPlan = x.Description,
+                Id = x.Id,
+                ImageUrl = x.ImageUrl,
+                FirstName = x.User.FirstName,
+                LastName = x.User.LastName,
+                FirstNameTrainer = x.Trainer.User.FirstName,
+                LastNameTrainer = x.Trainer.User.LastName,
+                ProfileEmailTrainer = x.Trainer.User.Email,
+                ProfileEmailUser = x.User.Email,
+                ProfilePictureTrainer = x.Trainer.User.ProfilePicture,
+                ProfilePictureUser = x.User.ProfilePicture
+
+            }).ToListAsync();
+
+            return model;
+        }
     }
 
 }

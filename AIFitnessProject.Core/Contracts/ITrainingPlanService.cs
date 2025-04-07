@@ -5,6 +5,7 @@ namespace AIFitnessProject.Core.Contracts
 {
     public interface ITrainingPlanService
     {
+        Task<IEnumerable<AllTrainingPlanViewModelForAdmin>> AllTrainingPlanAsync();
         Task CreateTrainigPlan(string id, string trainerId, CreateTraingPlanViewModel model, int requestId);
         Task<ICollection<AllTrainingPlanViewModel>> GetAllTrainingPlanAsync(string userId);
         Task<ICollection<RejectedTrainingPlanViewModel>> GetModelsForAllTrainingPlanAsync(string userId);

@@ -1,0 +1,243 @@
+﻿@using AIFitnessProject.Core.Models.TrainingPlan
+@model IEnumerable<AllTrainingPlanViewModelForAdmin>
+
+@{
+    ViewData["Title"] = "Всички тренировъчни планове";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-dark">Всички тренировъчни планове</h1>
+    </div>
+
+    <div class="row">
+        @foreach (var plan in Model)
+        {
+            <div class="col-xl-6 col-md-12 mb-4">
+                <div class="card shadow h-100">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">@plan.TitleOfTriningPlan</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row no-gutters">
+                            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                                <img src="@(string.IsNullOrEmpty(plan.ImageUrl) ? "/img/training-default.jpg" : plan.ImageUrl)"
+                                     class="img-fluid rounded" alt="@plan.TitleOfTriningPlan" style="max-height: 200px;">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <p class="card-text mb-3">@plan.DescriptionOfTriningPlan</p>
+
+                                    <div class="border-left-success pl-3 mb-3">
+                                        <h6 class="text-xs font-weight-bold text-success mb-1">Потребител</h6>
+                                        <div class="d-flex align-items-center">
+                                            @if (!string.IsNullOrEmpty(plan.ProfilePictureUser))
+                                            {
+                                                @if (plan.ProfilePictureUser.StartsWith("http") || plan.ProfilePictureUser.StartsWith("~/img") || plan.ProfilePictureUser.StartsWith("/img"))
+                                                {
+                                                    <img class="img-profile rounded-circle mr-2" src="@Url.Content(plan.ProfilePictureUser)" style="width: 40px; height: 40px;" alt="Потребител">
+                                                }
+                                                else
+                                                {
+                                                    <img class="img-profile rounded-circle mr-2" src="data:image/jpeg;base64,@plan.ProfilePictureUser" style="width: 40px; height: 40px;" alt="Потребител">
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <div class="rounded-circle bg-gradient-success text-white d-flex align-items-center justify-content-center mr-2"
+                                                     style="width: 40px; height: 40px; font-size: 14px;">
+                                                    @(plan.FirstName?.Substring(0, 1))@(plan.LastName?.Substring(0, 1))
+                                                </div>
+                                            }
+                                            <div>
+                                                <div class="text-dark font-weight-bold">@plan.FirstName @plan.LastName</div>
+                                                <div class="text-xs text-gray-600">@plan.ProfileEmailUser</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="border-left-info pl-3">
+                                        <h6 class="text-xs font-weight-bold text-info mb-1">Треньор</h6>
+                                        <div class="d-flex align-items-center">
+                                            @if (!string.IsNullOrEmpty(plan.ProfilePictureTrainer))
+                                            {
+                                                @if (plan.ProfilePictureTrainer.StartsWith("http") || plan.ProfilePictureTrainer.StartsWith("~/img") || plan.ProfilePictureTrainer.StartsWith("/img"))
+                                                {
+                                                    <img class="img-profile rounded-circle mr-2" src="@Url.Content(plan.ProfilePictureTrainer)" style="width: 40px; height: 40px;" alt="Треньор">
+                                                }
+                                                else
+                                                {
+                                                    <img class="img-profile rounded-circle mr-2" src="data:image/jpeg;base64,@plan.ProfilePictureTrainer" style="width: 40px; height: 40px;" alt="Треньор">
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <div class="rounded-circle bg-gradient-info text-white d-flex align-items-center justify-content-center mr-2"
+                                                     style="width: 40px; height: 40px; font-size: 14px;">
+                                                    @(plan.FirstNameTrainer?.Substring(0, 1))@(plan.LastNameTrainer?.Substring(0, 1))
+                                                </div>
+                                            }
+                                            <div>
+                                                <div class="text-dark font-weight-bold">@plan.FirstNameTrainer @plan.LastNameTrainer</div>
+                                                <div class="text-xs text-gray-600">@plan.ProfileEmailTrainer</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="@Url.Action("EditTrainingPlan", "Admin", new { id = plan.Id })"
+                           class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                            <span class="text">Редактирай</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <i class="fas fa-search fa-3x text-gray-300 mb-3"></i>
+            <p class="lead text-gray-800 mb-4">Няма намерени тренировъчни планове</p>
+            <p class="text-gray-500 mb-0">Изглежда все още няма създадени тренировъчни планове в системата</p>
+        </div>
+    }
+</div>
+
+<style>
+    /* Основни стилове на картите */
+    .card {
+        border: none;
+        border-radius: 10px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    p {
+        margin-top: 0;
+        color: black;
+        margin-bottom: 1rem;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+        }
+
+    .card-header {
+        background-color: #ffffff;
+        border-bottom: 1px solid #e9ecef;
+        padding: 1rem;
+    }
+
+    .font-weight-bold {
+        font-weight: 700 !important;
+    }
+
+    .text-primary {
+        color: #007bff !important;
+    }
+
+    /* Секции за потребител и треньор */
+    .border-left-success {
+        border-left: 4px solid #28a745 !important;
+    }
+
+    .border-left-info {
+        border-left: 4px solid #17a2b8 !important;
+    }
+
+    .text-success {
+        color: #28a745 !important;
+    }
+
+    .text-info {
+        color: #17a2b8 !important;
+    }
+
+    /* Профилни снимки */
+    .img-profile {
+        height: 40px;
+        width: 40px;
+        object-fit: cover;
+    }
+
+    .rounded-circle {
+        border-radius: 50% !important;
+    }
+
+    .bg-gradient-success {
+        background: linear-gradient(180deg, #28a745 10%, #218838 100%);
+    }
+
+    .bg-gradient-info {
+        background: linear-gradient(180deg, #17a2b8 10%, #138496 100%);
+    }
+
+    /* Текстови размери */
+    .text-xs {
+        font-size: 0.8rem;
+    }
+
+    .text-gray-600 {
+        color: #6c757d !important;
+    }
+
+    .text-dark {
+        color: #343a40 !important;
+    }
+
+    /* Бутон */
+    .btn-icon-split {
+        padding: 0;
+        overflow: hidden;
+        display: inline-flex;
+        align-items: stretch;
+        justify-content: center;
+    }
+
+        .btn-icon-split .icon {
+            background: rgba(0, 0, 0, 0.15);
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-icon-split .text {
+            padding: 0.5rem 1rem;
+        }
+
+    .btn-primary {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+        border-radius: 5px;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    /* Изображения */
+    .card-img-top {
+        max-height: 200px;
+        object-fit: cover;
+    }
+
+    /* Responsive дизайн */
+    @@media (max-width: 768px) {
+        .card-body {
+            padding: 1rem;
+        }
+
+        .btn-icon-split {
+            width: 100%;
+        }
+    }
+</style>
