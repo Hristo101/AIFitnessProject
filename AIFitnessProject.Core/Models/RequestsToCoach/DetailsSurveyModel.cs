@@ -6,7 +6,7 @@
         public string UserId { get; set; }
         public string ProfilePicture { get; set; }
         public string Target { get; set; }
-        public List<string> PictureOfPersons {  get; set; }
+        public List<string> PictureOfPersons {  get; set; } = new List<string>();
         public string TrainingBackground { get; set; }
         public string HealthStatus { get; set; }
         public string TrainingPreferences { get; set; }

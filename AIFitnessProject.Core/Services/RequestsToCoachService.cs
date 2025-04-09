@@ -105,25 +105,25 @@ namespace AIFitnessProject.Core.Services
 
         public async Task<DetailsSurveyModel> GetViewModelForDetailsAsync(int id)
         {
-           var model = await repository.AllAsReadOnly<RequestsToCoach>()
-                .Where(x => x.Id == id)
+            var request = await repository.AllAsReadOnly<RequestsToCoach>()
                 .Include(x => x.User)
-                .Select(x => new DetailsSurveyModel()
-                {
-                    Id = x.Id,
-                    UserId = x.User.Id,
-                    Email = x.User.Email,
-                    ProfilePicture = x.User.ProfilePicture,
-                    FirstName= x.User.FirstName,
-                    LastName= x.User.LastName,
-                    HealthStatus = x.HealthStatus,
-                    Target = x.Target,
-                    TrainingBackground = x.TrainingBackground,
-                    TrainingCommitment = x.TrainingCommitment,
-                    TrainingPreferences = x.TrainingPreferences,
-                    PictureOfPersons = x.PicturesOfPersons
-                })
-                .FirstAsync();
+                .FirstAsync(x => x.Id == id);
+
+            var model = new DetailsSurveyModel
+            {
+                Id = request.Id,
+                UserId = request.User.Id,
+                Email = request.User.Email,
+                ProfilePicture = request.User.ProfilePicture,
+                FirstName = request.User.FirstName,
+                LastName = request.User.LastName,
+                HealthStatus = request.HealthStatus,
+                Target = request.Target,
+                TrainingBackground = request.TrainingBackground,
+                TrainingCommitment = request.TrainingCommitment,
+                TrainingPreferences = request.TrainingPreferences,
+                PictureOfPersons = request.PicturesOfPersons
+            };
 
             return model;
         }

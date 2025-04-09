@@ -21,6 +21,7 @@ using static NUnit.Framework.Constraints.Tolerance;
 
 namespace TestAiFiness.ServicesTests
 {
+    [TestFixture]
     public class TrainingPlanServiceTest
     {
         private IRepository repository;
@@ -2379,6 +2380,820 @@ namespace TestAiFiness.ServicesTests
             Assert.That(planAfterTest.IsEdit, Is.False);
         }
 
+        [Test]
+        public async Task GetRejectedTrainingPlanAsync_WithValidData_ReturnsCorrectViewModel()
+        {
+            var user = new ApplicationUser()
+            {
+                Id = "client-user-id",
+                ProfilePicture = "client-profile.jpg",
+                UserName = "client@example.com",
+                Email = "client@example.com",
+                FirstName = "Иван",
+                LastName = "Петров",
+            };
+
+            var trainerUser = new ApplicationUser()
+            {
+                Id = "trainer-user-id",
+                ProfilePicture = "trainer-profile.jpg",
+                UserName = "trainer@example.com",
+                Email = "trainer@example.com",
+                FirstName = "Георги",
+                LastName = "Тренев",
+            };
+
+            var trainer = new Trainer()
+            {
+                Id = 1,
+                Specialization = "Силови тренировки",
+                Experience = 5,
+                SertificateImage = GenerateValidBase64Image(),
+                PhoneNumber = "0888123456",
+                UserId = "trainer-user-id",
+                User = trainerUser
+            };
+
+            var rejectedPlan = new TrainingPlan()
+            {
+                Id = 1,
+                Name = "Отхвърлен план",
+                Description = "Описание на отхвърлен план",
+                ImageUrl = "rejected-plan.jpg",
+                UserId = "client-user-id",
+                User = user,
+                CreatedById = 1,
+                Trainer = trainer,
+                IsActive = false,
+                IsEdit = true,
+                ExerciseFeedbacks = new List<ExerciseFeedback>(),
+                TrainingPlanWorkouts = new List<TrainingPlanWorkout>()
+            };
+
+            var exercise1 = new Exercise()
+            {
+                Id = 1,
+                Name = "Клек",
+                Description = "Базово упражнение за крака",
+                ImageUrl = "squat.jpg",
+                VideoUrl = "squat-video.mp4",
+                Series = 4,
+                Repetitions = 12,
+                MuscleGroup = "Крака",
+                DifficultyLevel = "Средно"
+            };
+
+            var exercise2 = new Exercise()
+            {
+                Id = 2,
+                Name = "Набиране",
+                Description = "Упражнение за гръб",
+                ImageUrl = "pullup.jpg",
+                VideoUrl = "pullup-video.mp4",
+                Series = 3,
+                Repetitions = 8,
+                MuscleGroup = "Гръб",
+                DifficultyLevel = "Трудно"
+            };
+
+            var exercise3 = new Exercise()
+            {
+                Id = 3,
+                Name = "Лицеви опори",
+                Description = "Упражнение за гърди и ръце",
+                ImageUrl = "pushup.jpg",
+                VideoUrl = "pushup-video.mp4",
+                Series = 3,
+                Repetitions = 15,
+                MuscleGroup = "Гърди",
+                DifficultyLevel = "Средно"
+            };
+
+            var workout1 = new Workout()
+            {
+                Id = 1,
+                Title = "Тренировка за крака",
+                DayOfWeek = "Понеделник",
+                ImageUrl = "leg-day.jpg",
+                DificultyLevel = "Средно",
+                MuscleGroup = "Крака",
+                WorkoutsExercises = new List<WorkoutsExercise>()
+            };
+
+            var workout2 = new Workout()
+            {
+                Id = 2,
+                Title = "Тренировка за гръб",
+                DayOfWeek = "Сряда",
+                ImageUrl = "back-day.jpg",
+                DificultyLevel = "Трудно",
+                MuscleGroup = "Гръб",
+                WorkoutsExercises = new List<WorkoutsExercise>()
+            };
+
+            var workoutExercise1 = new WorkoutsExercise()
+            {
+                WorkoutId = 1,
+                Workout = workout1,
+                ExcersiceId = 1,
+                Exercise = exercise1
+            };
+
+            var workoutExercise2 = new WorkoutsExercise()
+            {
+                WorkoutId = 2,
+                Workout = workout2,
+                ExcersiceId = 2,
+                Exercise = exercise2
+            };
+
+            workout1.WorkoutsExercises.Add(workoutExercise1);
+            workout2.WorkoutsExercises.Add(workoutExercise2);
+
+            var trainingPlanWorkout1 = new TrainingPlanWorkout()
+            {
+                TrainingPlanId = 1,
+                TrainingPlan = rejectedPlan,
+                WorkoutId = 1,
+                Workout = workout1
+            };
+
+            var trainingPlanWorkout2 = new TrainingPlanWorkout()
+            {
+                TrainingPlanId = 1,
+                TrainingPlan = rejectedPlan,
+                WorkoutId = 2,
+                Workout = workout2
+            };
+
+            rejectedPlan.TrainingPlanWorkouts.Add(trainingPlanWorkout1);
+            rejectedPlan.TrainingPlanWorkouts.Add(trainingPlanWorkout2);
+
+            var exerciseFeedback = new ExerciseFeedback()
+            {
+                Id = 1,
+                TrainingPlanId = 1,
+                TrainingPlan = rejectedPlan,
+                ExerciseId = 1,
+                Exercise = exercise1,
+                Feedback = "Това упражнение е твърде трудно за начинаещи."
+            };
+
+            rejectedPlan.ExerciseFeedbacks.Add(exerciseFeedback);
+
+            await repository.AddAsync(user);
+            await repository.AddAsync(trainerUser);
+            await repository.AddAsync(trainer);
+            await repository.AddAsync(exercise1);
+            await repository.AddAsync(exercise2);
+            await repository.AddAsync(exercise3);
+            await repository.AddAsync(workout1);
+            await repository.AddAsync(workout2);
+            await repository.AddAsync(rejectedPlan);
+            await repository.AddAsync(workoutExercise1);
+            await repository.AddAsync(workoutExercise2);
+            await repository.AddAsync(trainingPlanWorkout1);
+            await repository.AddAsync(trainingPlanWorkout2);
+            await repository.AddAsync(exerciseFeedback);
+            await repository.SaveChangesAsync();
+
+            var result = await trainingPlanService.GetRejectedTrainingPlanAsync(1, "trainer-user-id");
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Id, Is.EqualTo(1));
+            Assert.That(result.Name, Is.EqualTo("Отхвърлен план"));
+            Assert.That(result.Description, Is.EqualTo("Описание на отхвърлен план"));
+            Assert.That(result.FirstName, Is.EqualTo("Иван"));
+            Assert.That(result.LastName, Is.EqualTo("Петров"));
+            Assert.That(result.UserEmail, Is.EqualTo("client@example.com"));
+            Assert.That(result.UserProfilePicture, Is.EqualTo("client-profile.jpg"));
+
+            Assert.That(result.Workouts, Is.Not.Null);
+            Assert.That(result.Workouts.Count, Is.EqualTo(2));
+
+            var firstWorkout = result.Workouts.FirstOrDefault(w => w.Id == 1);
+            Assert.That(firstWorkout, Is.Not.Null);
+            Assert.That(firstWorkout.Title, Is.EqualTo("Тренировка за крака"));
+            Assert.That(firstWorkout.DayOfWeek, Is.EqualTo("Понеделник"));
+            Assert.That(firstWorkout.DifficultyLevel, Is.EqualTo("Средно"));
+            Assert.That(firstWorkout.MuscleGroup, Is.EqualTo("Крака"));
+
+            Assert.That(firstWorkout.Exercises, Is.Not.Null);
+            Assert.That(firstWorkout.Exercises.Count, Is.EqualTo(1));
+
+            var firstExercise = firstWorkout.Exercises.FirstOrDefault(e => e.Id == 1);
+            Assert.That(firstExercise, Is.Not.Null);
+            Assert.That(firstExercise.Name, Is.EqualTo("Клек"));
+            Assert.That(firstExercise.Feedback, Is.EqualTo("Това упражнение е твърде трудно за начинаещи."));
+
+            var secondWorkout = result.Workouts.FirstOrDefault(w => w.Id == 2);
+            Assert.That(secondWorkout, Is.Not.Null);
+
+            var secondExercise = secondWorkout.Exercises.FirstOrDefault(e => e.Id == 2);
+            Assert.That(secondExercise, Is.Not.Null);
+            Assert.That(secondExercise.Name, Is.EqualTo("Набиране"));
+            Assert.That(secondExercise.Feedback, Is.EqualTo(string.Empty));
+
+            Assert.That(result.AvailableExercises, Is.Not.Null);
+            Assert.That(result.AvailableExercises.Count, Is.EqualTo(3));
+            Assert.That(result.AvailableExercises.Any(e => e.Id == 3), Is.True);
+        }
+
+        [Test]
+        public void GetRejectedTrainingPlanAsync_WithInvalidTrainerId_ThrowsInvalidOperationException()
+        {
+            var user = new ApplicationUser()
+            {
+                Id = "test-user-id",
+                UserName = "test@example.com",
+                Email = "test@example.com"
+            };
+
+            repository.AddAsync(user);
+            repository.SaveChangesAsync();
+
+            Assert.ThrowsAsync<InvalidOperationException>(async () =>
+                await trainingPlanService.GetRejectedTrainingPlanAsync(1, "non-existent-trainer-id")
+            );
+        }
+
+        [Test]
+        public void GetRejectedTrainingPlanAsync_WithInvalidPlanId_ThrowsNullReferenceException()
+        {
+            var user = new ApplicationUser()
+            {
+                Id = "client-user-id-2",
+                UserName = "client2@example.com",
+                Email = "client2@example.com"
+            };
+
+            var trainerUser = new ApplicationUser()
+            {
+                Id = "trainer-user-id-2",
+                UserName = "trainer2@example.com",
+                Email = "trainer2@example.com"
+            };
+
+            var trainer = new Trainer()
+            {
+                Id = 2,
+                Specialization = "Кардио",
+                Experience = 3,
+                SertificateImage = GenerateValidBase64Image(),
+                PhoneNumber = "0888654321",
+                UserId = "trainer-user-id-2",
+                User = trainerUser
+            };
+
+            repository.AddAsync(user);
+            repository.AddAsync(trainerUser);
+            repository.AddAsync(trainer);
+            repository.SaveChangesAsync();
+
+            Assert.ThrowsAsync<NullReferenceException>(async () =>
+                await trainingPlanService.GetRejectedTrainingPlanAsync(999, "trainer-user-id-2")
+            );
+        }
+
+        [Test]
+        public async Task AcceptTrainingPlanAsync_WithValidIdAndNoCalendar_CreatesCalendarAndUpdatesTrainingPlan()
+        {
+            var user = new ApplicationUser()
+            {
+                Id = "client-user-id",
+                ProfilePicture = "client-profile.jpg",
+                UserName = "client@example.com",
+                Email = "client@example.com",
+                FirstName = "Иван",
+                LastName = "Петров",
+            };
+
+            var trainerUser = new ApplicationUser()
+            {
+                Id = "trainer-user-id",
+                ProfilePicture = "trainer-profile.jpg",
+                UserName = "trainer@example.com",
+                Email = "trainer@example.com",
+                FirstName = "Георги",
+                LastName = "Тренев",
+            };
+
+            var trainer = new Trainer()
+            {
+                Id = 1,
+                Specialization = "Силови тренировки",
+                Experience = 5,
+                SertificateImage = GenerateValidBase64Image(),
+                PhoneNumber = "0888123456",
+                UserId = "trainer-user-id",
+                User = trainerUser
+            };
+
+            var trainingPlan = new TrainingPlan()
+            {
+                Id = 1,
+                Name = "План за приемане",
+                Description = "Описание на план за приемане",
+                ImageUrl = "plan-image.jpg",
+                UserId = "client-user-id",
+                User = user,
+                CreatedById = 1,
+                Trainer = trainer,
+                IsActive = true,
+                IsEdit = false,
+                IsInCalendar = false
+            };
+
+            await repository.AddAsync(user);
+            await repository.AddAsync(trainerUser);
+            await repository.AddAsync(trainer);
+            await repository.AddAsync(trainingPlan);
+            await repository.SaveChangesAsync();
+
+            var notificationServiceMock = new Mock<INotificationService>();
+            notificationServiceMock
+                .Setup(ns => ns.AddNotification(
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()))
+                .Returns(Task.CompletedTask)
+                .Verifiable();
+
+            trainingPlanService = new TrainingPlanService(
+                repository,
+                new Mock<IHostingEnvironment>().Object,
+                new Mock<IHubContext<NotificationHub>>().Object,
+                notificationServiceMock.Object
+            );
+
+            await trainingPlanService.AcceptTrainingPlanAsync(1, "client-user-id");
+
+            var updatedPlan = await repository.All<TrainingPlan>()
+                .FirstOrDefaultAsync(tp => tp.Id == 1);
+
+            Assert.That(updatedPlan, Is.Not.Null);
+            Assert.That(updatedPlan.IsInCalendar, Is.True);
+
+            var createdCalendar = await repository.All<Calendar>()
+                .FirstOrDefaultAsync(c => c.UserId == "client-user-id");
+
+            Assert.That(createdCalendar, Is.Not.Null);
+            Assert.That(createdCalendar.TrainerId, Is.EqualTo(1));
+            Assert.That(createdCalendar.UserId, Is.EqualTo("client-user-id"));
+
+            notificationServiceMock.Verify(
+                ns => ns.AddNotification(
+                    "client-user-id",
+                    "trainer-user-id",
+                    $"✔ Тренировъчен план с име: {trainingPlan.Name} бе приет от {user.FirstName} {user.LastName}",
+                    "TrainingPlanDetails"
+                ),
+                Times.Once
+            );
+        }
+
+        [Test]
+        public async Task AcceptTrainingPlanAsync_WithValidIdAndExistingCalendarWithDietitian_UpdatesCalendarAndTrainingPlan()
+        {
+            var user = new ApplicationUser()
+            {
+                Id = "client-user-id-2",
+                ProfilePicture = "client-profile-2.jpg",
+                UserName = "client2@example.com",
+                Email = "client2@example.com",
+                FirstName = "Петър",
+                LastName = "Иванов",
+            };
+
+            var trainerUser = new ApplicationUser()
+            {
+                Id = "trainer-user-id-2",
+                ProfilePicture = "trainer-profile-2.jpg",
+                UserName = "trainer2@example.com",
+                Email = "trainer2@example.com",
+                FirstName = "Димитър",
+                LastName = "Треньорски",
+            };
+
+            var trainer = new Trainer()
+            {
+                Id = 2,
+                Specialization = "Кардио",
+                Experience = 3,
+                SertificateImage = GenerateValidBase64Image(),
+                PhoneNumber = "0888654321",
+                UserId = "trainer-user-id-2",
+                User = trainerUser
+            };
+
+            var trainingPlan = new TrainingPlan()
+            {
+                Id = 2,
+                Name = "План за приемане с календар",
+                Description = "Описание на план за приемане с календар",
+                ImageUrl = "plan-image-2.jpg",
+                UserId = "client-user-id-2",
+                User = user,
+                CreatedById = 2,
+                Trainer = trainer,
+                IsActive = true,
+                IsEdit = false,
+                IsInCalendar = false
+            };
+
+            var existingCalendar = new Calendar
+            {
+                Id = 1,
+                UserId = "client-user-id-2",
+                DietitianId = 1, 
+                TrainerId = null 
+            };
+
+            await repository.AddAsync(user);
+            await repository.AddAsync(trainerUser);
+            await repository.AddAsync(trainer);
+            await repository.AddAsync(trainingPlan);
+            await repository.AddAsync(existingCalendar);
+            await repository.SaveChangesAsync();
+
+            var notificationServiceMock = new Mock<INotificationService>();
+            notificationServiceMock
+                .Setup(ns => ns.AddNotification(
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()))
+                .Returns(Task.CompletedTask)
+                .Verifiable();
+
+            trainingPlanService = new TrainingPlanService(
+                repository,
+                new Mock<IHostingEnvironment>().Object,
+                new Mock<IHubContext<NotificationHub>>().Object,
+                notificationServiceMock.Object
+            );
+
+            await trainingPlanService.AcceptTrainingPlanAsync(2, "client-user-id-2");
+
+            var updatedPlan = await repository.All<TrainingPlan>()
+                .FirstOrDefaultAsync(tp => tp.Id == 2);
+
+            Assert.That(updatedPlan, Is.Not.Null);
+            Assert.That(updatedPlan.IsInCalendar, Is.True);
+
+            var updatedCalendar = await repository.All<Calendar>()
+                .FirstOrDefaultAsync(c => c.UserId == "client-user-id-2");
+
+            Assert.That(updatedCalendar, Is.Not.Null);
+            Assert.That(updatedCalendar.TrainerId, Is.EqualTo(2));
+            Assert.That(updatedCalendar.DietitianId, Is.EqualTo(1), "Диетологът трябва да остане непроменен");
+
+            notificationServiceMock.Verify(
+                ns => ns.AddNotification(
+                    "client-user-id-2",
+                    "trainer-user-id-2",
+                    $"✔ Тренировъчен план с име: {trainingPlan.Name} бе приет от {user.FirstName} {user.LastName}",
+                    "TrainingPlanDetails"
+                ),
+                Times.Once
+            );
+        }
+
+        [Test]
+        public void AcceptTrainingPlanAsync_WithInvalidId_ThrowsArgumentException()
+        {
+            var user = new ApplicationUser()
+            {
+                Id = "client-user-id-3",
+                UserName = "client3@example.com",
+                Email = "client3@example.com",
+                FirstName = "Тест",
+                LastName = "Потребител",
+            };
+
+            var trainer = new Trainer()
+            {
+                Id = 3,
+                Specialization = "Тест",
+                Experience = 1,
+                SertificateImage = GenerateValidBase64Image(),
+                PhoneNumber = "0888111222",
+                UserId = "trainer-user-id-3"
+            };
+
+            repository.AddAsync(user);
+            repository.AddAsync(trainer);
+            repository.SaveChangesAsync();
+
+            var notificationServiceMock = new Mock<INotificationService>();
+
+            trainingPlanService = new TrainingPlanService(
+                repository,
+                new Mock<IHostingEnvironment>().Object,
+                new Mock<IHubContext<NotificationHub>>().Object,
+                notificationServiceMock.Object
+            );
+
+            Assert.ThrowsAsync<ArgumentException>(async () =>
+                await trainingPlanService.AcceptTrainingPlanAsync(999, "client-user-id-3")
+            );
+
+            notificationServiceMock.Verify(
+                ns => ns.AddNotification(
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()
+                ),
+                Times.Never
+            );
+        }
+
+        [Test]
+        public async Task AcceptTrainingPlanAsync_WithWrongUserId_ThrowsArgumentException()
+        {
+            var user = new ApplicationUser()
+            {
+                Id = "owner-user-id",
+                ProfilePicture = "owner-profile.jpg",
+                UserName = "owner@example.com",
+                Email = "owner@example.com",
+                FirstName = "Собственик",
+                LastName = "Планов",
+            };
+
+            var otherUser = new ApplicationUser()
+            {
+                Id = "other-user-id",
+                ProfilePicture = "other-profile.jpg",
+                UserName = "other@example.com",
+                Email = "other@example.com",
+                FirstName = "Друг",
+                LastName = "Потребител",
+            };
+
+            var trainerUser = new ApplicationUser()
+            {
+                Id = "trainer-user-id-4",
+                ProfilePicture = "trainer-profile-4.jpg",
+                UserName = "trainer4@example.com",
+                Email = "trainer4@example.com",
+            };
+
+            var trainer = new Trainer()
+            {
+                Id = 4,
+                Specialization = "Гъвкавост",
+                Experience = 4,
+                SertificateImage = GenerateValidBase64Image(),
+                PhoneNumber = "0888987654",
+                UserId = "trainer-user-id-4",
+                User = trainerUser
+            };
+
+            var trainingPlan = new TrainingPlan()
+            {
+                Id = 3,
+                Name = "План на собственика",
+                Description = "Описание на плана на собственика",
+                ImageUrl = "owner-plan.jpg",
+                UserId = "owner-user-id",
+                User = user,
+                CreatedById = 4,
+                Trainer = trainer,
+                IsActive = true,
+                IsEdit = false,
+                IsInCalendar = false
+            };
+
+            await repository.AddAsync(user);
+            await repository.AddAsync(otherUser);
+            await repository.AddAsync(trainerUser);
+            await repository.AddAsync(trainer);
+            await repository.AddAsync(trainingPlan);
+            await repository.SaveChangesAsync();
+
+            var notificationServiceMock = new Mock<INotificationService>();
+
+            trainingPlanService = new TrainingPlanService(
+                repository,
+                new Mock<IHostingEnvironment>().Object,
+                new Mock<IHubContext<NotificationHub>>().Object,
+                notificationServiceMock.Object
+            );
+
+   
+            Assert.ThrowsAsync<ArgumentException>(async () =>
+                await trainingPlanService.AcceptTrainingPlanAsync(3, "other-user-id")
+            );
+
+            var planAfterTest = await repository.All<TrainingPlan>().FirstOrDefaultAsync(tp => tp.Id == 3);
+            Assert.That(planAfterTest.IsInCalendar, Is.False);
+
+   
+            notificationServiceMock.Verify(
+                ns => ns.AddNotification(
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()
+                ),
+                Times.Never
+            );
+        }
+        [Test]
+        public async Task AllTrainingPlanAsync_WithPlans_ReturnsAllPlans()
+        {
+            var user1 = new ApplicationUser()
+            {
+                Id = "user-id-1",
+                ProfilePicture = "user1-profile.jpg",
+                UserName = "user1@example.com",
+                Email = "user1@example.com",
+                FirstName = "Иван",
+                LastName = "Петров"
+            };
+
+            var user2 = new ApplicationUser()
+            {
+                Id = "user-id-2",
+                ProfilePicture = "user2-profile.jpg",
+                UserName = "user2@example.com",
+                Email = "user2@example.com",
+                FirstName = "Мария",
+                LastName = "Иванова"
+            };
+
+            var trainerUser1 = new ApplicationUser()
+            {
+                Id = "trainer-user-id-1",
+                ProfilePicture = "trainer1-profile.jpg",
+                UserName = "trainer1@example.com",
+                Email = "trainer1@example.com",
+                FirstName = "Георги",
+                LastName = "Тренев"
+            };
+
+            var trainerUser2 = new ApplicationUser()
+            {
+                Id = "trainer-user-id-2",
+                ProfilePicture = "trainer2-profile.jpg",
+                UserName = "trainer2@example.com",
+                Email = "trainer2@example.com",
+                FirstName = "Петър",
+                LastName = "Треньорски"
+            };
+
+            var trainer1 = new Trainer()
+            {
+                Id = 1,
+                Specialization = "Силови тренировки",
+                Experience = 5,
+                SertificateImage = GenerateValidBase64Image(),
+                PhoneNumber = "0888123456",
+                UserId = "trainer-user-id-1",
+                User = trainerUser1
+            };
+
+            var trainer2 = new Trainer()
+            {
+                Id = 2,
+                Specialization = "Кардио",
+                Experience = 3,
+                SertificateImage = GenerateValidBase64Image(),
+                PhoneNumber = "0888654321",
+                UserId = "trainer-user-id-2",
+                User = trainerUser2
+            };
+
+            var plan1 = new TrainingPlan()
+            {
+                Id = 1,
+                Name = "План за начинаещи",
+                Description = "Лесен план за начинаещи",
+                ImageUrl = "beginner-plan.jpg",
+                UserId = "user-id-1",
+                User = user1,
+                CreatedById = 1,
+                Trainer = trainer1,
+                IsActive = true,
+                IsEdit = false
+            };
+
+            var plan2 = new TrainingPlan()
+            {
+                Id = 2,
+                Name = "Интензивен план",
+                Description = "План за напреднали",
+                ImageUrl = "advanced-plan.jpg",
+                UserId = "user-id-2",
+                User = user2,
+                CreatedById = 2,
+                Trainer = trainer2,
+                IsActive = true,
+                IsEdit = false
+            };
+
+            var plan3 = new TrainingPlan()
+            {
+                Id = 3,
+                Name = "Кардио план",
+                Description = "План за кардио тренировки",
+                ImageUrl = "cardio-plan.jpg",
+                UserId = "user-id-1",
+                User = user1,
+                CreatedById = 2,
+                Trainer = trainer2,
+                IsActive = false,
+                IsEdit = true
+            };
+
+            await repository.AddAsync(user1);
+            await repository.AddAsync(user2);
+            await repository.AddAsync(trainerUser1);
+            await repository.AddAsync(trainerUser2);
+            await repository.AddAsync(trainer1);
+            await repository.AddAsync(trainer2);
+            await repository.AddAsync(plan1);
+            await repository.AddAsync(plan2);
+            await repository.AddAsync(plan3);
+            await repository.SaveChangesAsync();
+
+            var result = await trainingPlanService.AllTrainingPlanAsync();
+
+            Assert.That(result, Is.Not.Null);
+            var resultList = result.ToList();
+            Assert.That(resultList.Count, Is.EqualTo(3));
+
+            var firstPlan = resultList.FirstOrDefault(p => p.Id == 1);
+            Assert.That(firstPlan, Is.Not.Null);
+            Assert.That(firstPlan.TitleOfTriningPlan, Is.EqualTo("План за начинаещи"));
+            Assert.That(firstPlan.DescriptionOfTriningPlan, Is.EqualTo("Лесен план за начинаещи"));
+            Assert.That(firstPlan.ImageUrl, Is.EqualTo("beginner-plan.jpg"));
+            Assert.That(firstPlan.FirstName, Is.EqualTo("Иван"));
+            Assert.That(firstPlan.LastName, Is.EqualTo("Петров"));
+            Assert.That(firstPlan.FirstNameTrainer, Is.EqualTo("Георги"));
+            Assert.That(firstPlan.LastNameTrainer, Is.EqualTo("Тренев"));
+            Assert.That(firstPlan.ProfileEmailUser, Is.EqualTo("user1@example.com"));
+            Assert.That(firstPlan.ProfileEmailTrainer, Is.EqualTo("trainer1@example.com"));
+            Assert.That(firstPlan.ProfilePictureUser, Is.EqualTo("user1-profile.jpg"));
+            Assert.That(firstPlan.ProfilePictureTrainer, Is.EqualTo("trainer1-profile.jpg"));
+
+            var secondPlan = resultList.FirstOrDefault(p => p.Id == 2);
+            Assert.That(secondPlan, Is.Not.Null);
+            Assert.That(secondPlan.TitleOfTriningPlan, Is.EqualTo("Интензивен план"));
+            Assert.That(secondPlan.FirstName, Is.EqualTo("Мария"));
+            Assert.That(secondPlan.FirstNameTrainer, Is.EqualTo("Петър"));
+
+            var thirdPlan = resultList.FirstOrDefault(p => p.Id == 3);
+            Assert.That(thirdPlan, Is.Not.Null);
+            Assert.That(thirdPlan.TitleOfTriningPlan, Is.EqualTo("Кардио план"));
+            Assert.That(thirdPlan.FirstName, Is.EqualTo("Иван"));
+            Assert.That(thirdPlan.FirstNameTrainer, Is.EqualTo("Петър"));
+        }
+
+        [Test]
+        public async Task AllTrainingPlanAsync_WithNoPlans_ReturnsEmptyCollection()
+        {
+            var user = new ApplicationUser()
+            {
+                Id = "test-user-id",
+                UserName = "test@example.com",
+                Email = "test@example.com",
+                FirstName = "Тест",
+                LastName = "Потребител"
+            };
+
+            var trainerUser = new ApplicationUser()
+            {
+                Id = "test-trainer-id",
+                UserName = "trainer@example.com",
+                Email = "trainer@example.com",
+                FirstName = "Тест",
+                LastName = "Треньор"
+            };
+
+            var trainer = new Trainer()
+            {
+                Id = 1,
+                Specialization = "Тест",
+                Experience = 1,
+                SertificateImage = GenerateValidBase64Image(),
+                UserId = "test-trainer-id",
+                User = trainerUser
+            };
+
+            await repository.AddAsync(user);
+            await repository.AddAsync(trainerUser);
+            await repository.AddAsync(trainer);
+            await repository.SaveChangesAsync();
+
+            var result = await trainingPlanService.AllTrainingPlanAsync();
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Count(), Is.EqualTo(0));
+        }
 
         [TearDown]
         public void TearDown()

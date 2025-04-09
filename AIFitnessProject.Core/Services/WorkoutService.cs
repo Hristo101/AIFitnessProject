@@ -212,15 +212,15 @@ namespace AIFitnessProject.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task DeleteWorkoutForTrainer(int id, int trainingPlanId)
-        {
-            var trainingPlanWorkout = await repository.All<TrainingPlanWorkout>()
-                .Where(x =>x.WorkoutId == id && x.TrainingPlanId == trainingPlanId)
-                .FirstOrDefaultAsync();
+            public async Task DeleteWorkoutForTrainer(int id, int trainingPlanId)
+            {
+                var trainingPlanWorkout = await repository.All<TrainingPlanWorkout>()
+                    .Where(x =>x.WorkoutId == id && x.TrainingPlanId == trainingPlanId)
+                    .FirstOrDefaultAsync();
 
-             repository.Delete(trainingPlanWorkout);
-            await repository.SaveChangesAsync();
-        }
+                 repository.Delete(trainingPlanWorkout);
+                await repository.SaveChangesAsync();
+            }
 
         public async Task EditWourkout(int trainingPlanId, int workoutId, EditWorkoutViewModelForTrainer model)
         {

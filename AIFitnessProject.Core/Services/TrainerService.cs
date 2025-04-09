@@ -11,8 +11,6 @@ namespace AIFitnessProject.Core.Services
     {
         private readonly IRepository repository;
 
-
-
         public TrainerService(IRepository _repository)
         {
             repository = _repository;
