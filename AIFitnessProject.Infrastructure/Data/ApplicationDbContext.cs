@@ -7,10 +7,11 @@ namespace AIFitnessProject.Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        private bool seedDb;
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,bool sedDb = true)
             : base(options)
         {
-            
+            this.seedDb = seedDb;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -127,6 +128,9 @@ namespace AIFitnessProject.Infrastructure.Data
                 .HasForeignKey(uc => uc.SenderId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            if (seedDb)
+            {
+
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new TrainerConfiguration());
             builder.ApplyConfiguration(new CommentsConfiguration());
@@ -146,6 +150,7 @@ namespace AIFitnessProject.Infrastructure.Data
             builder.ApplyConfiguration(new DailyDietPlanConfiguration());
             builder.ApplyConfiguration(new MealConfiguration());
             builder.ApplyConfiguration(new MealDailyDietPlanConfiguration());
+            }
      
 
             base.OnModelCreating(builder);
