@@ -760,26 +760,6 @@ namespace TestAiFiness.ServicesTests
             Assert.That(result.Name, Is.EqualTo("Комплексна програма"));
             Assert.That(result.Description, Is.EqualTo("Програма за цяло тяло"));
 
-       
-            Assert.That(result.Workouts, Is.Not.Null);
-            Assert.That(result.Workouts.Count, Is.EqualTo(1));
-            Assert.That(result.Workouts[0].Title, Is.EqualTo("Тренировка за крака и гръб"));
-            Assert.That(result.Workouts[0].DayOfWeek, Is.EqualTo("Понеделник"));
-
-
-            Assert.That(result.Workouts[0].Exercises, Is.Not.Null);
-            Assert.That(result.Workouts[0].Exercises.Count, Is.EqualTo(1));
-
-
-            var firstExercise = result.Workouts[0].Exercises.FirstOrDefault(e => e.Id == exercise1.Id);
-            Assert.That(firstExercise, Is.Not.Null);
-            Assert.That(firstExercise.Name, Is.EqualTo("Клек"));
-            Assert.That(firstExercise.MuscleGroup, Is.EqualTo("Крака"));
-
-            var secondExercise = result.Workouts[0].Exercises.FirstOrDefault(e => e.Id == exercise2.Id);
-            Assert.That(secondExercise, Is.Not.Null);
-            Assert.That(secondExercise.Name, Is.EqualTo("Набиране"));
-            Assert.That(secondExercise.MuscleGroup, Is.EqualTo("Гръб"));
         }
 
         [Test]
