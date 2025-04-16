@@ -128,4 +128,4 @@ namespace AIFitnessProject.Core.Services
             return viewModel;
         }
     }
-}
+}               
