@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
+using System.Net.Mail;
+using System.Net;
+using Microsoft.Extensions.Configuration;
 
 
 namespace AIFitnessProject.Core.Services
@@ -16,10 +19,12 @@ namespace AIFitnessProject.Core.Services
     {
         private readonly IRepository repository;
         private readonly INotificationService _notificationService;
-        public CalendarService(IRepository _repository, INotificationService notificationService)
+        private readonly IConfiguration _configuration;
+        public CalendarService(IRepository _repository, INotificationService notificationService, IConfiguration configuration)
         {
             this.repository = _repository;
             _notificationService = notificationService;
+            _configuration = configuration;
         }
 
         public async Task<UserCalendarViewModel> GetModeForUserCalendar(string userId, string trainerId)
@@ -175,7 +180,13 @@ namespace AIFitnessProject.Core.Services
 
                 string message = $"В календара ти беше добавено събитие от {trainer.User.FirstName} {trainer.User.LastName}.";
                 await _notificationService.AddNotification(trainer.UserId,model.UserId,message,"Calendar");
+                var user = await repository.AllAsReadOnly<ApplicationUser>().Where(x => x.Id == model.UserId).FirstOrDefaultAsync();
 
+                await SendEmailAsync(
+      user.Email,
+     "Добавено събитие към календара",
+     message
+ );
                 return calendarWorkout.EventId; 
             }
             catch (Exception ex)
@@ -413,7 +424,12 @@ namespace AIFitnessProject.Core.Services
                 await repository.SaveChangesAsync();
             string message = $"Потребител {user.FirstName} {user.LastName} завърши успешно {calendarWorkout.Workout.Title} в {timeOnly}.";
             await _notificationService.AddNotification(user.Id,trainer.UserId,message, "Calendar");
-            }
+            await SendEmailAsync(
+       trainer.User.Email,
+      "Успешно завършено събитие",
+      message
+  );
+        }
 
 
         public async Task<UserCalendarViewModelForUserArea> GetModelForUserCalendarForUserArea(string userId)
@@ -589,6 +605,41 @@ namespace AIFitnessProject.Core.Services
 
             repository.Delete(calendarMeal);
             await repository.SaveChangesAsync();
+        }
+        private async Task SendEmailAsync(string recipientEmail, string subject, string body)
+        {
+            try
+            {
+
+                string smtpHost = _configuration["Smtp:Host"];
+                int smtpPort = int.Parse(_configuration["Smtp:Port"]);
+                string senderEmail = _configuration["Smtp:SenderEmail"];
+                string senderPassword = _configuration["Smtp:SenderPassword"];
+                string senderName = _configuration["Smtp:SenderName"];
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(senderEmail, senderName);
+                mail.To.Add(recipientEmail);
+                mail.Subject = subject;
+                mail.Body = body;
+                mail.IsBodyHtml = false;
+
+
+                using (var smtpClient = new SmtpClient(smtpHost, smtpPort))
+                {
+                    smtpClient.EnableSsl = true;
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+
+
+                    await smtpClient.SendMailAsync(mail);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Грешка при изпращане на имейл: {ex.Message}");
+                throw;
+            }
         }
     }
 

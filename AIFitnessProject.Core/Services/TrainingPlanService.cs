@@ -9,6 +9,9 @@ using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Net;
+using System.Net.Mail;
 
 namespace AIFitnessProject.Core.Services
 {
@@ -18,12 +21,14 @@ namespace AIFitnessProject.Core.Services
         private readonly IHubContext<NotificationHub> _hubContext;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly INotificationService _notificationService;
-        public TrainingPlanService(IRepository _repository, IHostingEnvironment hostingEnvironment, IHubContext<NotificationHub> hubContext, INotificationService notificationService)
+        private readonly IConfiguration _configuration;
+        public TrainingPlanService(IRepository _repository, IHostingEnvironment hostingEnvironment, IHubContext<NotificationHub> hubContext, INotificationService notificationService, IConfiguration configuration)
         {
             this.repository = _repository;
             _hostingEnvironment = hostingEnvironment;
             _hubContext = hubContext;
             _notificationService = notificationService;
+            _configuration = configuration;
         }
 
 
@@ -266,6 +271,11 @@ namespace AIFitnessProject.Core.Services
             string message = $"Вашият тренировъчен план: {trainingPlan.Name} е активен и готов за изпълнение!";
 
             await _notificationService.AddNotification(trainingPlan.Trainer.UserId, trainingPlan.UserId, message,"TrainingPlan");
+            await SendEmailAsync(
+         trainingPlan.User.Email,
+         "Тренировъчен план активиран",
+         message
+     );
         }
 
         public async Task<AllTrainingPlanViewModel> GetAllTrainingPlanForUserAsync(string userId)
@@ -347,6 +357,11 @@ namespace AIFitnessProject.Core.Services
             await repository.SaveChangesAsync();
             string message = $"✖ Тренировъчен план с име: {trainingPlan.Name} бе отказан от {trainingPlan.User.FirstName} {trainingPlan.User.LastName}";
             await _notificationService.AddNotification(trainingPlan.UserId, trainingPlan.Trainer.UserId, message,"RejectedTrainingPlan");
+
+            await SendEmailAsync(
+           trainingPlan.Trainer.User.Email,
+           "Тренировъчен план отказан ✖",
+           message);
         }
 
         public async Task<ICollection<RejectedTrainingPlanViewModel>> GetModelsForAllTrainingPlanAsync(string userId)
@@ -458,6 +473,7 @@ namespace AIFitnessProject.Core.Services
                 .Where(x => x.Id == id)
                 .Where(x => x.UserId == userId)
                 .Include(x => x.Trainer)
+                .ThenInclude(x =>x.User)
                 .Include(x => x.User)
                 .FirstOrDefaultAsync();
 
@@ -494,6 +510,11 @@ namespace AIFitnessProject.Core.Services
             }
                 string message = $"✔ Тренировъчен план с име: {trainingPlan.Name} бе приет от {trainingPlan.User.FirstName} {trainingPlan.User.LastName}";
                 await _notificationService.AddNotification(trainingPlan.UserId, trainingPlan.Trainer.UserId, message, "TrainingPlanDetails");
+
+            await SendEmailAsync(
+       trainingPlan.Trainer.User.Email,
+       "Тренировъчен план приет ✔",
+       message);
         }
 
         public async Task<IEnumerable<AllTrainingPlanViewModelForAdmin>> AllTrainingPlanAsync()
@@ -516,6 +537,41 @@ namespace AIFitnessProject.Core.Services
             }).ToListAsync();
 
             return model;
+        }
+        private async Task SendEmailAsync(string recipientEmail, string subject, string body)
+        {
+            try
+            {
+
+                string smtpHost = _configuration["Smtp:Host"];
+                int smtpPort = int.Parse(_configuration["Smtp:Port"]);
+                string senderEmail = _configuration["Smtp:SenderEmail"];
+                string senderPassword = _configuration["Smtp:SenderPassword"];
+                string senderName = _configuration["Smtp:SenderName"];
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(senderEmail, senderName);
+                mail.To.Add(recipientEmail);
+                mail.Subject = subject;
+                mail.Body = body;
+                mail.IsBodyHtml = false; 
+
+
+                using (var smtpClient = new SmtpClient(smtpHost, smtpPort))
+                {
+                    smtpClient.EnableSsl = true;
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+
+
+                    await smtpClient.SendMailAsync(mail);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Грешка при изпращане на имейл: {ex.Message}");
+                throw; 
+            }
         }
     }
 
