@@ -149,6 +149,24 @@ namespace AIFitnessProject.Core.Services
             return model;
         }
 
+        public async Task<bool> IsMineAsync(int id, string dietitianId)
+        {
+          var request = await repository.All<RequestToDietitian>()
+                .Where(x=>x.Id == id)
+                .FirstAsync();
+
+            var dietitian = await repository.All<Dietitian>()
+                .Where(x=>x.UserId == dietitianId)
+                .FirstOrDefaultAsync();
+
+            if(request.DietitianId != dietitian.Id)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private async Task SendEmailAsync(string recipientEmail, string subject, string body)
         {
             try

@@ -18,6 +18,7 @@ namespace AIFitnessProject.Core.Contracts
         Task DeleteMealEvenetAndSendNotification(int eventId, TimeOnly time, string userId);
         Task<DetailsEventViewModel> GetModelForDetailsEvent(int id);
         Task<DetailsMealViewModel> GetModelForDetailsMeal(int id);
+        Task<bool> IsClientOfDietitian(string id, string dietitianId);
 
     }
 }

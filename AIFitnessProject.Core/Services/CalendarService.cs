@@ -662,6 +662,20 @@ namespace AIFitnessProject.Core.Services
                 throw;
             }
         }
+
+        public async Task<bool> IsClientOfDietitian(string id, string dietitianId)
+        {
+            var dietitian = await repository.All<Dietitian>()
+                .Where(x=>x.UserId == dietitianId)
+                .FirstOrDefaultAsync();
+
+
+            var result = await repository.All<Infrastructure.Data.Models.Calendar>()
+                .AnyAsync(x => x.DietitianId == dietitian.Id && x.UserId == id);
+               
+
+            return result;
+        }
     }
 
 

@@ -346,5 +346,19 @@ namespace AIFitnessProject.Core.Services
 
             return model;
         }
+
+        public async Task<bool> IsExistAsync(int id)
+        {
+            return await _repository.All<Notification>()
+                .AnyAsync(x=>x.Id == id);
+        }
+
+        public async Task<bool> IsMineAsync(int id, string dietitianId)
+        {
+           return await _repository.All<Notification>()
+                .AnyAsync(x=>x.Id == id && x.RecieverId == dietitianId);
+
+
+        }
     }
 }

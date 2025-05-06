@@ -48,6 +48,15 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
+            if(await dietService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if(await dietService.IsMineAsync(id,GetUserId()) == false)
+            {
+                return Unauthorized();
+            }
             var model = await dietService.GetDietModelsForDetails(id);
 
             return View(model);
@@ -55,6 +64,15 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
         [HttpGet]
         public async Task<IActionResult> Send(int id)
         {
+            if (await dietService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await dietService.IsMineAsync(id, GetUserId()) == false)
+            {
+                return Unauthorized();
+            }
             var model = await dietService.GetDietModelForSendView(id);
 
             return View(model);
@@ -63,6 +81,15 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
         [HttpPost]
         public async Task<IActionResult> SendConfirmed(int id)
         {
+            if (await dietService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+            if (await dietService.IsMineAsync(id, GetUserId()) == false)
+            {
+                return Unauthorized();
+            }
+
             await dietService.SendToUserAsync(id);
             return RedirectToAction(nameof(All));
         }
@@ -70,6 +97,15 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
+            if (await dietService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+            if (await dietService.IsMineAsync(id, GetUserId()) == false)
+            {
+                return Unauthorized();
+            }
+
             var model = await dietService.GetModelForEdit(id);
             return View(model);
         }
@@ -80,6 +116,11 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             if (await dietService.ExistAsync(id) == false)
             {
                 return BadRequest();
+            }
+
+            if (await dietService.IsMineAsync(id, GetUserId()) == false)
+            {
+                return Unauthorized();
             }
 
             if (!ModelState.IsValid)
@@ -111,6 +152,10 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
                 return BadRequest();
             }
 
+            if (await dietService.IsMineAsync(id, GetUserId()) == false)
+            {
+                return Unauthorized();
+            }
             var model = await dietService.GetRejectedDietAsync(id, GetUserId());
 
             return View(model);
@@ -119,6 +164,15 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
         [HttpGet]
         public async Task<IActionResult> SendEditDiet(int id)
         {
+            if (await dietService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await dietService.IsMineAsync(id, GetUserId()) == false)
+            {
+                return Unauthorized();
+            }
             var model = await dietService.GetDietModelForSendView(id);
 
             return View(model);
@@ -126,6 +180,15 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
         [HttpPost]
         public async Task<IActionResult> SendEditDietConfirmed(int id)
         {
+            if (await dietService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await dietService.IsMineAsync(id, GetUserId()) == false)
+            {
+                return Unauthorized();
+            }
             await dietService.SendToUserAsync(id);
 
             return RedirectToAction(nameof(AllRejectedDiet));

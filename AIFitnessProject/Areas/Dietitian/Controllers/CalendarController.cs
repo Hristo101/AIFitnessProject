@@ -18,6 +18,12 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
         [HttpGet]
         public async Task<IActionResult> UserCalendar(string id)
         {
+            string dietitianId = GetUserId();
+            if (await calendarService.IsClientOfDietitian(id, dietitianId) == false)
+            {
+                return Unauthorized();
+            }
+
             var model = await calendarService.GetModelForUserCalendarInDietitianArea(id);
 
             return View(model);
@@ -43,8 +49,16 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
             }
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int eventId,string userId)
         {
+            string dietitianId = GetUserId();
+
+            if (await calendarService.IsClientOfDietitian(userId, dietitianId) == false)
+            {
+                return Unauthorized();
+            }
+
             await calendarService.DeleteMealEvenet(eventId);
             return RedirectToAction("UserCalendar", new { id = userId });
         }

@@ -21,6 +21,8 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
 
             return View(model);
         }
+
+
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
@@ -30,6 +32,10 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
                 return BadRequest();
             }
 
+            if (await requestsToDietitianService.IsMineAsync(id, GetUserId()) == false)
+            {
+                return Unauthorized();
+            }
             var model = await requestsToDietitianService.GetViewModelForDetailsAsync(id);
 
             return View(model);

@@ -8,15 +8,26 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
     public class DailyDietPlanController : DietitianBaseController
     {
         private readonly IDailyDietPlanService dailyDietPlanService;
-
-        public DailyDietPlanController(IDailyDietPlanService _dailyDietPlanService)
+        private readonly IDietService dietService;
+ 
+        public DailyDietPlanController(IDailyDietPlanService _dailyDietPlanService, IDietService _dietService)
         {
             dailyDietPlanService = _dailyDietPlanService;
+            dietService = _dietService;
         }
 
         [HttpGet]
         public async Task<IActionResult> All(int id)
         {
+            if(await dietService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if(await dietService.IsDietitianCreatedDietAsync(id, GetUserId()) == false)
+            {
+                return Unauthorized();
+            }
             var model = await dailyDietPlanService.GetAllDailyDietPlans(GetUserId(), id);
 
             return View(model);

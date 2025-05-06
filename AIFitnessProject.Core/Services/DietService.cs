@@ -430,6 +430,43 @@ namespace AIFitnessProject.Core.Services
             return viewModel;
         }
 
+        public async Task<bool> IsDietitianCreatedDietAsync(int id, string dietitianId)
+        {
+
+            var dietitian = await repository.All<Dietitian>()
+                .Where(x => x.UserId == dietitianId)
+                .FirstOrDefaultAsync();
+
+            var diet = await repository.AllAsReadOnly<Diet>()
+                .Where(x => x.Id == id && x.CreatedById == dietitian.Id)
+                .FirstOrDefaultAsync();
+
+            if (diet == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> IsMineAsync(int id, string dietitianId)
+        {
+            var dietitian = await repository.All<Dietitian>()
+                .Where(x => x.UserId == dietitianId)
+                .FirstOrDefaultAsync();
+
+            var diet = await repository.AllAsReadOnly<Diet>()
+                .Where(x => x.Id == id && x.CreatedById == dietitian.Id)
+                .FirstOrDefaultAsync();
+
+            if (diet == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public async Task SendEditDietAsync(int id, string userId)
         {
             var diet = await repository.All<Diet>()

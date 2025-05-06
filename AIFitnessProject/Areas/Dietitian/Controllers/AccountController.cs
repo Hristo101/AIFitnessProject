@@ -44,13 +44,24 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
+            if(id != GetUserId())
+            {
+                return Unauthorized();
+            }
+
             var model = await accountService.Edit(id);
             return View(model);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, EditProfileViewModel model)
         {
+            if (id != GetUserId())
+            {
+                return Unauthorized();
+            }
+
             if (!ModelState.IsValid)
             {
                 using (var memoryStream = new MemoryStream())

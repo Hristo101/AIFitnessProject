@@ -24,6 +24,11 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
         [HttpGet]
         public async Task<IActionResult> View(string userId, int notificationId)
         {
+            if(await notificationService.IsExistAsync(notificationId) == false)
+            {
+                return BadRequest();
+            }
+
             await notificationService.MarkNotificationRead(notificationId);
 
             var notification = await notificationService.GetNotificationById(notificationId);
@@ -58,12 +63,27 @@ namespace AIFitnessProject.Areas.Dietitian.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeNotificationStatus(int id)
         {
+            if(await notificationService.IsExistAsync(id) == false)
+            {
+
+                return BadRequest();
+            }
+            if (await notificationService.IsMineAsync(id, GetUserId()) == false)
+            {
+                return Unauthorized();
+            }
+
             await notificationService.MarkNotificationRead(id);
             return Json(new { success = true });
         }
 
         public async Task<IActionResult> Delete(int id)
         {
+            if(await notificationService.IsExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 await notificationService.DeleteNotification(id);
