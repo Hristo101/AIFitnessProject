@@ -3,6 +3,10 @@ using AIFitnessProject.Core.Models.RequestToDietitian;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
+using System.Net;
+using Microsoft.Extensions.Configuration;
+
 
 namespace AIFitnessProject.Core.Services
 {
@@ -10,11 +14,12 @@ namespace AIFitnessProject.Core.Services
     {
         private readonly IRepository repository;
         private readonly INotificationService service;
-
-        public RequestToDietitianSurvice(IRepository _repository, INotificationService _service)
+        private readonly IConfiguration _configuration;
+        public RequestToDietitianSurvice(IRepository _repository, INotificationService _service, IConfiguration configuration)
         {
             repository = _repository;
             service = _service;
+            _configuration = configuration;
         }
 
         public async Task Add(string id, int dietitianId, SurveyViewModel model)
@@ -22,6 +27,7 @@ namespace AIFitnessProject.Core.Services
             var picturesList = new List<string>();
 
             var dietitian = await repository.AllAsReadOnly<Dietitian>()
+              .Include(x=>x.User)
               .Where(x => x.Id == dietitianId)
               .FirstOrDefaultAsync();
 
@@ -77,6 +83,7 @@ namespace AIFitnessProject.Core.Services
 
             await service.AddNotification(user.Id, dietitian.UserId, message, "RequestToDietitian");
 
+            await SendEmailAsync(dietitian.User.Email, "Успешно записан потребител ✔", message);
         }
 
         public async Task<bool> ExistAsync(int id)
@@ -140,6 +147,42 @@ namespace AIFitnessProject.Core.Services
                 .FirstAsync();
 
             return model;
+        }
+
+        private async Task SendEmailAsync(string recipientEmail, string subject, string body)
+        {
+            try
+            {
+
+                string smtpHost = _configuration["Smtp:Host"];
+                int smtpPort = int.Parse(_configuration["Smtp:Port"]);
+                string senderEmail = _configuration["Smtp:SenderEmail"];
+                string senderPassword = _configuration["Smtp:SenderPassword"];
+                string senderName = _configuration["Smtp:SenderName"];
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(senderEmail, senderName);
+                mail.To.Add(recipientEmail);
+                mail.Subject = subject;
+                mail.Body = body;
+                mail.IsBodyHtml = false;
+
+
+                using (var smtpClient = new SmtpClient(smtpHost, smtpPort))
+                {
+                    smtpClient.EnableSsl = true;
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+
+
+                    await smtpClient.SendMailAsync(mail);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Грешка при изпращане на имейл: {ex.Message}");
+                throw;
+            }
         }
     }
 }

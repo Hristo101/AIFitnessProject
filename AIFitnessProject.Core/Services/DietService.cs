@@ -7,6 +7,10 @@ using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
+using System.Net;
+using Microsoft.Extensions.Configuration;
+
 
 
 
@@ -17,12 +21,14 @@ namespace AIFitnessProject.Core.Services
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IRepository repository;
         private readonly INotificationService _notificationService;
+        private readonly IConfiguration _configuration;
 
-        public DietService(IHostingEnvironment hostingEnvironment, IRepository _repository, INotificationService notificationService)
+        public DietService(IHostingEnvironment hostingEnvironment, IRepository _repository, INotificationService notificationService, IConfiguration configuration)
         {
             _hostingEnvironment = hostingEnvironment;
             this.repository = _repository;
             _notificationService = notificationService;
+            _configuration = configuration; 
         }
 
         public async Task AcceptDietAsync(int id, string userId)
@@ -35,6 +41,7 @@ namespace AIFitnessProject.Core.Services
                 .Where(x => x.Id == id)
                 .Where(x => x.UserId == userId)
                 .Include(x => x.Dietitian)
+                    .ThenInclude(x=>x.User)
                 .Include(x => x.User)
                 .FirstOrDefaultAsync();
 
@@ -70,6 +77,8 @@ namespace AIFitnessProject.Core.Services
             }
             string message = $"✔ Хранителен режим с име: {diet.Name} бе приет от {diet.User.FirstName} {diet.User.LastName}";
             await _notificationService.AddNotification(diet.UserId, diet.Dietitian.UserId, message, "DietDetails");
+
+            await SendEmailAsync(diet.Dietitian.User.Email,"Хранителен режим приет ✔",message);
         }
 
         public async Task CreateDiet(string id, string dietitianId, CreateDietViewModel model, int requestId)
@@ -428,6 +437,7 @@ namespace AIFitnessProject.Core.Services
                 .Where(x => x.UserId == userId)
                 .Include(x => x.User)
                 .Include(x => x.Dietitian)
+                      .ThenInclude(x => x.User)
                 .FirstAsync();
 
             diet.IsActive = false;
@@ -436,6 +446,11 @@ namespace AIFitnessProject.Core.Services
 
             string message = $"✖ Хранителен режим с име: \"{diet.Name}\" бе отказан от {diet.User.FirstName} {diet.User.LastName}";
             await _notificationService.AddNotification(diet.UserId, diet.Dietitian.UserId, message, "RejectedDiet");
+
+            await SendEmailAsync(
+           diet.Dietitian.User.Email,
+           "Хранителен режим отказан ✖",
+           message);
         }
 
         public async Task SendToUserAsync(int id)
@@ -452,6 +467,8 @@ namespace AIFitnessProject.Core.Services
 
             string message = $"Вашият хранителен режим: \"{diet.Name}\" е активен и готов за изпълнение!";
             await _notificationService.AddNotification(diet.Dietitian.UserId, diet.UserId, message, "Diet");
+
+            await SendEmailAsync(diet.User.Email,"Хранителен режим активиран",message);
         }
 
         public async Task<bool> UserHasDietAsync(int id, string userId)
@@ -466,6 +483,42 @@ namespace AIFitnessProject.Core.Services
             }
 
             return true;
+        }
+
+        private async Task SendEmailAsync(string recipientEmail, string subject, string body)
+        {
+            try
+            {
+
+                string smtpHost = _configuration["Smtp:Host"];
+                int smtpPort = int.Parse(_configuration["Smtp:Port"]);
+                string senderEmail = _configuration["Smtp:SenderEmail"];
+                string senderPassword = _configuration["Smtp:SenderPassword"];
+                string senderName = _configuration["Smtp:SenderName"];
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(senderEmail, senderName);
+                mail.To.Add(recipientEmail);
+                mail.Subject = subject;
+                mail.Body = body;
+                mail.IsBodyHtml = false;
+
+
+                using (var smtpClient = new SmtpClient(smtpHost, smtpPort))
+                {
+                    smtpClient.EnableSsl = true;
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+
+
+                    await smtpClient.SendMailAsync(mail);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Грешка при изпращане на имейл: {ex.Message}");
+                throw;
+            }
         }
     }
 }

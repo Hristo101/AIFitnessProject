@@ -350,6 +350,7 @@ namespace AIFitnessProject.Core.Services
                 .Where(x =>x.UserId == userId)
                 .Include(x =>x.User)
                 .Include(x =>x.Trainer)
+                      .ThenInclude(x=>x.User)
                 .FirstAsync();
 
             trainingPlan.IsActive = false;

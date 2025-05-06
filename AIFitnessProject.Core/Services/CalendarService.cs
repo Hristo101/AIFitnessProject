@@ -351,6 +351,9 @@ namespace AIFitnessProject.Core.Services
                 string message = $"В календара ти беше добавено събитие от {dietitian.User.FirstName} {dietitian.User.LastName}.";
                 await _notificationService.AddNotification(dietitian.UserId,model.UserId,message,"Calendar");
 
+                var user = await repository.AllAsReadOnly<ApplicationUser>().Where(x => x.Id == model.UserId).FirstOrDefaultAsync();
+                await SendEmailAsync(user.Email, "Добавено събитие към календара", message);
+
                 return calendarWorkout.EventId;
             }
             catch (Exception ex)
@@ -410,6 +413,7 @@ namespace AIFitnessProject.Core.Services
 
             var trainer = await repository.AllAsReadOnly<Trainer>()
                 .Where(x => x.Id == calendar.TrainerId)
+                .Include(x=>x.User)
                 .FirstOrDefaultAsync();
 
                 var calendarWorkout = await repository.All<CalendarWorkout>()
@@ -541,6 +545,7 @@ namespace AIFitnessProject.Core.Services
                 .FirstOrDefaultAsync();
 
             var dietitian = await repository.AllAsReadOnly<Dietitian>()
+                .Include(x=>x.User)
                 .Where(x => x.Id == calendar.DietitianId)
                 .FirstOrDefaultAsync();
 
@@ -558,6 +563,8 @@ namespace AIFitnessProject.Core.Services
 
             string message = $"Потребител {user.FirstName} {user.LastName} завърши успешно храненето \"{calendarMeal.Meal.Name}\" в {timeOnly}.";
             await _notificationService.AddNotification(user.Id, dietitian.UserId, message, "Calendar");
+
+            await SendEmailAsync(dietitian.User.Email, "Успешно завършено събитие", message);
 
         }
 
