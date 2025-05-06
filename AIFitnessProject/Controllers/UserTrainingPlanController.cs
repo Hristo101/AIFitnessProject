@@ -1,9 +1,11 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace AIFitnessProject.Controllers
 {
+    [Authorize]
     public class UserTrainingPlanController : Controller
     {
         private readonly ITrainingPlanService trainingPlanService;

@@ -1,9 +1,11 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.DTOs.MealFeedback;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIFitnessProject.Controllers
 {
+    [Authorize]
     public class MealFeedbackController : Controller
     {
         private readonly IDietService dietService;

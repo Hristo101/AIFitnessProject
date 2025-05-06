@@ -1,10 +1,12 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Models.RequestsToCoach;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace AIFitnessProject.Controllers
 {
+    [Authorize]
     public class RequestsToCoachController : Controller
     {
         private readonly IRequestsToCoach requestsToCoachService;

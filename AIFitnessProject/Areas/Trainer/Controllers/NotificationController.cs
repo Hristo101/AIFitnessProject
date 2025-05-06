@@ -1,10 +1,12 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace AIFitnessProject.Areas.Trainer.Controllers
 {
+    [Authorize(Roles = "Trainer")]
     public class NotificationController : TrainerBaseController
     {
         private readonly INotificationService notificationService;

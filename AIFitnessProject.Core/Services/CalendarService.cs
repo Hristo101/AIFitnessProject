@@ -606,6 +606,20 @@ namespace AIFitnessProject.Core.Services
             repository.Delete(calendarMeal);
             await repository.SaveChangesAsync();
         }
+
+        public async Task<TrainingPlan> GetTrainingPlanByTrainerId(string trainerId)
+        {
+            var trainingPlan = await repository.All<TrainingPlan>()
+           .Include(x =>x.Trainer)
+           .ThenInclude(X =>X.User)
+          .Where(x => x.Trainer.UserId == trainerId)
+          .Include(x => x.Trainer)
+          .ThenInclude(x => x.User)
+          .FirstOrDefaultAsync();
+
+            return trainingPlan;
+        }
+
         private async Task SendEmailAsync(string recipientEmail, string subject, string body)
         {
             try

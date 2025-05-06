@@ -1,9 +1,12 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Security.Claims;
 
 namespace AIFitnessProject.Controllers
 {
+    [Authorize]
     public class NotificationController : Controller
     {
         private readonly INotificationService notificationService;
@@ -51,16 +54,43 @@ namespace AIFitnessProject.Controllers
         [HttpGet]
         public async Task<IActionResult> View(string userId, int notificationId)
         {
-            await notificationService.MarkNotificationRead(notificationId);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("User ID is required.");
+            }
+
+            if (notificationId <= 0)
+            {
+                return BadRequest("Invalid notification ID.");
+            }
+
+            var currentUserId = GetUserId();
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+                return Unauthorized("User is not authenticated.");
+            }
+
+            if (currentUserId != userId)
+            {
+                return Unauthorized("You are not authorized to access this notification.");
+            }
 
             var notification = await notificationService.GetNotificationById(notificationId);
+            if (notification == null || notification.RecieverId != currentUserId)
+            {
+                return NotFound("Notification not found or you do not have access.");
+            }
 
+           
+            await notificationService.MarkNotificationRead(notificationId);
+
+       
             switch (notification.Source)
             {
                 case "Calendar":
-                    return RedirectToAction("UsersCalendar", "Calendar", new { id = GetUserId() });
+                    return RedirectToAction("UsersCalendar", "Calendar", new { id = currentUserId });
                 case "Diet":
-                    return RedirectToAction("MyDiet", "UserDiet", new { id = GetUserId() });
+                    return RedirectToAction("MyDiet", "UserDiet", new { id = currentUserId });
                 default:
                     return RedirectToAction("AllMyTrainingPlans", "UserTrainingPlan");
             }

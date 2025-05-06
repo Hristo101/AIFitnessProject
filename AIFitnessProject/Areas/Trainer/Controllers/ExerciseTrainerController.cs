@@ -1,11 +1,13 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.DTOs;
 using AIFitnessProject.Core.Models.Exercise;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace AIFitnessProject.Areas.Trainer.Controllers
 {
+    [Authorize(Roles = "Trainer")]
     public class ExerciseTrainerController : TrainerBaseController
     {
         private readonly IExerciseService exerciseService;

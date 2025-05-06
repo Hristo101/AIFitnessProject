@@ -1,5 +1,6 @@
 ﻿using AIFitnessProject.Core.DTOs.Calendar;
 using AIFitnessProject.Core.Models.Calendar;
+using AIFitnessProject.Infrastructure.Data.Models;
 
 namespace AIFitnessProject.Core.Contracts
 {
@@ -12,6 +13,7 @@ namespace AIFitnessProject.Core.Contracts
         Task<int> AddCalendarMealEventAsync(AddEventFromDietitianViewModel model,string dietitianId);
         Task DeleteEvent(int eventId);
         Task DeleteMealEvenet(int eventId);
+        Task<TrainingPlan> GetTrainingPlanByTrainerId(string trainerId);
         Task DeleteEvenetAndSendNotification(int eventId,TimeOnly time, string userId);
         Task DeleteMealEvenetAndSendNotification(int eventId, TimeOnly time, string userId);
         Task<DetailsEventViewModel> GetModelForDetailsEvent(int id);

@@ -1,8 +1,10 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIFitnessProject.Controllers
 {
+    [Authorize]
     public class CommentController : Controller
     {
         private readonly ICommentService commentService;

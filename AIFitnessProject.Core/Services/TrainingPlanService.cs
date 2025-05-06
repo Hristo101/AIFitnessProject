@@ -538,6 +538,17 @@ namespace AIFitnessProject.Core.Services
 
             return model;
         }
+        public async Task<TrainingPlan> GetTrainingPlanById(int id)
+        {
+            var trainingPlan = await repository.All<TrainingPlan>()
+                 .Where(x => x.Id == id)
+                 .Include(x =>x.Trainer)
+                 .ThenInclude(x =>x.User)
+                 .FirstOrDefaultAsync();
+                   
+            return trainingPlan;
+
+        }
         private async Task SendEmailAsync(string recipientEmail, string subject, string body)
         {
             try

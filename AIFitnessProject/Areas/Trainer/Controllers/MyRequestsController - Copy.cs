@@ -1,9 +1,11 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace AIFitnessProject.Areas.Trainer.Controllers
 {
+    [Authorize(Roles = "Trainer")]
     public class MyRequestsController : TrainerBaseController
     {
         private readonly IRequestsToCoach requestsToCoachService;

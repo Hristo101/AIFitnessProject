@@ -1,13 +1,16 @@
 ﻿using AIFitnessProject.Core.Contracts;
 using AIFitnessProject.Core.DTOs.Calendar;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace AIFitnessProject.Areas.Trainer.Controllers
 {
+    [Authorize(Roles = "Trainer")]
     public class CalendarController : TrainerBaseController
     {
         private readonly ICalendarService calendarService;
+
 
         public CalendarController(ICalendarService _calendarService)
         {
@@ -21,6 +24,11 @@ namespace AIFitnessProject.Areas.Trainer.Controllers
         [HttpGet]
         public async Task<IActionResult> UserCalendar(string id)
         {
+            var trainingPlan = await calendarService.GetTrainingPlanByTrainerId(GetUserId());
+            if (trainingPlan == null)
+            {
+                return Unauthorized("You are not authorized to view this calendar.");
+            }
             var model = await calendarService.GetModeForUserCalendar(id,GetUserId());
 
             return View(model);

@@ -2,6 +2,7 @@
 using AIFitnessProject.Core.Models.Account;
 using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -61,7 +62,17 @@ namespace AIFitnessProject.Controllers
         [HttpGet]
         public async Task<IActionResult> MyTrainer()
         {
-            var model = await accountService.GetViewModelForMyTrainer(GetUserId());
+            var userId = GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User is not authenticated.");
+            }
+
+            var model = await accountService.GetViewModelForMyTrainer(userId);
+            if (model == null)
+            {
+                return NotFound("Trainer data not found.");
+            }
 
             return View(model);
         }
@@ -124,14 +135,25 @@ namespace AIFitnessProject.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> MyProfile()
         {
+            var userId = GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User is not authenticated.");
+            }
             bool isInRole = false;
             if (User.IsInRole("Trainer") == true || User.IsInRole("Dietitian") == true)
             {
                 isInRole = true;
             }
-            var model = await accountService.GetMoldelForMyProfile(GetUserId(),isInRole);
+
+            var model = await accountService.GetMoldelForMyProfile(userId,isInRole);
+            if (model == null)
+            {
+                return NotFound("Trainer data not found.");
+            }
 
             return View(model);
         }
@@ -159,9 +181,31 @@ namespace AIFitnessProject.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Edit(string id)
         {
-            var model =await accountService.Edit(id);
+            if (string.IsNullOrEmpty(id))
+            {
+                return BadRequest("User ID is required.");
+            }
+
+            var userId = GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User is not authenticated.");
+            }
+
+            if (userId != id)
+            {
+                return Unauthorized("You are not authorized to edit this profile.");
+            }
+
+            var model = await accountService.Edit(id);
+            if (model == null)
+            {
+                return NotFound("Profile data not found.");
+            }
+
             return View(model);
         }
         [HttpPost]
