@@ -29,10 +29,10 @@ namespace Microsoft.AspNetCore.Builder
                 await roleManager.CreateAsync(role2);
                 await roleManager.CreateAsync(role3);
 
-                var trainer = await userManager.FindByEmailAsync("svetoslav@abv.bg");
-                var trainer2 = await userManager.FindByEmailAsync("daniela@abv.bg");
-                var dietitian = await userManager.FindByEmailAsync("rosalina@abv.bg");
-                var dietitian2 = await userManager.FindByEmailAsync("zhenya@abv.bg");
+                var trainer = await userManager.FindByEmailAsync("pierceabv980@gmail.com");
+                var trainer2 = await userManager.FindByEmailAsync("pmgclaude.team06@gmail.com");
+                var dietitian = await userManager.FindByEmailAsync("jd6125416@gmail.com");
+                var dietitian2 = await userManager.FindByEmailAsync("m.smith.online@gmail.com");
                 var admin = await userManager.FindByEmailAsync("hserev789@gmail.com");
                 if (trainer != null)
                 {
