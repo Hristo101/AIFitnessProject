@@ -18,7 +18,9 @@
     </div>
 
     <div class="confirmation-actions">
-        <a asp-action="Delete" asp-controller="AdminDocument" asp-route-id="@Model.Id" class="btn decline">Премахни</a>
+        <form asp-action="Delete" asp-controller="AdminDocument" asp-route-id="@Model.Id" method="post">
+            <button type="submit" class="btn decline">Премахни</button>
+        </form>
         <a asp-action="All" asp-area="Admin" asp-controller="AdminDocument" class="btn back">Назад</a>
        
     </div>

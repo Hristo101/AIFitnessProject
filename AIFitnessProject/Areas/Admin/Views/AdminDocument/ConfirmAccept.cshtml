@@ -18,7 +18,10 @@
     </div>
 
     <div class="confirmation-actions">
-        <a asp-action="Accept" asp-area="Admin" asp-controller="AdminDocument" asp-route-id="@Model.Id" class="btn accept">Приеми</a>
+       
+        <form asp-action="Accept" asp-area="Admin"  asp-controller="AdminDocument" asp-route-id="@Model.Id" method="post">
+            <button type="submit" class="btn accept">Приеми</button>
+        </form>
         <a asp-action="All" asp-area="Admin" asp-controller="AdminDocument" class="btn back">Назад</a>
     </div>
 </div>
