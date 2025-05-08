@@ -6,6 +6,7 @@ using AIFitnessProject.Infrastructure.Data;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -35,8 +36,9 @@ namespace TestAiFitness.ServicesTests
             applicationDbContext.Database.EnsureDeleted();
             applicationDbContext.Database.EnsureCreated();
             repository = new Repository(applicationDbContext);
+            var configurationMock = new Mock<IConfiguration>();
             mockNotificationService = new Mock<INotificationService>();
-            requestToDietitianService = new RequestToDietitianSurvice(repository, mockNotificationService.Object);
+            requestToDietitianService = new RequestToDietitianSurvice(repository, mockNotificationService.Object, configurationMock.Object);
         }
 
         [TearDown]

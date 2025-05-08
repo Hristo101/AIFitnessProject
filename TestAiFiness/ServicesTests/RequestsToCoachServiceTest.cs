@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using AIFitnessProject.Core.Models.RequestsToCoach;
+using Microsoft.Extensions.Configuration;
 
 [TestFixture]
 public class RequestsToCoachServiceTest
@@ -28,9 +29,12 @@ public class RequestsToCoachServiceTest
         repository = new Repository(applicationDbContext);
 
         notificationServiceMock = new Mock<INotificationService>();
+        var configurationMock = new Mock<IConfiguration>();
+
         requestsToCoach = new RequestsToCoachService(
             repository,
-            notificationServiceMock.Object
+            notificationServiceMock.Object,
+            configurationMock.Object
         );
     }
 

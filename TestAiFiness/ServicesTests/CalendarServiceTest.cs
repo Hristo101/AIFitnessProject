@@ -5,6 +5,7 @@ using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -32,9 +33,10 @@ namespace TestAiFiness.ServicesTests
             applicationDbContext.Database.EnsureDeleted();
             applicationDbContext.Database.EnsureCreated();
             var notificationServiceMock = new Mock<INotificationService>();
+            var configurationMock = new Mock<IConfiguration>();
 
             repository = new Repository(applicationDbContext);
-            calendarService = new CalendarService(repository,notificationServiceMock.Object);
+            calendarService = new CalendarService(repository,notificationServiceMock.Object, configurationMock.Object);
 
         }
         [Test]
@@ -373,10 +375,12 @@ namespace TestAiFiness.ServicesTests
                 .Setup(x => x.AddNotification(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
+            var configurationMock = new Mock<IConfiguration>();
 
             var calendarService = new CalendarService(
                 repository,
-                mockNotificationService.Object
+                mockNotificationService.Object,
+                configurationMock.Object
             );
 
 
@@ -818,9 +822,12 @@ namespace TestAiFiness.ServicesTests
                 .Setup(x => x.AddNotification(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
+            var configurationMock = new Mock<IConfiguration>();
+
             var calendarService = new CalendarService(
                 repository,
-                mockNotificationService.Object
+                mockNotificationService.Object,
+                configurationMock.Object
             );
 
             var model = new AddEventFromDietitianViewModel
@@ -835,10 +842,10 @@ namespace TestAiFiness.ServicesTests
                 EndTime = "11:00"
             };
 
-            // Act
+   
             var result = await calendarService.AddCalendarMealEventAsync(model, dietitianId);
 
-            // Assert
+    
             Assert.IsNotNull(result);
             Assert.AreNotEqual(0, result);
 
@@ -1059,10 +1066,12 @@ namespace TestAiFiness.ServicesTests
             mockNotificationService
                 .Setup(x => x.AddNotification(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
+            var configurationMock = new Mock<IConfiguration>();
 
             var calendarService = new CalendarService(
                 repository,
-                mockNotificationService.Object
+                mockNotificationService.Object,
+                configurationMock.Object
             );
 
             var timeOnly = new TimeOnly(11, 0);

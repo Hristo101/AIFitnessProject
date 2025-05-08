@@ -4,6 +4,7 @@ using AIFitnessProject.Infrastructure.Common;
 using AIFitnessProject.Infrastructure.Data;
 using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -31,9 +32,10 @@ namespace TestAiFiness.ServicesTests
             applicationDbContext.Database.EnsureDeleted();
             applicationDbContext.Database.EnsureCreated();
             var notificationServiceMock = new Mock<INotificationService>();
+            var configurationMock = new Mock<IConfiguration>();
 
             repository = new Repository(applicationDbContext);
-            userCommentService = new CommentService(repository, notificationServiceMock.Object);
+            userCommentService = new CommentService(repository, notificationServiceMock.Object,configurationMock.Object);
 
         }
         [Test]
@@ -82,8 +84,9 @@ namespace TestAiFiness.ServicesTests
                     It.IsAny<string>()))
                 .Returns(Task.CompletedTask)
                 .Verifiable();
+            var configurationMock = new Mock<IConfiguration>();
 
-            userCommentService = new CommentService(repository, notificationServiceMock.Object);
+            userCommentService = new CommentService(repository, notificationServiceMock.Object, configurationMock.Object);
 
             await userCommentService.AddNewComment("sender-id", 1, "Страхотен треньор!", 5);
 
@@ -154,7 +157,9 @@ namespace TestAiFiness.ServicesTests
                 .Returns(Task.CompletedTask)
                 .Verifiable();
 
-            userCommentService = new CommentService(repository, notificationServiceMock.Object);
+            var configurationMock = new Mock<IConfiguration>();
+
+            userCommentService = new CommentService(repository, notificationServiceMock.Object, configurationMock.Object);
 
             await userCommentService.AddNewCommentForDietitian("sender-id", 1, "Отличен диетолог!", 5);
 

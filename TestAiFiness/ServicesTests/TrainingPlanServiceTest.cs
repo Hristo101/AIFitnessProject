@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,7 @@ namespace TestAiFiness.ServicesTests
             applicationDbContext.Database.EnsureCreated();
 
             repository = new Repository(applicationDbContext);
+            var configurationMock = new Mock<IConfiguration>();
             var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
             var hubContextMock = new Mock<IHubContext<NotificationHub>>();
             var notificationServiceMock = new Mock<INotificationService>();
@@ -48,7 +50,8 @@ namespace TestAiFiness.ServicesTests
                 repository,
                 hostingEnvironmentMock.Object,
                 hubContextMock.Object,
-                notificationServiceMock.Object
+                notificationServiceMock.Object,
+                configurationMock.Object
             );
 
         }
@@ -129,11 +132,13 @@ namespace TestAiFiness.ServicesTests
             hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns("C:/FakeContentRoot");
         
             var defaultImageBytes = new byte[] { 0, 0, 0 };
+            var configurationMock = new Mock<IConfiguration>();
             trainingPlanService = new TrainingPlanService(
                 repository,
                 hostingEnvironmentMock.Object,
                 new Mock<IHubContext<NotificationHub>>().Object,
-                new Mock<INotificationService>().Object
+                new Mock<INotificationService>().Object,
+                configurationMock.Object
             );
             var memoryStream = new MemoryStream(new byte[] { 1, 2, 3 });
             var fileMock = new Mock<IFormFile>();
@@ -229,12 +234,14 @@ namespace TestAiFiness.ServicesTests
             var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
             hostingEnvironmentMock.Setup(x => x.WebRootPath).Returns("C:/FakeWebRoot");
             hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns("C:/FakeContentRoot");
+            var configurationMock = new Mock<IConfiguration>();
 
             trainingPlanService = new TrainingPlanService(
                 repository,
                 hostingEnvironmentMock.Object,
                 new Mock<IHubContext<NotificationHub>>().Object,
-                new Mock<INotificationService>().Object
+                new Mock<INotificationService>().Object,
+                configurationMock.Object
             );
 
             var model = new CreateTraingPlanViewModel
@@ -955,13 +962,14 @@ namespace TestAiFiness.ServicesTests
             var fakeWebRootPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
             Directory.CreateDirectory(fakeWebRootPath);
             hostingEnvironmentMock.Setup(x => x.WebRootPath).Returns(fakeWebRootPath);
+            var configurationMock = new Mock<IConfiguration>();
 
-          
             trainingPlanService = new TrainingPlanService(
                 repository,
                 hostingEnvironmentMock.Object,
                 new Mock<IHubContext<NotificationHub>>().Object,
-                new Mock<INotificationService>().Object
+                new Mock<INotificationService>().Object,
+                configurationMock.Object
             );
 
            
@@ -1061,13 +1069,14 @@ namespace TestAiFiness.ServicesTests
           
             var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
             hostingEnvironmentMock.Setup(x => x.WebRootPath).Returns(Path.GetTempPath());
+            var configurationMock = new Mock<IConfiguration>();
 
-       
             trainingPlanService = new TrainingPlanService(
                 repository,
                 hostingEnvironmentMock.Object,
                 new Mock<IHubContext<NotificationHub>>().Object,
-                new Mock<INotificationService>().Object
+                new Mock<INotificationService>().Object,
+                configurationMock.Object
             );
 
           
@@ -1120,13 +1129,14 @@ namespace TestAiFiness.ServicesTests
           
             var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
             hostingEnvironmentMock.Setup(x => x.WebRootPath).Returns(Path.GetTempPath());
+            var configurationMock = new Mock<IConfiguration>();
 
-       
             trainingPlanService = new TrainingPlanService(
                 repository,
                 hostingEnvironmentMock.Object,
                 new Mock<IHubContext<NotificationHub>>().Object,
-                new Mock<INotificationService>().Object
+                new Mock<INotificationService>().Object,
+                configurationMock.Object
             );
 
             
@@ -1387,11 +1397,14 @@ namespace TestAiFiness.ServicesTests
                 .Returns(Task.CompletedTask)
                 .Verifiable();
 
+            var configurationMock = new Mock<IConfiguration>();
+
             trainingPlanService = new TrainingPlanService(
                 repository,
                 new Mock<IHostingEnvironment>().Object,
                 hubContextMock.Object,
-                notificationServiceMock.Object
+                notificationServiceMock.Object,
+                configurationMock.Object
             );
 
             await trainingPlanService.SendToUserAsync(trainingPlan.Id);
@@ -1447,13 +1460,14 @@ namespace TestAiFiness.ServicesTests
  
             var notificationServiceMock = new Mock<INotificationService>();
             var hubContextMock = new Mock<IHubContext<NotificationHub>>();
+            var configurationMock = new Mock<IConfiguration>();
 
-          
             trainingPlanService = new TrainingPlanService(
                 repository,
                 new Mock<IHostingEnvironment>().Object,
                 hubContextMock.Object,
-                notificationServiceMock.Object
+                notificationServiceMock.Object,
+                configurationMock.Object
             );
 
          
@@ -2191,11 +2205,14 @@ namespace TestAiFiness.ServicesTests
                 .Returns(Task.CompletedTask)
                 .Verifiable();
 
+            var configurationMock = new Mock<IConfiguration>();
+
             trainingPlanService = new TrainingPlanService(
                 repository,
                 new Mock<IHostingEnvironment>().Object,
                 new Mock<IHubContext<NotificationHub>>().Object,
-                notificationServiceMock.Object
+                notificationServiceMock.Object,
+                configurationMock.Object
             );
 
             await trainingPlanService.SendEditTrainingPlanAsync(1, "client-user-id");
@@ -2246,12 +2263,14 @@ namespace TestAiFiness.ServicesTests
             repository.SaveChangesAsync();
 
             var notificationServiceMock = new Mock<INotificationService>();
+            var configurationMock = new Mock<IConfiguration>();
 
             trainingPlanService = new TrainingPlanService(
                 repository,
                 new Mock<IHostingEnvironment>().Object,
                 new Mock<IHubContext<NotificationHub>>().Object,
-                notificationServiceMock.Object
+                notificationServiceMock.Object,
+                configurationMock.Object
             );
 
             Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -2333,12 +2352,14 @@ namespace TestAiFiness.ServicesTests
             repository.SaveChangesAsync();
 
             var notificationServiceMock = new Mock<INotificationService>();
+            var configurationMock = new Mock<IConfiguration>();
 
             trainingPlanService = new TrainingPlanService(
                 repository,
                 new Mock<IHostingEnvironment>().Object,
                 new Mock<IHubContext<NotificationHub>>().Object,
-                notificationServiceMock.Object
+                notificationServiceMock.Object,
+                configurationMock.Object
             );
 
             Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -2699,12 +2720,14 @@ namespace TestAiFiness.ServicesTests
                     It.IsAny<string>()))
                 .Returns(Task.CompletedTask)
                 .Verifiable();
+            var configurationMock = new Mock<IConfiguration>();
 
             trainingPlanService = new TrainingPlanService(
                 repository,
                 new Mock<IHostingEnvironment>().Object,
                 new Mock<IHubContext<NotificationHub>>().Object,
-                notificationServiceMock.Object
+                notificationServiceMock.Object,
+                configurationMock.Object
             );
 
             await trainingPlanService.AcceptTrainingPlanAsync(1, "client-user-id");
@@ -2807,11 +2830,14 @@ namespace TestAiFiness.ServicesTests
                 .Returns(Task.CompletedTask)
                 .Verifiable();
 
+            var configurationMock = new Mock<IConfiguration>();
+
             trainingPlanService = new TrainingPlanService(
                 repository,
                 new Mock<IHostingEnvironment>().Object,
                 new Mock<IHubContext<NotificationHub>>().Object,
-                notificationServiceMock.Object
+                notificationServiceMock.Object,
+                configurationMock.Object
             );
 
             await trainingPlanService.AcceptTrainingPlanAsync(2, "client-user-id-2");
@@ -2867,12 +2893,14 @@ namespace TestAiFiness.ServicesTests
             repository.SaveChangesAsync();
 
             var notificationServiceMock = new Mock<INotificationService>();
+            var configurationMock = new Mock<IConfiguration>();
 
             trainingPlanService = new TrainingPlanService(
                 repository,
                 new Mock<IHostingEnvironment>().Object,
                 new Mock<IHubContext<NotificationHub>>().Object,
-                notificationServiceMock.Object
+                notificationServiceMock.Object,
+                configurationMock.Object
             );
 
             Assert.ThrowsAsync<ArgumentException>(async () =>
@@ -2955,12 +2983,14 @@ namespace TestAiFiness.ServicesTests
             await repository.SaveChangesAsync();
 
             var notificationServiceMock = new Mock<INotificationService>();
+            var configurationMock = new Mock<IConfiguration>();
 
             trainingPlanService = new TrainingPlanService(
                 repository,
                 new Mock<IHostingEnvironment>().Object,
                 new Mock<IHubContext<NotificationHub>>().Object,
-                notificationServiceMock.Object
+                notificationServiceMock.Object,
+                configurationMock.Object
             );
 
    
