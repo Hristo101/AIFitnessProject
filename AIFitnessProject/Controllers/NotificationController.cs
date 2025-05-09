@@ -70,11 +70,6 @@ namespace AIFitnessProject.Controllers
                 return Unauthorized("User is not authenticated.");
             }
 
-            if (currentUserId != userId)
-            {
-                return Unauthorized("You are not authorized to access this notification.");
-            }
-
             var notification = await notificationService.GetNotificationById(notificationId);
             if (notification == null || notification.RecieverId != currentUserId)
             {
@@ -88,9 +83,9 @@ namespace AIFitnessProject.Controllers
             switch (notification.Source)
             {
                 case "Calendar":
-                    return RedirectToAction("UsersCalendar", "Calendar", new { id = currentUserId });
+                    return RedirectToAction("UsersCalendar", "Calendar", new { id = userId });
                 case "Diet":
-                    return RedirectToAction("MyDiet", "UserDiet", new { id = currentUserId });
+                    return RedirectToAction("MyDiet", "UserDiet", new { id = userId });
                 default:
                     return RedirectToAction("AllMyTrainingPlans", "UserTrainingPlan");
             }

@@ -1,4 +1,5 @@
 ﻿using AIFitnessProject.Core.Contracts;
+using AIFitnessProject.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -59,13 +60,9 @@ namespace AIFitnessProject.Controllers
                 return BadRequest("User ID is required.");
             }
 
-            var userId = GetUserId();
-            if (userId != Id)
-            {
-                return Unauthorized();
-            }
+            
 
-            var model = await calendarService.GetModelForUserCalendarForUserArea(Id);
+            var model = await calendarService.GetModelForUserCalendarForUserArea(GetUserId());
             if (model == null)
             {
                 return NotFound("Calendar data not found.");
@@ -77,5 +74,6 @@ namespace AIFitnessProject.Controllers
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
+
     }
 }
